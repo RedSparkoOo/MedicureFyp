@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+
+        <ImageView
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:adjustViewBounds="true"
+            android:src="@drawable/user_profile"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/Appointment_Doctor_Name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_medium"
+                android:text="Dr.Ali"
+                android:layout_marginTop="5dp"
+                android:textSize="26sp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/light_black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_light"
+                android:text="Cardiologist"
+                android:layout_marginTop="2dp"
+                android:textSize="14sp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/light_black" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/inter_light"
+                android:text="Dr.Ali here is an excellent doctor for heart problems"
+                android:layout_marginTop="10dp"
+                android:textSize="12sp"
+                android:layout_marginStart="15dp"
+                android:textColor="@color/light_black" />
+
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginTop="20dp"
+              android:orientation="horizontal"
+              >
+
+              <Button
+                  android:layout_width="80dp"
+                  android:layout_height="30dp"
+                  android:background="@drawable/but"
+                  android:textColor="@color/extra_white"
+                  android:textSize="12sp"
+                  android:layout_marginStart="10dp"
+                  android:fontFamily="@font/inter_medium"
+                  android:text="Book"
+
+                  />
+
+              <RatingBar
+                  android:layout_width="15dp"
+                  android:layout_height="15dp"
+                  android:layout_marginTop="8dp"
+                  android:layout_marginStart="60dp"
+                  android:background="@drawable/rating_star">
+              </RatingBar>
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inter_medium"
+                  android:text="4.5"
+                  android:textSize="8sp"
+                  android:layout_marginStart="5dp"
+                  android:textColor="@color/light_black" />
+
+              <TextView
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:fontFamily="@font/inter_light"
+                  android:text="(134 Reviews)"
+                  android:textSize="8sp"
+                  android:layout_marginStart="2dp"
+                  android:textColor="@color/light_black" />
+
+          </LinearLayout>
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.appcompat.widget.LinearLayoutCompat>

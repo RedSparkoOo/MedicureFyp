@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/entrance_background"
+    tools:context=".Entrance">
+
+    <ImageView
+        android:id="@+id/doctor"
+        android:layout_width="380dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="72dp"
+        android:layout_marginEnd="12dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/entrance_doctor" />
+
+    <ImageView
+        android:id="@+id/patient"
+        android:layout_width="380dp"
+        android:layout_height="170dp"
+        android:layout_marginTop="96dp"
+        android:layout_marginEnd="12dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/doctor"
+        app:srcCompat="@drawable/entrance_patient" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "986010263268",
+    "project_id": "doc-portal-9c5b9",
+    "storage_bucket": "doc-portal-9c5b9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:986010263268:android:9be4aa72dc55ccbb18d6f1",
+        "android_client_info": {
+          "package_name": "com.example.docportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "986010263268-04vreih5u1eqov2bmccae78t4s7maac2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBrY2Q0kWbvrETrvPK57T3rFP7_IZB1bdc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "986010263268-04vreih5u1eqov2bmccae78t4s7maac2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
