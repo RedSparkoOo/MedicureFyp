@@ -56,7 +56,6 @@ public class AddMedicine extends AppCompatActivity {
     String _price;
     String _milligram;
     String _quantity;
-
     String[] Milligrams = {"","10mg","20mg","25mg","40mg"};
 
     @Override
