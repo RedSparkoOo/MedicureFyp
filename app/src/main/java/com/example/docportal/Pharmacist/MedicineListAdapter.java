@@ -21,9 +21,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     public MedicineListAdapter(Context context, ArrayList<Medicine> dataHolder){
         this.dataHolder = dataHolder;
         this.context = context;
-
     }
-
     @NonNull
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -41,10 +39,6 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         holder.milligram.setText(medicine.getMilligram());
         holder.image.setImageBitmap(medicine.getImage());
         holder.quantity.setText(medicine.getQunatity());
-
-
-
-
     }
 
     @Override

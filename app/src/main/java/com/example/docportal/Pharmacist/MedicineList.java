@@ -52,25 +52,8 @@ public class MedicineList extends AppCompatActivity {
         dataholder = new ArrayList<Medicine>();
         medicineListAdapter = new MedicineListAdapter(MedicineList.this,dataholder);
         medicineList.setAdapter(medicineListAdapter);
-        fetchData();
+
 
     }
 
-    private void fetchData() {
-        firestore.collection("Medicine").orderBy("Title", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Log.e("FireStoreError", error.getMessage());
-                    return;
-                }
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED)
-                        dataholder.add(dc.getDocument().toObject(Medicine.class));
-                    medicineListAdapter.notifyDataSetChanged();
-                }
-
-            }
-        });
-    }
 }
