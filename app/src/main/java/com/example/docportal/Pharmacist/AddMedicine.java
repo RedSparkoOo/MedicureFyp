@@ -160,6 +160,7 @@ public class AddMedicine extends AppCompatActivity {
             }
         }
     }
+
     private void uploadProfileToFireBase(Uri content_uri) {
 
         StorageReference med_file_ref = storageReference.child("medicineImage").child(content_uri.getLastPathSegment());
