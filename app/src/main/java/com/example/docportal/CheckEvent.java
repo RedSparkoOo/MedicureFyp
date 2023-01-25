@@ -28,7 +28,6 @@ public class CheckEvent {
     public Boolean checkName(TextView textView){return patternMatcher(textView, nameRegex, iUserName);}
 
     public Boolean checkPhone(TextView textView){return patternMatcher(textView, phoneRegex, iPhone);}
-
     public Boolean checkPassword(TextView textView){return patternMatcher(textView, passwordRegex, iPassword);}
 
     public Boolean checkCNIC(TextView textView){return patternMatcher(textView, CNICRegex, iCNIC);}
