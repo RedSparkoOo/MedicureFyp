@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    tools:context=".Patient.patientAppointmentBook">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/appointmentHeading1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/inter_bold"
+            android:gravity="center"
+            android:text="List of Doctors"
+            android:textColor="@color/dark_grey"
+            android:textSize="35sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/firstnameheading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="4dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Name"
+            android:textColor="@color/light_black"
+            android:textSize="20sp"
+            />
+
+
+        <EditText
+            android:id="@+id/AppointeeFirstName"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15sp"
+            android:layout_marginTop="3dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:fontFamily="@font/inter_light"
+            android:hint="@string/user_name"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+           />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Phone"
+            android:textColor="@color/light_black"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/Phone"
+            app:layout_constraintStart_toStartOf="@+id/Phone"
+            tools:ignore="MissingConstraints" />
+
+        <EditText
+            android:id="@+id/Phone"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:fontFamily="@font/inter_light"
+            android:hint="@string/user_phone"
+            android:inputType="phone"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+           />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="@string/user_date"
+            android:textColor="@color/light_black"
+            android:textSize="20sp"
+          />
+
+        <EditText
+            android:id="@+id/date"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5sp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:fontFamily="@font/inter_light"
+            android:hint="@string/select_date"
+            android:inputType="textPersonName"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+        />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Time"
+            android:textColor="@color/light_black"
+            android:textSize="20sp"
+         />
+
+        <EditText
+            android:id="@+id/timee"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:textColor="@color/light_black"
+            android:fontFamily="@font/inter_light"
+            android:hint="@string/user_datee"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp"
+        />
+
+        <TextView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="7dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Description"
+            android:textColor="@color/light_black"
+            android:textSize="20sp"
+            />
+
+        <EditText
+            android:id="@+id/Description"
+            android:layout_width="370dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="3dp"
+            android:padding="5dp"
+            android:gravity="left|top"
+            android:layout_marginBottom="7dp"
+            android:background="@drawable/input_field"
+            android:ems="10"
+            android:textColor="@color/black"
+            android:fontFamily="@font/inter_light"
+            android:hint="@string/user_concerns"
+            android:inputType="textPersonName"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/Confirm"
+            android:layout_width="350dp"
+            android:layout_height="65dp"
+            android:layout_marginTop="20dp"
+            android:layout_gravity="center"
+            android:background="@drawable/but"
+            android:fontFamily="@font/inter_medium"
+            android:text="Book an Appointment"
+            android:layout_marginBottom="10dp"
+            android:textSize="18sp"
+           />
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+</ScrollView>

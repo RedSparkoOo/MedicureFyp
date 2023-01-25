@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    tools:context=".Doctor.viewDoctorProfile">
+
+
+
+        <ImageView
+            android:id="@+id/imageView5"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_marginTop="60dp"
+            android:layout_marginLeft="20dp"
+            app:srcCompat="@drawable/user_profile" />
+
+        <TextView
+            android:id="@+id/view_doctor_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:fontFamily="@font/inter_bold"
+            android:textColor="@color/purple_blue"
+            android:textSize="40sp"
+            android:text="John Smith" />
+
+        <TextView
+        android:id="@+id/view_doctor_specialization"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:fontFamily="@font/inter_medium"
+        android:textColor="@color/black"
+        android:textSize="25sp"
+        android:text="Cardiologist" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="30dp"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/person_blue">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/view_doctor_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="JohnSmtih123@gmail.com" />
+
+        <TextView
+            android:id="@+id/email_verification_check"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:fontFamily="@font/inter_regular"
+            android:textColor="@color/Red"
+            android:textSize="15sp"
+             />
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/phone">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/view_doctor_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="+92 345 78906543" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/license">
+
+        </ImageView>
+
+        <TextView
+            android:id="@+id/view_doctor_license"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="PK182 456B CX89 GK15" />
+
+    </LinearLayout>
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

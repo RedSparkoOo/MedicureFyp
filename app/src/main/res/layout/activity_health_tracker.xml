@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/patient_background_portal"
+    tools:context=".Patient.healthTracker">
+
+
+    <ImageView
+        android:id="@+id/watch"
+        android:layout_width="400dp"
+        android:layout_height="500dp"
+
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.545"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.988"
+        app:srcCompat="@drawable/health_tracker_watch" />
+
+    <ImageView
+        android:id="@+id/steps"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="152dp"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:layout_constraintTop_toTopOf="@+id/watch"
+        app:srcCompat="@drawable/health_tracker_steps" />
+
+    <ImageView
+        android:id="@+id/medic"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@+id/imageView12"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.291"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:layout_constraintTop_toBottomOf="@+id/steps"
+        app:layout_constraintVertical_bias="0.177"
+        app:srcCompat="@drawable/health_tracker_medicine" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="192dp"
+        app:layout_constraintBottom_toBottomOf="@+id/watch"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.283"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:srcCompat="@drawable/health_tracker_glass" />
+
+    <TextView
+        android:id="@+id/healthTrackerSteps"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="164dp"
+        android:fontFamily="@font/regular"
+        android:text="7194"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.459"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:layout_constraintTop_toTopOf="@+id/watch" />
+
+    <TextView
+        android:id="@+id/healthTrackerSteps2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21sp"
+        android:layout_marginTop="216dp"
+        android:fontFamily="@font/regular"
+        android:text="2:00 pm"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:layout_constraintTop_toTopOf="@+id/watch" />
+
+    <TextView
+        android:id="@+id/healthTrackerSteps3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="21sp"
+        android:layout_marginTop="276dp"
+        android:fontFamily="@font/regular"
+        android:text="3 glass"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="@+id/watch"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="@+id/watch"
+        app:layout_constraintTop_toTopOf="@+id/watch" />
+
+    <TextView
+        android:id="@+id/textView35"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="95dp"
+        android:fontFamily="@font/regular"
+        android:text="Check your"
+        android:gravity="center"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView47"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:fontFamily="@font/bold"
+        android:gravity="center"
+        android:text="Stats! "
+        android:textColor="@color/white"
+        android:textSize="60sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView35" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/patient_background_portal"
+    tools:context=".Patient.patientRegistration">
+
+
+
+
+    <TextView
+        android:id="@+id/textView291"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="84dp"
+        android:fontFamily="@font/regular"
+        android:text="Getting"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.061"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView30"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/bold"
+        android:text="Aboard!"
+        android:textColor="@color/white"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView291"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <ScrollView
+        android:id="@+id/scrollView2"
+        android:layout_width="363dp"
+        android:layout_height="416dp"
+        android:layout_marginLeft="30sp"
+        android:contentDescription="@string/app_name"
+        android:paddingTop="5dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.125"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.862">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="10sp"
+                android:text="@string/first_name"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientFirstName"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="Exp: John"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/last_name"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientLastName"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="Exp: Smith"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp" />
+
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/email_address"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientEmailAddress"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="@string/exp_someone_gmail_com"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp"
+                tools:ignore="TextFields" />
+
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/password"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/doctorPassword"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="@string/create_it_unique"
+                android:inputType="textPassword"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/phone_no"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientPhoneNo"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="@string/_030xxxxxxxx"
+                android:inputType="textPhonetic"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="18sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/textView100"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="CNIC"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientCnic"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="@string/exp_61102_0000000_0"
+                android:inputType="number"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="18sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/gender"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <RadioGroup
+                android:id="@+id/patientGender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawablePadding="5sp"
+                android:paddingTop="10sp"
+                android:paddingEnd="7sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.09"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.87">
+
+                <RadioButton
+                    android:id="@+id/male"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/black"
+                    android:buttonTint="@color/purple"
+                    android:fontFamily="@font/inter_font_google"
+                    android:text="Male"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+
+                <RadioButton
+                    android:id="@+id/female"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:buttonTint="@color/purple"
+                    android:fontFamily="@font/inter_font_google"
+                    android:paddingEnd="7sp"
+                    android:text="Female"
+                    android:textColor="@color/black"
+                    android:textSize="15sp" />
+            </RadioGroup>
+
+
+            <TextView
+                android:id="@+id/textView13"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/regular"
+                android:paddingTop="30sp"
+                android:text="@string/date_of_birth"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/patientDateOfBirth"
+                android:layout_width="350dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/patient_input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/inter_font_google"
+                android:hint="@string/exp_8_2_2001"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/dark_grey"
+                android:textSize="18sp"
+                tools:ignore="TextFields" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                tools:ignore="UselessLeaf" />
+
+            <Button
+                android:id="@+id/registerInfo"
+                android:layout_width="150dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/patient_button"
+                android:fontFamily="@font/regular"
+                android:text="Submit"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.106"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.977" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="160dp"
+        android:layout_height="160dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.936"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.063"
+        app:srcCompat="@drawable/patient_registration_logo" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
