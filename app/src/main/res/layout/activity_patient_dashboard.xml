@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.drawerlayout.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/drawerLayout"
+    android:background="@color/white"
+    tools:context=".Doctor.OptionsActivity"
+    android:fitsSystemWindows="true"
+    android:layout_gravity="start">
+
+    <com.google.android.material.navigation.NavigationView
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/navigationBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:layout_editor_absoluteY="0dp"
+        app:headerLayout="@layout/patientheader"
+        android:background="@color/purple"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        android:fitsSystemWindows="true"
+        app:menu="@menu/side_menu"
+        android:layout_gravity="start"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/patient_dashboard_2">
+
+
+        <TextView
+            android:id="@+id/textView38"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="120dp"
+            android:layout_marginLeft="20dp"
+            android:fontFamily="@font/regular"
+            android:text="Dashboard"
+            android:textColor="@color/white"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="40dp"
+            android:layout_height="30dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.026"
+            app:subtitleTextColor="@color/black"
+            app:titleTextColor="@color/black"
+            tools:ignore="MissingConstraints" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1sp"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.245">
+
+            <ImageView
+                android:id="@+id/patientAppointmentBooking"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/appointment_booking_patient" />
+
+            <ImageView
+                android:id="@+id/patientSearchDoctor"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_search_doctor" />
+
+            <ImageView
+                android:id="@+id/patientPharmacyService"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_pharmacy_service" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1sp"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.437">
+
+            <ImageView
+                android:id="@+id/patientLabTest"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_lab_test" />
+
+            <ImageView
+                android:id="@+id/patientMedicalRecord"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_medical_record" />
+
+            <ImageView
+                android:id="@+id/patientNurseService"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_nurse" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="1sp"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.625"
+            tools:layout_editor_absoluteX="1dp">
+
+            <ImageView
+                android:id="@+id/patientPrescription"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/prescription_patient" />
+
+            <ImageView
+                android:id="@+id/patientHealthBlog"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_health_blogs" />
+
+            <ImageView
+                android:id="@+id/patientUrgentCare"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_urgent_care" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.811"
+            tools:layout_editor_absoluteX="-1dp">
+
+            <ImageView
+                android:id="@+id/patientBloodBank"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_blood_bank" />
+
+            <ImageView
+                android:id="@+id/patientHealthTracker"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_health_tracker" />
+
+            <ImageView
+                android:id="@+id/patientOnlineConsultation"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_online_consultation" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/linearLayout8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="3sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="1.0"
+            tools:layout_editor_absoluteX="0dp">
+
+            <ImageView
+                android:id="@+id/patientEWallet"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_e_wallet" />
+
+            <ImageView
+                android:id="@+id/patientSearchDisease"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_search_disease" />
+
+            <ImageView
+                android:id="@+id/patientCustomerSupport"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_margin="2sp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="TODO"
+                app:srcCompat="@drawable/patient_customer_support" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.drawerlayout.widget.DrawerLayout>

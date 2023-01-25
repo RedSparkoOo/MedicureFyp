@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FF000000</color>
+    <color name="light_black">#434242</color>
+    <color name="input_grey">#e0e0e0</color>
+    <color name="white">#EEF2FF</color>
+    <color name="extra_white">#FFFFFFFF</color>
+    <color name="dark_white">#F9F9F9</color>
+    <color name="blue">#009ede</color>
+    <color name="grey">#B2B2B2</color>
+    <color name="dark_grey">#92969b</color>
+    <color name="Red">#FF1E00</color>
+    <color name="light_blue">#9bd1f4</color>
+    <color name="gradient_blue">#00a7ea</color>
+    <color name="sky_blue">#5cb8e5</color>
+    <color name="purple">#8970b2</color>
+    <color name="dark_purple">#7858A6</color>
+    <color name="light_purple">#B689C0</color>
+    <color name="green">#00b894</color>
+    <color name="light_green">#55efc4</color>
+    <color name="gold">#F0A500</color>
+    <color name="white_grey">#EFF5F5</color>
+    <color name = "purple_blue">#3f6ad8</color>
+    <color name = "approve_green">#38E54D</color>
+    <color name = "deny_red">#DC3535</color>
+    <color name = "background_white">#ECECEC</color>
+    <color name="background_green">#2ba05d</color>
+
+
+
+
+</resources>
