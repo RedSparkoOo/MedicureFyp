@@ -14,6 +14,9 @@ public class Entrance extends AppCompatActivity {
 ImageView _doctor;
 ImageView _patient;
 
+boolean for_doctor = false;
+boolean for_patient = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +29,7 @@ ImageView _patient;
         _doctor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for_doctor = true;
                 startActivity(new Intent(Entrance.this, MainActivity.class));
             }
         });
@@ -33,6 +37,7 @@ ImageView _patient;
         _patient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                for_patient = true;
                 startActivity(new Intent(Entrance.this, patientMainPage.class));
             }
         });

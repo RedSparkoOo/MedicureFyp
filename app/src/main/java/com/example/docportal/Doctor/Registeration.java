@@ -126,7 +126,7 @@ public class Registeration extends AppCompatActivity {
                         }
                     });
                 }
-            }
+                   }
 
         });
     }

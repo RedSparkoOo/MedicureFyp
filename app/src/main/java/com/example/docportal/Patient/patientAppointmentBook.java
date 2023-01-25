@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -14,10 +15,18 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.example.docportal.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class patientAppointmentBook extends AppCompatActivity {
     EditText full_name;
@@ -27,27 +36,24 @@ public class patientAppointmentBook extends AppCompatActivity {
     EditText description;
     Button Submit;
 
-
-
-    // to access root Node EXP: Doctor Portal
-    FirebaseDatabase RootNode;
-    // to access sub root node
-    DatabaseReference reference;
-
+    FirebaseFirestore FStore;
+    FirebaseAuth FAuth;
+    String patient_UID;
 
     DatePickerDialog.OnDateSetListener setListener;
 
     int year;   // to store year
     int month; //to store date
-    int day; //to store date
+    int day;   //to store date
 
     int hour; //to store hours
     int minute; //to store date
 
 
-    String appointeeName;
-    String appointeePhone;
-    String appointeeDescription;
+    String booker_name;
+    String booker_phone;
+    String booker_description;
+    String doctor_UIDD;
     String TimeZone;
     String TIME;
     String DATE;
@@ -65,9 +71,13 @@ public class patientAppointmentBook extends AppCompatActivity {
         description = (EditText) findViewById(R.id.Description);
         Submit = (Button) findViewById(R.id.Confirm);
 
-        appointeeName = full_name.getText().toString();
-        appointeePhone = Phone.getText().toString();
-        appointeeDescription = description.getText().toString();
+        booker_name = full_name.getText().toString();
+        booker_phone = Phone.getText().toString();
+        booker_description = description.getText().toString();
+
+        Bundle bundle = getIntent().getExtras();
+        doctor_UIDD = bundle.getString("Doctor_ID");
+        full_name.setText(doctor_UIDD);
 
         Time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,18 +132,28 @@ public class patientAppointmentBook extends AppCompatActivity {
            @Override
            public void onClick(View view) {
 
-               appointeeName = full_name.getText().toString();
-               appointeePhone = Phone.getText().toString();
-               appointeeDescription = description.getText().toString();
+               booker_name = full_name.getText().toString();
+               booker_phone = Phone.getText().toString();
+               booker_description = description.getText().toString();
+//               patient_UID = FAuth.getCurrentUser().getUid();
+               DocumentReference D_Ref = FStore.collection("Appointments").document(doctor_UIDD);
 
-                 Bundle appointment_booking_bundle = new Bundle();
-                 appointment_booking_bundle.putString("User_Name",appointeeName);
-                 appointment_booking_bundle.putString("User_Phone",appointeePhone);
-                 appointment_booking_bundle.putString("User_Date",DATE);
-                 appointment_booking_bundle.putString("User_Time",TIME);
-                 appointment_booking_bundle.putString("User_Description",appointeeDescription);
+               D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                   @Override
+                   public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-               Toast.makeText(patientAppointmentBook.this, appointeeName+appointeePhone+DATE+TIME+appointeeDescription, Toast.LENGTH_SHORT).show();
+                       Map<String, Object> appointments = new HashMap<>();
+                       appointments.put("Patient Name",booker_name);
+                       appointments.put("Patient Phone",booker_phone);
+                       appointments.put("Appointment Date",DATE);
+                       appointments.put("Appointment Time",TIME);
+                       appointments.put("Appointment Description",booker_description);
+                       D_Ref.set(appointments);
+                   }
+               });
+
+
+               Toast.makeText(patientAppointmentBook.this, booker_name + booker_phone +DATE+TIME+ booker_description, Toast.LENGTH_SHORT).show();
 
 
            }

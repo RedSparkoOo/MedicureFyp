@@ -23,7 +23,6 @@ public class viewDoctorProfile extends AppCompatActivity {
     TextView doctor_name;
     TextView doctor_specialization;
     TextView doctor_email;
-    TextView doctor_address;
     TextView doctor_phone;
     TextView doctor_license;
     FirebaseAuth fAuth;

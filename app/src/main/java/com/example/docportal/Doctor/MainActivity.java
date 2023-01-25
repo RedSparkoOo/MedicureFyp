@@ -13,8 +13,8 @@ import com.example.docportal.R;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button login;
-    Button Signup;
+Button login;
+Button Signup;
 
 
     @Override

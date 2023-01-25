@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import com.example.docportal.Doctor.DocLogin;
+import com.example.docportal.Doctor.Registeration;
 import com.example.docportal.R;
 
 public class patientMainPage extends AppCompatActivity {
 Button _patientSignup;
 Button _patientLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,15 +27,21 @@ Button _patientLogin;
         _patientSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientMainPage.this,patientRegistration.class);
-                startActivity(intent);
+
+                try {
+                    Intent intent = new Intent(patientMainPage.this, patientRegistration.class);
+                    startActivity(intent);
+                }
+                catch (Exception e){
+                    Toast.makeText(patientMainPage.this, e.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
         _patientLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientMainPage.this,patientLogin.class);
+                Intent intent = new Intent(patientMainPage.this, DocLogin.class);
                 startActivity(intent);
             }
         });
