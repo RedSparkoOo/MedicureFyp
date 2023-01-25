@@ -41,6 +41,7 @@ import java.util.Map;
 public class AddMedicine extends AppCompatActivity {
     EditText title;
     EditText description;
+
     EditText price;
     EditText quantity;
     Button add;
