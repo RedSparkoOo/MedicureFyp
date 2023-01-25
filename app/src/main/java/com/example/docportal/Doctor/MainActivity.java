@@ -13,9 +13,10 @@ import com.example.docportal.R;
 
 
 public class MainActivity extends AppCompatActivity {
-Button login;
-Button Signup;
-LottieAnimationView DoctorAnimationView;
+    Button login;
+    Button Signup;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,17 +30,18 @@ LottieAnimationView DoctorAnimationView;
         Signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent(MainActivity.this,Registeration.class);
                 startActivity(intent);
 
             }
         });
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,DocLogin.class);
                 startActivity(intent);
-                Toast.makeText(MainActivity.this, "Working", Toast.LENGTH_SHORT).show();
 
             }
         });

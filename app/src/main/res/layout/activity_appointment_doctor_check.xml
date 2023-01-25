@@ -27,17 +27,19 @@
         <SearchView
             android:id="@+id/search_doctor"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="50dp"
             android:layout_margin="15dp"
             android:background="@drawable/searchview_field"
             android:searchIcon="@drawable/search_icon"
             android:queryHint="Search a Doctor"
             android:closeIcon="@drawable/search_view_end"
             android:iconifiedByDefault="false"
-
-
             />
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/doctor_list_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </ScrollView>

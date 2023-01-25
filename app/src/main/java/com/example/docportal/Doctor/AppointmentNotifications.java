@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 
-import com.example.docportal.Patient.AppointmentHelperClass;
 import com.example.docportal.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -27,7 +26,7 @@ public class AppointmentNotifications extends AppCompatActivity {
     FirebaseDatabase RootNode;
     DatabaseReference reference;
 
-    AppointmentHelperClass appointmentHelperClass;
+
 
     String notifiedName;
     String notifiedPhoneCheck;
@@ -41,31 +40,31 @@ public class AppointmentNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_notifications);
         // appointee names
 
-     _notifiedName = new ArrayList<>();
-     _notifiedName.add("Imran");
-     _notifiedName.add("Abbas");
-     _notifiedName.add("Waleed");
-     _notifiedName.add("Connor");
-     _notifiedName.add("James");
-     _notifiedName.add("Ali");
-     _notifiedName.add("Asad");
-     _notifiedName.add("Khalid");
-     _notifiedName.add("Khalil");
-     _notifiedName.add("Hamid");
+        _notifiedName = new ArrayList<>();
+        _notifiedName.add("Imran");
+        _notifiedName.add("Abbas");
+        _notifiedName.add("Waleed");
+        _notifiedName.add("Connor");
+        _notifiedName.add("James");
+        _notifiedName.add("Ali");
+        _notifiedName.add("Asad");
+        _notifiedName.add("Khalid");
+        _notifiedName.add("Khalil");
+        _notifiedName.add("Hamid");
 
 
-     // appointee phone
-     _notifiedPhone = new ArrayList<String>();
-     _notifiedPhone.add("0318-1290301");
-     _notifiedPhone.add("0328-1330302");
-     _notifiedPhone.add("0338-1430303");
-     _notifiedPhone.add("0348-1639304");
-     _notifiedPhone.add("0358-1731305");
-     _notifiedPhone.add("0328-1832306");
-     _notifiedPhone.add("0338-1933307");
-     _notifiedPhone.add("0348-2034308");
-     _notifiedPhone.add("0358-2135309");
-     _notifiedPhone.add("0378-2236310");
+        // appointee phone
+        _notifiedPhone = new ArrayList<String>();
+        _notifiedPhone.add("0318-1290301");
+        _notifiedPhone.add("0328-1330302");
+        _notifiedPhone.add("0338-1430303");
+        _notifiedPhone.add("0348-1639304");
+        _notifiedPhone.add("0358-1731305");
+        _notifiedPhone.add("0328-1832306");
+        _notifiedPhone.add("0338-1933307");
+        _notifiedPhone.add("0348-2034308");
+        _notifiedPhone.add("0358-2135309");
+        _notifiedPhone.add("0378-2236310");
 
 
 
@@ -95,26 +94,26 @@ public class AppointmentNotifications extends AppCompatActivity {
 //        });
 
 
-     recyclerview = findViewById(R.id.AppointmentRecyclerView);
-     SearchName = findViewById(R.id.searchAppointment);
-     recyclerview.setLayoutManager(new LinearLayoutManager(this));
-     appointmentadapter = new AppointmentAdapter(_notifiedName, _notifiedPhone);
-     recyclerview.setAdapter(appointmentadapter);
+        recyclerview = findViewById(R.id.AppointmentRecyclerView);
+        SearchName = findViewById(R.id.searchAppointment);
+        recyclerview.setLayoutManager(new LinearLayoutManager(this));
+        appointmentadapter = new AppointmentAdapter(_notifiedName, _notifiedPhone);
+        recyclerview.setAdapter(appointmentadapter);
 
-     //, _notifiedPhone, _notifiedDate, _notifiedTime
+        //, _notifiedPhone, _notifiedDate, _notifiedTime
 
-     SearchName.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-         @Override
-         public boolean onQueryTextSubmit(String query) {
-             return false;
-         }
+        SearchName.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
 
-         @Override
-         public boolean onQueryTextChange(String newText) {
-             appointmentadapter.getFilter().filter(newText);
-             return false;
-         }
-     });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                appointmentadapter.getFilter().filter(newText);
+                return false;
+            }
+        });
 
 
 

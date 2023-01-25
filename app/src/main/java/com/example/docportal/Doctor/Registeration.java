@@ -45,6 +45,8 @@ public class Registeration extends AppCompatActivity {
     EditText License;
     Spinner Specializations;
     TextView login;
+    TextView Lic_head;
+    TextView Cat_head;
     String user_id;
     String[] Specialization = {"","Pharmacist","Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","physiologist","psychologist"};
     String fName;
@@ -60,6 +62,8 @@ public class Registeration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registeration);
+        Lic_head = findViewById(R.id.Lic_head);
+        Cat_head = findViewById(R.id.Cat_head);
         Confirm = findViewById(R.id.Submit);
         full_name = findViewById(R.id.firstName);
         email_address = findViewById(R.id.emailAddress);
@@ -70,9 +74,11 @@ public class Registeration extends AppCompatActivity {
         login = findViewById(R.id.login);
         TextView[] textViews = {full_name, email_address, Password, Phone_No, License};
         CheckEvent checkEvent = new CheckEvent();
+
         ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(this, spinner_item, Specialization);
         arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         Specializations.setAdapter(arrayAdapterSpecialization);
+
 
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -83,7 +89,8 @@ public class Registeration extends AppCompatActivity {
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)));
+
+                if (!checkEvent.isEmpty(textViews) || !(checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)));
                 else {
                     fName = full_name.getText().toString();
                     emailAddress = email_address.getText().toString();
@@ -120,6 +127,7 @@ public class Registeration extends AppCompatActivity {
                     });
                 }
             }
+
         });
     }
 }

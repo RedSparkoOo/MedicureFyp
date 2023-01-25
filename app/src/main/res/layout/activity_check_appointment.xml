@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/light_black"
         android:fontFamily="@font/inter_bold"
-        android:layout_marginTop="20dp"
+        android:paddingTop="20dp"
         android:textSize="28sp"
         android:text="Check out Appointments"
         android:gravity="center"
