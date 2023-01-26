@@ -16,6 +16,8 @@ public class patientMainPage extends AppCompatActivity {
 Button _patientSignup;
 Button _patientLogin;
 
+Boolean patient_flag = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +43,12 @@ Button _patientLogin;
         _patientLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                patient_flag = true;
+
+                Bundle patient_bundle = new Bundle();
+                patient_bundle.putBoolean("patient_flag",patient_flag);
                 Intent intent = new Intent(patientMainPage.this, DocLogin.class);
+                intent.putExtras(patient_bundle);
                 startActivity(intent);
             }
         });

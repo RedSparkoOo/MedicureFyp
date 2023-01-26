@@ -8,7 +8,7 @@
     android:background="@color/extra_white">
 
     <ImageView
-        android:id="@+id/medi_picture"
+        android:id="@+id/equip_picture"
         android:layout_width="100dp"
         android:layout_height="100dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -17,7 +17,7 @@
 
 
     <TextView
-        android:id="@+id/_title"
+        android:id="@+id/etitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="27dp"
@@ -26,26 +26,13 @@
         android:textColor="@color/black"
         android:textSize="22sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/medi_picture"
+        app:layout_constraintStart_toEndOf="@+id/equip_picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.235" />
 
-    <TextView
-        android:id="@+id/_milligram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="milligram"
-
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/_description"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/_description"
+        android:id="@+id/edescription"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -55,15 +42,15 @@
         android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/medi_picture"
+        app:layout_constraintStart_toEndOf="@+id/equip_picture"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.573" />
 
     <TextView
-        android:id="@+id/_Quantity"
+        android:id="@+id/eQuantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
+        android:layout_marginStart="160dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/inter_font_google"
 
@@ -71,20 +58,20 @@
         android:textColor="@color/black"
 
         android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/_title"
+        app:layout_constraintStart_toEndOf="@+id/etitle"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/_Price_main"
+        android:id="@+id/ePrice_main"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
+        android:layout_marginStart="148dp"
         android:fontFamily="@font/inter_font_google"
         android:text="50 Rs"
         android:textColor="@color/black"
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/_description"
+        app:layout_constraintStart_toEndOf="@+id/edescription"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.829" />
 

@@ -1,74 +1,72 @@
 package com.example.docportal.Pharmacist;
 
-import android.graphics.Bitmap;
-
-import org.checkerframework.common.subtyping.qual.Bottom;
-
 public class Medicine {
-    private String title;
-    public Medicine(String title, String description, String price, Bitmap image, String milligram, String quantity) {
-        this.title = title;
-        this.description = description;
-        this.price = price;
-        this.image = image;
-        this.milligram = milligram;
-        this.qunatity = quantity;
+    private String Title;
+    public Medicine(String title, String description, String price, String image, String milligram, String quantity) {
+        this.Title = title;
+        this.Description = description;
+        this.Price = price;
+        this.Image = image;
+        this.Milligram = milligram;
+        this.Qunatity = quantity;
     }
     public Medicine(){}
 
-    private String description;
-    private String price;
-    private Bitmap image;
-    private String milligram;
+    private String Description;
+    private String Price;
+
+    public String getImage() {
+        return Image;
+    }
+
+    public void setImage(String image) {
+        this.Image = image;
+    }
+
+    private String Image;
+    private String Milligram;
 
     public String getQunatity() {
-        return qunatity;
+        return Qunatity;
     }
 
     public void setQunatity(String qunatity) {
-        this.qunatity = qunatity;
+        this.Qunatity = qunatity;
     }
 
-    private String qunatity;
+    private String Qunatity;
 
     public String getTitle() {
-        return title;
+        return Title;
     }
 
     public void setTitle(String title) {
-        this.title = title;
+        this.Title = title;
     }
 
     public String getDescription() {
-        return description;
+        return Description;
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.Description = description;
     }
 
     public String getPrice() {
-        return price;
+        return Price;
     }
 
     public void setPrice(String price) {
-        this.price = price;
+        this.Price = price;
     }
 
-    public Bitmap getImage() {
-        return image;
-    }
-
-    public void setImage(Bitmap image) {
-        this.image = image;
-    }
 
     public String getMilligram() {
-        return milligram;
+        return Milligram;
     }
 
     public void setMilligram(String milligram) {
-        this.milligram = milligram;
+        this.Milligram = milligram;
     }
 
 

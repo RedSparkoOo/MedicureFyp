@@ -101,7 +101,7 @@ public class patientRegistration extends AppCompatActivity {
                                 patient.put("Patient Name", patient_full_name);
                                 patient.put("Patient Email Address", patient_email_Address);
                                 patient.put("Patient Password", patient_password);
-                                patient.put("Patient Phone", patient_phone_no);
+                                patient.put("Patient patient_phone_no", patient_phone_no);
                                 documentReference.set(patient);
                             }
                         }

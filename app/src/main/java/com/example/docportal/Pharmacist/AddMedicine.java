@@ -4,7 +4,6 @@ import static com.example.docportal.R.layout.spinner_item;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,14 +25,15 @@ import com.example.docportal.CheckEvent;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +41,7 @@ import java.util.Map;
 public class AddMedicine extends AppCompatActivity {
     EditText title;
     EditText description;
+
     EditText price;
     EditText quantity;
     Button add;
@@ -49,13 +50,14 @@ public class AddMedicine extends AppCompatActivity {
     FirebaseFirestore fStore;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
-    Bitmap imagetoStore;
     CheckEvent checkEvent;
     String _title;
     String _description;
     String _price;
     String _milligram;
     String _quantity;
+    Uri content_uri;
+
     String[] Milligrams = {"","10mg","20mg","25mg","40mg"};
 
     @Override
@@ -67,14 +69,13 @@ public class AddMedicine extends AppCompatActivity {
         quantity = findViewById(R.id.quantity);
         price = findViewById(R.id.price);
         add = findViewById(R.id.Add);
-        medicinePic = findViewById(R.id.medi_picture);
+        medicinePic = findViewById(R.id.equip_picture);
         medicineMilligrams = findViewById(R.id.medicine_milligram);
         fStore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        TextView[] textViews = {title,description,price};
+        TextView[] textViews = {title,description,price,quantity};
         checkEvent = new CheckEvent();
-
         ArrayAdapter arrayAdapterMilligrams = new ArrayAdapter(this, spinner_item, Milligrams);
         arrayAdapterMilligrams.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         medicineMilligrams.setAdapter(arrayAdapterMilligrams);
@@ -90,20 +91,32 @@ public class AddMedicine extends AppCompatActivity {
                         _price = price.getText().toString();
                         _quantity = quantity.getText().toString();
                         _milligram = medicineMilligrams.getSelectedItem().toString();
-                        Map<String, String> med = new HashMap<>();
-                        med.put("Image", String.valueOf(imagetoStore));
-                        med.put("Title", _title);
-                        med.put("Description", _description);
-                        med.put("Quantity", _quantity);
-                        med.put("Price", _price);
-                        med.put("Milligram", _milligram);
-                        FirebaseFirestore.getInstance().collection("Medicine").add(med).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                        StorageReference filepath =firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
+                        filepath.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
-                            public void onComplete(@NonNull Task<DocumentReference> task) {
-                                Toast.makeText(AddMedicine.this, "data entered successfully", Toast.LENGTH_SHORT).show();
-                                
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                Task<Uri> downloadUrl=taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Uri> task) {
+                                        Map<String, String> med = new HashMap<>();
+                                        med.put("Image", task.getResult().toString());
+                                        med.put("Title", _title);
+                                        med.put("Description", _description);
+                                        med.put("Quantity", _quantity);
+                                        med.put("Price", _price);
+                                        med.put("Milligram", _milligram);
+                                        DocumentReference documentReference = fStore.collection("Medicine").document();
+                                        documentReference.set(med).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void unused) {
+                                                Toast.makeText(AddMedicine.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
+                                            }
+                                        });
+                                    }
+                                });
                             }
                         });
+
                     }
                 }
                 catch(Exception ex){
@@ -128,13 +141,8 @@ public class AddMedicine extends AppCompatActivity {
         if(requestCode == 1000){
             if(resultCode == Activity.RESULT_OK){
                 assert data != null;
-                Uri content_uri = data.getData();
-                try {
-                    imagetoStore = MediaStore.Images.Media.getBitmap(getContentResolver(),content_uri);
-                    medicinePic.setImageBitmap(imagetoStore);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                content_uri = data.getData();
+                medicinePic.setImageURI(content_uri);
             }
         }
     }

@@ -1,34 +1,47 @@
 package com.example.docportal.Doctor;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.docportal.R;
-import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import org.checkerframework.checker.guieffect.qual.UI;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 public class checkAppointment extends AppCompatActivity {
 
 
     RecyclerView patient_appointment_recycler_view;
+    String User_id;
+    ArrayList<String> patient_name;
+    ArrayList<String> patient_phone;
+    ArrayList<String> appointment_date;
+    ArrayList<String> appointment_time;
+    ArrayList<String> appointment_description;
+    ArrayList<String> Doctor_UID;
 
-    List<String> patient_name;
-    List<String> patient_phone;
-    List<String> patient_date;
-    List<String> patient_time;
-    List<String> patient_description;
 
+    FirebaseFirestore firestore;
+    FirebaseAuth firebaseAuth;
 
+    String appointed_doctor_id;
+
+    checkAppointmentAdapter checkAppointmentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,39 +49,82 @@ public class checkAppointment extends AppCompatActivity {
         setContentView(R.layout.activity_check_appointment);
         //------------------Assigning Hooks------------------------------------
 
+        firestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
-        Bundle bundle = getIntent().getExtras();
+        User_id = firebaseAuth.getCurrentUser().getUid();
 
 
-          patient_name = new ArrayList<>();
-          patient_name.add("Wasiq Fayyaz");
-          patient_name.add("Wasiq Fayyaz");
-          patient_name.add("Wasiq Fayyaz");
+        patient_name = new ArrayList<>();
 
-          patient_phone = new ArrayList<>();
-          patient_phone.add("0321-6543210");
-          patient_phone.add("0321-6543210");
-          patient_phone.add("0321-6543210");
+        patient_phone = new ArrayList<>();
 
-          patient_date = new ArrayList<>();
-          patient_date.add("07/07/2022");
-          patient_date.add("07/07/2022");
-          patient_date.add("07/07/2022");
+        appointment_date = new ArrayList<>();
 
-          patient_time = new ArrayList<>();
-          patient_time.add("6:30 pm");
-          patient_time.add("7:30 pm");
-          patient_time.add("8:30 pm");
+        appointment_time = new ArrayList<>();
 
-          patient_description = new ArrayList<>();
-          patient_description.add("Hi, Good Morning, My Back Hurts!");
-          patient_description.add("Hi, Good AfterNoon, My Stomach Hurts!");
-          patient_description.add("Hi, Good Evening, My head hurts!");
+        appointment_description = new ArrayList<>();
 
-          patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
-          patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(checkAppointment.this));
-          checkAppointmentAdapter checkAppointmentAdapter = new checkAppointmentAdapter(patient_name,patient_phone,patient_date,patient_time,patient_description);
-          patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+        Doctor_UID = new ArrayList<>();
+
+
+        patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
+        patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(checkAppointment.this));
+        FireStoreAppointments();
+
 
     }
+
+
+
+   // Appointment User
+    private void FireStoreAppointments() {
+
+        firestore.collection("Appointments").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(checkAppointment.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                for (DocumentChange dc : value.getDocumentChanges()) {
+
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+
+                        patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
+                        patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
+                        appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
+                        appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
+                        appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
+                        appointed_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor ID"));
+
+                            if(User_id.equals(appointed_doctor_id)){
+
+                                Toast.makeText(checkAppointment.this, "Matched", Toast.LENGTH_SHORT).show();
+
+                                checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
+                                patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+                            }
+                            else{
+                                Toast.makeText(checkAppointment.this, "Not Appointments", Toast.LENGTH_SHORT).show();
+                            }
+
+
+
+
+
+                        if (dc.getType() == DocumentChange.Type.MODIFIED) {
+                            patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
+                            patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
+                            appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
+                            appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
+                            appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
+                        }
+                    }
+                }
+            }
+        });
+    }
+
 }

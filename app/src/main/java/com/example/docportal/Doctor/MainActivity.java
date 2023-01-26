@@ -17,6 +17,7 @@ Button login;
 Button Signup;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ Button Signup;
 
         login = (Button) findViewById(R.id.Login);
         Signup = (Button) findViewById(R.id.SignUp);
+
 
 
         Signup.setOnClickListener(new View.OnClickListener() {
@@ -40,8 +42,10 @@ Button Signup;
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,DocLogin.class);
-                startActivity(intent);
+                    Intent intent = new Intent(MainActivity.this,DocLogin.class);
+                    startActivity(intent);
+
+
 
             }
         });

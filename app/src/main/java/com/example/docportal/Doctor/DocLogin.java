@@ -16,6 +16,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.docportal.CheckEvent;
+import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.Pharmacist.PharmacistDashboard;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,6 +41,7 @@ public class DocLogin extends AppCompatActivity {
     FirebaseFirestore fStore;
     TextView doctor_forget_password;
     String userId;
+    boolean patient_flag_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,11 @@ public class DocLogin extends AppCompatActivity {
         TextView[] textViews ={Email, Password};
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+
+
+
+
+
         doctor_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,6 +100,9 @@ public class DocLogin extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+//                Bundle patient_bundle = getIntent().getExtras();
+//                patient_flag_check = patient_bundle.getBoolean("patient_flag");
+
                 try {
                     if (new CheckEvent().isEmpty(textViews));
                     else {
@@ -101,15 +111,33 @@ public class DocLogin extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) { // node45
                                 if (task.isSuccessful()) {
                                     userId = mAuth.getCurrentUser().getUid();
-                                    DocumentReference documentReference = fStore.collection("Doctor").document(userId);
-                                    documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            String category = value.getString("Specialization");
-                                            if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
-                                            else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
-                                        }
-                                    });
+
+                                    //patient login check
+                                    if(patient_flag_check){
+                                        DocumentReference documentReference = fStore.collection("Patient").document(userId);
+                                        documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                startActivity(new Intent(getApplicationContext(), patientDashboard.class));
+
+                                            }
+                                        });
+                                    }
+
+                                    // Doctor/Pharmacist login check
+
+                                    if(!patient_flag_check){
+                                        DocumentReference documentReference = fStore.collection("Doctor").document(userId);
+                                        documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                String category = value.getString("Specialization");
+                                                if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
+                                                else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
+
+                                            }
+                                        });
+                                    }
                                 }
                             }
                         });

@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,12 +27,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class patientAppointmentBook extends AppCompatActivity {
-    EditText full_name;
-    EditText Phone;
-    EditText Date;
-    EditText Time;
-    EditText description;
-    Button Submit;
+    EditText patient_full_name;
+    EditText patient_phone_no;
+    EditText appointment_date;
+    EditText appointment_time;
+    EditText appointment_description;
+    Button book_appointment;
 
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
@@ -64,22 +62,22 @@ public class patientAppointmentBook extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_patient_appointment);
-        full_name = (EditText) findViewById(R.id.AppointeeFirstName);
-        Phone = (EditText) findViewById(R.id.Phone);
-        Date = (EditText) findViewById(R.id.date);
-        Time = (EditText) findViewById(R.id.timee);
-        description = (EditText) findViewById(R.id.Description);
-        Submit = (Button) findViewById(R.id.Confirm);
+        patient_full_name = (EditText) findViewById(R.id.patient_first_name);
+        patient_phone_no = (EditText) findViewById(R.id.patient_phone);
+        appointment_date = (EditText) findViewById(R.id.appointment_date);
+        appointment_time = (EditText) findViewById(R.id.appointment_time);
+        appointment_description = (EditText) findViewById(R.id.appointment_description);
+        book_appointment = (Button) findViewById(R.id.book);
 
-        booker_name = full_name.getText().toString();
-        booker_phone = Phone.getText().toString();
-        booker_description = description.getText().toString();
+        booker_name = patient_full_name.getText().toString();
+        booker_phone = patient_phone_no.getText().toString();
+        booker_description = appointment_description.getText().toString();
 
         Bundle bundle = getIntent().getExtras();
         doctor_UIDD = bundle.getString("Doctor_ID");
-        full_name.setText(doctor_UIDD);
+        patient_full_name.setText(doctor_UIDD);
 
-        Time.setOnClickListener(new View.OnClickListener() {
+        appointment_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
@@ -96,8 +94,8 @@ public class patientAppointmentBook extends AppCompatActivity {
                                 TimeZone = "PM";
                         }
                         TIME = Hour+":"+Minute+" "+TimeZone;
-                        Time.setTextColor(Color.BLACK);
-                        Time.setText(TIME);
+                        appointment_time.setTextColor(Color.BLACK);
+                        appointment_time.setText(TIME);
                     }
                 },hour,minute,false);
                 timePickerDialog.show();
@@ -105,7 +103,7 @@ public class patientAppointmentBook extends AppCompatActivity {
         });
 
 
-       Date.setOnClickListener(new View.OnClickListener() {
+       appointment_date.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
                Calendar calendar = Calendar.getInstance();
@@ -119,8 +117,8 @@ public class patientAppointmentBook extends AppCompatActivity {
                    public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
 
                        DATE = DAY+"/"+MONTH+"/"+YEAR;
-                       Date.setTextColor(Color.BLACK);
-                       Date.setText(DATE);
+                       appointment_date.setTextColor(Color.BLACK);
+                       appointment_date.setText(DATE);
 
                    }
                },year,month,day);
@@ -128,32 +126,33 @@ public class patientAppointmentBook extends AppCompatActivity {
            }
        });
 
-       Submit.setOnClickListener(new View.OnClickListener() {
+       book_appointment.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
-
-               booker_name = full_name.getText().toString();
-               booker_phone = Phone.getText().toString();
-               booker_description = description.getText().toString();
-//               patient_UID = FAuth.getCurrentUser().getUid();
-               DocumentReference D_Ref = FStore.collection("Appointments").document(doctor_UIDD);
+               FStore = FirebaseFirestore.getInstance();
+               FAuth = FirebaseAuth.getInstance();
+               booker_name = patient_full_name.getText().toString();
+               booker_phone = patient_phone_no.getText().toString();
+               booker_description = appointment_description.getText().toString();
+               patient_UID = FAuth.getCurrentUser().getUid();
+               DocumentReference D_Ref = FStore.collection("Appointments").document(patient_UID);
 
                D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                    @Override
                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
                        Map<String, Object> appointments = new HashMap<>();
                        appointments.put("Patient Name",booker_name);
-                       appointments.put("Patient Phone",booker_phone);
+                       appointments.put("Patient Phone No",booker_phone);
                        appointments.put("Appointment Date",DATE);
                        appointments.put("Appointment Time",TIME);
                        appointments.put("Appointment Description",booker_description);
+                       appointments.put("Appointed Doctor ID",doctor_UIDD);
                        D_Ref.set(appointments);
                    }
                });
 
 
-               Toast.makeText(patientAppointmentBook.this, booker_name + booker_phone +DATE+TIME+ booker_description, Toast.LENGTH_SHORT).show();
+               Toast.makeText(patientAppointmentBook.this, "Appointment Booked", Toast.LENGTH_SHORT).show();
 
 
            }

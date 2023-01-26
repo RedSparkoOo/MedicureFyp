@@ -4,23 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/extra_white"
     tools:context=".Pharmacist.MedicineList">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/medicine_list"
-        android:layout_width="match_parent"
-        android:layout_height="500dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/pharmacyMedicineSearch"
-        app:layout_constraintVertical_bias="1.0" />
+
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/pharmacyMedicineSearch"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/pharmacist_search_view"
         android:pointerIcon="zoom_in"
         android:padding="5sp"
         android:layout_marginBottom="10sp"
@@ -28,5 +20,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
         tools:layout_editor_absoluteX="0dp" />
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/medicine_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/pharmacyMedicineSearch" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
