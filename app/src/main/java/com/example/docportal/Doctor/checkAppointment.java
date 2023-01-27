@@ -70,6 +70,13 @@ public class checkAppointment extends AppCompatActivity {
 
         patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
         patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(checkAppointment.this));
+        if(User_id.equals(appointed_doctor_id)){
+
+            Toast.makeText(checkAppointment.this, "Matched", Toast.LENGTH_SHORT).show();
+
+            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
+            patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+        }
         FireStoreAppointments();
 
 
@@ -80,7 +87,8 @@ public class checkAppointment extends AppCompatActivity {
    // Appointment User
     private void FireStoreAppointments() {
 
-        firestore.collection("Appointments").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestore.collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -98,30 +106,8 @@ public class checkAppointment extends AppCompatActivity {
                         appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                         appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
                         appointed_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor ID"));
-
-                            if(User_id.equals(appointed_doctor_id)){
-
-                                Toast.makeText(checkAppointment.this, "Matched", Toast.LENGTH_SHORT).show();
-
-                                checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
-                                patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
-                            }
-                            else{
-                                Toast.makeText(checkAppointment.this, "Not Appointments", Toast.LENGTH_SHORT).show();
-                            }
-
-
-
-
-
-                        if (dc.getType() == DocumentChange.Type.MODIFIED) {
-                            patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
-                            patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
-                            appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
-                            appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
-                            appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
-                        }
                     }
+                    checkAppointmentAdapter.notifyDataSetChanged();
                 }
             }
         });

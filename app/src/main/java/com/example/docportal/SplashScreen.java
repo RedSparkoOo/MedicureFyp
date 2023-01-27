@@ -8,19 +8,25 @@ import android.os.Handler;
 import android.widget.ProgressBar;
 
 import com.airbnb.lottie.LottieAnimationView;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 
 public class SplashScreen extends AppCompatActivity {
     LottieAnimationView lottieAnimationView;
     ProgressBar progressBarSplash;
+    FirebaseFirestore FStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
          progressBarSplash = findViewById(R.id.progressBarSplash);
 
-
-
+        FStore = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setPersistenceEnabled(false)
+                .build();
+        FStore.setFirestoreSettings(settings);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {

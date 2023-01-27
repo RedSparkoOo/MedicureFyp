@@ -86,6 +86,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
 
     private void FireStoreUsers() {
         firestore.collection("Doctor").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
             @SuppressLint("NotifyDataSetChanged")
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -102,11 +103,6 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                             doctor_UID.add(dc.getDocument().getId());
                         }
                         book_appointment_helper_class.notifyDataSetChanged();
-
-                        if(dc.getType() == DocumentChange.Type.MODIFIED){
-                            doctor_names.add(String.valueOf(dc.getDocument().get("Full Name")));
-                            doctor_specializations.add(String.valueOf(dc.getDocument().get("Specialization")));
-                        }
 
                     }
 

@@ -21,6 +21,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -69,13 +70,12 @@ public class patientAppointmentBook extends AppCompatActivity {
         appointment_description = (EditText) findViewById(R.id.appointment_description);
         book_appointment = (Button) findViewById(R.id.book);
 
-        booker_name = patient_full_name.getText().toString();
-        booker_phone = patient_phone_no.getText().toString();
-        booker_description = appointment_description.getText().toString();
-
         Bundle bundle = getIntent().getExtras();
         doctor_UIDD = bundle.getString("Doctor_ID");
         patient_full_name.setText(doctor_UIDD);
+
+
+
 
         appointment_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,28 +126,40 @@ public class patientAppointmentBook extends AppCompatActivity {
            }
        });
 
+
        book_appointment.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
+               FirebaseFirestore.getInstance().clearPersistence();
                FStore = FirebaseFirestore.getInstance();
                FAuth = FirebaseAuth.getInstance();
+
+               if(booker_name!= null && booker_phone!= null && booker_description!= null){
+                   booker_name = null;
+                   booker_phone = null;
+                   booker_description = null;
+               }
+
                booker_name = patient_full_name.getText().toString();
                booker_phone = patient_phone_no.getText().toString();
                booker_description = appointment_description.getText().toString();
                patient_UID = FAuth.getCurrentUser().getUid();
-               DocumentReference D_Ref = FStore.collection("Appointments").document(patient_UID);
+               DocumentReference D_Ref = FStore.collection("Appointment").document(patient_UID);
 
                D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                    @Override
                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                       Map<String, Object> appointments = new HashMap<>();
-                       appointments.put("Patient Name",booker_name);
-                       appointments.put("Patient Phone No",booker_phone);
-                       appointments.put("Appointment Date",DATE);
-                       appointments.put("Appointment Time",TIME);
-                       appointments.put("Appointment Description",booker_description);
-                       appointments.put("Appointed Doctor ID",doctor_UIDD);
-                       D_Ref.set(appointments);
+                       Map<String, Object> appointment = new HashMap<>();
+
+
+                       appointment.put("Patient Name",booker_name);
+                       appointment.put("Patient Phone No",booker_phone);
+                       appointment.put("Appointment Date",DATE);
+                       appointment.put("Appointment Time",TIME);
+                       appointment.put("Appointment Description",booker_description);
+                       appointment.put("Appointed Doctor ID",doctor_UIDD);
+                       D_Ref.set(appointment);
                    }
                });
 

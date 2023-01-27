@@ -24,22 +24,12 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     private final List<String> AppointmentPhones;
     private final List<String> AppointmentNamesAll;
     Context context;
-   //  private final List<String> AppointmentPhone;
-
-   // private final List<String> AppointmentDate;
-   // private final List<String> AppointmentTime;
-
-
 
 
     public AppointmentAdapter(List<String> nameDataSet, List<String> nameDataSet1)  {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
-
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
-
-//, List<String> phoneDataSet, List<String> dateDataSet, List<String> timeDataSet
-
     }
 
     @Override
@@ -123,7 +113,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     public AppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.appointment_text_row_item, viewGroup, false);
+                .inflate(R.layout.manage_appointments_row, viewGroup, false);
 
         return new AppointmentAdapter.ViewHolder(view);
     }

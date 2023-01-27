@@ -84,7 +84,7 @@
                 android:src="@drawable/view_appointment" />
 
             <ImageView
-                android:id="@+id/doctor_manage_consultation"
+                android:id="@+id/manage_appointments"
                 android:layout_width="180dp"
                 android:layout_height="180dp"
                 android:layout_marginTop="10dp"

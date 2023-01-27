@@ -17,7 +17,6 @@
             android:id="@+id/doctor_profile"
             android:layout_width="140dp"
             android:padding="10dp"
-
             android:layout_height="140dp"
             android:adjustViewBounds="true"
             android:src="@drawable/user_profile"

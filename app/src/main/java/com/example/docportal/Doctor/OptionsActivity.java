@@ -71,6 +71,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
 
         doctor_name = findViewById(R.id.doctor_name);
         view_appointment = (ImageView) findViewById(R.id.doctor_view_appointment);
+        _appointmentManagement = findViewById(R.id.manage_appointments);
         doctor_profile = findViewById(R.id.doctor_profile);
 
         firestore = FirebaseFirestore.getInstance();
@@ -85,7 +86,12 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }
     });
 
-
+    _appointmentManagement.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(OptionsActivity.this,AppointmentNotifications.class));
+        }
+    });
 
         storageReference = FirebaseStorage.getInstance().getReference();
         DocumentReference documentReference = firestore.collection("Doctor").document(user_id);

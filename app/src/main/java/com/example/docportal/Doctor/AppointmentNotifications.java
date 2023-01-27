@@ -1,32 +1,30 @@
 package com.example.docportal.Doctor;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.os.Bundle;
+import android.widget.SearchView;
+import android.widget.TextView;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.SearchView;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-
 import com.example.docportal.R;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class AppointmentNotifications extends AppCompatActivity {
-    RecyclerView recyclerview;
-    SearchView SearchName;
+    RecyclerView appointment_recycler_view;
     List<String> _notifiedName;
+    SearchView search_patient;
     List<String> _notifiedPhone;
     List<String> _notifiedDate;
     List<String> _notifiedTime;
     AppointmentAdapter appointmentadapter;
-
-    FirebaseDatabase RootNode;
-    DatabaseReference reference;
-
-
 
     String notifiedName;
     String notifiedPhoneCheck;
@@ -34,6 +32,8 @@ public class AppointmentNotifications extends AppCompatActivity {
     String notifiedDate;
     String notifiedTime;
 
+    String search_HINT_color = "#B2B2B2";
+    String search_color = "#434242";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +54,7 @@ public class AppointmentNotifications extends AppCompatActivity {
 
 
      // appointee phone
-     _notifiedPhone = new ArrayList<String>();
+     _notifiedPhone = new ArrayList<>();
      _notifiedPhone.add("0318-1290301");
      _notifiedPhone.add("0328-1330302");
      _notifiedPhone.add("0338-1430303");
@@ -66,54 +66,34 @@ public class AppointmentNotifications extends AppCompatActivity {
      _notifiedPhone.add("0358-2135309");
      _notifiedPhone.add("0378-2236310");
 
+    search_patient = findViewById(R.id.search_patient);
+    int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+    TextView textView = (TextView) search_patient.findViewById(id);
+    textView.setTextColor(Color.parseColor(search_color));
+    textView.setTextSize(16);
+    textView.setHintTextColor(Color.parseColor(search_HINT_color));
+    Typeface tf = ResourcesCompat.getFont(this,R.font.inter_light);
+    textView.setTypeface(tf);
 
-
-
-//        Query checkUser = FirebaseDatabase.getInstance("https://doc-portal-9515b-default-rtdb.firebaseio.com/").getReference("Appointment");
-//
-//        checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                    notifiedName = dataSnapshot.child("appointeeName").getValue(String.class);
-//                    notifiedPhone = dataSnapshot.child("appointeePhone").getValue(String.class);
-//                    notifiedDate = dataSnapshot.child("time").getValue(String.class);
-//                    notifiedTime = dataSnapshot.child("date").getValue(String.class);
-//
-//                    _notifiedName.add(notifiedName);
-//                    _notifiedPhone.add(notifiedPhone);
-//                    _notifiedDate.add(notifiedDate);
-//                    _notifiedDate.add(notifiedTime);
-//                }
-//
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//                Toast.makeText(AppointmentNotifications.this, databaseError.toString(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
-
-
-     recyclerview = findViewById(R.id.AppointmentRecyclerView);
-     SearchName = findViewById(R.id.searchAppointment);
-     recyclerview.setLayoutManager(new LinearLayoutManager(this));
+     appointment_recycler_view = findViewById(R.id.manage_appointment_recycler);
+     appointment_recycler_view.setLayoutManager(new LinearLayoutManager(this));
      appointmentadapter = new AppointmentAdapter(_notifiedName, _notifiedPhone);
-     recyclerview.setAdapter(appointmentadapter);
+     appointment_recycler_view.setAdapter(appointmentadapter);
 
      //, _notifiedPhone, _notifiedDate, _notifiedTime
 
-     SearchName.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-         @Override
-         public boolean onQueryTextSubmit(String query) {
-             return false;
-         }
-
-         @Override
-         public boolean onQueryTextChange(String newText) {
-             appointmentadapter.getFilter().filter(newText);
-             return false;
-         }
-     });
+//     SearchName.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+//         @Override
+//         public boolean onQueryTextSubmit(String query) {
+//             return false;
+//         }
+//
+//         @Override
+//         public boolean onQueryTextChange(String newText) {
+//             appointmentadapter.getFilter().filter(newText);
+//             return false;
+//         }
+//     });
 
 
 
