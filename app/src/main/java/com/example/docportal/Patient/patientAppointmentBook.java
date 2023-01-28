@@ -19,9 +19,11 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
+import com.google.firebase.firestore.SetOptions;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -145,14 +147,13 @@ public class patientAppointmentBook extends AppCompatActivity {
                booker_phone = patient_phone_no.getText().toString();
                booker_description = appointment_description.getText().toString();
                patient_UID = FAuth.getCurrentUser().getUid();
+
                DocumentReference D_Ref = FStore.collection("Appointment").document(patient_UID);
 
                D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                    @Override
                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                        Map<String, Object> appointment = new HashMap<>();
-
-
                        appointment.put("Patient Name",booker_name);
                        appointment.put("Patient Phone No",booker_phone);
                        appointment.put("Appointment Date",DATE);

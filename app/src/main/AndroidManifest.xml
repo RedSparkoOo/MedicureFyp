@@ -13,9 +13,9 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/fyp_logo_fin"
+        android:icon="@mipmap/medicure_logo"
         android:label="MediCure"
-        android:roundIcon="@mipmap/fyp_logo_fin_round"
+        android:roundIcon="@mipmap/medicure_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar"
         tools:targetApi="31">

@@ -16,8 +16,7 @@
         android:layout_height="match_parent"
         android:id="@+id/navigationBar"
         tools:layout_editor_absoluteY="0dp"
-
-        android:background="@color/purple_blue"
+        android:textColor="@color/blue_2"
         app:itemIconTint="@color/white"
         app:itemTextColor="@color/white"
         android:fitsSystemWindows="true"

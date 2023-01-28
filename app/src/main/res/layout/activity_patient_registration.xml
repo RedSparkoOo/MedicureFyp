@@ -191,7 +191,7 @@
                     android:paddingTop="15dp"
                     android:text="Sign In"
                     android:paddingLeft="5dp"
-                    android:textColor="@color/purple_blue"
+                    android:textColor="@color/blue_2"
                     android:textSize="18sp" />
 
             </LinearLayout>

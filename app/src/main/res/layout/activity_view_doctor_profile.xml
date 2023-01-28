@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:textAlignment="center"
             android:fontFamily="@font/inter_bold"
-            android:textColor="@color/purple_blue"
+            android:textColor="@color/blue_2"
             android:textSize="40sp"
             android:text="John Smith" />
 

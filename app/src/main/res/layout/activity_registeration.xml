@@ -8,25 +8,28 @@
     android:background="@color/extra_white"
     android:contentDescription="@string/app_name"
     android:fillViewport="true"
-    tools:ignore="HardcodedText"
     tools:context=".Doctor.Registeration">
 
 
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:elevation="4dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/medicure_logo_2" />
     <TextView
-        android:id="@+id/registerHeader2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
-        android:textAlignment="center"
-        android:layout_marginTop="35dp"
-        android:text="Create new account"
+        android:fontFamily="@font/inter_medium"
+        android:text="Sign Up"
         android:textColor="@color/light_black"
-        android:textSize="30sp" />
-
-
-
-
-
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="22sp" />
     <ScrollView
         android:layout_margin="20dp"
         android:layout_width="match_parent"
@@ -64,14 +67,14 @@
                 android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"
                 android:textSize="14sp"
-                tools:ignore="TouchTargetSizeCheck" />
+              />
 
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:text="@string/email_address"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
@@ -82,8 +85,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/input_field"
-                android:drawablePadding="5sp"
                 android:drawableEnd="@drawable/person_email"
+                android:drawablePadding="5sp"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:hint="Enter you Email Address"
@@ -95,14 +98,12 @@
                 tools:ignore="TextFields" />
 
 
-
-
             <TextView
                 android:id="@+id/textView31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:text="@string/password"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
@@ -113,9 +114,9 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/person_password"
                 android:drawablePadding="5sp"
                 android:ems="10"
-                android:drawableEnd="@drawable/person_password"
                 android:fontFamily="@font/inter_medium"
                 android:hint="Enter your Password"
                 android:inputType="textPassword"
@@ -130,7 +131,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:text="@string/phone_no"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
@@ -141,8 +142,8 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/input_field"
-                android:drawablePadding="5sp"
                 android:drawableEnd="@drawable/person_phone"
+                android:drawablePadding="5sp"
                 android:ems="10"
                 android:fontFamily="@font/ubuntu_regular"
                 android:hint="Enter your Phone Number"
@@ -159,7 +160,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:text="@string/license_no"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
@@ -170,11 +171,11 @@
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/doctor_license"
                 android:drawablePadding="5sp"
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:hint="Enter your license number"
-                android:drawableEnd="@drawable/doctor_license"
                 android:inputType="textPersonName"
                 android:paddingEnd="7sp"
                 android:textColor="@color/light_black"
@@ -188,7 +189,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/inter_medium"
-                android:paddingTop="15dp"
+                android:paddingTop="10dp"
                 android:text="@string/category"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
@@ -196,11 +197,12 @@
             <Spinner
                 android:id="@+id/specialistCategory"
                 android:layout_width="370dp"
-                android:layout_height="50dp"
+                android:layout_height="48dp"
                 android:layout_marginTop="5dp"
                 android:background="@drawable/spinner_field"
                 android:drawablePadding="5sp"
                 android:paddingEnd="7sp"
+                android:textAllCaps="false"
                 tools:ignore="SpeakableTextPresentCheck" />
 
 
@@ -220,8 +222,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="28dp"
-                android:orientation="horizontal"
-                >
+                android:orientation="horizontal">
+
                 <TextView
                     android:id="@+id/loginheading"
                     android:layout_width="wrap_content"
@@ -231,15 +233,16 @@
                     android:text="Already have an account."
                     android:textColor="@color/light_black"
                     android:textSize="18sp" />
+
                 <TextView
                     android:id="@+id/login"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/inter_bold"
-                    android:paddingTop="15dp"
-                    android:text="Sign In"
+                    android:layout_marginTop="17dp"
                     android:paddingLeft="5dp"
-                    android:textColor="@color/purple_blue"
+                    android:text="Sign In"
+                    android:textColor="@color/blue_2"
                     android:textSize="18sp" />
 
             </LinearLayout>

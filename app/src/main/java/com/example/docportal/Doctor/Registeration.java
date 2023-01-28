@@ -105,6 +105,7 @@ public class Registeration extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
                                 FirebaseUser Doctor = firebaseAuth.getCurrentUser();
+                                assert Doctor != null;
                                 Doctor.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {

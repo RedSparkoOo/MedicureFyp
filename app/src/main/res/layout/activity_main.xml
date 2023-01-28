@@ -19,7 +19,7 @@
             android:fontFamily="@font/knight_brush_cursive"
             android:text="Welcome"
             android:textAlignment="center"
-            android:textColor="@color/purple_blue"
+            android:textColor="@color/blue_2"
             android:textSize="70sp"
             />
 
@@ -29,7 +29,7 @@
             android:fontFamily="@font/knight_brush_cursive"
             android:text="to"
             android:textAlignment="center"
-            android:textColor="@color/purple_blue"
+            android:textColor="@color/blue_2"
             android:textSize="50sp"
             />
 
@@ -39,7 +39,7 @@
             android:fontFamily="@font/knight_brush_cursive"
             android:text="Doctors Portal"
             android:textAlignment="center"
-            android:textColor="@color/purple_blue"
+            android:textColor="@color/blue_2"
             android:textSize="70sp"
             />
 

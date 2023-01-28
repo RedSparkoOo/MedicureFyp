@@ -9,148 +9,149 @@
     tools:context=".Doctor.DocLogin">
 
 
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="130dp"
+        android:layout_height="130dp"
+        android:elevation="4dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center"
+        app:srcCompat="@drawable/medicure_logo_2" />
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_bold"
-        android:text="Welcome!"
-        android:textColor="@color/purple_blue"
-        android:textSize="25sp"
-        android:textAlignment="center"
-        />
+        android:fontFamily="@font/inter_medium"
+        android:text="Login"
+        android:textColor="@color/light_black"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textSize="22sp" />
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_regular"
-        android:text="Sign in by entering the information below"
-        android:textColor="@color/light_black"
-        android:textSize="18sp"
-        android:textAlignment="center"
-        />
+        android:layout_marginTop="80dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_medium"
-        android:text="Email"
-        android:textColor="@color/light_black"
-        android:textSize="18sp"
-        android:layout_marginLeft="20dp"
-        />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="Email Address"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/doctorEmail"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        android:drawableEnd="@drawable/person_email"
-        android:background="@drawable/input_field"
-        android:drawablePadding="5sp"
-        android:textSize="14sp"
-        android:ems="10"
-        android:fontFamily="@font/inter_medium"
-        android:hint="Enter Email"
-        android:inputType="textPersonName"
-        android:paddingEnd="7sp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        tools:ignore="Autofill" />
+        <EditText
+            android:id="@+id/doctorEmail"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="20dp"
+            android:drawableEnd="@drawable/person_email"
+            android:background="@drawable/input_field"
+            android:drawablePadding="5sp"
+            android:textSize="14sp"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:hint="Enter Email"
+            android:inputType="textPersonName"
+            android:paddingEnd="7sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            tools:ignore="Autofill"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/inter_medium"
-        android:text="Password"
-        android:textColor="@color/light_black"
-        android:textSize="18sp"
-        android:layout_marginLeft="20dp"
-        />
-    <EditText
-        android:id="@+id/doctorPassword"
-        android:layout_width="370dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="20dp"
-        android:background="@drawable/input_field"
-        android:drawableEnd="@drawable/person_password"
-        android:drawablePadding="5sp"
-        android:textSize="14sp"
-        android:ems="10"
-        android:fontFamily="@font/inter_medium"
-        android:hint="Enter Password"
-        android:inputType="textPassword"
-        android:paddingEnd="7sp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/grey"
-        />
-    <TextView
-        android:id="@+id/doctorForgetPassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/inter_medium"
-        android:text="Forget Password?"
-        android:textColor="@color/light_black"
-        android:textSize="16sp"
-        android:textAlignment="center"
-        android:layout_marginLeft="240dp"
-     />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/inter_medium"
+            android:text="Password"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="20dp"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/doctorPassword"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_field"
+            android:drawableEnd="@drawable/person_password"
+            android:drawablePadding="5sp"
+            android:textSize="14sp"
+            android:ems="10"
+            android:fontFamily="@font/inter_medium"
+            android:hint="Enter Password"
+            android:inputType="textPassword"
+            android:paddingEnd="7sp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/grey"
+            />
+
+        <TextView
+            android:id="@+id/doctorForgetPassword"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Forget Password?"
+            android:textStyle="bold"
+            android:textColor="@color/blue_2"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            android:layout_marginStart="265dp"
+            />
+    </LinearLayout>
+
     <Button
         android:id="@+id/doctorLogin"
-        android:layout_width="350dp"
-        android:layout_height="55dp"
-        android:layout_marginTop="70dp"
+        android:layout_width="370dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="30dp"
         android:elevation="2dp"
-        android:layout_marginLeft="30dp"
+        android:layout_marginStart="20dp"
         android:background="@drawable/but"
         android:fontFamily="@font/inter_medium"
         android:text="Sign In"
+        android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.11"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctorPassword"
-        tools:ignore="MissingConstraints" />
+        />
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        >
 
-  <LinearLayout
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="20dp"
-      android:layout_marginLeft="60dp"
-      >
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Already have an account? "
+            android:textColor="@color/light_black"
+            android:textSize="14sp"
+            android:textAlignment="center"
+            />
 
-      <TextView
-          android:id="@+id/textView6"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:fontFamily="@font/inter_medium"
-          android:text="Don't have an account?"
-          android:textColor="@color/black"
-          android:textSize="18sp"
+        <TextView
+            android:id="@+id/Registration"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:fontFamily="@font/inter_medium"
+            android:text="Sign Up"
+            android:textAlignment="center"
+            android:textColor="@color/blue_2"
+            android:textSize="14sp"
+            android:textStyle="bold" />
 
-         />
-
-      <TextView
-          android:id="@+id/Registration"
-          android:layout_width="wrap_content"
-          android:layout_height="wrap_content"
-          android:fontFamily="@font/inter_bold"
-          android:text="Sign up"
-          android:layout_marginLeft="7dp"
-          android:textColor="@color/purple_blue"
-          android:textSize="20sp"
-         />
-  </LinearLayout>
-
-
-
+    </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

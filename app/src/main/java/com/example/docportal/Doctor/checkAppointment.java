@@ -33,7 +33,6 @@ public class checkAppointment extends AppCompatActivity {
     ArrayList<String> appointment_date;
     ArrayList<String> appointment_time;
     ArrayList<String> appointment_description;
-    ArrayList<String> Doctor_UID;
 
 
     FirebaseFirestore firestore;
@@ -65,18 +64,10 @@ public class checkAppointment extends AppCompatActivity {
 
         appointment_description = new ArrayList<>();
 
-        Doctor_UID = new ArrayList<>();
 
 
         patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
         patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(checkAppointment.this));
-        if(User_id.equals(appointed_doctor_id)){
-
-            Toast.makeText(checkAppointment.this, "Matched", Toast.LENGTH_SHORT).show();
-
-            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
-            patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
-        }
         FireStoreAppointments();
 
 
@@ -89,7 +80,7 @@ public class checkAppointment extends AppCompatActivity {
 
         firestore.collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
-            @SuppressLint("NotifyDataSetChanged")
+
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -100,14 +91,22 @@ public class checkAppointment extends AppCompatActivity {
 
                     if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                        patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
-                        patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
-                        appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
-                        appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
-                        appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
+
                         appointed_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor ID"));
+
+                        if(appointed_doctor_id.equals(User_id)){
+
+                            patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
+                            patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
+                            appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
+                            appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
+                            appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
+                            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
+                            patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+                        }
+
                     }
-                    checkAppointmentAdapter.notifyDataSetChanged();
+
                 }
             }
         });

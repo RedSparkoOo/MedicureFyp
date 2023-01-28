@@ -183,13 +183,14 @@
             android:layout_marginTop="3dp"
             android:padding="5dp"
             android:gravity="top|left"
+            android:inputType="textMultiLine"
+            android:maxLines="10"
             android:layout_marginBottom="7dp"
             android:background="@drawable/input_field"
             android:ems="10"
             android:textColor="@color/black"
             android:fontFamily="@font/inter_light"
             android:hint="@string/user_concerns"
-            android:inputType="textPersonName"
             android:textColorHint="@color/grey"
             android:textSize="14sp" />
 
