@@ -5,14 +5,20 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 
+import com.airbnb.lottie.LottieAnimationView;
+import com.airbnb.lottie.RenderMode;
 import com.example.docportal.Doctor.MainActivity;
 import com.example.docportal.Patient.patientMainPage;
 
 public class Entrance extends AppCompatActivity {
-ImageView _doctor;
-ImageView _patient;
+
+LottieAnimationView welcome_user;
+Button doctor_selection;
+Button patient_selection;
+Button pharmacist_selection;
 
 boolean for_doctor = false;
 boolean for_patient = false;
@@ -22,11 +28,14 @@ boolean for_patient = false;
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_entrance);
 
-        _doctor = findViewById(R.id.doctor);
-        _patient = findViewById(R.id.patient);
+       doctor_selection = findViewById(R.id.doctor_selection);
+       patient_selection = findViewById(R.id.patient_selection);
+       pharmacist_selection = findViewById(R.id.pharmacist_selection);
+       welcome_user = findViewById(R.id.welcome_user);
+       welcome_user.setRenderMode(RenderMode.HARDWARE);
 
 
-        _doctor.setOnClickListener(new View.OnClickListener() {
+        doctor_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for_doctor = true;
@@ -34,7 +43,7 @@ boolean for_patient = false;
             }
         });
 
-        _patient.setOnClickListener(new View.OnClickListener() {
+        patient_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 for_patient = true;

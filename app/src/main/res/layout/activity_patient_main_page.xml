@@ -1,85 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:background="@color/extra_white"
     tools:context=".Patient.patientMainPage">
 
-    <TextView
-        android:id="@+id/textView3"
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center"
+      >
+
+      <com.airbnb.lottie.LottieAnimationView
+          android:id="@+id/welcome_patient"
+          android:layout_width="300dp"
+          android:layout_height="300dp"
+          app:lottie_autoPlay="true"
+          app:lottie_loop="true"
+          app:lottie_rawRes="@raw/welcome_patient"
+          android:adjustViewBounds="true"
+          />
+
+
+  </LinearLayout>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/knight_brush_cursive"
-        android:text="Welcome to"
-        android:textAlignment="center"
-        android:textColor="@color/purple"
-        android:textSize="80sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.081"
-        tools:layout_editor_absoluteX="0dp" />
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView28"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/knight_brush_cursive"
-        android:text="Doctors Portal"
-        android:textAlignment="center"
-        android:textColor="@color/purple"
-        android:textSize="70sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
-        app:layout_constraintVertical_bias="0.0"
-        tools:layout_editor_absoluteX="0dp" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="Welcome"
+            android:elevation="4dp"
+            android:textAlignment="center"
+            android:textColor="@color/light_black"
+            android:textSize="28sp" />
 
-    <ImageView
-        android:id="@+id/imageView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.533"
-        app:srcCompat="@drawable/patient_main_activity" />
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_regular"
+            android:layout_margin="22dp"
+            android:text="Please select one of the following options given below to get started"
+            android:textAlignment="center"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15sp"
-        android:orientation="vertical"
-        android:padding="10sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.97">
+        android:gravity="center"
+        android:layout_marginTop="200dp"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/patientSignUp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10sp"
-            android:background="@drawable/patient_button"
-            android:fontFamily="@font/regular"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:background="@drawable/but"
+            android:fontFamily="@font/pt_sans_regular"
             android:text="Sign Up"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/patientLogin"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/patient_button"
-            android:fontFamily="@font/regular"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:elevation="4dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/but"
+            android:fontFamily="@font/pt_sans_regular"
             android:text="Login"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
 
 
     </LinearLayout>
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

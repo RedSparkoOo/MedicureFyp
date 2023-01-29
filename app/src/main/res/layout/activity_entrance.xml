@@ -1,31 +1,108 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
-    android:background="@drawable/entrance_background"
+    android:background="@color/extra_white"
     tools:context=".Entrance">
 
-    <ImageView
-        android:id="@+id/doctor"
-        android:layout_width="380dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="72dp"
-        android:layout_marginEnd="12dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/entrance_doctor" />
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/patient"
-        android:layout_width="380dp"
-        android:layout_height="170dp"
-        android:layout_marginTop="96dp"
-        android:layout_marginEnd="12dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_marginStart="20dp"
+        android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/welcome_user"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        app:lottie_autoPlay="true"
+        android:layout_gravity="center"
+        app:lottie_loop="true"
+        app:lottie_rawRes="@raw/welcome_animation"
         android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/doctor"
-        app:srcCompat="@drawable/entrance_patient" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello User"
+            android:layout_marginTop="10dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textSize="28sp"
+            android:textColor="@color/light_black"
+            android:gravity="center" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Please select one of the following categories given below to get started"
+            android:layout_margin="22dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textSize="18sp"
+            android:textColor="@color/light_black"
+            android:gravity="center" />
+
+        <Button
+            android:id="@+id/patient_selection"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="100dp"
+            android:elevation="4dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/but"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Patient"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp"
+            />
+
+        <Button
+            android:id="@+id/doctor_selection"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="15dp"
+            android:elevation="2dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/but"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Doctor"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp"
+            />
+
+        <Button
+            android:id="@+id/pharmacist_selection"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Pharmacist"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
+
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
