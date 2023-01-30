@@ -5,13 +5,22 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.widget.SearchView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,20 +28,16 @@ import java.util.List;
 
 public class AppointmentNotifications extends AppCompatActivity {
     RecyclerView appointment_recycler_view;
-    List<String> _notifiedName;
+    List<String> approved_patient_names;
     SearchView search_patient;
-    List<String> _notifiedPhone;
-    List<String> _notifiedDate;
-    List<String> _notifiedTime;
+    List<String> approved_patient_phone_no;
+    List<String> approved_appointment_date;
+    List<String> approved_appointment_time;
     AppointmentAdapter appointmentadapter;
+    FirebaseFirestore FStore;
+    FirebaseAuth FAuth;
 
-    String notifiedName;
-    String notifiedPhoneCheck;
-    String notifiedPhone;
-    String notifiedDate;
-    String notifiedTime;
-
-    String search_HINT_color = "#B2B2B2";
+    String search_HINT_color = "#4a69b2";
     String search_color = "#434242";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,63 +45,83 @@ public class AppointmentNotifications extends AppCompatActivity {
         setContentView(R.layout.activity_appointment_notifications);
         // appointee names
 
-     _notifiedName = new ArrayList<>();
-     _notifiedName.add("Imran");
-     _notifiedName.add("Abbas");
-     _notifiedName.add("Waleed");
-     _notifiedName.add("Connor");
-     _notifiedName.add("James");
-     _notifiedName.add("Ali");
-     _notifiedName.add("Asad");
-     _notifiedName.add("Khalid");
-     _notifiedName.add("Khalil");
-     _notifiedName.add("Hamid");
+        FStore = FirebaseFirestore.getInstance();
+        FAuth = FirebaseAuth.getInstance();
 
+     approved_patient_names = new ArrayList<>();
+     approved_patient_phone_no = new ArrayList<>();
+     approved_appointment_date = new ArrayList<>();
+     approved_appointment_time = new ArrayList<>();
 
-     // appointee phone
-     _notifiedPhone = new ArrayList<>();
-     _notifiedPhone.add("0318-1290301");
-     _notifiedPhone.add("0328-1330302");
-     _notifiedPhone.add("0338-1430303");
-     _notifiedPhone.add("0348-1639304");
-     _notifiedPhone.add("0358-1731305");
-     _notifiedPhone.add("0328-1832306");
-     _notifiedPhone.add("0338-1933307");
-     _notifiedPhone.add("0348-2034308");
-     _notifiedPhone.add("0358-2135309");
-     _notifiedPhone.add("0378-2236310");
 
     search_patient = findViewById(R.id.search_patient);
     int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
     TextView textView = (TextView) search_patient.findViewById(id);
     textView.setTextColor(Color.parseColor(search_color));
-    textView.setTextSize(16);
+    textView.setTextSize(14);
     textView.setHintTextColor(Color.parseColor(search_HINT_color));
-    Typeface tf = ResourcesCompat.getFont(this,R.font.inter_light);
+    Typeface tf = ResourcesCompat.getFont(this,R.font.pt_sans_regular);
     textView.setTypeface(tf);
 
      appointment_recycler_view = findViewById(R.id.manage_appointment_recycler);
      appointment_recycler_view.setLayoutManager(new LinearLayoutManager(this));
-     appointmentadapter = new AppointmentAdapter(_notifiedName, _notifiedPhone);
-     appointment_recycler_view.setAdapter(appointmentadapter);
-
-     //, _notifiedPhone, _notifiedDate, _notifiedTime
-
-//     SearchName.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//         @Override
-//         public boolean onQueryTextSubmit(String query) {
-//             return false;
-//         }
-//
-//         @Override
-//         public boolean onQueryTextChange(String newText) {
-//             appointmentadapter.getFilter().filter(newText);
-//             return false;
-//         }
-//     });
 
 
+     FireStoreApprovedAppointments();
+
+     search_patient.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+         @Override
+         public boolean onQueryTextSubmit(String query) {
+             return false;
+         }
+
+         @Override
+         public boolean onQueryTextChange(String newText) {
+             appointmentadapter.getFilter().filter(newText);
+             return false;
+         }
+     });
 
     }
+
+    private void FireStoreApprovedAppointments() {
+
+        FStore.collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(AppointmentNotifications.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                for (DocumentChange dc : value.getDocumentChanges()) {
+
+                    if(dc != null){
+
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+
+                            approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
+                            approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Phone")));
+                            approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
+                            approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
+//                            appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
+//                            appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
+//                            appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
+                            appointmentadapter = new AppointmentAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
+                            appointment_recycler_view.setAdapter(appointmentadapter);
+                        }
+
+                    }
+                    else
+                        Toast.makeText(AppointmentNotifications.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+        });
+    }
+
+
+
 }
 

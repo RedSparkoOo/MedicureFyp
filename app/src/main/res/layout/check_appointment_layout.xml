@@ -20,19 +20,20 @@
         <de.hdodenhof.circleimageview.CircleImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/appointment_patient_profile"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:elevation="4dp"
             android:src="@drawable/user_profile"
             app:civ_border_width="4dp"
             android:layout_marginTop="10dp"
             android:layout_gravity="center"
-            app:civ_border_color="@color/extra_white"/>
+            app:civ_border_color="@color/light_blue"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:padding="10dp"
             android:elevation="3dp"
             android:background="@drawable/linear_layout_background_2">
@@ -47,7 +48,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:layout_marginStart="10dp"
                     android:textColor="@color/light_black"
                     android:text="Name:" />
@@ -57,7 +58,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:fontFamily="@font/inter_light"
+                    android:fontFamily="@font/pt_sans_regular"
                     android:layout_marginLeft="15dp"
                     android:textColor="@color/light_black"
                     android:text="Wasiq Fayyaz" />
@@ -74,7 +75,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:layout_marginStart="10dp"
                     android:textColor="@color/light_black"
                     android:text="Phone:" />
@@ -85,7 +86,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:fontFamily="@font/inter_light"
+                    android:fontFamily="@font/pt_sans_regular"
                     android:layout_marginStart="12dp"
                     android:textColor="@color/light_black"
                     android:text="0321-654321" />
@@ -102,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:layout_marginStart="10dp"
                     android:textColor="@color/light_black"
                     android:text="Date:" />
@@ -112,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:fontFamily="@font/inter_light"
+                    android:fontFamily="@font/pt_sans_regular"
                     android:layout_marginStart="23dp"
                     android:textColor="@color/light_black"
                     android:text="06/06/2022" />
@@ -129,7 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="14sp"
-                    android:fontFamily="@font/inter_medium"
+                    android:fontFamily="@font/pt_sans_bold"
                     android:layout_marginStart="10dp"
                     android:textColor="@color/light_black"
                     android:text="Time:" />
@@ -139,7 +140,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="12sp"
-                    android:fontFamily="@font/inter_light"
+                    android:fontFamily="@font/pt_sans_regular"
                     android:layout_marginStart="22dp"
                     android:textColor="@color/light_black"
                     android:text="5:30 pm" />
@@ -154,11 +155,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_margin="10dp"
+            android:layout_margin="20dp"
             android:elevation="3dp"
             android:padding="10dp"
             android:background="@drawable/linear_layout_background_2"
-            android:layout_marginTop="7dp"
             >
 
             <TextView
@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:textAlignment="center"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:textColor="@color/light_black"
                 android:text="Description" />
 
@@ -176,7 +176,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="14sp"
                 android:layout_marginTop="2dp"
-                android:fontFamily="@font/inter_light"
+                android:fontFamily="@font/pt_sans_regular"
                 android:layout_marginStart="10dp"
                 android:textColor="@color/light_black"
                 android:text="Just a regular checkup!" />
@@ -194,26 +194,30 @@
 
             <Button
                 android:id="@+id/approve_appointment"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
                 android:textAlignment="center"
+                android:elevation="4dp"
                 android:background="@drawable/approve_button"
                 android:text="@string/approve"
-                android:fontFamily="@font/inter_medium"
+                android:textAllCaps="false"
+                android:fontFamily="@font/pt_sans_regular"
                 android:textSize="14sp"
                 />
 
             <Button
                 android:id="@+id/deny_appointment"
-                android:layout_width="130dp"
-                android:layout_height="40dp"
+                android:layout_width="120dp"
+                android:layout_height="35dp"
                 android:textAlignment="center"
+                android:elevation="4dp"
                 android:background="@drawable/deny_button"
                 android:layout_marginStart="10dp"
                 android:text="Deny"
+                android:textAllCaps="false"
+                android:textSize="14sp"
                 android:textColor="@color/white"
                 android:fontFamily="@font/inter_medium"
-                android:textSize="14sp"
                 />
 
         </LinearLayout>

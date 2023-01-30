@@ -22,13 +22,17 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     private final List<String> AppointmentNames;
     private final List<String> AppointmentPhones;
+    private final List<String> AppointmentDate;
+    private final List<String> AppointmentTime;
     private final List<String> AppointmentNamesAll;
     Context context;
 
 
-    public AppointmentAdapter(List<String> nameDataSet, List<String> nameDataSet1)  {
+    public AppointmentAdapter(List<String> nameDataSet, List<String> nameDataSet1,List<String> nameDataSet2, List<String> nameDataSet3)  {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
+        AppointmentDate = nameDataSet2;
+        AppointmentTime = nameDataSet3;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
     }
 
@@ -78,6 +82,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView apoint_names;
         private final TextView apoint_ph;
+
+        private final TextView appointment_date;
+        private final TextView appointment_time;
         private final Button to_appointment_reschedule;
 
 
@@ -87,7 +94,9 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
             apoint_names = (TextView) view.findViewById(R.id.appointmentNames);
             apoint_ph = (TextView) view.findViewById(R.id.appointeePhone);
-            to_appointment_reschedule = (Button) view.findViewById(R.id.viewAppointment);
+            appointment_date = (TextView) view.findViewById(R.id.appointment_date);
+            appointment_time = (TextView) view.findViewById(R.id.appointment_time);
+            to_appointment_reschedule = (Button) view.findViewById(R.id.deleteAppointment);
 
 
 
@@ -101,6 +110,18 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             return apoint_ph;
         }
         public Button getto_appointment_reschedule() {
+            return to_appointment_reschedule;
+        }
+
+        public TextView getAppointment_date() {
+            return appointment_date;
+        }
+
+        public TextView getAppointment_time() {
+            return appointment_time;
+        }
+
+        public Button getTo_appointment_reschedule() {
             return to_appointment_reschedule;
         }
     }
@@ -128,6 +149,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         // contents of the view with that element
         viewHolder.getApoint_names().setText(AppointmentNames.get(position));
         viewHolder.getApoint_ph().setText(AppointmentPhones.get(position));
+        viewHolder.getAppointment_date().setText(AppointmentDate.get(position));
+        viewHolder.getAppointment_time().setText(AppointmentTime.get(position));
 
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {
             @Override

@@ -1,5 +1,6 @@
 package com.example.docportal.Doctor;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -10,8 +11,13 @@ import android.os.Bundle;
 import android.widget.Toast;
 
 import com.example.docportal.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -39,9 +45,10 @@ public class checkAppointment extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
 
     String appointed_doctor_id;
+    String patient_id;
 
     checkAppointmentAdapter checkAppointmentAdapter;
-
+    DocumentReference doc_ref;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +81,6 @@ public class checkAppointment extends AppCompatActivity {
     }
 
 
-
    // Appointment User
     private void FireStoreAppointments() {
 
@@ -101,15 +107,21 @@ public class checkAppointment extends AppCompatActivity {
                             appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
                             appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                             appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
-                            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description);
+                            patient_id = dc.getDocument().getId();
+                            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description,User_id,patient_id);
                             patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+
                         }
 
                     }
+                    checkAppointmentAdapter.notifyDataSetChanged();
 
                 }
             }
         });
     }
+
+
+
 
 }
