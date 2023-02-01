@@ -12,10 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Patient.bookAppointmentHelperClass;
 import com.example.docportal.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -33,17 +30,18 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     private final List<String> list_patient_date;
     private final List<String> list_patient_time;
     private final List<String> list_patient_desc;
-    private final String doctor_id;
-    private final String patient_id;
+    private String doctor_id;
+    private String doctor_id_stored;
+    private final List<String> patient_id;
 
     Boolean appointment_approved = false;
     Boolean appointment_denied = false;
     FirebaseFirestore FStore;
     Context context;
-    checkAppointmentAdapter checkAppointmentAdapter;
-//,List<String> phone_dataSet,List<String> date_dataSet,List<String> time_dataSet,List<String> description_dataSet
 
-    public checkAppointmentAdapter(List<String> name_dataSet,List<String> phone_dataSet,List<String> date_dataSet,List<String> time_dataSet,List<String> description_dataSet,String doc_UID,String patient_UID) {
+    private ItemClickListenerCheck listenerCheck;
+    
+    public checkAppointmentAdapter(List<String> name_dataSet, List<String> phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
         list_patient_name = name_dataSet;
         list_patient_phone = phone_dataSet;
         list_patient_date = date_dataSet;
@@ -51,6 +49,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
         list_patient_desc = description_dataSet;
         doctor_id = doc_UID;
         patient_id = patient_UID;
+        this.listenerCheck = itemClickListenerCheck;
     }
 
 
@@ -134,24 +133,27 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
         viewHolder.getApprove_appointment().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appointment_approved = true;
+
                 context = v.getContext();
-                if (appointment_approved){
-                    approvedAppointments();
-                    Toast.makeText(context, "Approved", Toast.LENGTH_SHORT).show();
-                }
+                listenerCheck.onItemClick(patient_id.get(position));
+                doctor_id_stored = patient_id.get(position);
+                approvedAppointments(doctor_id_stored);
+
             }
         });
 
         viewHolder.getDeny_appointment().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                appointment_denied = true;
+
                 context = v.getContext();
-                if(appointment_denied){
-                    DeleteData();
+
+                listenerCheck.onItemClick(patient_id.get(position));
+                doctor_id_stored = patient_id.get(position);
+
+                    DeleteData(doctor_id_stored);
                     Toast.makeText(context, "Denied", Toast.LENGTH_SHORT).show();
-                }
+
 
             }
         });
@@ -164,11 +166,11 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
         return list_patient_name.size();
     }
 
-    public void approvedAppointments(){
+    public void approvedAppointments(String ID){
 
         FStore = FirebaseFirestore.getInstance();
 
-        DocumentReference Doc_Ref = FStore.collection("Approved Appointments").document(patient_id);
+        DocumentReference Doc_Ref = FStore.collection("Approved Appointments").document(ID);
 
         Doc_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -192,7 +194,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 }
 
                 Doc_Ref.set(appointment);
-                DeleteData();
+                DeleteData(ID);
 
             }
         });
@@ -200,11 +202,14 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     }
 
 
-    private void DeleteData(){
+    private void DeleteData(String RID){
         FStore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = FStore.collection("Appointment").document(patient_id);
+        DocumentReference documentReference = FStore.collection("Appointment").document(RID);
         documentReference.delete();
 
+    }
+    public interface ItemClickListenerCheck{
+        void onItemClick(String details);
     }
 
 }

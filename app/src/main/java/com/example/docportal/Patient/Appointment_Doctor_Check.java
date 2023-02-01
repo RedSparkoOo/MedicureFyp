@@ -33,7 +33,7 @@ import java.util.List;
 public class Appointment_Doctor_Check extends AppCompatActivity {
 
     SearchView search_doctor;
-    String search_HINT_color = "#B2B2B2";
+    String search_HINT_color = "#434242";
     String search_color = "#434242";
 
     RecyclerView doctor_profile_recycler;
@@ -58,9 +58,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         int id = search_doctor.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
         TextView textView = (TextView) search_doctor.findViewById(id);
         textView.setTextColor(Color.parseColor(search_color));
-        textView.setTextSize(16);
+        textView.setTextSize(14);
         textView.setHintTextColor(Color.parseColor(search_HINT_color));
-        Typeface tf = ResourcesCompat.getFont(this,R.font.inter_light);
+        Typeface tf = ResourcesCompat.getFont(this,R.font.pt_sans_regular);
         textView.setTypeface(tf);
 
         firestore = FirebaseFirestore.getInstance();

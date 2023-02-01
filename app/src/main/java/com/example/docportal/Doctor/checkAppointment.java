@@ -1,5 +1,7 @@
 package com.example.docportal.Doctor;
 
+import static android.content.ContentValues.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.example.docportal.R;
@@ -39,13 +42,14 @@ public class checkAppointment extends AppCompatActivity {
     ArrayList<String> appointment_date;
     ArrayList<String> appointment_time;
     ArrayList<String> appointment_description;
+    ArrayList<String> patient_id;
 
 
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
 
     String appointed_doctor_id;
-    String patient_id;
+
 
     checkAppointmentAdapter checkAppointmentAdapter;
     DocumentReference doc_ref;
@@ -70,6 +74,7 @@ public class checkAppointment extends AppCompatActivity {
         appointment_time = new ArrayList<>();
 
         appointment_description = new ArrayList<>();
+        patient_id = new ArrayList<>();
 
 
 
@@ -107,14 +112,21 @@ public class checkAppointment extends AppCompatActivity {
                             appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
                             appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                             appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
-                            patient_id = dc.getDocument().getId();
-                            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description,User_id,patient_id);
+                            patient_id.add(dc.getDocument().getId());
+                            checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description,User_id,patient_id, new checkAppointmentAdapter.ItemClickListenerCheck(){
+
+                                @Override
+                                public void onItemClick(String details) {
+                                    Log.d(TAG, "onItemClick: Works ");
+                                }
+                            });
                             patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
 
                         }
 
+
                     }
-                    checkAppointmentAdapter.notifyDataSetChanged();
+
 
                 }
             }

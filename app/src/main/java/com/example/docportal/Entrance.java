@@ -12,6 +12,8 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.RenderMode;
 import com.example.docportal.Doctor.MainActivity;
 import com.example.docportal.Patient.patientMainPage;
+import com.example.docportal.Pharmacist.PharmacyMainPage;
+import com.google.android.material.snackbar.Snackbar;
 
 public class Entrance extends AppCompatActivity {
 
@@ -20,8 +22,7 @@ Button doctor_selection;
 Button patient_selection;
 Button pharmacist_selection;
 
-boolean for_doctor = false;
-boolean for_patient = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +39,7 @@ boolean for_patient = false;
         doctor_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for_doctor = true;
+
                 startActivity(new Intent(Entrance.this, MainActivity.class));
             }
         });
@@ -46,8 +47,18 @@ boolean for_patient = false;
         patient_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for_patient = true;
+
                 startActivity(new Intent(Entrance.this, patientMainPage.class));
+
+            }
+        });
+
+        pharmacist_selection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                startActivity(new Intent(Entrance.this, PharmacyMainPage.class));
+
             }
         });
 

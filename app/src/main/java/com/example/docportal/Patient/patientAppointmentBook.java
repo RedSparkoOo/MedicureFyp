@@ -148,7 +148,8 @@ public class patientAppointmentBook extends AppCompatActivity {
                booker_description = appointment_description.getText().toString();
                patient_UID = FAuth.getCurrentUser().getUid();
 
-               DocumentReference D_Ref = FStore.collection("Appointment").document(patient_UID);
+               DocumentReference D_Ref = FStore.collection("Appointment").document();
+
 
                D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                    @Override
@@ -160,6 +161,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                        appointment.put("Appointment Time",TIME);
                        appointment.put("Appointment Description",booker_description);
                        appointment.put("Appointed Doctor ID",doctor_UIDD);
+                       appointment.put("Patient ID",patient_UID);
                        D_Ref.set(appointment);
                    }
                });
