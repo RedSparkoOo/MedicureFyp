@@ -37,7 +37,7 @@ public class AppointmentNotifications extends AppCompatActivity {
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
 
-    String search_HINT_color = "#4a69b2";
+    String search_HINT_color = "#434242";
     String search_color = "#434242";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,12 +102,9 @@ public class AppointmentNotifications extends AppCompatActivity {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
 
                             approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
-                            approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Phone")));
+                            approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
                             approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                             approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-//                            appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
-//                            appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
-//                            appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
                             appointmentadapter = new AppointmentAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
                             appointment_recycler_view.setAdapter(appointmentadapter);
                         }

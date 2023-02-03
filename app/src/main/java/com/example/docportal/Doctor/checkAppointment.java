@@ -2,35 +2,26 @@ package com.example.docportal.Doctor;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
 import com.example.docportal.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import org.checkerframework.checker.guieffect.qual.UI;
-
 import java.util.ArrayList;
-import java.util.List;
 
 public class checkAppointment extends AppCompatActivity {
 
@@ -64,7 +55,7 @@ public class checkAppointment extends AppCompatActivity {
 
         User_id = firebaseAuth.getCurrentUser().getUid();
 
-
+        nullCheck();
         patient_name = new ArrayList<>();
 
         patient_phone = new ArrayList<>();
@@ -74,6 +65,7 @@ public class checkAppointment extends AppCompatActivity {
         appointment_time = new ArrayList<>();
 
         appointment_description = new ArrayList<>();
+
         patient_id = new ArrayList<>();
 
 
@@ -107,17 +99,19 @@ public class checkAppointment extends AppCompatActivity {
 
                         if(appointed_doctor_id.equals(User_id)){
 
+                            patient_id.add(dc.getDocument().getId());
                             patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
                             patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
                             appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
                             appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                             appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
-                            patient_id.add(dc.getDocument().getId());
+
                             checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description,User_id,patient_id, new checkAppointmentAdapter.ItemClickListenerCheck(){
 
                                 @Override
-                                public void onItemClick(String details) {
+                                public String onItemClick(String details) {
                                     Log.d(TAG, "onItemClick: Works ");
+                                    return details;
                                 }
                             });
                             patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
@@ -127,13 +121,25 @@ public class checkAppointment extends AppCompatActivity {
 
                     }
 
+                }
 
+                for(DocumentChange dc: value.getDocumentChanges()){
+                    if(dc.getType() == DocumentChange.Type.REMOVED){
+                        checkAppointmentAdapter.notifyDataSetChanged();
+                    }
                 }
             }
         });
     }
 
-
+private void nullCheck(){
+    patient_name = null;
+    patient_phone = null;
+    appointment_date = null;
+    appointment_time = null;
+    appointment_description = null;
+    patient_id = null;
+}
 
 
 }

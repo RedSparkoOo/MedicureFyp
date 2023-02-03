@@ -72,6 +72,7 @@
                 android:layout_height="wrap_content">
 
                 <ImageView
+                    android:id="@+id/cardio_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
@@ -79,6 +80,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/neuro_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
@@ -86,12 +88,14 @@
                     />
 
                 <ImageView
+                    android:id="@+id/nephro_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:src="@drawable/nephro_logo"
                     />
 
                 <ImageView
+                    android:id="@+id/oncol_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
@@ -99,6 +103,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/pedri_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
@@ -106,6 +111,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/physio_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
@@ -113,6 +119,7 @@
                     />
 
                 <ImageView
+                    android:id="@+id/physco_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
                     android:layout_marginEnd="5dp"
