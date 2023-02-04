@@ -20,7 +20,6 @@ import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -46,9 +45,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     List<Bitmap> doctor_profile;
 
     FirebaseFirestore firestore;
-    FirebaseAuth firebaseAuth;
-    String user_id;
-
+    ImageView all_category;
     ImageView cardio_category;
     ImageView neuro_category;
     ImageView nephro_category;
@@ -57,14 +54,13 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     ImageView physio_category;
     ImageView physco_category;
     bookAppointmentHelperClass book_appointment_helper_class;
-    boolean cardio_check = false;
     View snack_bar_layout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_doctor_check);
 
+        all_category = findViewById(R.id.all_category);
         cardio_category = findViewById(R.id.cardio_category);
         nephro_category = findViewById(R.id.nephro_category);
         neuro_category = findViewById(R.id.neuro_category);
@@ -76,7 +72,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         snack_bar_layout = findViewById(android.R.id.content);
         search_doctor = findViewById(R.id.search_doctor);
         int id = search_doctor.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = (TextView) search_doctor.findViewById(id);
+        TextView textView = search_doctor.findViewById(id);
         textView.setTextColor(Color.parseColor(search_color));
         textView.setTextSize(14);
         textView.setHintTextColor(Color.parseColor(search_HINT_color));
@@ -100,24 +96,52 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         doctor_profile_recycler.setAdapter(book_appointment_helper_class);
         /*Categories*/
 
+        all_category.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsers();
+                snackBarShow(snack_bar_layout,"All Doctors Selected");
+
+            }
+        });
+
         cardio_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FireStoreUsers("Cardiologist");
-                snackBarShow(snack_bar_layout,"Cardiologist Selected");
+
+                    doctor_names.clear();
+                    doctor_specializations.clear();
+                    doctor_UID.clear();
+                    FireStoreUsersSpecific("Cardiologist");
+                    snackBarShow(snack_bar_layout,"Cardiologist Selected");
+
             }
         });
 
         neuro_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Neurologist");
                 snackBarShow(snack_bar_layout,"Neurologist Selected");
+
             }
         });
 
         nephro_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Nephrologist");
                 snackBarShow(snack_bar_layout,"Nephrologist Selected");
             }
         });
@@ -125,6 +149,10 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         oncol_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Oncologist");
                 snackBarShow(snack_bar_layout,"Oncologist Selected");
             }
         });
@@ -132,13 +160,21 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         pedri_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackBarShow(snack_bar_layout,"Pediatrician Selected");
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Pedriatican");
+                snackBarShow(snack_bar_layout,"Pedriatican Selected");
             }
         });
 
         physio_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Physiologist");
                 snackBarShow(snack_bar_layout,"Physiologist Selected");
             }
         });
@@ -146,18 +182,22 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         physco_category.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                snackBarShow(snack_bar_layout,"Physcologist Selected");
+                doctor_names.clear();
+                doctor_specializations.clear();
+                doctor_UID.clear();
+                FireStoreUsersSpecific("Psychologist");
+                snackBarShow(snack_bar_layout,"Psychologist Selected");
             }
         });
 
-
+        FireStoreUsers();
 
         /*Getting Data from Fire store*/
 
 
     }
 
-    private void FireStoreUsers(String category) {
+    private void FireStoreUsers() {
         firestore.collection("Doctor").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
             @SuppressLint("NotifyDataSetChanged")
@@ -171,33 +211,50 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
 
                           if(dc.getType() == DocumentChange.Type.ADDED){
 
-                              String speciality = String.valueOf(dc.getDocument().get("Specialization"));
 
-                              if(category.equals(speciality)){
                                   doctor_names.add(String.valueOf(dc.getDocument().get("Full Name")));
                                   doctor_specializations.add(String.valueOf(dc.getDocument().get("Specialization")));
                                   doctor_UID.add(dc.getDocument().getId());
-                              }
-
-                              else{
-                                  doctor_names.add(String.valueOf(dc.getDocument().get("Full Name")));
-                                  doctor_specializations.add(String.valueOf(dc.getDocument().get("Specialization")));
-                                  doctor_UID.add(dc.getDocument().getId());
-                              }
-
 
                           }
                           book_appointment_helper_class.notifyDataSetChanged();
-
                       }
-
-
             }
         });
 
     }
 
-    public void FireStoreCategoryCheck(){
+    public void FireStoreUsersSpecific(String Category){
+
+        firestore.collection("Doctor").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for(DocumentChange documentChange : value.getDocumentChanges()){
+                    if(documentChange.getType() == DocumentChange.Type.ADDED){
+
+                        String Specialization = String.valueOf(documentChange.getDocument().get("Specialization"));
+
+                        if(Specialization.equals(Category)){
+
+                                doctor_names.add(String.valueOf(documentChange.getDocument().get("Full Name")));
+                                doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Specialization")));
+                                doctor_UID.add(documentChange.getDocument().getId());
+
+                        }
+                        book_appointment_helper_class.notifyDataSetChanged();
+
+
+
+                    }
+
+
+                }
+
+
+            }
+
+        });
+
 
     }
 

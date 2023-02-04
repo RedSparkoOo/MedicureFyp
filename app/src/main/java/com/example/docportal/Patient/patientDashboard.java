@@ -240,8 +240,6 @@ public class patientDashboard extends AppCompatActivity {
 
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.Home_Navigation:
-                break;
             case R.id.viewProfile:
                 Intent intent_view = new Intent(patientDashboard.this,patientViewProfile.class);
                 startActivity(intent_view);

@@ -48,7 +48,7 @@ public class Registeration extends AppCompatActivity {
     TextView Lic_head;
     TextView Cat_head;
     String user_id;
-    String[] Specialization = {"","Pharmacist","Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","physiologist","psychologist"};
+    String[] Specialization = {"","Pharmacist","Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","Physiologist","Psychologist"};
     String fName;
     String emailAddress;
     String Passcode;

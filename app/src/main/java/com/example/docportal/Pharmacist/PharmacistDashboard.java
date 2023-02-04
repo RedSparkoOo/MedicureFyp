@@ -117,9 +117,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.Home_Navigation:
-
-                break;
             case R.id.viewProfile:
                 startActivity(new Intent(PharmacistDashboard.this, viewDoctorProfile.class));
                 break;

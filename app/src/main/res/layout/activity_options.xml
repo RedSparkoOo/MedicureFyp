@@ -18,6 +18,8 @@
         tools:layout_editor_absoluteY="0dp"
         android:textColor="@color/blue_2"
         app:itemIconTint="@color/white"
+        app:headerLayout="@layout/doctor_nav_bar_header"
+        android:background="@color/blue_2"
         app:itemTextColor="@color/white"
         android:fitsSystemWindows="true"
         app:menu="@menu/side_menu"
