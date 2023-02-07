@@ -39,7 +39,7 @@
         android:layout_marginTop="10dp"
         android:text="Create new account"
         android:textColor="@color/light_black"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
 
     <TextView
         android:layout_width="match_parent"
@@ -64,7 +64,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Full Name"
                 android:textColor="@color/light_black"
@@ -93,7 +93,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10dp"
                 android:text="@string/email_address"
                 android:textColor="@color/light_black"
@@ -122,7 +122,7 @@
                 android:id="@+id/textView31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10dp"
                 android:text="@string/password"
                 android:textColor="@color/light_black"
@@ -150,7 +150,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10dp"
                 android:text="@string/phone_no"
                 android:textColor="@color/light_black"
@@ -179,7 +179,7 @@
                 android:id="@+id/Lic_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10dp"
                 android:text="@string/license_no"
                 android:textColor="@color/light_black"
@@ -208,7 +208,7 @@
                 android:id="@+id/Cat_head"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10dp"
                 android:text="@string/category"
                 android:textColor="@color/light_black"

@@ -14,248 +14,40 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:textColor="@color/light_black"
-                android:textSize="24sp"
-                android:gravity="center"
-                android:layout_marginTop="20dp"
-                android:text="Write down Prescription" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/light_black"
-                android:textSize="16sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:text="Patient Information" />
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/linear_layout_background"
-            android:elevation="4dp"
-            android:padding="10dp"
-            android:layout_margin="10dp"
-            android:orientation="vertical"
-            >
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/light_black"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="5dp"
-                    android:text="Name: " />
-
-                <TextView
-                    android:id="@+id/prescribed_patient_name"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/light_black"
-                    android:textSize="14sp"
-                    android:layout_marginStart="7dp"
-                    android:layout_marginTop="5dp"
-                    android:text="John Kyle" />
-
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                >
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_medium"
-                    android:textColor="@color/light_black"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="Email: " />
-
-                <TextView
-                    android:id="@+id/prescribed_patient_email"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/inter_regular"
-                    android:textColor="@color/light_black"
-                    android:textSize="14sp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginTop="10dp"
-                    android:text="John.Kyle@gmail.com" />
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/light_black"
-                android:textSize="16sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="5dp"
-                android:text="Doctor Information" />
-
-
-
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/linear_layout_background"
-                android:elevation="4dp"
-                android:padding="10dp"
-                android:layout_margin ="10dp"
                 android:orientation="vertical"
                 >
 
+                <ImageView
+                    android:layout_marginTop="20dp"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginStart="20dp"
+                    android:src="@drawable/arrow_backwards"/>
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="@color/light_black"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="5dp"
-                        android:text="Name: " />
-
-                    <TextView
-                        android:id="@+id/prescribed_doctor_name"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/light_black"
-                        android:textSize="14sp"
-                        android:layout_marginStart="7dp"
-                        android:layout_marginTop="5dp"
-                        android:text="Dr.John Smith" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    >
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_medium"
-                        android:textColor="@color/light_black"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Email: " />
-
-                    <TextView
-                        android:id="@+id/prescribed_doctor_email"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/light_black"
-                        android:textSize="14sp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="John.Smith@gmail.com" />
-
-
-                </LinearLayout>
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:textAlignment="center"
+                    android:layout_marginTop="10dp"
+                    android:text="Prescription Checkout"
+                    android:textColor="@color/light_black"
+                    android:textSize="25sp" />
 
             </LinearLayout>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
-                android:textColor="@color/light_black"
-                android:textSize="16sp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="10dp"
-                android:text="Prescription" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/linear_layout_background"
-                android:elevation="4dp"
-                android:padding="10dp"
-                android:layout_margin = "10dp"
-                android:orientation="vertical"
-                >
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="350dp"
-                    android:orientation="horizontal">
-
-
-                    <TextView
-                        android:id="@+id/prescription_recieved"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/inter_regular"
-                        android:textColor="@color/light_black"
-                        android:textSize="14sp"
-                        android:layout_marginStart="7dp"
-                        android:layout_marginTop="5dp"
-                        android:text="Panadol 40mg" />
-
-
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/copy_prescription"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recieved_prescription_recycler"
                 android:layout_marginTop="20dp"
-                android:layout_marginStart="30dp"
-                android:layout_marginBottom="10dp"
-                android:background="@drawable/but"
-                android:fontFamily="@font/inter_medium"
-                android:text="Copy Prescription"
-                android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:background="@drawable/linear_layout_background_2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
 
         </LinearLayout>
 

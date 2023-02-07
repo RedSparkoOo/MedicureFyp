@@ -33,6 +33,7 @@ public class AppointmentNotifications extends AppCompatActivity {
     List<String> approved_patient_phone_no;
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
+    List<String> approved_appointment_ID;
     AppointmentAdapter appointmentadapter;
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
@@ -52,6 +53,7 @@ public class AppointmentNotifications extends AppCompatActivity {
      approved_patient_phone_no = new ArrayList<>();
      approved_appointment_date = new ArrayList<>();
      approved_appointment_time = new ArrayList<>();
+     approved_appointment_ID = new ArrayList<>();
 
 
     search_patient = findViewById(R.id.search_patient);
@@ -105,7 +107,13 @@ public class AppointmentNotifications extends AppCompatActivity {
                             approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
                             approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                             approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-                            appointmentadapter = new AppointmentAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
+                            approved_appointment_ID.add(dc.getDocument().getId());
+                            appointmentadapter = new AppointmentAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new AppointmentAdapter.ItemClickListenerCheck(){
+                                @Override
+                                public String onItemClick(String details) {
+                                    return null;
+                                }
+                            });
                             appointment_recycler_view.setAdapter(appointmentadapter);
                         }
 
