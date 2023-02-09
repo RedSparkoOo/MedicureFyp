@@ -6,8 +6,9 @@
     android:layout_height="180dp"
     android:layout_marginBottom="0.5dp"
     android:layout_margin="10dp"
+    android:elevation="6dp"
     android:orientation="vertical"
-    android:background="@drawable/linear_layout_background_dashboard"
+    android:background="@drawable/custom_border_linear_layout"
     tools:ignore="HardcodedText"
     >
 
@@ -30,10 +31,9 @@
           android:id="@+id/appointment_patient_profile"
           android:layout_width="60dp"
           android:layout_height="60dp"
-          android:elevation="4dp"
+          android:elevation="6dp"
           android:src="@drawable/user_profile"
-          app:civ_border_width="2dp"
-          app:civ_border_color="@color/light_green"/>
+          app:civ_border_color="@color/blue"/>
 
 
       <LinearLayout
@@ -52,7 +52,7 @@
             android:fontFamily="@font/pt_sans_bold"
             android:text="Appointment time"
             android:layout_marginTop="2dp"
-            android:textColor="@color/light_green"
+            android:textColor="@color/extra_white"
             android:textSize="16sp"
             />
         <TextView

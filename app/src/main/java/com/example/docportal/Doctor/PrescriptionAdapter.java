@@ -11,35 +11,64 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Patient.bookAppointmentHelperClass;
 import com.example.docportal.R;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.SetOptions;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.ViewHolder> implements Filterable {
 
     private final List<String> medicine_names;
     private final List<String> medicine_weight;
     private final List<String> medicines_usage;
-
+    private final List<String> medicine_purpose;
     private final List<String> medicine_names_all;
+
+    String patient_name;
+    String patient_email;
+    String doctor_name;
+    String doctor_email;
+
     Context context;
 
     Button Totaled;
+    TextView Selected;
+    FirebaseFirestore FStore;
 
+    String fire_med_name;
+    String fire_med_weight;
 
-    public PrescriptionAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, Button Sent_totaled)  {
-        medicine_names = nameDataSet;
-        medicine_weight = nameDataSet1;
-        medicines_usage = nameDataSet2;
+    public PrescriptionAdapter(String pat_name,String pat_email,String doc_name, String doc_email,List<String> med_names, List<String> med_weight, List<String> med_purpose,List<String> med_usage, Button Sent_totaled, TextView selected_medics)  {
+
+        patient_name = pat_name;
+        patient_email = pat_email;
+        doctor_name = doc_name;
+        doctor_email = doc_email;
+        medicine_names = med_names;
+        medicine_weight = med_weight;
+        medicine_purpose = med_purpose;
+        medicines_usage = med_usage;
         this.medicine_names_all = new ArrayList<>(medicine_names);
         Totaled = Sent_totaled;
+        Selected = selected_medics;
 
     }
 
@@ -156,10 +185,21 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
                 if(medicine_names.size() == 0){
                     Totaled.setVisibility(View.INVISIBLE);
+                    Selected.setVisibility(View.INVISIBLE);
                 }
+
+                Totaled.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+
+                        prescriptionFireStore();
+                    }
+                });
 
             }
         });
+
 
     }
 
@@ -171,5 +211,31 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
     }
 
+    public void prescriptionFireStore(){
+
+        FStore = FirebaseFirestore.getInstance();
+        FStore.clearPersistence();
+
+        DocumentReference documentReference = FStore.collection("Prescriptions Sent").document();
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                Map<Object,String> prescription = new HashMap<>();
+                prescription.put("Prescribed Patient Name",patient_name);
+                prescription.put("Prescribed Patient Email",patient_email);
+                prescription.put("Prescribing Doctor Name",doctor_name);
+                prescription.put("Prescribed Doctor Email",doctor_email);
+                prescription.put("Date", String.valueOf(new Timestamp(new Date())));
+                prescription.put("Medicine Name", );
+
+                documentReference.set(prescription);
+
+
+
+
+            }
+        });
+    }
 
 }

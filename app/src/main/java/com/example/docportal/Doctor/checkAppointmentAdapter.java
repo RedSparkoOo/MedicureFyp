@@ -183,8 +183,8 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
         Doc_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Map<String, Object> approved_appointments = new HashMap<>();
 
+                Map<String, Object> approved_appointments = new HashMap<>();
 
                 approved_appointments.put("Approved Patient Name",patient_name);
                 approved_appointments.put("Approved Patient Cell",patient_phone);

@@ -149,7 +149,7 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(patientPrescriptionAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(patientPrescriptionAdapter.ViewHolder viewHolder, int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element

@@ -40,7 +40,7 @@ public class DocLogin extends AppCompatActivity {
     FirebaseFirestore fStore;
     TextView doctor_forget_password;
     String userId;
-    boolean patient_flag_check = true;
+    boolean patient_flag_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
