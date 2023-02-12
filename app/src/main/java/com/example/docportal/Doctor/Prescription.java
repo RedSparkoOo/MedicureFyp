@@ -16,10 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.docportal.R;
+import com.google.firebase.auth.FirebaseAuth;
 
-import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
 
 public class Prescription extends AppCompatActivity {
 
@@ -47,17 +50,22 @@ public class Prescription extends AppCompatActivity {
     String selected_medicine_weight;
     String selected_medicine_usage;
 
-
+    ArrayList<String> selected_patient_name_list;
+    ArrayList<String> selected_patient_email_list;
+    ArrayList<String> selected_doctor_name_list;
+    ArrayList<String> selected_doctor_email_list;
     ArrayList<String> selected_medicines_list;
     ArrayList<String> selected_medicines_weight_list;
     ArrayList<String> selected_medicines_usage_list;
     ArrayList<String> selected_medicine_purpose;
+    ArrayList<String> date_prescribed;
 
 
     String[] medicine_names = {"","Panadol","Paracetamol","Bruffin","Amoxil","Telynol"};
     String[] medicines_weight = {"","10mg","20mg","30mg","40mg"};
     PrescriptionAdapter prescriptionAdapter;
-    boolean flag;
+
+    Date calendar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,10 +86,15 @@ public class Prescription extends AppCompatActivity {
         send_total.setVisibility(View.INVISIBLE);
         selected_medics.setVisibility(View.INVISIBLE);
 
+        selected_patient_name_list = new ArrayList<>();
+        selected_patient_email_list = new ArrayList<>();
+        selected_doctor_name_list = new ArrayList<>();
+        selected_doctor_email_list = new ArrayList<>();
         selected_medicines_list = new ArrayList<>();
         selected_medicines_weight_list = new ArrayList<>();
         selected_medicines_usage_list = new ArrayList<>();
         selected_medicine_purpose = new ArrayList<>();
+        date_prescribed = new ArrayList<>();
 
         select_total.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +109,7 @@ public class Prescription extends AppCompatActivity {
                 doctor_email = prescribing_doctor_email.getText().toString();
                 medic_purpose = medicine_purpose.getText().toString();
                 selected_medicine_usage = medicine_usage.getText().toString();
+
 
                 medicineSelection(patient_name,patient_email,doctor_name,doctor_email,selected_medicine_name,selected_medicine_weight,selected_medicine_usage,medic_purpose);
                 send_total.setVisibility(View.VISIBLE);
@@ -129,15 +143,25 @@ public class Prescription extends AppCompatActivity {
 
     }
 
-    public void medicineSelection(String pat_name,String pat_email,String doc_name, String doc_email,String medicine_name_dataset, String medicine_weight_dataset,String med_purpose,String medicine_usage_dataset){
+    public void medicineSelection(String pat_name, String pat_email, String doc_name, String doc_email, String medicine_name_dataset, String medicine_weight_dataset, String med_purpose, String medicine_usage_dataset){
 
+        calendar = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(calendar);
+
+
+        selected_patient_name_list.add(pat_name);
+        selected_patient_email_list.add(pat_email);
+        selected_doctor_name_list.add(doc_name);
+        selected_doctor_email_list.add(doc_email);
         selected_medicines_list.add(medicine_name_dataset);
         selected_medicines_weight_list.add(medicine_weight_dataset);
         selected_medicines_usage_list.add(medicine_usage_dataset);
         selected_medicine_purpose.add(med_purpose);
+        date_prescribed.add(formattedDate);
 
         prescription_recycler.setLayoutManager(new LinearLayoutManager(this));
-        prescriptionAdapter = new PrescriptionAdapter(pat_name,pat_email,doc_name,doc_email,selected_medicines_list,selected_medicines_weight_list,selected_medicines_usage_list,selected_medicine_purpose,send_total,selected_medics);
+        prescriptionAdapter = new PrescriptionAdapter(selected_patient_name_list,selected_patient_email_list,selected_doctor_name_list,selected_doctor_email_list,selected_medicines_list,selected_medicines_weight_list,selected_medicines_usage_list,selected_medicine_purpose,send_total,selected_medics,date_prescribed);
         prescription_recycler.setAdapter(prescriptionAdapter);
 
     }

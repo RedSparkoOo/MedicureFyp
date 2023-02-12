@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Patient.bookAppointmentHelperClass;
 import com.example.docportal.R;
 import com.google.firebase.Timestamp;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -36,39 +37,43 @@ import java.util.Map;
 
 public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapter.ViewHolder> implements Filterable {
 
+
+    private final List<String> patient_names_list;
+    private final List<String> patient_email_list;
+    private final List<String> doctor_names_list;
+    private final List<String> doctor_email_list;
     private final List<String> medicine_names;
     private final List<String> medicine_weight;
     private final List<String> medicines_usage;
     private final List<String> medicine_purpose;
+    private final List<String> date_prescribed;
     private final List<String> medicine_names_all;
 
-    String patient_name;
-    String patient_email;
-    String doctor_name;
-    String doctor_email;
+    String doc_id;
 
     Context context;
 
     Button Totaled;
     TextView Selected;
     FirebaseFirestore FStore;
+    FirebaseAuth FAtuh;
 
-    String fire_med_name;
-    String fire_med_weight;
+    public PrescriptionAdapter(List<String> pat_name,List<String> pat_email,List<String> doc_name,List<String> doc_email,List<String> med_names, List<String> med_weight, List<String> med_purpose,List<String> med_usage, Button Sent_totaled, TextView selected_medics,List<String> pres_date)  {
 
-    public PrescriptionAdapter(String pat_name,String pat_email,String doc_name, String doc_email,List<String> med_names, List<String> med_weight, List<String> med_purpose,List<String> med_usage, Button Sent_totaled, TextView selected_medics)  {
-
-        patient_name = pat_name;
-        patient_email = pat_email;
-        doctor_name = doc_name;
-        doctor_email = doc_email;
+        patient_names_list = pat_name;
+        patient_email_list = pat_email;
+        doctor_names_list = doc_name;
+        doctor_email_list = doc_email;
         medicine_names = med_names;
         medicine_weight = med_weight;
         medicine_purpose = med_purpose;
         medicines_usage = med_usage;
+        date_prescribed = pres_date;
         this.medicine_names_all = new ArrayList<>(medicine_names);
         Totaled = Sent_totaled;
         Selected = selected_medics;
+
+
 
     }
 
@@ -213,7 +218,10 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
     public void prescriptionFireStore(){
 
+        FAtuh = FirebaseAuth.getInstance();
         FStore = FirebaseFirestore.getInstance();
+
+        doc_id = FAtuh.getCurrentUser().getUid();
         FStore.clearPersistence();
 
         DocumentReference documentReference = FStore.collection("Prescriptions Sent").document();
@@ -221,13 +229,23 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                Map<Object,String> prescription = new HashMap<>();
-                prescription.put("Prescribed Patient Name",patient_name);
-                prescription.put("Prescribed Patient Email",patient_email);
-                prescription.put("Prescribing Doctor Name",doctor_name);
-                prescription.put("Prescribed Doctor Email",doctor_email);
-                prescription.put("Date", String.valueOf(new Timestamp(new Date())));
-                prescription.put("Medicine Name", );
+                Map<Object,List<String>> prescription = new HashMap<>();
+
+
+//                   prescription.put("Prescribed Patient Email",patient_email_list);
+
+
+
+                prescription.put("Prescribed Patient Name",patient_names_list);
+                prescription.put("Prescribed Patient Email",patient_email_list);
+                prescription.put("Prescribed Doctor Name",doctor_names_list);
+                prescription.put("Prescribed Doctor Email",doctor_email_list);
+                prescription.put("Medicines Prescribed",medicine_names);
+                prescription.put("Medicines Prescribed Weight",medicine_weight);
+                prescription.put("Medicines Prescribed Purpose",medicine_purpose);
+                prescription.put("Medicines Prescribed Usage",medicines_usage);
+                prescription.put("Prescription Date",date_prescribed);
+                prescription.put("Doctor ID", Collections.singletonList(doc_id));
 
                 documentReference.set(prescription);
 

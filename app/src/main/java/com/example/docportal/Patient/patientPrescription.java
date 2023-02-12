@@ -6,22 +6,22 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class patientPrescription extends AppCompatActivity {
@@ -33,11 +33,13 @@ public class patientPrescription extends AppCompatActivity {
 
     List<String> doctor_name;
     List<String> medicine_name;
+    List<String> medicine_weight;
     List<String> medicine_usage;
     List<String> prescription_date;
     List<String> final_medicines_stored;
 
-    String[] arr;
+    String id;
+
     FirebaseFirestore FStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,14 +50,12 @@ public class patientPrescription extends AppCompatActivity {
 
         doctor_name = new ArrayList<>();
         medicine_name = new ArrayList<>();
+        medicine_weight = new ArrayList<>();
         medicine_usage = new ArrayList<>();
         prescription_date = new ArrayList<>();
         final_medicines_stored = new ArrayList<>();
 
-        doctor_name.clear();
-        medicine_name.clear();
-        medicine_usage.clear();
-        prescription_date.clear();
+
         recievedPrescription();
 
     }
@@ -70,20 +70,16 @@ public class patientPrescription extends AppCompatActivity {
                 for(DocumentChange doc_change : value.getDocumentChanges()){
 
                     if(doc_change.getType() == DocumentChange.Type.ADDED){
-                        String id = doc_change.getDocument().getId();
-                        String meds_recieved;
-                        doctor_name.add(String.valueOf(doc_change.getDocument().get("Prescribing Doctor Name")));
-
-                        meds_recieved = String.valueOf(doc_change.getDocument().get("Medicine Name"));
-                        String[] cut = meds_recieved.split(",");
-                        medicine_name.add(String.valueOf(cut));
-
-                        medicine_usage.add(String.valueOf(doc_change.getDocument().get("Medicine Usage")));
-                        prescription_date.add(String.valueOf(doc_change.getDocument().get("Medicine Weight")));
 
 
+                        doctor_name = (List<String>) doc_change.getDocument().getData().get("Prescribed Doctor Name");
+                        medicine_name = (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed");
+                        medicine_weight =  (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed Weight");
+                        medicine_usage = (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed Usage");
+                        prescription_date = (List<String>) doc_change.getDocument().getData().get("Prescription Date");
+                        id = doc_change.getDocument().getId();
                         patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(patientPrescription.this));
-                        prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_usage,prescription_date);
+                        prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,id);
                         patient_prescription_recycler.setAdapter(prescriptionAdapter);
 
 
@@ -96,8 +92,6 @@ public class patientPrescription extends AppCompatActivity {
             }
         });
 
-
-
-
     }
+
 }
