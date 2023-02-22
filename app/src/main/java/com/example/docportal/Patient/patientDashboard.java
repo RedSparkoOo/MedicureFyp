@@ -1,5 +1,11 @@
 package com.example.docportal.Patient;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,19 +13,12 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageView;
-
 import com.example.docportal.R;
 import com.example.docportal.SplashScreen;
 import com.google.android.material.navigation.NavigationView;
 
 public class patientDashboard extends AppCompatActivity {
     ImageView patientAppointmentBooking;
-    ImageView patientSearchDoctor;
     ImageView patientPharmacyService;
     ImageView patientLabTest;
     ImageView patientMedicalRecord;
@@ -43,7 +42,6 @@ public class patientDashboard extends AppCompatActivity {
 
         // Assigning Ids (Hooks)
         patientAppointmentBooking = findViewById(R.id.patientAppointmentBooking);
-        patientSearchDoctor = findViewById(R.id.patientSearchDoctor);
         patientPharmacyService = findViewById(R.id.patientPharmacyService);
         patientLabTest = findViewById(R.id.patientLabTest);
         patientMedicalRecord = findViewById(R.id.patientMedicalRecord);
@@ -64,9 +62,6 @@ public class patientDashboard extends AppCompatActivity {
 
 
 
-
-
-
         // For Navigation Bar
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(patientDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
@@ -79,14 +74,6 @@ public class patientDashboard extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this,Appointment_Doctor_Check.class);
-                startActivity(intent);
-            }
-        });
-
-        patientSearchDoctor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this,searchDoctor.class);
                 startActivity(intent);
             }
         });
@@ -211,16 +198,6 @@ public class patientDashboard extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-
-
-
-
-
-
-
-
 
     }
 

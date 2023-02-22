@@ -63,4 +63,12 @@
     <string name="user_datee">Select Date</string>
     <string name="user_concerns">Specify the concerns you are facing</string>
     <string name="select_date">Select Date</string>
+    <string name="title_activity_lab_test_maps">lab_test_maps</string>
+    <string name="normal_map">normal_map</string>
+    <string name="hybrid_map">hybrid_map</string>
+    <string name="satellite_map">sattelite_map</string>
+    <string name="terrain_map">terrain_map</string>
+    <string name="title_activity_all_maps">allMaps</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="dropped_pin">dropped_pin</string>
 </resources>
