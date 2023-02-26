@@ -1,10 +1,5 @@
 package com.example.docportal.Doctor;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +8,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
 import com.example.docportal.Patient.patientDashboard;
@@ -40,7 +40,7 @@ public class DocLogin extends AppCompatActivity {
     FirebaseFirestore fStore;
     TextView doctor_forget_password;
     String userId;
-    boolean patient_flag_check = true;
+    boolean patient_flag_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -1,15 +1,5 @@
 package com.example.docportal.Doctor;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +11,17 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.cardview.widget.CardView;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
 import com.example.docportal.SplashScreen;
@@ -52,13 +53,13 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     public static final int GALLERY_CODE = 1000;
     ImageView view_appointment;
     ImageView _appointmentManagement;
-    ImageView _viewPatient;
-    ImageView _onlineConsultation;
-    ImageView _healthBlogs;
     ImageView doctor_E_Rx;
     ImageView doctor_profile;
     ImageButton profile_doctor;
     TextView doctor_name;
+    TextView notification_count;
+    CardView notification_back;
+
     NavigationView navigationView;
     DrawerLayout DrawerLayout;
     Toolbar toolbar;
@@ -74,7 +75,11 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
 
+    private final int max_count = 99;
+    int notifications_count = 0;
     UpcomingNotificationsAdapter notificationsAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,17 +94,48 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         scroll_to_end = findViewById(R.id.scroll);
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
+        notification_count = findViewById(R.id.notify);
+        notification_back = findViewById(R.id.notification_icon_count_back);
         user_id = firebaseAuth.getCurrentUser().getUid();
-
         upcoming_appointments.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         upcomingAppointments();
 
+
+        notification_count.setVisibility(View.INVISIBLE);
+        notification_back.setVisibility(View.INVISIBLE);
+
+try {
+    Bundle bundle = getIntent().getExtras();
+    notifications_count = Integer.parseInt(bundle.getString("note"));
+
+    Toast.makeText(this, Integer.toString(notifications_count), Toast.LENGTH_SHORT).show();
+
+}catch (Exception e){
+    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+}
 
         scroll_to_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     upcoming_appointments.smoothScrollToPosition(0);
+                notification_count.setVisibility(View.VISIBLE);
+                notification_back.setVisibility(View.VISIBLE);
+
+
+
+                    if(notifications_count == max_count){
+                        Toast.makeText(OptionsActivity.this, "Limit Reached", Toast.LENGTH_SHORT).show();
+                        notification_count.setText(Integer.toString(notifications_count)+"+");
+
+                    }
+                    else{
+                        ++notifications_count;
+                        notification_count.setText(Integer.toString(notifications_count));
+                    }
+
+
             }
+
         });
 
     view_appointment.setOnClickListener(new View.OnClickListener() {

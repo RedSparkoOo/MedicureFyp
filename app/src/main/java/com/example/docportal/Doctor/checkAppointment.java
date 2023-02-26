@@ -2,19 +2,19 @@ package com.example.docportal.Doctor;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.widget.Toast;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
-
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -22,6 +22,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+
 
 public class checkAppointment extends AppCompatActivity {
 
@@ -35,7 +36,6 @@ public class checkAppointment extends AppCompatActivity {
     ArrayList<String> appointment_description;
     ArrayList<String> patient_id;
 
-
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
 
@@ -43,7 +43,9 @@ public class checkAppointment extends AppCompatActivity {
 
 
     checkAppointmentAdapter checkAppointmentAdapter;
-    DocumentReference doc_ref;
+
+    OptionsActivity optionsActivity;
+    int notification_count = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +75,7 @@ public class checkAppointment extends AppCompatActivity {
         patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
         patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(checkAppointment.this));
         FireStoreAppointments();
+
 
 
     }
@@ -115,6 +118,19 @@ public class checkAppointment extends AppCompatActivity {
                                 }
                             });
                             patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+                            ++notification_count;
+
+                            Intent intent = new Intent(checkAppointment.this,OptionsActivity.class);
+                            Bundle bundle = new Bundle();
+                            bundle.putInt("note", notification_count);
+                            intent.putExtras(bundle);
+                            startActivity(intent);
+
+
+
+
+
+
 
                         }
 
@@ -139,6 +155,10 @@ private void nullCheck(){
     appointment_time = null;
     appointment_description = null;
     patient_id = null;
+}
+
+public int notification_check(){
+        return notification_count;
 }
 
 

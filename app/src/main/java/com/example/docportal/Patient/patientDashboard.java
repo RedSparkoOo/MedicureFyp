@@ -154,8 +154,11 @@ public class patientDashboard extends AppCompatActivity {
         patientBloodBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, bloodBank.class);
-                startActivity(intent);
+
+                 Intent intent = new Intent(patientDashboard.this, bloodBank.class);
+                 startActivity(intent);
+
+
             }
         });
 

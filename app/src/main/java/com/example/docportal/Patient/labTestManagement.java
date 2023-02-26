@@ -13,7 +13,6 @@ import java.util.ArrayList;
 public class labTestManagement extends AppCompatActivity {
 
     ArrayList<String> lab_name;
-    ArrayList<String> lab_logo;
     ArrayList<String> lab_region;
     ArrayList<String> lab_time;
     ArrayList<String> lab_latitude_coordinates;
@@ -31,7 +30,6 @@ public class labTestManagement extends AppCompatActivity {
     lab_name = new ArrayList<>();
     lab_region = new ArrayList<>();
     lab_time = new ArrayList<>();
-    lab_logo = new ArrayList<>();
     lab_logos = new ArrayList<>();
     lab_latitude_coordinates = new ArrayList<>();
     lab_longitude_coordinates = new ArrayList<>();
