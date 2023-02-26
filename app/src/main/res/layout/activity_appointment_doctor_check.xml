@@ -76,7 +76,7 @@
                     android:id="@+id/all_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/all_categories"
                     />
 
@@ -84,7 +84,7 @@
                     android:id="@+id/cardio_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/cardio_logo"
                     />
 
@@ -92,7 +92,7 @@
                     android:id="@+id/neuro_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/neuro_logo"
                     />
 
@@ -100,6 +100,7 @@
                     android:id="@+id/nephro_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/nephro_logo"
                     />
 
@@ -107,7 +108,7 @@
                     android:id="@+id/oncol_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/oncol_logo"
                     />
 
@@ -115,7 +116,7 @@
                     android:id="@+id/pedri_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/pedri_logo"
                     />
 
@@ -123,7 +124,7 @@
                     android:id="@+id/physio_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/physio_logo"
                     />
 
@@ -131,7 +132,7 @@
                     android:id="@+id/physco_category"
                     android:layout_width="80dp"
                     android:layout_height="80dp"
-                    android:layout_marginEnd="5dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/physco_logo"
                     />
 

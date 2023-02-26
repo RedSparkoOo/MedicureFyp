@@ -200,6 +200,7 @@
                 android:elevation="4dp"
                 android:background="@drawable/approve_button"
                 android:text="@string/approve"
+                android:textColor="@color/extra_white"
                 android:textAllCaps="false"
                 android:fontFamily="@font/pt_sans_regular"
                 android:textSize="14sp"

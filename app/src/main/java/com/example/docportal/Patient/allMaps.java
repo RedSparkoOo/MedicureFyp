@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -16,8 +17,6 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.Locale;
 
 public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
 
@@ -44,12 +43,22 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(33.71020637709538, 73.05776942666854);
-        float zoom = 20;
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoom));
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+     try {
+         Bundle recieved_coordinates = getIntent().getExtras();
+         double rec_latitude = recieved_coordinates.getDouble("latitude");
+         double rec_longitude = recieved_coordinates.getDouble("longitude");
+         String rec_lab_name= recieved_coordinates.getString("lab_name");
+
+
+         LatLng lab_bank = new LatLng(rec_latitude, rec_longitude);
+         float zoom = 20;
+         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lab_bank, zoom));
+         mMap.addMarker(new MarkerOptions().position(lab_bank).title(rec_lab_name));
+         mMap.moveCamera(CameraUpdateFactory.newLatLng(lab_bank));
+     }
+     catch (Exception e){
+         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+     }
     }
 
     @Override
@@ -79,23 +88,4 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
                 return super.onOptionsItemSelected(item);
         }
     }
-    private void setMapLongClick(final GoogleMap map) {
-        map.setOnMapLongClickListener(new GoogleMap.OnMapLongClickListener() {
-            @Override
-            public void onMapLongClick(LatLng latLng) {
-
-                String snippet = String.format(Locale.getDefault(),
-                        "Lat: %1$.5f, Long: %2$.5f",
-                        latLng.latitude,
-                        latLng.longitude);
-
-                map.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(getString(R.string.dropped_pin))
-                        .snippet(snippet));
-            }
-        });
-    }
-
-
 }
