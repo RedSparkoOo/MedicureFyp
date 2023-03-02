@@ -36,6 +36,16 @@
                 android:text="Write Prescription"
                 android:textColor="@color/light_black"
                 android:textSize="25sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textSize="18sp"
+                android:layout_margin="15dp"
+                android:text="Send medicines to patient based on health problems"
+                android:gravity="center"
+                />
 
         </LinearLayout>
 
@@ -50,7 +60,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pt_sans_bold"
-                android:layout_marginTop="40dp"
+                android:layout_marginTop="20dp"
                 android:text="Patient Information"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />

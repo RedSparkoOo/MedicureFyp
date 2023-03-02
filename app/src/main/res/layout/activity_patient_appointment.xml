@@ -203,6 +203,8 @@
             android:background="@drawable/but"
             android:fontFamily="@font/inter_medium"
             android:text="Book"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
             android:layout_marginBottom="10dp"
             android:textSize="18sp"
             />

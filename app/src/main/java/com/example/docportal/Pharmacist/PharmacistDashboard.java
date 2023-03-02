@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.docportal.Doctor.updateDoctorProfile;
 import com.example.docportal.Doctor.viewDoctorProfile;
 import com.example.docportal.R;
-import com.example.docportal.SplashScreen;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.android.material.navigation.NavigationView;
 
 public class PharmacistDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -124,7 +124,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 startActivity(new Intent(PharmacistDashboard.this, updateDoctorProfile.class));
                 break;
             case R.id.logoutNavigation:
-               startActivity(new Intent(PharmacistDashboard.this, SplashScreen.class));
+               startActivity(new Intent(PharmacistDashboard.this, SplashScreenEntrance.class));
                 break;
         }
         DrawerLayout.closeDrawer(GravityCompat.START);

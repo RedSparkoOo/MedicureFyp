@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,6 +17,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
+import com.example.docportal.Entrance;
 import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.Pharmacist.PharmacistDashboard;
 import com.example.docportal.R;
@@ -40,7 +43,12 @@ public class DocLogin extends AppCompatActivity {
     FirebaseFirestore fStore;
     TextView doctor_forget_password;
     String userId;
-    boolean patient_flag_check = false;
+    boolean patient_flag = false;
+    boolean doctor_flag = false;
+//    boolean patient_flag_check = true;
+    Bundle rec_bundle;
+    ProgressBar progress_check;
+    ImageView back_to_selection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +58,25 @@ public class DocLogin extends AppCompatActivity {
         doctor_forget_password = (findViewById(R.id.doctorForgetPassword));
         Email =  findViewById(R.id.doctorEmail);
         Password = findViewById(R.id.doctorPassword);
+        progress_check = findViewById(R.id.progress_check);
         TextView[] textViews ={Email, Password};
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        back_to_selection = findViewById(R.id.back_to_selection);
 
+        rec_bundle = getIntent().getExtras();
+        patient_flag = rec_bundle.getBoolean("patient_check");
+        doctor_flag = rec_bundle.getBoolean("doctor_check");
 
+        progress_check.setVisibility(View.INVISIBLE);
 
+    back_to_selection.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(DocLogin.this, Entrance.class);
+            startActivity(intent);
+        }
+    });
 
 
         doctor_forget_password.setOnClickListener(new View.OnClickListener() {
@@ -99,8 +120,7 @@ public class DocLogin extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Bundle patient_bundle = getIntent().getExtras();
-//                patient_flag_check = patient_bundle.getBoolean("patient_flag");
+                progress_check.setVisibility(View.VISIBLE);
 
                 try {
                     if (new CheckEvent().isEmpty(textViews));
@@ -112,7 +132,7 @@ public class DocLogin extends AppCompatActivity {
                                     userId = mAuth.getCurrentUser().getUid();
 
                                     //patient login check
-                                    if(patient_flag_check){
+                                    if(patient_flag){
                                         DocumentReference documentReference = fStore.collection("Patient").document(userId);
                                         documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
                                             @Override
@@ -125,7 +145,7 @@ public class DocLogin extends AppCompatActivity {
 
                                     // Doctor/Pharmacist login check
 
-                                    if(!patient_flag_check){
+                                    if(doctor_flag){
                                         DocumentReference documentReference = fStore.collection("Doctor").document(userId);
                                         documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
                                             @Override
@@ -137,6 +157,10 @@ public class DocLogin extends AppCompatActivity {
                                             }
                                         });
                                     }
+                                }
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(DocLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
+                                    progress_check.setVisibility(View.INVISIBLE);
                                 }
                             }
                         });

@@ -34,7 +34,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+            android:layout_margin="10dp"
+            android:elevation="5dp"
+            android:padding="10dp"
+            android:background="@drawable/edges"
             android:orientation="horizontal">
 
 
@@ -104,7 +107,6 @@
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints">
 
-
                     </ImageView>
 
                     <androidx.cardview.widget.CardView
@@ -153,13 +155,18 @@
 
 
             </LinearLayout>
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.2dp"
+                android:background="@color/dark_grey"/>
         </LinearLayout>
+
 
        <LinearLayout
            android:layout_width="match_parent"
            android:layout_height="wrap_content"
            android:layout_margin="20dp"
+
            android:orientation="horizontal">
 
            <TextView
@@ -176,7 +183,7 @@
                android:layout_width="30dp"
                android:layout_height="30dp"
                android:layout_marginStart="110dp"
-               android:src="@drawable/recycler_fwd_arrow"/>
+               android:src="@drawable/arrow_to_back"/>
 
 
 
@@ -184,14 +191,90 @@
 
        </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/upcoming_appointments"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
 
 
-        </androidx.recyclerview.widget.RecyclerView>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="2dp"
+                >
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/upcoming_appointments"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:background="@drawable/edges"
+                    android:elevation="5dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/empty_show"
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteX="30dp">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
+
+                <LinearLayout
+                    android:id="@+id/empty_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
+
+
+                    <com.airbnb.lottie.LottieAnimationView
+                        android:id="@+id/empty_appointment"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_gravity="center"
+                        android:adjustViewBounds="true"
+                        app:lottie_autoPlay="true"
+                        app:lottie_loop="true"
+                        app:lottie_rawRes="@raw/cat_sleeping" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/pt_sans_bold"
+                        android:gravity="center"
+                        android:textSize="14sp"
+                        android:text="No Appointments to show!"
+                        android:textColor="@color/light_black" />
+
+
+                </LinearLayout>
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+            </LinearLayout>
+
+
+
+
+
+
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -213,12 +296,16 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/edges"
+            android:elevation="5dp"
+            android:padding="5dp"
             android:layout_margin="10dp"
             >
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:padding="10dp"
                 android:orientation="horizontal">
 
                 <ImageView

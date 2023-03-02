@@ -37,7 +37,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     FirebaseFirestore FStore;
     Context context;
     int position_changed;
-
+    checkAppointmentAdapter appointmentAdapter;
     private ItemClickListenerCheck listenerCheck;
     
     public checkAppointmentAdapter(List<String> name_dataSet, List<String> phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
@@ -50,6 +50,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
         doctor_id = doc_UID;
         patient_id = patient_UID;
         this.listenerCheck = itemClickListenerCheck;
+
     }
 
 
@@ -143,7 +144,12 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 String appointment_date = listenerCheck.onItemClick(list_patient_date.get(position));
                 String appointment_time = listenerCheck.onItemClick(list_patient_time.get(position));
                 doctor_id_stored = patient_id.get(position);
+
                 approvedAppointments(doctor_id_stored,patient_name,patient_phone,appointment_date,appointment_time);
+                DeleteData(doctor_id_stored);
+                list_patient_name.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, list_patient_name.size());
 
             }
         });
@@ -158,6 +164,9 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 doctor_id_stored = patient_id.get(position);
                 DeleteData(doctor_id_stored);
                 Toast.makeText(context, "Denied", Toast.LENGTH_SHORT).show();
+                list_patient_name.remove(position);
+                notifyItemRemoved(position);
+                notifyItemRangeChanged(position, list_patient_name.size());
 
 
 
@@ -177,6 +186,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     public void approvedAppointments(String ID,String patient_name,String patient_phone,String appointment_date,String appointment_time){
 
         FStore = FirebaseFirestore.getInstance();
+        FStore.clearPersistence();
 
         DocumentReference Doc_Ref = FStore.collection("Approved Appointments").document(ID);
 
@@ -190,6 +200,7 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 approved_appointments.put("Approved Patient Cell",patient_phone);
                 approved_appointments.put("Approved Appointment Date",appointment_date);
                 approved_appointments.put("Approved Appointment Time",appointment_time);
+                approved_appointments.put("Appointed Doctor Id",doctor_id);
                 Doc_Ref.set(approved_appointments);
                 DeleteData(ID);
 

@@ -14,7 +14,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.docportal.R;
-import com.example.docportal.SplashScreen;
+import com.example.docportal.SplashScreenEntrance;
+import com.example.docportal.videoConsultation;
 import com.google.android.material.navigation.NavigationView;
 
 public class patientDashboard extends AppCompatActivity {
@@ -132,7 +133,7 @@ public class patientDashboard extends AppCompatActivity {
         patientOnlineConsultation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, patientOnlineConsultation.class);
+                Intent intent = new Intent(patientDashboard.this, videoConsultation.class);
                 startActivity(intent);
             }
         });
@@ -232,7 +233,7 @@ public class patientDashboard extends AppCompatActivity {
 
                 break;
             case R.id.logoutNavigation:
-                Intent intent_main = new Intent(patientDashboard.this, SplashScreen.class);
+                Intent intent_main = new Intent(patientDashboard.this, SplashScreenEntrance.class);
                 startActivity(intent_main);
                 break;
         }

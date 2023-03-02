@@ -3,6 +3,8 @@ package com.example.docportal.Doctor;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,17 +39,22 @@ public class AppointmentNotifications extends AppCompatActivity {
     AppointmentAdapter appointmentadapter;
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
-
+    String recieved_doctor_id;
+    LinearLayout appointments_viewed;
+    String User_id;
     String search_HINT_color = "#434242";
     String search_color = "#434242";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appointment_notifications);
-        // appointee names
 
+        appointments_viewed = findViewById(R.id.letter_box);
+        search_patient = findViewById(R.id.search_patient);
         FStore = FirebaseFirestore.getInstance();
         FAuth = FirebaseAuth.getInstance();
+        User_id = FAuth.getCurrentUser().getUid();
 
      approved_patient_names = new ArrayList<>();
      approved_patient_phone_no = new ArrayList<>();
@@ -55,6 +62,9 @@ public class AppointmentNotifications extends AppCompatActivity {
      approved_appointment_time = new ArrayList<>();
      approved_appointment_ID = new ArrayList<>();
 
+        appointment_recycler_view = findViewById(R.id.manage_appointment_recycler);
+        appointment_recycler_view.setLayoutManager(new LinearLayoutManager(this));
+        appointments_viewed.setVisibility(View.VISIBLE);
 
     search_patient = findViewById(R.id.search_patient);
     int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
@@ -65,12 +75,10 @@ public class AppointmentNotifications extends AppCompatActivity {
     Typeface tf = ResourcesCompat.getFont(this,R.font.pt_sans_regular);
     textView.setTypeface(tf);
 
-     appointment_recycler_view = findViewById(R.id.manage_appointment_recycler);
-     appointment_recycler_view.setLayoutManager(new LinearLayoutManager(this));
-
-
      FireStoreApprovedAppointments();
 
+     appointment_recycler_view.setVisibility(View.INVISIBLE);
+     search_patient.setVisibility(View.INVISIBLE);
      search_patient.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
          @Override
          public boolean onQueryTextSubmit(String query) {
@@ -101,7 +109,14 @@ public class AppointmentNotifications extends AppCompatActivity {
 
                     if(dc != null){
 
+                        appointments_viewed.setVisibility(View.INVISIBLE);
+                        appointment_recycler_view.setVisibility(View.VISIBLE);
+                        search_patient.setVisibility(View.VISIBLE);
+
+                        recieved_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
                     if (dc.getType() == DocumentChange.Type.ADDED) {
+
+                        if(recieved_doctor_id.equals(User_id)){
 
                             approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
                             approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
@@ -115,6 +130,8 @@ public class AppointmentNotifications extends AppCompatActivity {
                                 }
                             });
                             appointment_recycler_view.setAdapter(appointmentadapter);
+                        }
+
                         }
 
                     }

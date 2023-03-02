@@ -1,6 +1,8 @@
 package com.example.docportal.Doctor;
 
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Patient.bookAppointmentHelperClass;
 import com.example.docportal.R;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
@@ -193,18 +196,48 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                     Selected.setVisibility(View.INVISIBLE);
                 }
 
-                Totaled.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-
-                        prescriptionFireStore();
-                    }
-                });
 
             }
         });
 
+        Totaled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.alert_box_layout);
+                dialog.getWindow().setBackgroundDrawable(context.getDrawable(R.drawable.edges));
+                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(true);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                Button confirm = dialog.findViewById(R.id.alert_confirm);
+                TextView cancel = dialog.findViewById(R.id.alert_cancel);
+                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+                alert_msg.setText("Are you sure you want to logout?");
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        prescriptionFireStore();
+                        dialog.dismiss();
+
+
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+         ;
+            }
+        });
 
     }
 

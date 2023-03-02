@@ -1,11 +1,9 @@
 package com.example.docportal.Doctor;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -140,6 +138,7 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
 
     }
 
+
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
@@ -147,7 +146,6 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         return AppointmentNames.size();
 
     }
-
 
 
 }

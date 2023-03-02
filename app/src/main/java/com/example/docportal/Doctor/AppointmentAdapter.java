@@ -1,6 +1,10 @@
 package com.example.docportal.Doctor;
 
+import static androidx.core.content.ContextCompat.getDrawable;
+
+import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +17,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -130,9 +135,6 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             return appointment_time;
         }
 
-        public Button getTo_appointment_reschedule() {
-            return to_appointment_reschedule;
-        }
     }
 
 
@@ -165,9 +167,61 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             @Override
             public void onClick(View v) {
                 context = v.getContext();
-                appointment_id = listenerCheck.onItemClick(Appointment_IDs.get(position));
-                appointment_id = Appointment_IDs.get(position);
-                deleteAppointment(appointment_id);
+                Dialog dialog = new Dialog(context);
+                dialog.setContentView(R.layout.alert_box_layout);
+                dialog.getWindow().setBackgroundDrawable(context.getDrawable(R.drawable.edges));
+                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(true);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                Button confirm = dialog.findViewById(R.id.alert_confirm);
+                TextView cancel = dialog.findViewById(R.id.alert_cancel);
+                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+                alert_msg.setText("Confirm Deletion");
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        context = v.getContext();
+                        appointment_id = listenerCheck.onItemClick(Appointment_IDs.get(position));
+                        appointment_id = Appointment_IDs.get(position);
+                        deleteAppointment(appointment_id);
+
+
+                        AppointmentNames.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, AppointmentNames.size());
+
+
+                        AppointmentPhones.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, AppointmentNames.size());
+
+
+                        AppointmentDate.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, AppointmentNames.size());
+
+
+                        AppointmentTime.remove(position);
+                        notifyItemRemoved(position);
+                        notifyItemRangeChanged(position, AppointmentNames.size());
+
+                        deleteAppointment(appointment_id);
+                        dialog.dismiss();
+
+
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
 
             }
         });

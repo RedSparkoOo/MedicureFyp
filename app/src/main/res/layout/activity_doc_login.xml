@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/back_to_selection"
             android:layout_marginTop="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -175,5 +176,11 @@
             android:textStyle="bold" />
 
     </LinearLayout>
+    <ProgressBar
+        android:id="@+id/progress_check"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"/>
+
 
 </androidx.appcompat.widget.LinearLayoutCompat>

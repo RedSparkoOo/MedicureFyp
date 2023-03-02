@@ -1,14 +1,18 @@
 package com.example.docportal.Doctor;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,7 +28,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
-import com.example.docportal.SplashScreen;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -67,6 +71,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
     String user_id;
+    String ID;
     RecyclerView upcoming_appointments;
     ImageView scroll_to_end;
 
@@ -74,6 +79,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     List<String> approved_patient_names;
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
+    LinearLayout empty_show;
 
     private final int max_count = 99;
     int notifications_count = 0;
@@ -96,6 +102,12 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         firebaseAuth = FirebaseAuth.getInstance();
         notification_count = findViewById(R.id.notify);
         notification_back = findViewById(R.id.notification_icon_count_back);
+        empty_show = findViewById(R.id.empty_show);
+        upcoming_appointments.setVisibility(View.INVISIBLE);
+
+
+
+
         user_id = firebaseAuth.getCurrentUser().getUid();
         upcoming_appointments.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         upcomingAppointments();
@@ -103,36 +115,15 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
 
         notification_count.setVisibility(View.INVISIBLE);
         notification_back.setVisibility(View.INVISIBLE);
+//        notifications_check();
 
-try {
-    Bundle bundle = getIntent().getExtras();
-    notifications_count = Integer.parseInt(bundle.getString("note"));
 
-    Toast.makeText(this, Integer.toString(notifications_count), Toast.LENGTH_SHORT).show();
 
-}catch (Exception e){
-    Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-}
 
         scroll_to_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                     upcoming_appointments.smoothScrollToPosition(0);
-                notification_count.setVisibility(View.VISIBLE);
-                notification_back.setVisibility(View.VISIBLE);
-
-
-
-                    if(notifications_count == max_count){
-                        Toast.makeText(OptionsActivity.this, "Limit Reached", Toast.LENGTH_SHORT).show();
-                        notification_count.setText(Integer.toString(notifications_count)+"+");
-
-                    }
-                    else{
-                        ++notifications_count;
-                        notification_count.setText(Integer.toString(notifications_count));
-                    }
-
 
             }
 
@@ -272,8 +263,37 @@ try {
                 startActivity(intent_update);
                 break;
             case R.id.logoutNavigation:
-                Intent intent_main = new Intent(OptionsActivity.this, SplashScreen.class);
-                startActivity(intent_main);
+                Dialog dialog = new Dialog(OptionsActivity.this);
+                dialog.setContentView(R.layout.alert_box_layout);
+                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
+                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(true);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                Button confirm = dialog.findViewById(R.id.alert_confirm);
+                TextView cancel = dialog.findViewById(R.id.alert_cancel);
+                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+                alert_msg.setText("Are you sure you want to logout?");
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                          Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+                          startActivity(intent_main);
+                          dialog.dismiss();
+
+
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
                 break;
         }
         DrawerLayout.closeDrawer(GravityCompat.START);
@@ -285,10 +305,16 @@ try {
     public void upcomingAppointments(){
 
         FirebaseFirestore FStore = FirebaseFirestore.getInstance();
+        FStore.clearPersistence();
         approved_patient_names = new ArrayList<>();
         approved_patient_phone_no = new ArrayList<>();
         approved_appointment_date = new ArrayList<>();
         approved_appointment_time = new ArrayList<>();
+
+        approved_patient_names.clear();
+        approved_patient_phone_no.clear();
+        approved_appointment_date.clear();
+        approved_appointment_time.clear();
 
         FStore.collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
@@ -300,29 +326,87 @@ try {
                 }
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
+                    ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
+                    if(user_id.equals(ID)){
 
-                    if(dc != null){
+                        if(dc != null){
+                            empty_show.setVisibility(View.INVISIBLE);
+                            upcoming_appointments.setVisibility(View.VISIBLE);
+                            if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                        if (dc.getType() == DocumentChange.Type.ADDED) {
-
-                            approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
-                            approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
-                            approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
-                            approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-                            notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
-                            upcoming_appointments.setAdapter(notificationsAdapter);
-                            upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount()-1);
-
+                                approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
+                                approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
+                                approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
+                                approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
+                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
+                                upcoming_appointments.setAdapter(notificationsAdapter);
+                                upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount()-1);
+                            }
+                            notificationsAdapter.notifyDataSetChanged();
                         }
-                        notificationsAdapter.notifyDataSetChanged();
-
+                        else
+                            Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
                     }
-                    else
-                        Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
-
                 }
+            }
+        });
+    }
+
+    public void notifications_check(){
+        FirebaseFirestore FStore = FirebaseFirestore.getInstance();
+        DocumentReference notification_ref = FStore.collection("notification").document(user_id);
+        notification_ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+
+                assert value != null;
+                int notify_check = Integer.parseInt(value.getString("notifications"));
+
+            if(notify_check == 0){
+                notification_count.setVisibility(View.INVISIBLE);
+                notification_back.setVisibility(View.INVISIBLE);
+
+            }
+            else if(notify_check > 0){
+                notification_count.setVisibility(View.VISIBLE);
+                notification_back.setVisibility(View.VISIBLE);
+                notification_count.setText(value.getString("notifications"));
+            }
+
 
             }
         });
+    }
+
+    public void alertBox(){
+        Dialog dialog = new Dialog(OptionsActivity.this);
+        dialog.setContentView(R.layout.alert_box_layout);
+        dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
+        dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+        dialog.setCancelable(false);
+        dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+        Button confirm = dialog.findViewById(R.id.alert_confirm);
+        TextView cancel = dialog.findViewById(R.id.alert_cancel);
+        TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+
+        confirm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(OptionsActivity.this, "Confirm", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(OptionsActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                dialog.dismiss();
+            }
+        });
+
+        dialog.show();
+
     }
 }

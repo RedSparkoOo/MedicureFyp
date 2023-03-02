@@ -8,23 +8,101 @@
     android:orientation="vertical"
     tools:context=".Patient.patientAppointmentBook">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textColor="@color/light_black"
-        android:fontFamily="@font/inter_bold"
-        android:paddingTop="20dp"
-        android:textSize="28sp"
-        android:text="Check out Appointments"
+        android:fontFamily="@font/pt_sans_bold"
+        android:textSize="25sp"
+        android:text="Manage Appointments"
         android:gravity="center"
         />
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/patient_appointment_recycler"
-        android:clickable="true"
-        android:focusable="true"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/light_black"
+        android:fontFamily="@font/pt_sans_regular"
+        android:textSize="18sp"
+        android:layout_margin="15dp"
+        android:text="Approve or deny the appointments recieved from patients"
+        android:gravity="center"
+        />
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+
+       <androidx.constraintlayout.widget.ConstraintLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           >
+
+           <androidx.recyclerview.widget.RecyclerView
+               android:id="@+id/patient_appointment_recycler"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:layout_margin="10dp"
+               android:background="@drawable/edges"
+               android:clickable="true"
+               android:focusable="true"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintEnd_toEndOf="parent"
+               app:layout_constraintStart_toStartOf="parent"
+               app:layout_constraintTop_toTopOf="parent" />
+
+           <LinearLayout
+               android:id="@+id/mail_box_show"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:orientation="vertical"
+               app:layout_constraintBottom_toBottomOf="parent"
+               app:layout_constraintTop_toTopOf="parent">
+
+               <ImageView
+                   android:layout_width="wrap_content"
+                   android:layout_height="wrap_content"
+                   android:layout_margin="20dp"
+                   android:adjustViewBounds="true"
+                   android:src="@drawable/empty_mail"
+                 />
+
+               <TextView
+                   android:layout_width="match_parent"
+                   android:layout_height="wrap_content"
+                   android:fontFamily="@font/pt_sans_bold"
+                   android:gravity="center"
+                   android:text="No appointments at the moment!"
+                   android:textColor="@color/light_black"
+                   android:textSize="18sp" />
+
+
+           </LinearLayout>
+
+       </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+   </LinearLayout>
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

@@ -1,23 +1,23 @@
 package com.example.docportal.Patient;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.docportal.Doctor.DocLogin;
-import com.example.docportal.Doctor.Registeration;
 import com.example.docportal.R;
 
 public class patientMainPage extends AppCompatActivity {
 Button _patientSignup;
 Button _patientLogin;
 
-Boolean patient_flag = false;
-
+    Bundle patient;
+    boolean patient_check = true;
+    boolean doctor_check = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +25,7 @@ Boolean patient_flag = false;
 
         _patientLogin = findViewById(R.id.patientLogin);
         _patientSignup = findViewById(R.id.patientSignUp);
+
 
         _patientSignup.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -43,12 +44,12 @@ Boolean patient_flag = false;
         _patientLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                patient_flag = true;
 
-                Bundle patient_bundle = new Bundle();
-                patient_bundle.putBoolean("patient_flag",patient_flag);
                 Intent intent = new Intent(patientMainPage.this, DocLogin.class);
-                intent.putExtras(patient_bundle);
+                patient = new Bundle();
+                patient.putBoolean("patient_check",patient_check);
+                patient.putBoolean("doctor_check",doctor_check);
+                intent.putExtras(patient);
                 startActivity(intent);
             }
         });
