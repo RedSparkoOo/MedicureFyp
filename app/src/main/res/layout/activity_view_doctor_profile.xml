@@ -39,10 +39,10 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
         android:padding="20dp"
-        android:background="@drawable/linear_layoutbackground_3">
+        android:background="@drawable/edges">
 
         <ImageView
-            android:id="@+id/imageView5"
+            android:id="@+id/doc_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:clipToOutline="true"
@@ -109,7 +109,7 @@
         android:layout_margin="20dp"
         android:padding="20dp"
         android:orientation="horizontal"
-        android:background="@drawable/linear_layoutbackground_3">
+        android:background="@drawable/edges">
 
 
 

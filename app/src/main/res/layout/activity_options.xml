@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/drawerLayout"
-    android:background="@color/extra_white"
+    android:background="@color/background_white"
     tools:context=".Doctor.OptionsActivity"
     android:fitsSystemWindows="true"
     android:layout_gravity="start">
@@ -34,10 +34,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
             android:elevation="5dp"
             android:padding="10dp"
-            android:background="@drawable/edges"
+            android:background="@color/extra_white"
             android:orientation="horizontal">
 
 

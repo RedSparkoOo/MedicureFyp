@@ -1,137 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/purple"
-
+    android:background="@color/background_white"
+    android:orientation="vertical"
     tools:context=".Doctor.viewDoctorProfile">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="5dp"
-
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/viewprofilebackground" />
-
-
-    <TextView
-        android:id="@+id/viewPatientName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/regular"
-        android:text="Patient name"
-        android:textColor="@color/black"
-        android:textSize="26sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toStartOf="@+id/viewPatientPicture"
-        app:layout_constraintHorizontal_bias="0.1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.193" />
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView7"
-        app:layout_constraintEnd_toEndOf="@+id/imageView7"
-        app:layout_constraintHorizontal_bias="0.042"
-        app:layout_constraintStart_toStartOf="@+id/imageView7"
-        app:layout_constraintTop_toTopOf="@+id/imageView7"
-        app:layout_constraintVertical_bias="0.384">
+        >
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
 
         <TextView
-            android:id="@+id/viewPatientEmail"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Email Address"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
             android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="202dp" />
-
-        <TextView
-            android:id="@+id/viewPatientPassword"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Password"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="262dp" />
-
-        <TextView
-            android:id="@+id/viewPatientPhone"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Phone No"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="289dp" />
-
-        <TextView
-            android:id="@+id/viewPatientCnic"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="CNIC"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="321dp" />
-
-        <TextView
-            android:id="@+id/viewPatientGender"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Gender"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="321dp" />
-
-        <TextView
-            android:id="@+id/viewPatientDob"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5sp"
-            android:fontFamily="@font/ubuntu_light"
-            android:text="Date of Birth"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            tools:layout_editor_absoluteX="30dp"
-            tools:layout_editor_absoluteY="321dp" />
+            android:textSize="18sp"
+            android:text="Profile Details" />
 
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/viewPatientPicture"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.942"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.657"
-        app:srcCompat="@drawable/doctorprofilepicture" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:elevation="4dp"
+        android:background="@drawable/edges">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/pat_profile"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/user_profile"
+            app:civ_border_width="1dp"
+            android:elevation="4dp"
+            android:layout_gravity="end"
+            app:civ_border_color="@color/blue_2"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/view_patient_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/light_black"
+                android:paddingTop="5dp"
+                android:textSize="20sp"
+                android:text="John Smith" />
+
+
+        </LinearLayout>
+
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="Profile Description" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:elevation="4dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edges">
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                android:text="Email Address" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="Phone #" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/view_patient_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="JohnSmtih123@gmail.com"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/view_patient_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="+92 345 78906543" />
+
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

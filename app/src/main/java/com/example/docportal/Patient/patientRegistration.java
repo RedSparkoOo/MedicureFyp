@@ -1,8 +1,5 @@
 package com.example.docportal.Patient;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -11,13 +8,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.docportal.CheckEvent;
 import com.example.docportal.Doctor.DocLogin;
-import com.example.docportal.Doctor.Registeration;
-import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -44,8 +41,10 @@ public class patientRegistration extends AppCompatActivity {
 
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
-
     String user_id;
+    boolean patient_check = true;
+    boolean doctor_check = false;
+    Bundle bundle;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +65,14 @@ public class patientRegistration extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientRegistration.this, DocLogin.class);
+
+//                bundle = new Bundle();
+//                bundle.putBoolean("patient check",patient_check);
+//                bundle.putBoolean("patient check",doctor_check);
+                Intent intent = new Intent(patientRegistration.this,DocLogin.class);
+//                intent.putExtras(bundle);
                 startActivity(intent);
+
             }
         });
 
@@ -101,7 +106,7 @@ public class patientRegistration extends AppCompatActivity {
                                 patient.put("Patient Name", patient_full_name);
                                 patient.put("Patient Email Address", patient_email_Address);
                                 patient.put("Patient Password", patient_password);
-                                patient.put("Patient patient_phone_no", patient_phone_no);
+                                patient.put("Patient phone_no", patient_phone_no);
                                 documentReference.set(patient);
                             }
                         }

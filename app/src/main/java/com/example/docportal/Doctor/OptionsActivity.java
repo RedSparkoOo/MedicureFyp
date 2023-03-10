@@ -60,6 +60,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     ImageView doctor_E_Rx;
     ImageView doctor_profile;
     ImageButton profile_doctor;
+    ImageView online_consultation;
     TextView doctor_name;
     TextView notification_count;
     CardView notification_back;
@@ -103,6 +104,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         notification_count = findViewById(R.id.notify);
         notification_back = findViewById(R.id.notification_icon_count_back);
         empty_show = findViewById(R.id.empty_show);
+        online_consultation = findViewById(R.id.doctor_online_consultation);
         upcoming_appointments.setVisibility(View.INVISIBLE);
 
 
@@ -151,12 +153,26 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }
     });
 
+    online_consultation.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            startActivity(new Intent(OptionsActivity.this, videoConsultation.class));
+        }
+    });
+
         storageReference = FirebaseStorage.getInstance().getReference();
         DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                doctor_name.setText(value.getString("Full Name"));
+
+                if(value.exists()){
+                    doctor_name.setText(value.getString("Full Name"));
+                }
+                else{
+                    Toast.makeText(OptionsActivity.this, "No Value", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -246,8 +262,43 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }
 
         else {
-            super.onBackPressed();
+            Intent intent = new Intent(OptionsActivity.this,SplashScreenEntrance.class);
+            Dialog dialog = new Dialog(OptionsActivity.this);
+            dialog.setContentView(R.layout.alert_box_layout);
+            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
+            dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+            dialog.setCancelable(true);
+            dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+            Button confirm = dialog.findViewById(R.id.alert_confirm);
+            TextView cancel = dialog.findViewById(R.id.alert_cancel);
+            TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+            alert_msg.setText("Are you sure you want to logout?");
+
+            confirm.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+                    startActivity(intent_main);
+                    dialog.dismiss();
+
+
+                }
+            });
+
+            cancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+
         }
+
+
     }
 
     @Override
@@ -326,6 +377,11 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                 }
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
+
+                    if(dc.equals(null)){
+                        Toast.makeText(OptionsActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
                     ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
                     if(user_id.equals(ID)){
 
@@ -346,6 +402,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                         }
                         else
                             Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
+                    }
                     }
                 }
             }

@@ -2,28 +2,22 @@ package com.example.docportal.Doctor;
 
 import static com.example.docportal.R.layout.spinner_item;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
-
 import android.content.Intent;
-
 import android.os.Bundle;
-
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.docportal.CheckEvent;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -57,6 +51,9 @@ public class Registeration extends AppCompatActivity {
     String specializations;
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
+    boolean patient_check = false;
+    boolean doctor_check = true;
+    Bundle bundle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,15 +80,21 @@ public class Registeration extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(Registeration.this, DocLogin.class));
+
+//                bundle = new Bundle();
+//                bundle.putBoolean("patient check",patient_check);
+//                bundle.putBoolean("patient check",doctor_check);
+                Intent intent = new Intent(Registeration.this,DocLogin.class);
+//                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (!checkEvent.isEmpty(textViews) || !(checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)));
-                else {
+//                if (checkEvent.isEmpty(textViews) || (checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)));
+
                     fName = full_name.getText().toString();
                     emailAddress = email_address.getText().toString();
                     Passcode = Password.getText().toString();
@@ -112,21 +115,26 @@ public class Registeration extends AppCompatActivity {
                                         Toast.makeText(Registeration.this, "Email sent to: " + emailAddress, Toast.LENGTH_SHORT).show();
                                     }
                                 });
+
+
+
+                                    user_id = firebaseAuth.getCurrentUser().getUid();
+                                    DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+                                    Map<String, Object> doctor = new HashMap<>();
+                                    doctor.put("Full Name", fName);
+                                    doctor.put("Email Address", emailAddress);
+                                    doctor.put("Password", Passcode);
+                                    doctor.put("Phone #", phoneNo);
+                                    doctor.put("License #", license);
+                                    doctor.put("Specialization", specializations);
+                                    documentReference.set(doctor);
+
                                 Toast.makeText(Registeration.this, "User Created", Toast.LENGTH_SHORT).show();
-                                user_id = firebaseAuth.getCurrentUser().getUid();
-                                DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
-                                Map<String, Object> doctor = new HashMap<>();
-                                doctor.put("Full Name", fName);
-                                doctor.put("Email Address", emailAddress);
-                                doctor.put("Password", Passcode);
-                                doctor.put("Phone #", phoneNo);
-                                doctor.put("License #", license);
-                                doctor.put("Specialization", specializations);
-                                documentReference.set(doctor);
+
                             }
                         }
                     });
-                }
+
                    }
 
         });

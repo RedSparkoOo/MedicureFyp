@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="light_black">#434242</color>
-    <color name="input_grey">#F5F5F5</color>
+    <color name="input_grey">#efefef</color>
     <color name="white">#EEF2FF</color>
     <color name="extra_white">#FFFFFFFF</color>
     <color name="dark_white">#F9F9F9</color>
@@ -27,7 +27,7 @@
     <color name="white_grey">#EFF5F5</color>
     <color name = "approve_green">#38E54D</color>
     <color name = "deny_red">#E64848</color>
-    <color name = "background_white">#ECECEC</color>
+    <color name = "background_white">#fbfbfb</color>
     <color name="background_green">#2ba05d</color>
     <color name = "blue_2">#4a69b2</color>
     <color name="navy_blue_light">#2C74B3</color>

@@ -25,8 +25,11 @@ import java.util.Map;
 
 public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.docportal.Doctor.checkAppointmentAdapter.ViewHolder>{
 
+    private final List<String> list_appointment_id;
     private final List<String> list_patient_name;
     private final List<String> list_patient_phone;
+    private final List<String> list_doctor_name;
+    private final List<String> list_doctor_phone;
     private final List<String> list_patient_date;
     private final List<String> list_patient_time;
     private final List<String> list_patient_desc;
@@ -40,10 +43,13 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     checkAppointmentAdapter appointmentAdapter;
     private ItemClickListenerCheck listenerCheck;
     
-    public checkAppointmentAdapter(List<String> name_dataSet, List<String> phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
+    public checkAppointmentAdapter(List<String> appointment_uid_dataSet,List<String> name_dataSet, List<String> phone_dataSet,List<String> doc_name_dataSet, List<String> doc_phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
 
+        list_appointment_id = appointment_uid_dataSet;
         list_patient_name = name_dataSet;
         list_patient_phone = phone_dataSet;
+        list_doctor_name = doc_name_dataSet;
+        list_doctor_phone = doc_phone_dataSet;
         list_patient_date = date_dataSet;
         list_patient_time = time_dataSet;
         list_patient_desc = description_dataSet;
@@ -139,14 +145,17 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
 
                 context = v.getContext();
                 doctor_id_stored = listenerCheck.onItemClick(patient_id.get(position));
+                String appointment_id = list_appointment_id.get(position);
                 String patient_name = listenerCheck.onItemClick(list_patient_name.get(position));
                 String patient_phone = listenerCheck.onItemClick(list_patient_phone.get(position));
+                String doctor_name = listenerCheck.onItemClick(list_doctor_name.get(position));
+                String doctor_phone = listenerCheck.onItemClick(list_doctor_phone.get(position));
                 String appointment_date = listenerCheck.onItemClick(list_patient_date.get(position));
                 String appointment_time = listenerCheck.onItemClick(list_patient_time.get(position));
                 doctor_id_stored = patient_id.get(position);
 
-                approvedAppointments(doctor_id_stored,patient_name,patient_phone,appointment_date,appointment_time);
-                DeleteData(doctor_id_stored);
+                approvedAppointments(doctor_id_stored,patient_name,patient_phone,doctor_name,doctor_phone,appointment_date,appointment_time);
+                DeleteData(appointment_id);
                 list_patient_name.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, list_patient_name.size());
@@ -162,7 +171,9 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 context = v.getContext();
                 listenerCheck.onItemClick(patient_id.get(position));
                 doctor_id_stored = patient_id.get(position);
-                DeleteData(doctor_id_stored);
+                String appointment_id = list_appointment_id.get(position);
+                Toast.makeText(context, doctor_id_stored.toString(), Toast.LENGTH_SHORT).show();
+                DeleteData(appointment_id);
                 Toast.makeText(context, "Denied", Toast.LENGTH_SHORT).show();
                 list_patient_name.remove(position);
                 notifyItemRemoved(position);
@@ -183,12 +194,12 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     }
 
 
-    public void approvedAppointments(String ID,String patient_name,String patient_phone,String appointment_date,String appointment_time){
+    public void approvedAppointments(String ID,String patient_name,String patient_phone,String doctor_name,String doctor_phone,String appointment_date,String appointment_time){
 
         FStore = FirebaseFirestore.getInstance();
         FStore.clearPersistence();
 
-        DocumentReference Doc_Ref = FStore.collection("Approved Appointments").document(ID);
+        DocumentReference Doc_Ref = FStore.collection("Approved Appointments").document();
 
         Doc_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
@@ -198,11 +209,14 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
 
                 approved_appointments.put("Approved Patient Name",patient_name);
                 approved_appointments.put("Approved Patient Cell",patient_phone);
+                approved_appointments.put("Approved Doctor Name",doctor_name);
+                approved_appointments.put("Approved Doctor Cell",doctor_phone);
                 approved_appointments.put("Approved Appointment Date",appointment_date);
                 approved_appointments.put("Approved Appointment Time",appointment_time);
                 approved_appointments.put("Appointed Doctor Id",doctor_id);
+                approved_appointments.put("Appointed Patient Id",ID);
                 Doc_Ref.set(approved_appointments);
-                DeleteData(ID);
+
 
             }
         });

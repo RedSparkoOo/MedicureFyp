@@ -13,6 +13,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 public class mainstartScreen extends AppCompatActivity {
     Button toEntrance;
     FirebaseFirestore firestore;
+    int setting_count;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -21,16 +22,24 @@ public class mainstartScreen extends AppCompatActivity {
         toEntrance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mainstartScreen.this,Entrance.class);
-                startActivity(intent);
 
-                firestore = FirebaseFirestore.getInstance();
-                FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                        .setPersistenceEnabled(false)
-                        .build();
-                firestore.setFirestoreSettings(settings);
+
+                setting_count = 0;
+
+                    firestore = FirebaseFirestore.getInstance();
+                    FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                            .setPersistenceEnabled(false)
+                            .build();
+                    firestore.setFirestoreSettings(settings);
+                    Intent intent = new Intent(mainstartScreen.this,Entrance.class);
+                    startActivity(intent);
+                    ++setting_count;
+
+
+
             }
         });
+
 
 
 

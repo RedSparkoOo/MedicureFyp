@@ -39,9 +39,14 @@ public class checkAppointment extends AppCompatActivity {
     ArrayList<String> appointment_time;
     ArrayList<String> appointment_description;
     ArrayList<String> patient_id;
+    ArrayList<String> Doctor_name;
+    ArrayList<String> Doctor_phone;
+    ArrayList appointment_ids;
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
     String appointed_doctor_id;
+
+
     LinearLayout mail_box_show;
 
     checkAppointmentAdapter checkAppointmentAdapter;
@@ -66,6 +71,10 @@ public class checkAppointment extends AppCompatActivity {
 
         patient_phone = new ArrayList<>();
 
+        Doctor_name = new ArrayList<>();
+
+        Doctor_phone = new ArrayList<>();
+
         appointment_date = new ArrayList<>();
 
         appointment_time = new ArrayList<>();
@@ -73,6 +82,7 @@ public class checkAppointment extends AppCompatActivity {
         appointment_description = new ArrayList<>();
 
         patient_id = new ArrayList<>();
+        appointment_ids = new ArrayList();
 
 
 
@@ -88,12 +98,7 @@ public class checkAppointment extends AppCompatActivity {
     // Appointment User
     public void FireStoreAppointments() {
         firestore.clearPersistence();
-        patient_name.clear();
-        patient_phone.clear();
-        appointment_date.clear();
-        appointment_time.clear();
-        appointment_description.clear();
-        patient_id.clear();
+
         firestore.collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
@@ -117,14 +122,17 @@ public class checkAppointment extends AppCompatActivity {
 
                             if (appointed_doctor_id.equals(User_id)) {
 
-                                patient_id.add(dc.getDocument().getId());
+                                appointment_ids.add(dc.getDocument().getId());
+                                patient_id.add(String.valueOf(dc.getDocument().get("Patient ID")));
                                 patient_name.add(String.valueOf(dc.getDocument().get("Patient Name")));
                                 patient_phone.add(String.valueOf(dc.getDocument().get("Patient Phone No")));
+                                Doctor_name.add(String.valueOf(dc.getDocument().get("Doctor Name")));
+                                Doctor_phone.add(String.valueOf(dc.getDocument().get("Doctor Phone No")));
                                 appointment_date.add(String.valueOf(dc.getDocument().get("Appointment Date")));
                                 appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                                 appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
 
-                                checkAppointmentAdapter = new checkAppointmentAdapter(patient_name, patient_phone, appointment_date, appointment_time, appointment_description, User_id, patient_id, new checkAppointmentAdapter.ItemClickListenerCheck() {
+                                checkAppointmentAdapter = new checkAppointmentAdapter(appointment_ids,patient_name, patient_phone,Doctor_name, Doctor_phone, appointment_date, appointment_time, appointment_description, User_id, patient_id, new checkAppointmentAdapter.ItemClickListenerCheck() {
 
                                     @Override
                                     public String onItemClick(String details) {

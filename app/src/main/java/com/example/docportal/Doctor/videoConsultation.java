@@ -1,12 +1,17 @@
-package com.example.docportal;
+package com.example.docportal.Doctor;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.docportal.R;
 
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
@@ -22,7 +27,7 @@ public class videoConsultation extends AppCompatActivity {
     Button start;
     Button share;
     URL server_url;
-    TextView random;
+    ImageView copy_text;
     private final String Letters = "abcdefghijklmnopqrstuvwxyz";
     private final String Number = "0123456789";
     private final char[] AlphaNumeric = (Letters + Letters.toUpperCase() + Number).toCharArray();
@@ -36,7 +41,8 @@ public class videoConsultation extends AppCompatActivity {
         code = findViewById(R.id.code);
         start = findViewById(R.id.start);
         share = findViewById(R.id.share);
-        random = findViewById(R.id.random_number);
+        copy_text = findViewById(R.id.copy_text);
+        code.setFocusable(false);
 
 
         try {
@@ -66,8 +72,19 @@ public class videoConsultation extends AppCompatActivity {
         share.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = generateAlphaNumeric(16);
-            random.setText(result);
+
+            }
+        });
+
+        String result = generateAlphaNumeric(16);
+        code.setText(result);
+        copy_text.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData Data = ClipData.newPlainText("Copy",code.getText().toString());
+                manager.setPrimaryClip(Data);
+
             }
         });
 

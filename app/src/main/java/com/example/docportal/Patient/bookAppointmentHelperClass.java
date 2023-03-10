@@ -25,20 +25,25 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
     private final List<String> appointed_doctor_name;
     private final List<String> appointed_doctor_specialization;
     private final List<String> appointed_doctor_ID;
+    private final List<String> appointed_doctor_phone;
     private ItemClickListener clickListener;
 
     private final List<String> appointed_doctor_name_all;
     FirebaseFirestore firestore;
+    String phone;
+    String doctor_name;
     String UID;
     Context context;
 
 
 
 
-    public bookAppointmentHelperClass(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, ItemClickListener itemClickListener)  {
+    public bookAppointmentHelperClass(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2,List<String> nameDataSet3, ItemClickListener itemClickListener)  {
         appointed_doctor_name = nameDataSet;
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
+        appointed_doctor_phone = nameDataSet3;
+
         this.clickListener = itemClickListener;
         this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
 
@@ -148,11 +153,18 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                clickListener.onItemClick(appointed_doctor_name.get(position));
+                clickListener.onItemClick(appointed_doctor_phone.get(position));
                 clickListener.onItemClick(appointed_doctor_ID.get(position));
+
+                phone = appointed_doctor_phone.get(position);
+                doctor_name = appointed_doctor_name.get(position);
                 UID = appointed_doctor_ID.get(position);
 
                 Bundle bundle = new Bundle();
-                bundle.putString("Doctor_ID",UID);
+                bundle.putString("Doctor_phone", phone);
+                bundle.putString("Doctor_name", doctor_name);
+                bundle.putString("Doctor_Id", UID);
                 Context context = v.getContext();
                 Intent intent = new Intent(context, patientAppointmentBook.class);
                 intent.putExtras(bundle);

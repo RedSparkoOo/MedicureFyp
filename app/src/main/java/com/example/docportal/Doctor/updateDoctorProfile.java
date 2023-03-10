@@ -1,18 +1,15 @@
 package com.example.docportal.Doctor;
 
+import static android.content.ContentValues.TAG;
 import static com.example.docportal.R.layout.spinner_item;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -21,9 +18,17 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.docportal.R;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -36,16 +41,13 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
 public class updateDoctorProfile extends AppCompatActivity {
 
     Button Update;
-    Button upload_profile;
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int CAMERA_CODE = 101;
     public static final int REQUEST_CODE = 100;
@@ -56,21 +58,14 @@ public class updateDoctorProfile extends AppCompatActivity {
     EditText update_Phone_No;
     EditText update_License;
     Spinner update_Specializations;
-    TextView login;
     ImageView doctor_profile;
-
-
     String user_id;
-
-
     String update_fName;
     String update_emailAddress;
     String update_Passcode;
     String update_phoneNo;
     String update_license;
     String update_specializations;
-
-
 
     FirebaseFirestore firestore;
     FirebaseAuth fAuth;
@@ -80,6 +75,9 @@ public class updateDoctorProfile extends AppCompatActivity {
     String present_specialization;
     String[] Specializations = {"Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","physiologist"};
     StorageReference storageReference;
+    FirebaseUser doctor_user;
+    String old_email;
+    String old_pass;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,6 +97,7 @@ public class updateDoctorProfile extends AppCompatActivity {
         fAuth = FirebaseAuth.getInstance();
         firestore = FirebaseFirestore.getInstance();
         user_id = fAuth.getCurrentUser().getUid();
+        doctor_user = fAuth.getCurrentUser();
         Map<String,Object> doctor = new HashMap<>();
         DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
 
@@ -128,6 +127,9 @@ public class updateDoctorProfile extends AppCompatActivity {
                 update_Phone_No.setText(documentSnapshot.getString("Phone #"));
                 update_License.setText(documentSnapshot.getString("License #"));
                 present_specialization = documentSnapshot.getString("Specialization");
+
+                old_email = documentSnapshot.getString("Email Address");
+                old_pass = documentSnapshot.getString("Password");
 
                 try {
 
@@ -380,6 +382,47 @@ public class updateDoctorProfile extends AppCompatActivity {
                     doctor.put("License #",update_license);
                     doctor.put("Specialization",update_specializations);
 
+
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(old_email, old_pass); // Current Login Credentials \\
+                    // Prompt the user to re-provide their sign-in credentials
+                    doctor_user.reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d(TAG, "User re-authenticated.");
+                                    //Now change your email address \\
+                                    //----------------Code for Changing Email Address----------\\
+
+                                    doctor_user.updateEmail(update_emailAddress)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "User email address updated.");
+                                                    }
+                                                }
+                                            });
+                                    doctor_user.updatePassword(update_Passcode).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User Password updated.");
+                                            }
+                                        }
+                                    });
+                                }
+                            });
+                    if(!old_email.equals(update_emailAddress)){
+                        doctor_user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                Toast.makeText(updateDoctorProfile.this, "Email sent to: " + update_emailAddress+ ". Please verify it!", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+
                     documentReference.set(doctor).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
@@ -398,7 +441,7 @@ public class updateDoctorProfile extends AppCompatActivity {
 
     private void profileChange(){
         storageReference = FirebaseStorage.getInstance().getReference();
-        DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+
 
         StorageReference doc_file_ref = storageReference.child("Doctor/"+fAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

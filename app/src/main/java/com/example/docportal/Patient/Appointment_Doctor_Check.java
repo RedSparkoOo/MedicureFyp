@@ -1,11 +1,5 @@
 package com.example.docportal.Patient;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -18,8 +12,15 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.docportal.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -42,6 +43,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     ArrayList<String> doctor_names;
     ArrayList<String> doctor_specializations;
     ArrayList<String> doctor_UID;
+    ArrayList<String> doctor_phone_no;
     List<Bitmap> doctor_profile;
 
     FirebaseFirestore firestore;
@@ -54,6 +56,8 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     ImageView physio_category;
     ImageView physco_category;
     bookAppointmentHelperClass book_appointment_helper_class;
+    String UID;
+    FirebaseAuth firebaseAuth;
     View snack_bar_layout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +73,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         physio_category = findViewById(R.id.physio_category);
         physco_category = findViewById(R.id.physco_category);
 
+
         snack_bar_layout = findViewById(android.R.id.content);
         search_doctor = findViewById(R.id.search_doctor);
         int id = search_doctor.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
@@ -80,14 +85,17 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         textView.setTypeface(tf);
 
         firestore = FirebaseFirestore.getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
         doctor_profile_recycler = findViewById(R.id.doctor_list_recycler);
+        UID = firebaseAuth.getCurrentUser().getUid();
 
         doctor_names = new ArrayList<>();
         doctor_specializations = new ArrayList<>();
         doctor_UID = new ArrayList<>();
+        doctor_phone_no = new ArrayList<>();
 
         doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(Appointment_Doctor_Check.this));
-        book_appointment_helper_class = new bookAppointmentHelperClass(doctor_names, doctor_specializations, doctor_UID, new bookAppointmentHelperClass.ItemClickListener() {
+        book_appointment_helper_class = new bookAppointmentHelperClass(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new bookAppointmentHelperClass.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
                 Log.d(details,"Works");
@@ -103,6 +111,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsers();
                 snackBarShow(snack_bar_layout,"All Doctors Selected");
 
@@ -116,6 +125,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                     doctor_names.clear();
                     doctor_specializations.clear();
                     doctor_UID.clear();
+                doctor_phone_no.clear();
                     FireStoreUsersSpecific("Cardiologist");
                     snackBarShow(snack_bar_layout,"Cardiologist Selected");
 
@@ -129,6 +139,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Neurologist");
                 snackBarShow(snack_bar_layout,"Neurologist Selected");
 
@@ -141,6 +152,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Nephrologist");
                 snackBarShow(snack_bar_layout,"Nephrologist Selected");
             }
@@ -152,6 +164,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Oncologist");
                 snackBarShow(snack_bar_layout,"Oncologist Selected");
             }
@@ -163,6 +176,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Pedriatican");
                 snackBarShow(snack_bar_layout,"Pedriatican Selected");
             }
@@ -174,6 +188,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Physiologist");
                 snackBarShow(snack_bar_layout,"Physiologist Selected");
             }
@@ -185,6 +200,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_names.clear();
                 doctor_specializations.clear();
                 doctor_UID.clear();
+                doctor_phone_no.clear();
                 FireStoreUsersSpecific("Psychologist");
                 snackBarShow(snack_bar_layout,"Psychologist Selected");
             }
@@ -215,6 +231,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                                   doctor_names.add(String.valueOf(dc.getDocument().get("Full Name")));
                                   doctor_specializations.add(String.valueOf(dc.getDocument().get("Specialization")));
                                   doctor_UID.add(dc.getDocument().getId());
+                                  doctor_phone_no.add(String.valueOf(dc.getDocument().get("Phone #")));
 
                           }
                           book_appointment_helper_class.notifyDataSetChanged();
@@ -239,6 +256,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                                 doctor_names.add(String.valueOf(documentChange.getDocument().get("Full Name")));
                                 doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Specialization")));
                                 doctor_UID.add(documentChange.getDocument().getId());
+                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
 
                         }
                         book_appointment_helper_class.notifyDataSetChanged();

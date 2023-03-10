@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -41,11 +42,11 @@ public class DocLogin extends AppCompatActivity {
     EditText Password;
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
+    FirebaseUser FUser;
     TextView doctor_forget_password;
     String userId;
     boolean patient_flag = false;
     boolean doctor_flag = false;
-//    boolean patient_flag_check = true;
     Bundle rec_bundle;
     ProgressBar progress_check;
     ImageView back_to_selection;
@@ -63,10 +64,9 @@ public class DocLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         back_to_selection = findViewById(R.id.back_to_selection);
+        FUser = mAuth.getCurrentUser();
 
-        rec_bundle = getIntent().getExtras();
-        patient_flag = rec_bundle.getBoolean("patient_check");
-        doctor_flag = rec_bundle.getBoolean("doctor_check");
+
 
         progress_check.setVisibility(View.INVISIBLE);
 
@@ -120,6 +120,10 @@ public class DocLogin extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                rec_bundle = getIntent().getExtras();
+                patient_flag = rec_bundle.getBoolean("patient_check");
+                doctor_flag = rec_bundle.getBoolean("doctor_check");
                 progress_check.setVisibility(View.VISIBLE);
 
                 try {
@@ -137,7 +141,17 @@ public class DocLogin extends AppCompatActivity {
                                         documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
                                             @Override
                                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                startActivity(new Intent(getApplicationContext(), patientDashboard.class));
+
+                                                if(FUser.isEmailVerified()){
+                                                    startActivity(new Intent(getApplicationContext(), patientDashboard.class));
+
+                                                }
+                                                else {
+                                                    progress_check.setVisibility(View.INVISIBLE);
+                                                    Toast.makeText(DocLogin.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
+                                                }
+
+
 
                                             }
                                         });
@@ -151,8 +165,16 @@ public class DocLogin extends AppCompatActivity {
                                             @Override
                                             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                                 String category = value.getString("Specialization");
-                                                if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
-                                                else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
+
+                                                if(FUser.isEmailVerified()){
+                                                    if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
+                                                    else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
+                                                }
+                                                else {
+                                                    progress_check.setVisibility(View.INVISIBLE);
+                                                    Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                }
+
 
                                             }
                                         });

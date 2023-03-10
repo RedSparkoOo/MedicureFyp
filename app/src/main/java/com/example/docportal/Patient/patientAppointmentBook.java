@@ -54,12 +54,15 @@ public class patientAppointmentBook extends AppCompatActivity {
     String booker_name;
     String booker_phone;
     String booker_description;
-    String doctor_UIDD;
+    String doctor_phone;
+    String doctor_name;
+    String doctor_id;
     String TimeZone;
     String TIME;
     String DATE;
 
     View snack_bar_layout;
+    FirebaseAuth firebaseAuth;
     HelperFunctions helperFunctions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,10 +75,13 @@ public class patientAppointmentBook extends AppCompatActivity {
         appointment_time = (EditText) findViewById(R.id.appointment_time);
         appointment_description = (EditText) findViewById(R.id.appointment_description);
         book_appointment = (Button) findViewById(R.id.book);
-
+        firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
-        doctor_UIDD = bundle.getString("Doctor_ID");
-        patient_full_name.setText(doctor_UIDD);
+        doctor_phone = bundle.getString("Doctor_phone");
+        doctor_name = bundle.getString("Doctor_name");
+        doctor_id = bundle.getString("Doctor_Id");
+
+
         snack_bar_layout = findViewById(android.R.id.content);
         helperFunctions = new HelperFunctions();
 
@@ -173,13 +179,18 @@ public class patientAppointmentBook extends AppCompatActivity {
                            @Override
                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                Map<String, Object> appointment = new HashMap<>();
+                               appointment.put("Patient ID",patient_UID);
                                appointment.put("Patient Name",booker_name);
                                appointment.put("Patient Phone No",booker_phone);
+                               appointment.put("Appointed Doctor ID", doctor_id);
+                               appointment.put("Doctor Name",doctor_name);
+                               appointment.put("Doctor Phone No",doctor_phone);
                                appointment.put("Appointment Date",DATE);
                                appointment.put("Appointment Time",TIME);
                                appointment.put("Appointment Description",booker_description);
-                               appointment.put("Appointed Doctor ID",doctor_UIDD);
-                               appointment.put("Patient ID",patient_UID);
+
+
+
                                D_Ref.set(appointment);
                            }
                        });
