@@ -2,6 +2,8 @@ package com.example.docportal.Patient;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.docportal.R.layout.spinner_item;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,9 +11,11 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,6 +24,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
+import com.example.docportal.Doctor.updateDoctorProfile;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -51,15 +56,17 @@ public class patientProfileUpdate extends AppCompatActivity {
  EditText update_patient_password;
  EditText update_patient_phone;
  Button update_patient_profile;
-
+ Spinner update_patient_gender;
  FirebaseAuth FAuth;
  FirebaseFirestore FStore;
  StorageReference FStorage;
  FirebaseUser patient_user;
  String UID;
-
+ String Selected_gender;
+ String Gender[] = {"Male","Female"};
  String old_email;
  String old_pass;
+
  public static final int GALLERY_CODE = 1000;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +80,7 @@ public class patientProfileUpdate extends AppCompatActivity {
         update_patient_email_address = findViewById(R.id.update_patient_email_address);
         update_patient_password = findViewById(R.id.update_patient_password);
         update_patient_phone = findViewById(R.id.update_patient_phone_no);
+        update_patient_gender = findViewById(R.id.update_patient_gender);
         update_patient_profile = findViewById(R.id.update_patient_profile);
         FAuth = FirebaseAuth.getInstance();
         FStore = FirebaseFirestore.getInstance();
@@ -93,7 +101,27 @@ public class patientProfileUpdate extends AppCompatActivity {
                 update_patient_email_address.setText(documentSnapshot.getString("Patient Email Address"));
                 update_patient_password.setText(documentSnapshot.getString("Patient Password"));
                 update_patient_phone.setText(documentSnapshot.getString("Patient phone_no"));
+                try {
+                    for (int i =0; i<=Gender.length; i++){
 
+                        if(Gender[i].equals(Selected_gender)){
+                            update_patient_gender.setSelection(i);
+                            String Gender_on_top = Gender[0];
+                            String GENDER_we_got = Gender[i];
+                            Gender[0] = GENDER_we_got;
+                            Gender[1] = Gender_on_top;
+
+                            ArrayAdapter gender_adapter = new ArrayAdapter(patientProfileUpdate.this,spinner_item,Gender);
+                            gender_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            update_patient_gender.setAdapter(gender_adapter);
+                        }
+
+
+                    }
+                }
+                catch (Exception e){
+                    Toast.makeText(patientProfileUpdate.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
 
                 old_email = documentSnapshot.getString("Patient Email Address");
                 old_pass = documentSnapshot.getString("Patient Password");

@@ -150,6 +150,24 @@
                 android:textColorHint="@color/grey"
                 android:textSize="14sp"
                 tools:ignore="TextFields" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Gender"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/patient_gender"
+                android:layout_width="370dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                android:textAllCaps="false"
+                tools:ignore="SpeakableTextPresentCheck" />
 
 
             <TextView

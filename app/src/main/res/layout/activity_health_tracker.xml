@@ -1,131 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/patient_background_portal"
+    android:orientation="vertical"
+    android:background="@color/extra_white"
     tools:context=".Patient.healthTracker">
 
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
 
-    <ImageView
-        android:id="@+id/watch"
-        android:layout_width="400dp"
-        android:layout_height="500dp"
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
 
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.545"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.988"
-        app:srcCompat="@drawable/health_tracker_watch" />
+          <LinearLayout
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/linear_layout_background"
+              android:layout_margin="15dp"
+              android:elevation="4dp"
+              android:orientation="horizontal">
 
-    <ImageView
-        android:id="@+id/steps"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="152dp"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:layout_constraintTop_toTopOf="@+id/watch"
-        app:srcCompat="@drawable/health_tracker_steps" />
 
-    <ImageView
-        android:id="@+id/medic"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView12"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.291"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:layout_constraintTop_toBottomOf="@+id/steps"
-        app:layout_constraintVertical_bias="0.177"
-        app:srcCompat="@drawable/health_tracker_medicine" />
 
-    <ImageView
-        android:id="@+id/imageView12"
-        android:layout_width="45dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="192dp"
-        app:layout_constraintBottom_toBottomOf="@+id/watch"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.283"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:srcCompat="@drawable/health_tracker_glass" />
+              <LinearLayout
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:padding="10dp"
+                  android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/healthTrackerSteps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="164dp"
-        android:fontFamily="@font/regular"
-        android:text="7194"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.459"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:layout_constraintTop_toTopOf="@+id/watch" />
 
-    <TextView
-        android:id="@+id/healthTrackerSteps2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="21sp"
-        android:layout_marginTop="216dp"
-        android:fontFamily="@font/regular"
-        android:text="2:00 pm"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:layout_constraintTop_toTopOf="@+id/watch" />
+                  <TextView
+                      android:id="@+id/tv_info"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:textSize="20sp"
+                      android:fontFamily="@font/pt_sans_bold"
+                      android:textColor="@color/light_black"
+                      android:layout_marginTop="10dp"
+                      android:layout_marginStart="20dp"
+                      android:text="Steps"/>
 
-    <TextView
-        android:id="@+id/healthTrackerSteps3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="21sp"
-        android:layout_marginTop="276dp"
-        android:fontFamily="@font/regular"
-        android:text="3 glass"
-        android:textColor="@color/white"
-        android:textSize="22sp"
-        app:layout_constraintEnd_toEndOf="@+id/watch"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="@+id/watch"
-        app:layout_constraintTop_toTopOf="@+id/watch" />
+                  <LinearLayout
+                      android:layout_width="wrap_content"
+                      android:layout_height="wrap_content"
+                      android:layout_marginStart="20dp"
+                      android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/textView35"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="95dp"
-        android:fontFamily="@font/regular"
-        android:text="Check your"
-        android:gravity="center"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+                      <TextView
+                          android:id="@+id/tv_steps"
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/light_black"
+                          android:fontFamily="@font/pt_sans_bold"
+                          android:textSize="30sp"
+                          android:text="0"/>
 
-    <TextView
-        android:id="@+id/textView47"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:fontFamily="@font/bold"
-        android:gravity="center"
-        android:text="Stats! "
-        android:textColor="@color/white"
-        android:textSize="60sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView35" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                      <TextView
+
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/light_black"
+                          android:textSize="20sp"
+                          android:text=" / "/>
+
+                      <TextView
+
+                          android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:textColor="@color/light_black"
+                          android:fontFamily="@font/pt_sans_regular"
+                          android:textSize="20sp"
+                          android:text=" 5,000 "/>
+
+                  </LinearLayout>
+
+
+
+              </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right"
+                >
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    >
+
+                    <ProgressBar
+                        android:id="@+id/step_progress_bar"
+                        android:layout_width="150dp"
+                        android:layout_height="150dp"
+                        android:indeterminateOnly="false"
+                        android:layout_margin="10dp"
+                        android:progressDrawable="@drawable/custom_progress"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                    </ProgressBar>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:layout_marginBottom="10dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@+id/step_progress_bar"
+                        app:layout_constraintStart_toStartOf="@+id/step_progress_bar"
+                        app:layout_constraintTop_toTopOf="@+id/step_progress_bar">
+
+                        <TextView
+                            android:id="@+id/steps_status"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pt_sans_bold"
+                            android:text="10"
+                            android:textColor="@color/light_black"
+                            android:textSize="22sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="@font/pt_sans_bold"
+                            android:text=" %"
+                            android:textColor="@color/light_black"
+                            android:textSize="16sp" />
+
+                    </LinearLayout>
+
+
+
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+            </LinearLayout>
+
+          </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/linear_layout_background"
+            android:layout_margin="15dp"
+            android:elevation="4dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="20dp"
+                android:text="Medicine Reminder"/>
+
+            <Button
+                android:id="@+id/med_remind_activity"
+                android:layout_width="80dp"
+                android:layout_height="30dp"
+                android:background="@drawable/but"
+                android:layout_gravity="right"
+                android:text="Add"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textColor="@color/extra_white"
+                android:textAllCaps="false"
+                android:layout_margin="20dp"/>
+            
+            
+            
+        </LinearLayout>
+
+      </LinearLayout>
+
+
+
+
+  </ScrollView>
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

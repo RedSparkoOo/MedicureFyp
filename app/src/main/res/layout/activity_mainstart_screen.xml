@@ -58,6 +58,7 @@
          android:background="@drawable/but"
          android:fontFamily="@font/pt_sans_regular"
          android:text="Start"
+         android:enabled="true"
          android:textColor="@color/extra_white"
          android:textAllCaps="false"
          android:textSize="16sp"

@@ -3,19 +3,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single">
-        <item android:title="Profile">
+        <item android:title="Profile"
+            android:enabled="true"
+            >
 
             <menu>
 
                 <item
                     android:id="@+id/viewProfile"
                     android:icon="@drawable/ic_baseline_psychology_24"
+                    android:enabled="true"
                     android:title="View Profile"
 
                     />
                 <item
                     android:id="@+id/updateProfile"
                     android:icon="@drawable/update_profile"
+                    android:enabled="true"
                     android:title="Update Profile"/>
 
             </menu>

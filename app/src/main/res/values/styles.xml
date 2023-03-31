@@ -20,5 +20,9 @@
 
     </style>
 
+
+    <style name="BottomNavigationView">
+        <item name="fontFamily">@font/pt_sans_regular</item>
+    </style>
 </resources>
 

@@ -1,10 +1,14 @@
 package com.example.docportal.Patient;
 
+import static com.example.docportal.R.layout.spinner_item;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +35,7 @@ public class patientRegistration extends AppCompatActivity {
     EditText patient_emailAddress;
     EditText patient_phoneNo;
     EditText patient_Password;
+    Spinner patient_gender;
     TextView login;
     Button Register;
 
@@ -38,7 +43,8 @@ public class patientRegistration extends AppCompatActivity {
     String patient_email_Address;
     String patient_phone_no;
     String patient_password;
-
+    String patient_selected_gender;
+    String Gender[] = {"","Male","Female"};
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
     String user_id;
@@ -54,6 +60,7 @@ public class patientRegistration extends AppCompatActivity {
         patient_emailAddress = findViewById(R.id.patient_emailAddress);
         patient_phoneNo = findViewById(R.id.patient_phoneNo);
         patient_Password = findViewById(R.id.patient_password);
+        patient_gender = findViewById(R.id.patient_gender);
         login = findViewById(R.id.login);
         Register = findViewById(R.id.Submit);
         TextView[] textViews = {patient_fullName, patient_emailAddress, patient_Password, patient_phoneNo};
@@ -61,16 +68,13 @@ public class patientRegistration extends AppCompatActivity {
         firebaseAuth = FirebaseAuth.getInstance();
         CheckEvent checkEvent = new CheckEvent();
 
-
+        ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(this, spinner_item, Gender);
+        arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        patient_gender.setAdapter(arrayAdapterSpecialization);
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                bundle = new Bundle();
-//                bundle.putBoolean("patient check",patient_check);
-//                bundle.putBoolean("patient check",doctor_check);
                 Intent intent = new Intent(patientRegistration.this,DocLogin.class);
-//                intent.putExtras(bundle);
                 startActivity(intent);
 
             }
@@ -85,6 +89,7 @@ public class patientRegistration extends AppCompatActivity {
                     patient_email_Address = patient_emailAddress.getText().toString();
                     patient_password = patient_Password.getText().toString();
                     patient_phone_no = patient_phoneNo.getText().toString();
+                    patient_selected_gender = patient_gender.getSelectedItem().toString();
 
                     firestore = FirebaseFirestore.getInstance();
                     firebaseAuth = FirebaseAuth.getInstance();
@@ -107,6 +112,7 @@ public class patientRegistration extends AppCompatActivity {
                                 patient.put("Patient Email Address", patient_email_Address);
                                 patient.put("Patient Password", patient_password);
                                 patient.put("Patient phone_no", patient_phone_no);
+                                patient.put("Patient Gender",patient_selected_gender);
                                 documentReference.set(patient);
                             }
                         }

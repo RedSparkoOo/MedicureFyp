@@ -57,7 +57,9 @@ public class updateDoctorProfile extends AppCompatActivity {
     EditText update_Password;
     EditText update_Phone_No;
     EditText update_License;
+    EditText update_doctor_bio;
     Spinner update_Specializations;
+    Spinner update_gender;
     ImageView doctor_profile;
     String user_id;
     String update_fName;
@@ -66,14 +68,16 @@ public class updateDoctorProfile extends AppCompatActivity {
     String update_phoneNo;
     String update_license;
     String update_specializations;
-
+    String update_gend;
+    String update_bio;
     FirebaseFirestore firestore;
     FirebaseAuth fAuth;
     String specialization_on_top;
     String specialization_we_got;
-    int Array_size = 0;
     String present_specialization;
+    String Selected_gender;
     String[] Specializations = {"Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","physiologist"};
+    String[] Genders = {"Male","Female"};
     StorageReference storageReference;
     FirebaseUser doctor_user;
     String old_email;
@@ -91,7 +95,9 @@ public class updateDoctorProfile extends AppCompatActivity {
         update_Phone_No = findViewById(R.id.update_phone_no);
         update_License = findViewById(R.id.update_license);
         update_Specializations = findViewById(R.id.update_specialist_Category);
+        update_gender = findViewById(R.id.update_doctor_gender);
         doctor_profile = findViewById(R.id.doctor_profile);
+        update_doctor_bio = findViewById(R.id.update_doctor_bio);
 
 
         fAuth = FirebaseAuth.getInstance();
@@ -127,9 +133,11 @@ public class updateDoctorProfile extends AppCompatActivity {
                 update_Phone_No.setText(documentSnapshot.getString("Phone #"));
                 update_License.setText(documentSnapshot.getString("License #"));
                 present_specialization = documentSnapshot.getString("Specialization");
-
+                Selected_gender = documentSnapshot.getString("Gender");
+                update_doctor_bio.setText(documentSnapshot.getString("Bio Details"));
                 old_email = documentSnapshot.getString("Email Address");
                 old_pass = documentSnapshot.getString("Password");
+
 
                 try {
 
@@ -154,6 +162,28 @@ public class updateDoctorProfile extends AppCompatActivity {
                     Toast.makeText(updateDoctorProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
 
+                try {
+                    for (int i =0; i<=Genders.length; i++){
+
+                        if(Genders[i].equals(Selected_gender)){
+                            update_gender.setSelection(i);
+                            String Gender_on_top = Genders[0];
+                            String GENDER_we_got = Genders[i];
+                            Genders[0] = GENDER_we_got;
+                            Genders[1] = Gender_on_top;
+
+                            ArrayAdapter gender_adapter = new ArrayAdapter(updateDoctorProfile.this,spinner_item,Genders);
+                            gender_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            update_gender.setAdapter(gender_adapter);
+                        }
+
+
+                    }
+                }
+                catch (Exception e){
+                    Toast.makeText(updateDoctorProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
 
             }
 
@@ -169,7 +199,7 @@ public class updateDoctorProfile extends AppCompatActivity {
 
 
                 try {
-                    if (update_full_name.getText().toString().isEmpty() && update_email_address.getText().toString().isEmpty() && update_Password.getText().toString().isEmpty() && update_Phone_No.getText().toString().isEmpty() && update_License.getText().toString().isEmpty() && update_Specializations.getSelectedItem().toString().isEmpty()) {
+                    if (update_full_name.getText().toString().isEmpty() && update_email_address.getText().toString().isEmpty() && update_Password.getText().toString().isEmpty() && update_Phone_No.getText().toString().isEmpty() && update_License.getText().toString().isEmpty() && update_Specializations.getSelectedItem().toString().isEmpty() && update_gender.getSelectedItem().toString().isEmpty()) {
 
                         update_full_name.setError("Full Name can't be empty");
                         update_email_address.setError("Email Address can't be empty");
@@ -177,6 +207,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                         update_Phone_No.setError("Phone no can't be empty");
                         update_License.setError("license No can't be empty");
                         ((TextView) update_Specializations.getSelectedView()).setError("Select at least one!");
+                        ((TextView) update_gender.getSelectedView()).setError("Select at least one!");
                     }
 
                 } catch (Exception e) {
@@ -306,7 +337,36 @@ public class updateDoctorProfile extends AppCompatActivity {
                     }
 
                 }
+//-------------------------------------------------Gender--------------------------------------
+                else if (update_gender.getSelectedItem().toString().isEmpty()) {
 
+                    ((TextView) update_gender.getSelectedView()).setError("Select at least one!");
+
+                    if (update_full_name.getText().toString().isEmpty()) {
+
+                        update_full_name.setError("First Name can't be empty");
+                    }
+
+                    if (update_email_address.getText().toString().isEmpty()) {
+                        update_email_address.setError("Email Address can't be empty");
+                    }
+
+
+                    if (update_Password.getText().toString().isEmpty()) {
+                        update_Password.setError("Password can't be empty");
+                    }
+
+                    if (update_Phone_No.getText().toString().isEmpty()) {
+                        update_Phone_No.setError("Phone no can't be empty");
+                    }
+
+                    if (update_License.getText().toString().isEmpty()) {
+                        update_License.setError("license No can't be empty");
+                    }
+                    if (update_Specializations.getSelectedItem().toString().isEmpty()) {
+                        ((TextView) update_Specializations.getSelectedView()).setError("Select at least one!");
+                    }
+                }
 
 //---------------------------------------------LICENSE Logic------------------------------------------------------
                 else if (update_License.getText().toString().isEmpty()) {
@@ -363,6 +423,9 @@ public class updateDoctorProfile extends AppCompatActivity {
                     if (update_License.getText().toString().isEmpty()) {
                         update_License.setError("license No can't be empty");
                     }
+                    if (update_gender.getSelectedItem().toString().isEmpty()) {
+                        ((TextView) update_gender.getSelectedView()).setError("Select at least one!");
+                    }
 
                 } else {
 
@@ -373,14 +436,18 @@ public class updateDoctorProfile extends AppCompatActivity {
                     update_phoneNo = update_Phone_No.getText().toString();
                     update_license = update_License.getText().toString();
                     update_specializations = update_Specializations.getSelectedItem().toString();
+                    update_gend = update_gender.getSelectedItem().toString();
+                    update_bio = update_doctor_bio.getText().toString();
 
 
                     doctor.put("Full Name",update_fName);
                     doctor.put("Email Address",update_emailAddress);
                     doctor.put("Password",update_Passcode);
                     doctor.put("Phone #",update_phoneNo);
+                    doctor.put("Gender",update_gend);
                     doctor.put("License #",update_license);
                     doctor.put("Specialization",update_specializations);
+                    doctor.put("Bio Details",update_bio);
 
 
                     AuthCredential credential = EmailAuthProvider

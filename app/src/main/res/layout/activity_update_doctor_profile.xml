@@ -178,6 +178,25 @@
                 android:textSize="14sp"
                 tools:ignore="TextFields" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Gender"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/update_doctor_gender"
+                android:layout_width="370dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                android:textAllCaps="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
 
             <TextView
                 android:id="@+id/textView24"
@@ -209,7 +228,6 @@
 
 
             <TextView
-                android:id="@+id/textView27"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pt_sans_bold"
@@ -227,6 +245,33 @@
                 android:drawablePadding="5sp"
                 android:paddingEnd="7sp"
                 tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Update Bio"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_doctor_bio"
+                android:layout_width="370dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:gravity="top|left"
+                android:hint="Write few details about yourself"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
 
 
 
