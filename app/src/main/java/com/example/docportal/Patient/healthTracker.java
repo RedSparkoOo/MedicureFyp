@@ -32,7 +32,7 @@ public class healthTracker extends AppCompatActivity{
     ProgressBar step_progress_bar;
     CountDownTimer countDownTimer;
     TextView steps_status;
-    Button med_remind_activity;
+    private Button med_remind_activity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
