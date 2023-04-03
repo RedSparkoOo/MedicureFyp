@@ -292,10 +292,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Doctor.MedicalRecord"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".Patient.patientAppointmentBook"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />

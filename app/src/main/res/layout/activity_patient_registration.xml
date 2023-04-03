@@ -77,7 +77,6 @@
                 android:textColor="@color/light_black"
                 android:textSize="16sp" />
 
-
             <EditText
                 android:id="@+id/patient_fullName"
                 android:layout_width="370dp"
