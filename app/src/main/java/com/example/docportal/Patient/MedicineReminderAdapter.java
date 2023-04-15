@@ -5,88 +5,83 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Filter;
-import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.example.docportal.R;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
-public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineReminderAdapter.ViewHolder> implements Filterable {
+public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineReminderAdapter.ViewHolder> {
 
-    private final List<String> doctor_name;
-    private final List<String> medicine_prescribed;
-    private final List<String> medicines_usage;
-    private final List<String> medicine_weight;
-    private final List<String> prescription_date;
+
+    private final List<String> medicine_names;
+    private final List<String> medicine_duration;
+    private final List<String> medicine_time;
+    private final List<String> medicine_type;
     String ID;
     FirebaseFirestore FStore;
 
-    private final List<String> medicine_names_all;
     Context context;
 
     Button Totaled;
+    TextView medicine_selected;
 
 
-    public MedicineReminderAdapter(List<String> doc_name, List<String> medicine_name,List<String> medi_weight, List<String> usage, List<String> pres_date,String uid)  {
-        doctor_name = doc_name;
-        medicine_prescribed = medicine_name;
-        medicine_weight = medi_weight;
-        medicines_usage = usage;
+    public MedicineReminderAdapter(List<String> medicine_name,List<String> med_duration, List<String> med_type, List<String> med_time,String uid,Button medicine_confirmation,TextView Selected)  {
+        medicine_names = medicine_name;
+        medicine_duration = med_duration;
+        medicine_type = med_type;
+        medicine_time = med_time;
+        Totaled = medicine_confirmation;
+        medicine_selected = Selected;
         ID = uid;
-        prescription_date = pres_date;
-        this.medicine_names_all = new ArrayList<>(doctor_name);
 
     }
 
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
-    Filter filter = new Filter() {
-        @Override
-        protected FilterResults performFiltering(CharSequence charSequence) {
-
-            List<String> filteredList = new ArrayList<>();
-
-            if(charSequence.toString().isEmpty()){
-                filteredList.addAll(medicine_names_all);
-            }
-            else{
-                for(String  movie: medicine_names_all){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
-                        filteredList.add(movie);
-                    }
-                }
-            }
-
-
-            FilterResults filterResults = new FilterResults();
-            filterResults.values = filteredList;
-
-
-            return filterResults;
-        }
-
-        @Override
-        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            doctor_name.clear();
-            doctor_name.addAll((Collection<? extends String>) filterResults.values);
-            notifyDataSetChanged();
-        }
-    };
+//    @Override
+//    public Filter getFilter() {
+//        return filter;
+//    }
+//
+//    Filter filter = new Filter() {
+//        @Override
+//        protected FilterResults performFiltering(CharSequence charSequence) {
+//
+//            List<String> filteredList = new ArrayList<>();
+//
+//            if(charSequence.toString().isEmpty()){
+//                filteredList.addAll(medicine_names_all);
+//            }
+//            else{
+//                for(String  movie: medicine_names_all){
+//                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+//                        filteredList.add(movie);
+//                    }
+//                }
+//            }
+//
+//
+//            FilterResults filterResults = new FilterResults();
+//            filterResults.values = filteredList;
+//
+//
+//            return filterResults;
+//        }
+//
+//        @Override
+//        protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
+//            doctor_name.clear();
+//            doctor_name.addAll((Collection<? extends String>) filterResults.values);
+//            notifyDataSetChanged();
+//        }
+//    };
 
 
     /**
@@ -94,54 +89,38 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView doc_name;
         private final TextView med_name;
-        private final TextView med_usage;
-        private final TextView presc_date;
-        private final TextView med_weight;
-        private final ImageView cutout_prescription;
-        private final Button buy_medicine;
+        private final TextView med_dur;
+        private final TextView med_type;
+        private final ImageView cutout_med;
 
 
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-
-            doc_name = (TextView) view.findViewById(R.id.doctor_name);
             med_name = (TextView) view.findViewById(R.id.medicine_name);
-            med_usage = (TextView) view.findViewById(R.id.medicine_usage);
-            presc_date = (TextView) view.findViewById(R.id.prescription_date);
-            med_weight = (TextView) view.findViewById(R.id.medicine_weight);
-            cutout_prescription = (ImageView) view.findViewById(R.id.cutout_prescription);
-            buy_medicine = (Button) view.findViewById(R.id.buy_medicine);
+            med_dur = (TextView) view.findViewById(R.id.medicine_duration);
+            med_type = (TextView) view.findViewById(R.id.medicine_type);
+            cutout_med = (ImageView) view.findViewById(R.id.cancel_medicine);
+
 
 
         }
 
-        public TextView getMed_weight() {
-            return med_weight;
-        }
 
-        public TextView getDoc_name() {
-            return doc_name;
-        }
         public  TextView getMed_name() {
             return med_name;
         }
-        public TextView getMed_usage() {
-            return med_usage;
+        public TextView getMed_dur() {
+            return med_dur;
         }
-        public ImageView getCutout_prescription() {
-            return cutout_prescription;
+        public ImageView getCutout_med() {
+            return cutout_med;
+        }
+        public TextView getMed_type() {
+            return med_type;
         }
 
-        public TextView getPresc_date() {
-            return presc_date;
-        }
-
-        public Button getBuy_medicine() {
-            return buy_medicine;
-        }
     }
 
 
@@ -164,37 +143,45 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getDoc_name().setText(doctor_name.get(position));
-        viewHolder.getMed_name().setText(medicine_prescribed.get(position));
-        viewHolder.getMed_usage().setText(medicines_usage.get(position));
-        viewHolder.getPresc_date().setText(prescription_date.get(position));
-        viewHolder.getMed_weight().setText(medicine_weight.get(position));
 
-        viewHolder.getCutout_prescription().setOnClickListener(new View.OnClickListener() {
+        viewHolder.getMed_name().setText(medicine_names.get(position));
+        viewHolder.getMed_dur().setText(medicine_duration.get(position));
+        viewHolder.getMed_type().setText(medicine_type.get(position));
+
+
+        viewHolder.getCutout_med().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
 
-
                 context = v.getContext();
 
-                doctor_name.remove(position);
-                prescription_date.remove(position);
-                medicine_prescribed.remove(position);
-                medicine_weight.remove(position);
-                medicines_usage.remove(position);
+                if(medicine_names.size() == 0){
+                    Totaled.setVisibility(View.INVISIBLE);
+                    medicine_selected.setVisibility(View.INVISIBLE);
+                }
+
+
+                medicine_type.remove(position);
+                medicine_names.remove(position);
+                medicine_time.remove(position);
+                medicine_duration.remove(position);
 
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, doctor_name.size());
+                notifyItemRangeChanged(position, medicine_names.size());
 
                 FStore = FirebaseFirestore.getInstance();
-                FStore.collection("Prescriptions Sent").document(ID).update("Prescribed Doctor Name",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Prescription Date",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Medicines Prescribed Weight",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Medicines Prescribed Usage",FieldValue.arrayRemove(position));
 
 
 
+
+            }
+        });
+
+        Totaled.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(context, "Added", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -204,7 +191,7 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
     @Override
     public int getItemCount() {
 
-        return doctor_name.size();
+        return medicine_names.size();
 
     }
 

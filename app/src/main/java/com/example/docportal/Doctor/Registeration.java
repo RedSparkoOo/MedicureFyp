@@ -1,9 +1,11 @@
 package com.example.docportal.Doctor;
 
+import static android.content.ContentValues.TAG;
 import static com.example.docportal.R.layout.spinner_item;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -133,6 +136,7 @@ public class Registeration extends AppCompatActivity {
                                     doctor.put("License #", license);
                                     doctor.put("Specialization", specializations);
                                     doctor.put("Bio Details", Bio);
+
                                     documentReference.set(doctor);
 
                                 Toast.makeText(Registeration.this, "Registration Successful", Toast.LENGTH_SHORT).show();

@@ -25,10 +25,12 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Broadcasts;
 import com.example.docportal.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -80,6 +82,8 @@ public class medicineReminder extends AppCompatActivity {
     String day7_Saturday;
     String med_types;
     String medicine_name_entered;
+    String ID;
+    FirebaseAuth auth;
 
 
     @Override
@@ -105,6 +109,9 @@ public class medicineReminder extends AppCompatActivity {
         medicine_confirmation = findViewById(R.id.medicine_confirmation);
         medicine_to_recycler = findViewById(R.id.medicine_to_recycler);
 
+        auth = FirebaseAuth.getInstance();
+        ID = auth.getCurrentUser().getUid();
+
         medicinesNames = new ArrayList<>();
         medicineType = new ArrayList<>();
         medicinesTime = new ArrayList<>();
@@ -125,9 +132,16 @@ public class medicineReminder extends AppCompatActivity {
 
                 SendMedicines();
 
+//                if(medicinesNames.isEmpty() && medicineType.isEmpty() && medicinesTime.isEmpty()){
+//                    Toast.makeText(medicineReminder.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+//                }
 
-
-
+                medicinesNames.add(medicine_name_entered);
+                medicineType.add(med_types);
+                medicinesTime.add(TIME);
+                medicine_added.setLayoutManager(new LinearLayoutManager(medicineReminder.this));
+                MedicineReminderAdapter reminderAdapter = new MedicineReminderAdapter(medicinesNames, medicinesDuration, medicineType,medicinesTime,ID,medicine_confirmation,medicine_added_heading);
+                medicine_added.setAdapter(reminderAdapter);
 
             }
         });
@@ -137,9 +151,6 @@ public class medicineReminder extends AppCompatActivity {
 
 
         SendMedicines();
-
-
-        createNotificationChannel();
 
         back_to_health_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -155,6 +166,7 @@ public class medicineReminder extends AppCompatActivity {
 
         medicine_name_entered = medicine_name.getText().toString();
         med_types = medicine_type.getSelectedItem().toString();
+
         medicine_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -165,17 +177,16 @@ public class medicineReminder extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-                        if(calendar.get(Calendar.AM_PM) == Calendar.AM){
+                        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
                             TimeZone = "AM";
-                        }
-                        else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
+                        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
                             TimeZone = "PM";
                         }
-                        TIME = String.format(Hour+":"+Minute+" "+TimeZone );
+                        TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
                         medicine_time.setText(TIME);
 
                     }
-                },hour,minute,true);
+                }, hour, minute, true);
                 timePickerDialog.show();
             }
         });
@@ -184,135 +195,132 @@ public class medicineReminder extends AppCompatActivity {
         //--------------------------------ALL DAYS------------------------------------------//
 
 
+        every_day.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (every_day.isChecked()) {
 
-       every_day.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               if(every_day.isChecked()){
-
-                   Sunday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Sunday.setTextColor(Color.parseColor("#FFFFFFFF"));
-
-
-                   Monday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Monday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Sunday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Sunday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-                   Tuesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Tuesday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Monday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Monday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-                   Wednesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Wednesday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Tuesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Tuesday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-                   Thursday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Thursday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Wednesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Wednesday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-                   Friday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Friday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    Thursday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Thursday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-                   Saturday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Saturday.setTextColor(Color.parseColor("#FFFFFFFF"));
-
-                   day1_Sunday = "Sunday";
-                   day2_Monday = "Monday";
-                   day3_Tuesday = "Tuesday";
-                   day4_Wednesday = "Wednesday";
-                   day5_Thursday = "Thursday";
-                   day6_Friday = "Friday";
-                   day7_Saturday = "Saturday";
-
-                   medicinesDuration.add(day1_Sunday);
-                   medicinesDuration.add(day2_Monday);
-                   medicinesDuration.add(day4_Wednesday);
-                   medicinesDuration.add(day3_Tuesday);
-                   medicinesDuration.add(day5_Thursday);
-                   medicinesDuration.add(day6_Friday);
-                   medicinesDuration.add(day7_Saturday);
+                    Friday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Friday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
 
-               }
+                    Saturday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Saturday.setTextColor(Color.parseColor("#FFFFFFFF"));
 
-               if(!every_day.isChecked()){
+                    day1_Sunday = "Sunday";
+                    day2_Monday = "Monday";
+                    day3_Tuesday = "Tuesday";
+                    day4_Wednesday = "Wednesday";
+                    day5_Thursday = "Thursday";
+                    day6_Friday = "Friday";
+                    day7_Saturday = "Saturday";
 
-                   Sunday.setBackground(null);
-                   Sunday.setTextColor(Color.parseColor("#434242"));
+                    medicinesDuration.add(day1_Sunday);
+                    medicinesDuration.add(day2_Monday);
+                    medicinesDuration.add(day4_Wednesday);
+                    medicinesDuration.add(day3_Tuesday);
+                    medicinesDuration.add(day5_Thursday);
+                    medicinesDuration.add(day6_Friday);
+                    medicinesDuration.add(day7_Saturday);
 
 
-                   Monday.setBackground(null);
-                   Monday.setTextColor(Color.parseColor("#434242"));
+                }
+
+                if (!every_day.isChecked()) {
+
+                    Sunday.setBackground(null);
+                    Sunday.setTextColor(Color.parseColor("#434242"));
 
 
-                   Tuesday.setBackground(null);
-                   Tuesday.setTextColor(Color.parseColor("#434242"));
+                    Monday.setBackground(null);
+                    Monday.setTextColor(Color.parseColor("#434242"));
 
-                   Wednesday.setBackground(null);
-                   Wednesday.setTextColor(Color.parseColor("#434242"));
 
-                   Thursday.setBackground(null);
-                   Thursday.setTextColor(Color.parseColor("#434242"));
+                    Tuesday.setBackground(null);
+                    Tuesday.setTextColor(Color.parseColor("#434242"));
 
-                   Friday.setBackground(null);
-                   Friday.setTextColor(Color.parseColor("#434242"));
+                    Wednesday.setBackground(null);
+                    Wednesday.setTextColor(Color.parseColor("#434242"));
 
-                   Saturday.setBackground(null);
-                   Saturday.setTextColor(Color.parseColor("#434242"));
+                    Thursday.setBackground(null);
+                    Thursday.setTextColor(Color.parseColor("#434242"));
 
-                   day1_Sunday = null;
-                   day2_Monday = null;
-                   day3_Tuesday = null;
-                   day4_Wednesday = null;
-                   day5_Thursday = null;
-                   day6_Friday = null;
-                   day7_Saturday = null;
+                    Friday.setBackground(null);
+                    Friday.setTextColor(Color.parseColor("#434242"));
 
-                   medicinesDuration.clear();
-               }
+                    Saturday.setBackground(null);
+                    Saturday.setTextColor(Color.parseColor("#434242"));
 
-           }
-       });
+                    day1_Sunday = null;
+                    day2_Monday = null;
+                    day3_Tuesday = null;
+                    day4_Wednesday = null;
+                    day5_Thursday = null;
+                    day6_Friday = null;
+                    day7_Saturday = null;
 
-       Sunday.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
+                    medicinesDuration.clear();
+                }
 
-               if(Sunday_count == 0){
-                   Sunday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
-                   Sunday.setTextColor(Color.parseColor("#FFFFFFFF"));
-                   day1_Sunday = "Sunday";
-                   Sunday_count = 1;
-                   medicinesDuration.add(day1_Sunday);
-               }
-               else if(Sunday_count == 1){
-                   Sunday.setBackground(null);
-                   Sunday.setTextColor(Color.parseColor("#434242"));
-                   day1_Sunday = null;
-                   Sunday_count = 0;
-                   medicinesDuration.remove(0);
-               }
+            }
+        });
 
-           }
-       });
+        Sunday.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar calendar1 = Calendar.getInstance();
+                calendar1.get(Calendar.DAY_OF_MONTH);
+                if (Sunday_count == 0) {
+                    Sunday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
+                    Sunday.setTextColor(Color.parseColor("#FFFFFFFF"));
+                    day1_Sunday = "Sunday";
+                    Sunday_count = 1;
+
+                } else if (Sunday_count == 1) {
+                    Sunday.setBackground(null);
+                    Sunday.setTextColor(Color.parseColor("#434242"));
+                    day1_Sunday = null;
+                    Sunday_count = 0;
+
+                }
+
+            }
+        });
 
         Monday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(Monday_count == 0){
+                if (Monday_count == 0) {
                     Monday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Monday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day2_Monday = "Monday";
                     Monday_count = 1;
-                    medicinesDuration.add(day2_Monday);
-                }
-                else if(Monday_count == 1){
+
+                } else if (Monday_count == 1) {
                     Monday.setBackground(null);
                     Monday.setTextColor(Color.parseColor("#434242"));
                     day2_Monday = null;
-                    medicinesDuration.remove(1);
                     Monday_count = 0;
                 }
 
@@ -323,43 +331,39 @@ public class medicineReminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(Tuesday_count == 0){
+                if (Tuesday_count == 0) {
                     Tuesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Tuesday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day3_Tuesday = "Tuesday";
                     Tuesday_count = 1;
-                    medicinesDuration.add(day3_Tuesday);
-                }
-                else if(Tuesday_count == 1){
+
+                } else if (Tuesday_count == 1) {
                     Tuesday.setBackground(null);
                     Tuesday.setTextColor(Color.parseColor("#434242"));
-                    day3_Tuesday = null;
                     Tuesday_count = 0;
-                    medicinesDuration.remove(2);
+
                 }
 
             }
         });
 
 
-
         Wednesday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if(Wednesday_count == 0){
+                if (Wednesday_count == 0) {
                     Wednesday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Wednesday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day4_Wednesday = "Wednesday";
                     Wednesday_count = 1;
-                    medicinesDuration.add(day4_Wednesday);
-                }
-                else if(Wednesday_count == 1){
+
+                } else if (Wednesday_count == 1) {
                     Wednesday.setBackground(null);
                     Wednesday.setTextColor(Color.parseColor("#434242"));
                     day4_Wednesday = null;
                     Wednesday_count = 0;
-                    medicinesDuration.remove(3);
+
                 }
 
             }
@@ -369,19 +373,18 @@ public class medicineReminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(Thursday_count == 0){
+                if (Thursday_count == 0) {
                     Thursday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Thursday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day5_Thursday = "Thursday";
                     Thursday_count = 1;
-                    medicinesDuration.add(day5_Thursday);
-                }
-                else if(Thursday_count == 1){
+
+                } else if (Thursday_count == 1) {
                     Thursday.setBackground(null);
                     Thursday.setTextColor(Color.parseColor("#434242"));
                     day5_Thursday = null;
                     Thursday_count = 0;
-                    medicinesDuration.remove(4);
+
                 }
 
             }
@@ -392,19 +395,18 @@ public class medicineReminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(Friday_count == 0){
+                if (Friday_count == 0) {
                     Friday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Friday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day6_Friday = "Friday";
                     Friday_count = 1;
-                    medicinesDuration.add(day6_Friday);
-                }
-                else if(Friday_count == 1){
+
+                } else if (Friday_count == 1) {
                     Friday.setBackground(null);
                     Friday.setTextColor(Color.parseColor("#434242"));
                     day6_Friday = null;
                     Friday_count = 0;
-                    medicinesDuration.remove(5);
+
                 }
 
             }
@@ -414,90 +416,105 @@ public class medicineReminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(Saturday_count == 0){
+                if (Saturday_count == 0) {
                     Saturday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Saturday.setTextColor(Color.parseColor("#FFFFFFFF"));
                     day7_Saturday = "Saturday";
                     Saturday_count = 1;
-                    medicinesDuration.add(day7_Saturday);
-                }
-                else if(Saturday_count == 1){
+
+                } else if (Saturday_count == 1) {
                     Saturday.setBackground(null);
                     Saturday.setTextColor(Color.parseColor("#434242"));
                     day7_Saturday = null;
                     Saturday_count = 0;
-                    medicinesDuration.remove(6);
+
                 }
 
             }
         });
 
 
-
-        if(medicinesNames.isEmpty() || medicinesDuration.isEmpty() || medicineType.isEmpty() || medicinesTime.isEmpty()){
-            Toast.makeText(this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
-        }
-        else {
-//            medicine_added.setLayoutManager(new LinearLayoutManager(medicineReminder.this));
-//            MedicineReminderAdapter reminderAdapter = new MedicineReminderAdapter(medicinesNames, medicinesDuration, medicineType,medicinesTime);
-//            medicine_added.setAdapter(reminderAdapter);
-        }
-
-
-
-
-
-
-
-    }
-
-    private void cancelAlarm() {
-
-        Intent intent = new Intent(this, Broadcasts.class);
-        pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
-
-        if(alarmManager == null){
-
-            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        }
-
-        alarmManager.cancel(pendingIntent);
-        Toast.makeText(this, "Alarm Cancelled", Toast.LENGTH_SHORT).show();
-
-    }
-
-    private void setAlarm() {
-        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-        Intent intent = new Intent(this, Broadcasts.class);
-
-        pendingIntent = PendingIntent.getBroadcast(this,0,intent,PendingIntent.FLAG_IMMUTABLE);
+//    private void checkDuration(ArrayList<String> medicinesDuration) {
 //
-        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),AlarmManager.INTERVAL_DAY,pendingIntent);
+//        if(day1_Sunday == null){
+//            medicinesDuration.add(day1_Sunday);
+//        }
+//
+//        if(!day2_Monday.isEmpty()){
+//            medicinesDuration.add(day2_Monday);
+//        }
+//
+//        if(!day3_Tuesday.isEmpty()){
+//            medicinesDuration.add(day3_Tuesday);
+//        }
+//
+//        if(!day4_Wednesday.isEmpty()){
+//            medicinesDuration.add(day4_Wednesday);
+//        }
+//
+//        if(!day5_Thursday.isEmpty()){
+//            medicinesDuration.add(day5_Thursday);
+//        }
+//
+//        if(!day6_Friday.isEmpty()){
+//            medicinesDuration.add(day6_Friday);
+//        }
+//
+//        if(!day7_Saturday.isEmpty()){
+//            medicinesDuration.add(day7_Saturday);
+//        }
+//
+//
+//    }
 
-        Toast.makeText(this, "Alarm time set", Toast.LENGTH_SHORT).show();
     }
+        private void cancelAlarm () {
 
-    private void showTimePicker() {
+            Intent intent = new Intent(this, Broadcasts.class);
+            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-       calendar = Calendar.getInstance();
-        hour = calendar.get(Calendar.HOUR);
-        minute = calendar.get((Calendar.MINUTE));
-        //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-                if(calendar.get(Calendar.AM_PM) == Calendar.AM){
-                    TimeZone = "AM";
-                }
-                else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
-                    TimeZone = "PM";
-                }
-                TIME = String.format(Hour+":"+Minute+" "+TimeZone );
+            if (alarmManager == null) {
 
+                alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
             }
-        },hour,minute,true);
-        timePickerDialog.show();
+
+            alarmManager.cancel(pendingIntent);
+            Toast.makeText(this, "Alarm Cancelled", Toast.LENGTH_SHORT).show();
+
+        }
+
+        private void setAlarm () {
+            alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+            Intent intent = new Intent(this, Broadcasts.class);
+
+            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+            Toast.makeText(this, "Alarm time set", Toast.LENGTH_SHORT).show();
+        }
+
+        private void showTimePicker () {
+
+            calendar = Calendar.getInstance();
+            hour = calendar.get(Calendar.HOUR);
+            minute = calendar.get((Calendar.MINUTE));
+            //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
+            TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
+                    if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                        TimeZone = "AM";
+                    } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                        TimeZone = "PM";
+                    }
+                    TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
+
+                }
+            }, hour, minute, true);
+            timePickerDialog.show();
+
 
 //        picker = new MaterialTimePicker.Builder()
 //                .setTimeFormat(TimeFormat.CLOCK_12H)
@@ -527,21 +544,22 @@ public class medicineReminder extends AppCompatActivity {
 //            }
 //        });
 
-    }
-
-    private void createNotificationChannel() {
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
-            CharSequence name = "MediCure Medicine Reminder";
-            String description = "Channel for Medicine Reminder";
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel channel = new NotificationChannel("Medicure",name,importance);
-            channel.setDescription(description);
-
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
         }
 
 
+        private void createNotificationChannel() {
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                CharSequence name = "MediCure Medicine Reminder";
+                String description = "Channel for Medicine Reminder";
+                int importance = NotificationManager.IMPORTANCE_HIGH;
+                NotificationChannel channel = new NotificationChannel("Medicure", name, importance);
+                channel.setDescription(description);
+
+                NotificationManager notificationManager = getSystemService(NotificationManager.class);
+                notificationManager.createNotificationChannel(channel);
+            }
+
+
+        }
     }
-}

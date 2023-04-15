@@ -36,6 +36,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -52,6 +53,8 @@ public class updateDoctorProfile extends AppCompatActivity {
     public static final int CAMERA_CODE = 101;
     public static final int REQUEST_CODE = 100;
     public static final int GALLERY_CODE = 1000;
+    TextView Token;
+    String token;
     EditText update_full_name;
     EditText update_email_address;
     EditText update_Password;
@@ -86,6 +89,36 @@ public class updateDoctorProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_doctor_profile);
+
+        Token = findViewById(R.id.Token);
+
+        FirebaseMessaging.getInstance().getToken()
+                .addOnCompleteListener(new OnCompleteListener<String>() {
+                    @Override
+                    public void onComplete(@NonNull Task<String> task) {
+                        if (!task.isSuccessful()) {
+                            Log.w(TAG, "Fetching FCM registration token failed", task.getException());
+                            return;
+                        }
+
+                        // Get new FCM registration token
+                        token = task.getResult();
+
+                        // Log and toast
+
+                        Log.d(TAG, token);
+                        Toast.makeText(updateDoctorProfile.this, token, Toast.LENGTH_SHORT).show();
+                        Token.setText(token);
+                    }
+                });
+
+
+
+
+
+
+
+
 
 
         Update = findViewById(R.id.Update);
@@ -430,6 +463,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                 } else {
 
 
+
                     update_fName = update_full_name.getText().toString();
                     update_emailAddress = update_email_address.getText().toString();
                     update_Passcode = update_Password.getText().toString();
@@ -448,6 +482,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                     doctor.put("License #",update_license);
                     doctor.put("Specialization",update_specializations);
                     doctor.put("Bio Details",update_bio);
+                    doctor.put("Token",token);
 
 
                     AuthCredential credential = EmailAuthProvider
