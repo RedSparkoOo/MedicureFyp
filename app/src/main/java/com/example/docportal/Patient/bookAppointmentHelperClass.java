@@ -158,6 +158,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
                 intent.putExtras(bundle);
                 context.startActivity(intent);
 
+
             }
         });
 

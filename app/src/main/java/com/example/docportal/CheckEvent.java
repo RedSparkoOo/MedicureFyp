@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 public class CheckEvent {
-    private String empty = "String is Empty";
+    private String empty = "Field is Empty";
     private String iUserName = "invalid username";
     private String iEmail = "invalid email address";
     private String iPhone = "invalid phone number";
@@ -21,33 +21,42 @@ public class CheckEvent {
     private String itemName = "^[aA-zZ ]{1,30}$";
 
 
+    public Boolean checkName(TextView textView) {
+        return patternMatcher(textView, nameRegex, iUserName);
+    }
 
-    public Boolean checkName(TextView textView){return patternMatcher(textView, nameRegex, iUserName);}
+    public Boolean checkPhone(TextView textView) {
+        return patternMatcher(textView, phoneRegex, iPhone);
+    }
 
-    public Boolean checkPhone(TextView textView){return patternMatcher(textView, phoneRegex, iPhone);}
+    public Boolean checkPassword(TextView textView) {
+        return patternMatcher(textView, passwordRegex, iPassword);
+    }
 
-    public Boolean checkPassword(TextView textView){return patternMatcher(textView, passwordRegex, iPassword);}
+    public Boolean checkItemName(TextView textView) {
+        return patternMatcher(textView, itemName, iItem);
+    }
 
-    public Boolean checkItemName(TextView textView){return patternMatcher(textView, itemName, iItem);}
-
-    public Boolean checkEmail(TextView textView){
-        if(!Patterns.EMAIL_ADDRESS.matcher(textView.getText().toString()).matches()){
+    public Boolean checkEmail(TextView textView) {
+        if (!Patterns.EMAIL_ADDRESS.matcher(textView.getText().toString()).matches()) {
             textView.setError(iEmail);
             return false;
         }
         return true;
     }
-    private boolean patternMatcher(TextView textViews, String regex, String setError){
-        if(!Pattern.compile(regex).matcher(textViews.getText().toString()).find()){
+
+    private boolean patternMatcher(TextView textViews, String regex, String setError) {
+        if (!Pattern.compile(regex).matcher(textViews.getText().toString()).matches()) {
             textViews.setError(setError);
             return false;
         }
         return true;
     }
+
     public Boolean isEmpty(TextView[] textViews) {
-        Arrays.stream(textViews).filter(t->t.getText().toString().isEmpty()).forEach(t->t.setError(empty));
+        Arrays.stream(textViews).filter(t -> t.getText().toString().isEmpty()).forEach(t -> t.setError(empty));
         return Arrays.stream(textViews).anyMatch(""::equals);
     }
-    }
+}
 
 

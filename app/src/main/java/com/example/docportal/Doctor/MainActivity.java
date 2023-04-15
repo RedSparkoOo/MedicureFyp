@@ -34,6 +34,7 @@ Button Signup;
                 Intent intent = new Intent(MainActivity.this,Registeration.class);
                 startActivity(intent);
 
+
             }
         });
 

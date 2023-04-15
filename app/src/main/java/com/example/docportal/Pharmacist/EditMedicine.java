@@ -33,7 +33,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
-public class EditMedicine extends AppCompatActivity {
+public class
+EditMedicine extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
@@ -115,6 +116,7 @@ public class EditMedicine extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), MedicineList.class));
                     }
                 });
+
             }
         });
 
@@ -122,6 +124,7 @@ public class EditMedicine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), 1000);
+
             }
         });
     }

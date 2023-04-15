@@ -26,14 +26,16 @@ public class patientPharmacy extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientPharmacy.this,pharmacyEquipmentOptions.class);
                 startActivity(intent);
+
             }
         });
 
         patientPharmacyEquipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientPharmacy.this,pharmacyEquipmentOptions.class);
+                Intent intent = new Intent(patientPharmacy.this,BuyMedicalEquipment.class);
                 startActivity(intent);
+
             }
         });
 

@@ -101,6 +101,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                     }
                 },hour,minute,false);
                 timePickerDialog.show();
+
             }
         });
 
@@ -125,6 +126,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                    }
                },year,month,day);
                datePickerDialog.show();
+
            }
        });
 

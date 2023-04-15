@@ -45,6 +45,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PharmacistDashboard.this, MedicalEquipmentList.class));
+
             }
         });
 
@@ -52,6 +53,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, AddMedicine.class));
+
             }
         });
         _manageProducts.setOnClickListener(new View.OnClickListener() {
@@ -63,18 +65,21 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 catch (Exception ex){
                     Toast.makeText(PharmacistDashboard.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
         _addEquipments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, AddMedicalEquipment.class));
+
             }
         });
         _viewPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, CheckPrescription.class));
+
             }
         });
 

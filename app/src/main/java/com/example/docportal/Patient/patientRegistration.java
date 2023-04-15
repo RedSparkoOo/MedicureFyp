@@ -56,7 +56,7 @@ public class patientRegistration extends AppCompatActivity {
         patient_phoneNo = findViewById(R.id.patient_phoneNo);
         patient_Password = findViewById(R.id.patient_password);
         login = findViewById(R.id.login);
-        Register = findViewById(R.id.Submit);
+        Register = findViewById(R.id.Submit_patient);
         TextView[] textViews = {patient_fullName, patient_emailAddress, patient_Password, patient_phoneNo};
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -66,16 +66,19 @@ public class patientRegistration extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientRegistration.this, DocLogin.class);
-                startActivity(intent);
+                startActivity(new Intent(patientRegistration.this, patientDashboard.class));
+
             }
         });
 
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_fullName) || checkEvent.checkPhone(patient_phoneNo) || checkEvent.checkEmail(patient_emailAddress) || checkEvent.checkPassword(patient_Password)));
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_fullName) || checkEvent.checkPhone(patient_phoneNo) || checkEvent.checkEmail(patient_emailAddress) || checkEvent.checkPassword(patient_Password))){
+                    Toast.makeText(patientRegistration.this, "Mango", Toast.LENGTH_SHORT).show();
+                }
                 else {
+                    Toast.makeText(patientRegistration.this, "sdfsd", Toast.LENGTH_SHORT).show();
                     patient_full_name = patient_fullName.getText().toString();
                     patient_email_Address = patient_emailAddress.getText().toString();
                     patient_password = patient_Password.getText().toString();
@@ -92,6 +95,7 @@ public class patientRegistration extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Void unused) {
                                         Toast.makeText(patientRegistration.this, "Email sent to: " + patient_email_Address, Toast.LENGTH_SHORT).show();
+
                                     }
                                 });
                                 Toast.makeText(patientRegistration.this, "User Created", Toast.LENGTH_SHORT).show();
@@ -107,6 +111,7 @@ public class patientRegistration extends AppCompatActivity {
                         }
                     });
                 }
+
             }
         });
 

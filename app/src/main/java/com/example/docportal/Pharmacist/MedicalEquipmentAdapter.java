@@ -1,11 +1,8 @@
 package com.example.docportal.Pharmacist;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.os.Bundle;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,12 +13,9 @@ import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-
-public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipment,EquipmentListAdapter.EquipmentListViewHolder> {
+public class MedicalEquipmentAdapter extends FirestoreRecyclerAdapter<MedicalEquipment, MedicalEquipmentAdapter.EquipmentListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
 
@@ -31,7 +25,7 @@ public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipm
      *
      * @param options
      */
-    public EquipmentListAdapter(@NonNull FirestoreRecyclerOptions<MedicalEquipment> options) {
+    public MedicalEquipmentAdapter(@NonNull FirestoreRecyclerOptions<MedicalEquipment> options) {
         super(options);
     }
 

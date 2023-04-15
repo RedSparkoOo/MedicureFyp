@@ -3,12 +3,14 @@ package com.example.docportal.Pharmacist;
 import static com.example.docportal.R.layout.spinner_item;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -35,6 +37,7 @@ import com.google.firebase.storage.UploadTask;
 
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -53,6 +56,7 @@ public class AddMedicine extends AppCompatActivity {
     CheckEvent checkEvent;
     String _title;
     String _description;
+
     String _price;
     String _milligram;
     String _quantity;
@@ -65,20 +69,37 @@ public class AddMedicine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine);
         title = findViewById(R.id.title);
+        medicineMilligrams = findViewById(R.id.Squantity);
         description = findViewById(R.id.description);
         quantity = findViewById(R.id.quantity);
         price = findViewById(R.id.price);
         add = findViewById(R.id.Add);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Milligrams);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medicineMilligrams.setAdapter(adapter);
+        medicineMilligrams.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                _milligram =adapterView.getItemAtPosition(i).toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+
+
         medicinePic = findViewById(R.id.equip_picture);
-        medicineMilligrams = findViewById(R.id.medicine_milligram);
+
+
         fStore = FirebaseFirestore.getInstance();
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         TextView[] textViews = {title,description,price,quantity};
         checkEvent = new CheckEvent();
-        ArrayAdapter arrayAdapterMilligrams = new ArrayAdapter(this, spinner_item, Milligrams);
-        arrayAdapterMilligrams.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        medicineMilligrams.setAdapter(arrayAdapterMilligrams);
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,11 +107,12 @@ public class AddMedicine extends AppCompatActivity {
                 try {
                     if (checkEvent.isEmpty(textViews) || !(checkEvent.checkItemName(title))) ;
                     else {
+
+
                         _title = title.getText().toString();
                         _description = title.getText().toString();
                         _price = price.getText().toString();
                         _quantity = quantity.getText().toString();
-                        _milligram = medicineMilligrams.getSelectedItem().toString();
                         StorageReference filepath =firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
                         filepath.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                             @Override
@@ -123,6 +145,7 @@ public class AddMedicine extends AppCompatActivity {
                     Toast.makeText(AddMedicine.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
+
             }
 
         });
@@ -131,6 +154,7 @@ public class AddMedicine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), 1000);
+
             }
         });
     }

@@ -149,6 +149,7 @@ public class nursingServiceAdapter extends RecyclerView.Adapter<com.example.docp
                 Intent intent = new Intent(context, e_wallet.class);
 
                 context.startActivity(intent);
+
             }
         });
     }

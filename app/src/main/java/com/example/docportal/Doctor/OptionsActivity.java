@@ -82,6 +82,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         public void onClick(View v) {
             Intent view_appointment = new Intent(OptionsActivity.this, checkAppointment.class);
             startActivity(view_appointment);
+
         }
     });
 
@@ -129,6 +130,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
 
                 //noinspection deprecation
                 startActivityForResult(open_gallery, GALLERY_CODE);
+
 
             }
 

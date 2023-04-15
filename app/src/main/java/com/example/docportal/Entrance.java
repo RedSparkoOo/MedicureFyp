@@ -31,6 +31,7 @@ boolean for_patient = false;
             public void onClick(View v) {
                 for_doctor = true;
                 startActivity(new Intent(Entrance.this, MainActivity.class));
+
             }
         });
 

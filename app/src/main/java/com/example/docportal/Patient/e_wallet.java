@@ -22,6 +22,7 @@ public class e_wallet extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(e_wallet.this,patientDashboard.class);
                 startActivity(intent);
+
             }
         });
     }

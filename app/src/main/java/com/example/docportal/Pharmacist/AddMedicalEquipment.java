@@ -107,6 +107,7 @@ public class AddMedicalEquipment extends AppCompatActivity {
                     Toast.makeText(AddMedicalEquipment.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
 
+
             }
 
         });
@@ -115,6 +116,7 @@ public class AddMedicalEquipment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), 1000);
+
             }
         });
     }

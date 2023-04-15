@@ -146,6 +146,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
                 Intent intent = new Intent(context, checkAppointment.class);
 
                 context.startActivity(intent);
+
             }
         });
 

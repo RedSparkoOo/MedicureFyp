@@ -35,6 +35,7 @@ Button _patientLogin;
                 catch (Exception e){
                     Toast.makeText(patientMainPage.this, e.toString(), Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -43,6 +44,7 @@ Button _patientLogin;
             public void onClick(View v) {
                 Intent intent = new Intent(patientMainPage.this, DocLogin.class);
                 startActivity(intent);
+
             }
         });
     }

@@ -84,13 +84,17 @@ public class Registeration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(Registeration.this, DocLogin.class));
+
             }
         });
         Confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if (!checkEvent.isEmpty(textViews) || !(checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)));
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(full_name) || checkEvent.checkPhone(Phone_No) || checkEvent.checkEmail(email_address) || checkEvent.checkPassword(Password)))
+                {
+                    Toast.makeText(Registeration.this, "fgf", Toast.LENGTH_SHORT).show();
+                }
                 else {
                     fName = full_name.getText().toString();
                     emailAddress = email_address.getText().toString();
@@ -126,7 +130,8 @@ public class Registeration extends AppCompatActivity {
                         }
                     });
                 }
-                   }
+
+            }
 
         });
     }

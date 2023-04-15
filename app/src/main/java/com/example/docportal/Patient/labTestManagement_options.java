@@ -49,8 +49,9 @@ public class labTestManagement_options extends AppCompatActivity {
            testAddToCart.setOnClickListener(new View.OnClickListener() {
                @Override
                public void onClick(View v) {
-                   Intent intent = new Intent(labTestManagement_options.this, addToCart.class);
+                   Intent intent = new Intent(labTestManagement_options.this, AddToCart.class);
                    startActivity(intent);
+
                }
            });
 

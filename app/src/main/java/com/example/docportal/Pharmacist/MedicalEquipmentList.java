@@ -9,23 +9,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class MedicalEquipmentList extends AppCompatActivity {
     RecyclerView _equipmentList;
-    EquipmentListAdapter equipmentListAdapter;
+    MedicalEquipmentAdapter equipmentListAdapter;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("Medical_Equipment");
 
@@ -51,7 +45,7 @@ public class MedicalEquipmentList extends AppCompatActivity {
         Query query = noteBookref.orderBy("Title",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                 .setQuery(query, MedicalEquipment.class).build();
-        equipmentListAdapter = new EquipmentListAdapter(options);
+        equipmentListAdapter = new MedicalEquipmentAdapter(options);
         _equipmentList = findViewById(R.id.medicine_list);
         _equipmentList.setLayoutManager(new LinearLayoutManager(this));
         _equipmentList.setAdapter(equipmentListAdapter);

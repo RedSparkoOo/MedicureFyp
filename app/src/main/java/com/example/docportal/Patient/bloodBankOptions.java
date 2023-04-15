@@ -33,8 +33,9 @@ public class bloodBankOptions extends AppCompatActivity {
         bloodAddtoCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(bloodBankOptions.this,addToCart.class);
+                Intent intent = new Intent(bloodBankOptions.this,AddToCart.class);
                 startActivity(intent);
+
             }
         });
         bloodBankRecyclerview = findViewById(R.id.bloodBankRecycler);

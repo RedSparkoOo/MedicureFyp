@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.example.docportal.SplashScreen;
@@ -80,6 +81,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this,Appointment_Doctor_Check.class);
                 startActivity(intent);
+
             }
         });
 
@@ -88,6 +90,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this,searchDoctor.class);
                 startActivity(intent);
+
             }
         });
 
@@ -96,6 +99,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this,urgentCare.class);
                 startActivity(intent);
+
             }
         });
 
@@ -105,6 +109,7 @@ public class patientDashboard extends AppCompatActivity {
                public void onClick(View v) {
                    Intent intent = new Intent(patientDashboard.this,patientPrescription.class);
                    startActivity(intent);
+
                }
            });
 
@@ -117,6 +122,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, labTestManagement.class);
                 startActivity(intent);
+
             }
         });
 
@@ -127,6 +133,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, nursingService.class);
                 startActivity(intent);
+
             }
         });
 
@@ -137,6 +144,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, viewMedicalRecord.class);
                 startActivity(intent);
+
             }
         });
 
@@ -147,6 +155,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, patientOnlineConsultation.class);
                 startActivity(intent);
+
             }
         });
 
@@ -156,8 +165,14 @@ public class patientDashboard extends AppCompatActivity {
         patientPharmacyService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, pharmacyEquipmentOptions.class);
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(patientDashboard.this, BuyMedicalEquipment.class);
+                    startActivity(intent);
+                }
+                catch (Exception ex){
+                    Toast.makeText(patientDashboard.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
@@ -167,8 +182,9 @@ public class patientDashboard extends AppCompatActivity {
         patientBloodBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, bloodBank.class);
+                Intent intent = new Intent(patientDashboard.this, AddToCart.class);
                 startActivity(intent);
+
             }
         });
 
@@ -177,8 +193,15 @@ public class patientDashboard extends AppCompatActivity {
         patientHealthTracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, healthTracker.class);
-                startActivity(intent);
+                try {
+                    Intent intent = new Intent(patientDashboard.this, BuyMedicine.class);
+                    startActivity(intent);
+                }
+                catch (Exception ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+
             }
         });
 
@@ -190,6 +213,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, e_wallet.class);
                 startActivity(intent);
+
             }
         });
 
@@ -201,6 +225,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, searchDisease.class);
                 startActivity(intent);
+
             }
         });
 
@@ -209,6 +234,7 @@ public class patientDashboard extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(patientDashboard.this, customerSupport.class);
                 startActivity(intent);
+
             }
         });
 

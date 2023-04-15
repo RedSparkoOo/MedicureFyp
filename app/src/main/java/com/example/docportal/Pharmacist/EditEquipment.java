@@ -106,6 +106,7 @@ public class EditEquipment extends AppCompatActivity {
                         startActivity(new Intent(getApplicationContext(), MedicalEquipmentList.class));
                     }
                 });
+
             }
         });
 
@@ -113,6 +114,7 @@ public class EditEquipment extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), 1000);
+
             }
         });
     }

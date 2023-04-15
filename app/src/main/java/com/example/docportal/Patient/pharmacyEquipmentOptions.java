@@ -75,8 +75,9 @@ public class pharmacyEquipmentOptions extends AppCompatActivity {
         _pharmacyAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(pharmacyEquipmentOptions.this,addToCart.class);
+                Intent intent = new Intent(pharmacyEquipmentOptions.this,AddToCart.class);
                 startActivity(intent);
+
             }
         });
     }

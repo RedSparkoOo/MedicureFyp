@@ -8,7 +8,7 @@ public class Medicine {
         this.Price = price;
         this.Image = image;
         this.Milligram = milligram;
-        this.Qunatity = quantity;
+        this.Quantity = quantity;
     }
     public Medicine(){}
 
@@ -26,15 +26,16 @@ public class Medicine {
     private String Image;
     private String Milligram;
 
-    public String getQunatity() {
-        return Qunatity;
+
+    public String getQuantity() {
+        return Quantity;
     }
 
-    public void setQunatity(String qunatity) {
-        this.Qunatity = qunatity;
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
     }
 
-    private String Qunatity;
+    private String Quantity;
 
     public String getTitle() {
         return Title;

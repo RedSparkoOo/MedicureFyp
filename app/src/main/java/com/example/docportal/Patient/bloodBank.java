@@ -37,6 +37,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,patientDashboard.class);
                 startActivity(intent);
+
             }
         });
 
@@ -45,6 +46,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 
@@ -53,6 +55,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 
@@ -61,6 +64,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 
@@ -69,6 +73,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 
@@ -77,6 +82,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 
@@ -85,6 +91,7 @@ public class bloodBank extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(bloodBank.this,bloodBankOptions.class);
                 startActivity(intent);
+
             }
         });
 

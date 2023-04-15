@@ -43,6 +43,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 
@@ -52,6 +53,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 
@@ -61,6 +63,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 
@@ -70,6 +73,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 
@@ -79,6 +83,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 
@@ -88,6 +93,7 @@ public class labTestManagement extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(labTestManagement.this,labTestManagement_options.class);
                 startActivity(intent);
+
             }
         });
 

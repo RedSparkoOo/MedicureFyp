@@ -43,7 +43,7 @@ private onItemLongClickListener listener;
         holder.description.setText(model.getDescription());
         holder.price_main.setText(model.getPrice());
         holder.milligram.setText(model.getMilligram());
-        holder.quantity.setText(model.getQunatity());
+        holder.quantity.setText(model.getQuantity());
         String imageUri;
         imageUri= model.getImage();
         Picasso.get().load(imageUri).into(holder.image);
@@ -55,6 +55,11 @@ private onItemLongClickListener listener;
 
     }
 
+    public interface onItemClickListener {
+
+        void onItemClick(DocumentSnapshot snapshot, int position);
+    }
+
 
     public class MedicineListViewHolder extends RecyclerView.ViewHolder  {
         TextView title, description, price_main, quantity, milligram;
@@ -64,7 +69,7 @@ private onItemLongClickListener listener;
             image = itemView.findViewById(R.id.medi_picture);
             title = itemView.findViewById(R.id._title);
             description = itemView.findViewById(R.id._description);
-            quantity = itemView.findViewById(R.id._Quantity);
+            quantity = itemView.findViewById(R.id._quantity);
             milligram = itemView.findViewById(R.id._milligram);
             price_main = itemView.findViewById(R.id._Price_main);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

@@ -95,6 +95,7 @@ public class VerifyPhoneNo extends AppCompatActivity {
                     // method to verify the OTP.
                     verifyCode(phoneNumberByUser.getText().toString());
                 }
+
             }
         });
     }

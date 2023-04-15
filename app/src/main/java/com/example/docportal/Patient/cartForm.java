@@ -80,6 +80,7 @@ public class cartForm extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(cartForm.this,paymentConfirmation.class);
                 startActivity(intent);
+
             }
         });
 

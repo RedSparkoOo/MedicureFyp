@@ -158,7 +158,7 @@
 
 
             <Button
-                android:id="@+id/Submit"
+                android:id="@+id/Submit_patient"
                 android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"

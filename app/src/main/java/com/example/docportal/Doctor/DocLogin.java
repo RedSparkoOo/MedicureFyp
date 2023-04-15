@@ -82,12 +82,14 @@ public class DocLogin extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which){}
                 });
                 reset_password_dialog.create().show();
+
             }
         });
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DocLogin.this, Registeration.class));
+
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -117,6 +119,7 @@ public class DocLogin extends AppCompatActivity {
                 }catch(Exception e){
                     Toast.makeText(DocLogin.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
     }
