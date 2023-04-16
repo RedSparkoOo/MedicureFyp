@@ -69,7 +69,7 @@ private onItemLongClickListener listener;
             image = itemView.findViewById(R.id.medi_picture);
             title = itemView.findViewById(R.id._title);
             description = itemView.findViewById(R.id._description);
-            quantity = itemView.findViewById(R.id._quantity);
+            quantity = itemView.findViewById(R.id._Quantity);
             milligram = itemView.findViewById(R.id._milligram);
             price_main = itemView.findViewById(R.id._Price_main);
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

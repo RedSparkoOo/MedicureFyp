@@ -12,6 +12,7 @@ public class MedicalEquipment {
     }
     public MedicalEquipment() {
     }
+
     private String Image;
 
     public String getImage() {

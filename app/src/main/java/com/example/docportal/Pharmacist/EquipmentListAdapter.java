@@ -15,7 +15,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-public class MedicalEquipmentAdapter extends FirestoreRecyclerAdapter<MedicalEquipment, MedicalEquipmentAdapter.EquipmentListViewHolder> {
+public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipment,EquipmentListAdapter.EquipmentListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
 
@@ -25,7 +25,7 @@ public class MedicalEquipmentAdapter extends FirestoreRecyclerAdapter<MedicalEqu
      *
      * @param options
      */
-    public MedicalEquipmentAdapter(@NonNull FirestoreRecyclerOptions<MedicalEquipment> options) {
+    public EquipmentListAdapter(@NonNull FirestoreRecyclerOptions<MedicalEquipment> options) {
         super(options);
     }
 

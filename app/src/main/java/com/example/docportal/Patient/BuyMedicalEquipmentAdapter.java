@@ -51,6 +51,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
         holder.quantity.setText("1");
+        holder.gg.setText("");
         String imageUri;
         imageUri = model.getImage();
         Picasso.get().load(imageUri).into(holder.imageView);
@@ -59,7 +60,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Quantity = holder.quantity.getText().toString();
+                Quantity = holder.count.getText().toString();
                 Price = holder.price.getText().toString();
                 price = Integer.parseInt(Price);
                 i = Integer.parseInt(Quantity);
@@ -68,7 +69,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 else
                     i++;
                 price  = Integer.parseInt(model.getPrice())  * i;
-                holder.quantity.setText(i.toString());
+                holder.count.setText(i.toString());
                 holder.price.setText(price.toString());
 
 
@@ -77,7 +78,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.negative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Quantity = holder.quantity.getText().toString();
+                Quantity = holder.count.getText().toString();
                 Price = holder.price.getText().toString();
                 i = Integer.parseInt(Quantity);
                 if(i  ==  1)
@@ -85,7 +86,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 else
                     i--;
                 price  = Integer.parseInt(model.getPrice())  * i;
-                holder.quantity.setText(i.toString());
+                holder.count.setText(i.toString());
                 holder.price.setText(price.toString());
 
             }
@@ -99,25 +100,28 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
     @NonNull
     @Override
     public EquipmentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_to_cart_recycler,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout,parent,false);
         return new EquipmentListViewHolder(view);
     }
 
     public class EquipmentListViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, price, quantity;
+        TextView title, description, price, quantity, count, gg;
         ImageView imageView;
         Button negative, positive;
 
 
         public EquipmentListViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.etitle);
-            description = itemView.findViewById(R.id.edescription);
-            price = itemView.findViewById(R.id.eprice);
-            quantity = itemView.findViewById(R.id.equantity);
-            imageView = itemView.findViewById(R.id.eimage);
-            negative = itemView.findViewById(R.id.enegative);
-            positive = itemView.findViewById(R.id.epositive);
+            title = itemView.findViewById(R.id.productName);
+            gg= itemView.findViewById(R.id.gg);
+
+            price = itemView.findViewById(R.id.productPrice);
+            description = itemView.findViewById(R.id.productDescription);
+            quantity = itemView.findViewById(R.id.productQuantity);
+            imageView = itemView.findViewById(R.id.productImage);
+            negative = itemView.findViewById(R.id.subProduct);
+            positive = itemView.findViewById(R.id.addProduct);
+            count = itemView.findViewById(R.id.productCount);
             positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -133,7 +137,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                     int position = getAbsoluteAdapterPosition();
                     if(position != RecyclerView.NO_POSITION && listener != null){
                         listener1.onItemClick(getSnapshots().getSnapshot(position),position);
-                        
+
                     }
                 }
             });

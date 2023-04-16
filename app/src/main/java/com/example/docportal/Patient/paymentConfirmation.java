@@ -22,7 +22,6 @@ public class paymentConfirmation extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(paymentConfirmation.this,patientDashboard.class);
                 startActivity(intent);
-
             }
         });
     }

@@ -17,7 +17,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import com.example.docportal.Doctor.updateDoctorProfile;
 import com.example.docportal.Doctor.viewDoctorProfile;
 import com.example.docportal.R;
-import com.example.docportal.SplashScreen;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.android.material.navigation.NavigationView;
 
 public class PharmacistDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
@@ -45,7 +45,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(PharmacistDashboard.this, MedicalEquipmentList.class));
-
             }
         });
 
@@ -53,7 +52,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, AddMedicine.class));
-
             }
         });
         _manageProducts.setOnClickListener(new View.OnClickListener() {
@@ -65,21 +63,18 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 catch (Exception ex){
                     Toast.makeText(PharmacistDashboard.this, ex.getMessage(), Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
         _addEquipments.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, AddMedicalEquipment.class));
-
             }
         });
         _viewPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(PharmacistDashboard.this, CheckPrescription.class));
-
             }
         });
 
@@ -90,14 +85,14 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
 
-                navigationView.bringToFront();
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PharmacistDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PharmacistDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
 
-                DrawerLayout.addDrawerListener(toggle);
-                toggle.syncState();
+        DrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
 
 
-    navigationView.setNavigationItemSelectedListener(this);    // TO SELECT ITEMS IN NAVIGATION DRAWER
+        navigationView.setNavigationItemSelectedListener(this);    // TO SELECT ITEMS IN NAVIGATION DRAWER
 
 
 
@@ -122,9 +117,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
-            case R.id.Home_Navigation:
-
-                break;
             case R.id.viewProfile:
                 startActivity(new Intent(PharmacistDashboard.this, viewDoctorProfile.class));
                 break;
@@ -132,7 +124,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 startActivity(new Intent(PharmacistDashboard.this, updateDoctorProfile.class));
                 break;
             case R.id.logoutNavigation:
-               startActivity(new Intent(PharmacistDashboard.this, SplashScreen.class));
+                startActivity(new Intent(PharmacistDashboard.this, SplashScreenEntrance.class));
                 break;
         }
         DrawerLayout.closeDrawer(GravityCompat.START);

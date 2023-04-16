@@ -18,7 +18,7 @@ public class searchDoctor extends AppCompatActivity {
     List<String> doctorCategory;
     List<String> doctorPhone;
     List<Bitmap> doctorProfile;
-    com.example.docportal.Patient.searchDoctorAdapter searchDoctorAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,9 +63,7 @@ public class searchDoctor extends AppCompatActivity {
 
 
 
-        searchDoctorRecyclerview.setLayoutManager(new LinearLayoutManager(this));
-        searchDoctorAdapter = new searchDoctorAdapter(doctorNames,doctorCategory, doctorPhone);
-        searchDoctorRecyclerview.setAdapter(searchDoctorAdapter);
+
 
 
 

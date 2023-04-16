@@ -1,16 +1,14 @@
 package com.example.docportal.Patient;
 
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.docportal.Pharmacist.MedicalEquipment;
 
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
@@ -20,20 +18,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.sql.SQLOutput;
-
 public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCartAdapter.MedicineListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
 
-    public Integer getI() {
-        return i;
-    }
 
-    public Integer getPrice() {
-        return price;
-    }
 
     private Integer i, price;
     private String Quantity, Price;
@@ -56,7 +46,17 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        holder.milligram.setText(model.getMilligram());
+
+        if(model.getMilligram() == null){
+            holder.milligram.setText("");
+            holder.agg.setText("");
+            System.out.println("bla bla");
+
+        }
+        else {
+            holder.milligram.setText(model.getMilligram());
+        }
+
         holder.quantity.setText("1");
         String imageUri;
         imageUri = model.getImage();
@@ -81,19 +81,20 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
 
 
     public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, price, quantity, milligram;
+        TextView title, description, price, quantity, milligram, agg;
         ImageView imageView;
 
 
 
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.atitle);
-            description = itemView.findViewById(R.id.adescription);
-            price = itemView.findViewById(R.id.aprice);
-            quantity = itemView.findViewById(R.id.aquantity);
-            imageView = itemView.findViewById(R.id.aimage);
-            milligram = itemView.findViewById(R.id.amilligram);
+            title = itemView.findViewById(R.id.aTitle);
+            agg = itemView.findViewById(R.id.agg);
+            description = itemView.findViewById(R.id.aDescription);
+            price = itemView.findViewById(R.id.aPrice);
+            quantity = itemView.findViewById(R.id.aQuantity);
+            imageView = itemView.findViewById(R.id.aImage);
+            milligram = itemView.findViewById(R.id.aGram);
 
 
             itemView.setOnLongClickListener(new View.OnLongClickListener() {

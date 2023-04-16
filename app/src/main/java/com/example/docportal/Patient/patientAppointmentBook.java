@@ -1,23 +1,24 @@
 package com.example.docportal.Patient;
 
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -29,12 +30,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class patientAppointmentBook extends AppCompatActivity {
-    EditText full_name;
-    EditText Phone;
-    EditText Date;
-    EditText Time;
-    EditText description;
-    Button Submit;
+    EditText patient_full_name;
+    EditText patient_phone_no;
+    EditText appointment_date;
+    EditText appointment_time;
+    EditText appointment_description;
+    Button book_appointment;
 
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
@@ -53,113 +54,168 @@ public class patientAppointmentBook extends AppCompatActivity {
     String booker_name;
     String booker_phone;
     String booker_description;
-    String doctor_UIDD;
+    String doctor_phone;
+    String doctor_name;
+    String doctor_id;
     String TimeZone;
     String TIME;
     String DATE;
 
-
+    View snack_bar_layout;
+    FirebaseAuth firebaseAuth;
+    HelperFunctions helperFunctions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_patient_appointment);
-        full_name = (EditText) findViewById(R.id.AppointeeFirstName);
-        Phone = (EditText) findViewById(R.id.Phone);
-        Date = (EditText) findViewById(R.id.date);
-        Time = (EditText) findViewById(R.id.timee);
-        description = (EditText) findViewById(R.id.Description);
-        Submit = (Button) findViewById(R.id.Confirm);
-
-        booker_name = full_name.getText().toString();
-        booker_phone = Phone.getText().toString();
-        booker_description = description.getText().toString();
-
+        patient_full_name = (EditText) findViewById(R.id.patient_first_name);
+        patient_phone_no = (EditText) findViewById(R.id.patient_phone);
+        appointment_date = (EditText) findViewById(R.id.appointment_date);
+        appointment_time = (EditText) findViewById(R.id.appointment_time);
+        appointment_description = (EditText) findViewById(R.id.appointment_description);
+        book_appointment = (Button) findViewById(R.id.book);
+        firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
-        doctor_UIDD = bundle.getString("Doctor_ID");
-        full_name.setText(doctor_UIDD);
+        doctor_phone = bundle.getString("Doctor_phone");
+        doctor_name = bundle.getString("Doctor_name");
+        doctor_id = bundle.getString("Doctor_Id");
 
-        Time.setOnClickListener(new View.OnClickListener() {
+
+        snack_bar_layout = findViewById(android.R.id.content);
+        helperFunctions = new HelperFunctions();
+
+
+
+        appointment_time.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
                 hour = calendar.get(Calendar.HOUR);
                 minute = calendar.get((Calendar.MINUTE));
-              //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
+                //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(patientAppointmentBook.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
                         if(calendar.get(Calendar.AM_PM) == Calendar.AM){
-                                TimeZone = "AM";
+                            TimeZone = "AM";
                         }
                         else if(calendar.get(Calendar.AM_PM) == Calendar.PM){
-                                TimeZone = "PM";
+                            TimeZone = "PM";
                         }
-                        TIME = Hour+":"+Minute+" "+TimeZone;
-                        Time.setTextColor(Color.BLACK);
-                        Time.setText(TIME);
+                        TIME = String.format(Hour+":"+Minute+" "+TimeZone );
+                        appointment_time.setTextColor(Color.BLACK);
+                        appointment_time.setText(TIME);
                     }
                 },hour,minute,false);
                 timePickerDialog.show();
-
             }
         });
 
 
-       Date.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Calendar calendar = Calendar.getInstance();
-               day = calendar.get(Calendar.DAY_OF_MONTH);
-               month = calendar.get(Calendar.MONTH);
-               year = calendar.get(Calendar.YEAR);
+        appointment_date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar calendar = Calendar.getInstance();
+                day = calendar.get(Calendar.DAY_OF_MONTH);
+                month = calendar.get(Calendar.MONTH);
+                year = calendar.get(Calendar.YEAR);
 
-               DatePickerDialog datePickerDialog = new DatePickerDialog(patientAppointmentBook.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(patientAppointmentBook.this, new DatePickerDialog.OnDateSetListener() {
 
-                   @Override
-                   public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
 
-                       DATE = DAY+"/"+MONTH+"/"+YEAR;
-                       Date.setTextColor(Color.BLACK);
-                       Date.setText(DATE);
+                        DATE = DAY+"/"+MONTH+"/"+YEAR;
+                        appointment_date.setTextColor(Color.BLACK);
+                        appointment_date.setText(DATE);
 
-                   }
-               },year,month,day);
-               datePickerDialog.show();
-
-           }
-       });
-
-       Submit.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-
-               booker_name = full_name.getText().toString();
-               booker_phone = Phone.getText().toString();
-               booker_description = description.getText().toString();
-//               patient_UID = FAuth.getCurrentUser().getUid();
-               DocumentReference D_Ref = FStore.collection("Appointments").document(doctor_UIDD);
-
-               D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                   @Override
-                   public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
-                       Map<String, Object> appointments = new HashMap<>();
-                       appointments.put("Patient Name",booker_name);
-                       appointments.put("Patient Phone",booker_phone);
-                       appointments.put("Appointment Date",DATE);
-                       appointments.put("Appointment Time",TIME);
-                       appointments.put("Appointment Description",booker_description);
-                       D_Ref.set(appointments);
-                   }
-               });
+                    }
+                },year,month,day);
+                datePickerDialog.show();
+            }
+        });
 
 
-               Toast.makeText(patientAppointmentBook.this, booker_name + booker_phone +DATE+TIME+ booker_description, Toast.LENGTH_SHORT).show();
+        book_appointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Dialog dialog = new Dialog(patientAppointmentBook.this);
+                dialog.setContentView(R.layout.alert_box_layout);
+                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
+                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+                dialog.setCancelable(true);
+                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                Button confirm = dialog.findViewById(R.id.alert_confirm);
+                TextView cancel = dialog.findViewById(R.id.alert_cancel);
+                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+                alert_msg.setText("Are you sure you want to logout?");
+
+                confirm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
 
-           }
-       });
+                        FirebaseFirestore.getInstance().clearPersistence();
+                        FStore = FirebaseFirestore.getInstance();
+                        FAuth = FirebaseAuth.getInstance();
+
+                        if(booker_name!= null && booker_phone!= null && booker_description!= null){
+                            booker_name = null;
+                            booker_phone = null;
+                            booker_description = null;
+                        }
+
+                        booker_name = patient_full_name.getText().toString();
+                        booker_phone = patient_phone_no.getText().toString();
+                        booker_description = appointment_description.getText().toString();
+                        patient_UID = FAuth.getCurrentUser().getUid();
+
+                        DocumentReference D_Ref = FStore.collection("Appointment").document();
+
+
+                        D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                Map<String, Object> appointment = new HashMap<>();
+                                appointment.put("Patient ID",patient_UID);
+                                appointment.put("Patient Name",booker_name);
+                                appointment.put("Patient Phone No",booker_phone);
+                                appointment.put("Appointed Doctor ID", doctor_id);
+                                appointment.put("Doctor Name",doctor_name);
+                                appointment.put("Doctor Phone No",doctor_phone);
+                                appointment.put("Appointment Date",DATE);
+                                appointment.put("Appointment Time",TIME);
+                                appointment.put("Appointment Description",booker_description);
+
+
+
+                                D_Ref.set(appointment);
+                            }
+                        });
+                        dialog.dismiss();
+                        helperFunctions.snackBarShow(snack_bar_layout,"Appointment Booked");
+
+                    }
+                });
+
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        dialog.dismiss();
+                    }
+                });
+
+                dialog.show();
+
+
+
+
+
+            }
+        });
 
 
     }

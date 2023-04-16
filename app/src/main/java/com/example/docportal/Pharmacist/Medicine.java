@@ -12,6 +12,7 @@ public class Medicine {
     }
     public Medicine(){}
 
+
     private String Description;
     private String Price;
 

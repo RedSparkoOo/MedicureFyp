@@ -5,7 +5,7 @@
     <string name="exp_someone_gmail_com">Exp: Someone@gmail.com</string>
     <string name="email_address">Email Address</string>
     <string name="phone_no">Phone No</string>
-    <string name="_030xxxxxxxx">Exp: +92-311-0000000</string>
+    <string name="_030xxxxxxxx">Exp: +92–311-0000000</string>
     <string name="gender">Gender</string>
     <string name="age">Age</string>
     <string name="exp_8_2_2001">EXP: 8.2.2001</string>
@@ -63,4 +63,13 @@
     <string name="user_datee">Select Date</string>
     <string name="user_concerns">Specify the concerns you are facing</string>
     <string name="select_date">Select Date</string>
+    <string name="title_activity_lab_test_maps">lab_test_maps</string>
+    <string name="normal_map">normal_map</string>
+    <string name="hybrid_map">hybrid_map</string>
+    <string name="satellite_map">sattelite_map</string>
+    <string name="terrain_map">terrain_map</string>
+    <string name="title_activity_all_maps">allMaps</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="dropped_pin">dropped_pin</string>
+    <string name="msg_token_fmt">TokenCreated</string>
 </resources>

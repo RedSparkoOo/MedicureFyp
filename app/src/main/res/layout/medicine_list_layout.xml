@@ -20,7 +20,7 @@
         android:id="@+id/_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
+        android:layout_marginStart="27dp"
         android:fontFamily="@font/inter_font_google"
         android:text="Title"
         android:textColor="@color/black"
@@ -34,14 +34,14 @@
         android:id="@+id/_milligram"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="68dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="48dp"
         android:fontFamily="@font/inter_font_google"
-
         android:text="milligram"
+
         android:textColor="@color/black"
         android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/medi_picture"
+        app:layout_constraintStart_toEndOf="@+id/_description"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -63,7 +63,7 @@
         android:id="@+id/_Quantity"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
+        android:layout_marginStart="184dp"
         android:layout_marginTop="16dp"
         android:fontFamily="@font/inter_font_google"
 
@@ -72,16 +72,6 @@
 
         android:textSize="12sp"
         app:layout_constraintStart_toEndOf="@+id/_title"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/_quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:text="TextView"
-        app:layout_constraintStart_toEndOf="@+id/_Quantity"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

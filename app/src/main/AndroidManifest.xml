@@ -5,21 +5,115 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="packagename.permission.MAPS_RECEIVE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
+    <uses-permission android:name="android.permission.SENSOR_ACCELEROMETER" />
+    <uses-permission android:name="android.permission.SENSOR_STEP_COUNTER" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/fyp_logo_fin"
+        android:icon="@mipmap/medicure_logo"
         android:label="MediCure"
-        android:roundIcon="@mipmap/fyp_logo_fin_round"
+        android:roundIcon="@mipmap/medicure_logo"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar"
+        android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
+        tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".PatientLogin"
+            android:exported="false" />
+
+        <receiver android:name=".Broadcasts" />
+        <activity
+            android:name=".Patient.PatientLogin"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:exported="false"
+            android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
+        <activity
+            android:name=".Patient.AddToCart"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:exported="false"
+            android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
+        <activity
+            android:name=".Patient.BuyMedicalEquipment"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:exported="false"
+            android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
+        <activity
             android:name=".Patient.BuyMedicine"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:exported="false"
+            android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
+
+        <activity
+            android:name=".Patient.medicineReminder"
+            android:exported="false" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:exported="false"
+            android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
+        <!--
+             TODO: Before you run your application, you need a Google Maps API key.
+
+             To get one, follow the directions here:
+
+                https://developers.google.com/maps/documentation/android-sdk/get-api-key
+
+             Once you have your API key (it starts with "AIza"), define a new property in your
+             project's local.properties file (e.g. MAPS_API_KEY=Aiza...), and replace the
+             "YOUR_API_KEY" string in this file with "${MAPS_API_KEY}".
+            android:name=".mainstartScreen"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+
+            <meta-data
+                android:name="firebase_messaging_auto_init_enabled"
+                android:value="false" />
+            <meta-data
+                android:name="firebase_analytics_collection_enabled"
+                android:value="false" />
+        </service>
+        -->
+        <activity
+            android:name=".Patient.allMaps"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
+        <activity
+            android:name=".Pharmacist.PharmacyMainPage"
             android:exported="false" />
         <activity
             android:name=".Patient.patientRegistration"
@@ -42,7 +136,9 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
+        <activity
+            android:name=".Doctor.videoConsultation"
+            android:exported="false" />
         <activity
             android:name=".Patient.paymentConfirmation"
             android:exported="true">
@@ -58,7 +154,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.BuyMedicalEquipment"
+            android:name=".Patient.addToCart"
             android:exported="true">
             <meta-data
                 android:name="android.app.lib_name"
@@ -114,21 +210,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.AddToCart"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Patient.patientPharmacy"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.patientOnlineConsultation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -170,13 +252,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.searchDoctor"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Patient.patientPrescription"
             android:exported="false">
             <meta-data
@@ -208,7 +283,16 @@
         <activity
             android:name=".Patient.patientDashboard"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+
+        </activity>
         <activity
             android:name=".Doctor.checkAppointment"
             android:exported="true"
@@ -230,7 +314,7 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".SplashScreen"
+            android:name=".SplashScreenEntrance"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -243,31 +327,31 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Doctor.AppointmentNotifications"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Doctor.VideoCall"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Doctor.MedicalRecord"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".Patient.patientAppointmentBook"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Doctor.OptionsActivity"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan">
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name="android.intent.action.MAIN" /> -->
+
+
+            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+            <!-- </intent-filter> -->
+        </activity>
         <activity
             android:name=".Doctor.DocLogin"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Doctor.MainActivity"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Doctor.AppointmentNotifications"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -321,6 +405,14 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
+        <service
+            android:name=".MessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>

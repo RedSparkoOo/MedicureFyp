@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:textSize="16sp"
+    android:textSize="14sp"
     android:gravity="left"
     android:hint="Select One"
     android:textColorHint="@color/grey"
-    android:fontFamily="@font/inter_medium"
+    android:fontFamily="@font/pt_sans_regular"
     android:textColor="@color/light_black"
     android:padding="5dip"
     />

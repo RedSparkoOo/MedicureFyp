@@ -69,7 +69,7 @@ public class AddMedicine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_medicine);
         title = findViewById(R.id.title);
-        medicineMilligrams = findViewById(R.id.Squantity);
+        medicineMilligrams = findViewById(R.id.medicine_milligram);
         description = findViewById(R.id.description);
         quantity = findViewById(R.id.quantity);
         price = findViewById(R.id.price);

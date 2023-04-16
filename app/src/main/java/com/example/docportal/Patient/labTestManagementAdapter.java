@@ -1,9 +1,10 @@
 package com.example.docportal.Patient;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -18,15 +19,19 @@ import java.util.List;
 
 public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.labTestManagementAdapter.ViewHolder> implements Filterable {
 
-    private List<String> MoviesList;
+    private List<String> test_name_list;
+    private List<String> test_desc_list;
+    private List<String> test_price_list;
+    private List<String> test_name_list_all;
+    Context context;
 
-    private List<String> MoviesListAll;
 
+    public labTestManagementAdapter(List<String> test_name,List<String> test_description,List<String> test_cost) {
+        test_name_list = test_name;
+        test_desc_list = test_description;
+        test_price_list = test_cost;
 
-    public labTestManagementAdapter(List<String> dataSet) {
-        MoviesList = dataSet;
-
-        this.MoviesListAll = new ArrayList<>(MoviesList);
+        this.test_name_list_all = new ArrayList<>(test_name_list);
 
     }
 
@@ -42,11 +47,12 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
             List<String> filteredList = new ArrayList<>();
 
             if(charSequence.toString().isEmpty()){
-                filteredList.addAll(MoviesListAll);
+                filteredList.addAll(test_name_list_all);
             }
             else{
-                for(String  movie: MoviesListAll){
+                for(String  movie: test_name_list_all){
                     if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+
                         filteredList.add(movie);
                     }
                 }
@@ -54,6 +60,7 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
 
 
             FilterResults filterResults = new FilterResults();
+
             filterResults.values = filteredList;
 
 
@@ -62,8 +69,8 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            MoviesList.clear();
-            MoviesList.addAll((Collection<? extends String>) filterResults.values);
+            test_name_list.clear();
+            test_name_list.addAll((Collection<? extends String>) filterResults.values);
             notifyDataSetChanged();
         }
     };
@@ -74,10 +81,11 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView _labTestName;
-        private final TextView _labTestCount;
-        private final Button _addTest;
-        private final Button _subTest;
+        private final TextView lab_test_name;
+        private final TextView lab_test_description;
+        private final TextView lab_test_price;
+        private final TextView add_to_cart;
+
 
 
 
@@ -86,18 +94,28 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
             super(view);
             // Define click listener for the ViewHolder's View
 
-            _labTestName = (TextView) view.findViewById(R.id.labTestName);
-            _labTestCount = (TextView) view.findViewById(R.id.labTestCount);
-            _addTest = (Button) view.findViewById(R.id.addProduct);
-            _subTest = (Button) view.findViewById(R.id.subProduct);
-
-
+            lab_test_name = (TextView) view.findViewById(R.id.lab_test_name);
+            lab_test_description = (TextView) view.findViewById(R.id.lab_test_description);
+            lab_test_price = (TextView) view.findViewById(R.id.labTestPrice);
+            add_to_cart = (TextView) view.findViewById(R.id.add_to_cart);
 
 
         }
 
-        public TextView getTextView() {
-            return _labTestName;
+        public TextView getLab_test_description() {
+            return lab_test_description;
+        }
+
+        public TextView getLab_test_price() {
+            return lab_test_price;
+        }
+
+        public TextView getAdd_to_cart() {
+            return add_to_cart;
+        }
+
+        public TextView getLab_test_name() {
+            return lab_test_name;
 
         }
 
@@ -126,7 +144,18 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(MoviesList.get(position));
+        viewHolder.getLab_test_name().setText(test_name_list.get(position));
+        viewHolder.getLab_test_description().setText(test_desc_list.get(position));
+        viewHolder.getLab_test_price().setText(test_price_list.get(position));
+
+        viewHolder.getAdd_to_cart().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+                Intent add_to_cart = new Intent(context,AddToCart.class);
+                context.startActivity(add_to_cart);
+            }
+        });
 
     }
 
@@ -134,7 +163,7 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
     @Override
     public int getItemCount() {
 
-        return MoviesList.size();
+        return test_name_list.size();
 
     }
 }

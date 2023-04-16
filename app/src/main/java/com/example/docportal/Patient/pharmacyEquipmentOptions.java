@@ -34,7 +34,7 @@ public class pharmacyEquipmentOptions extends AppCompatActivity {
 
 
         _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
-        pharmacyCategory = findViewById(R.id.pharmacyCategory);
+
 
 
 
@@ -77,7 +77,6 @@ public class pharmacyEquipmentOptions extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(pharmacyEquipmentOptions.this,AddToCart.class);
                 startActivity(intent);
-
             }
         });
     }

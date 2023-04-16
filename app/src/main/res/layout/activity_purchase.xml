@@ -1,82 +1,119 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white_grey"
-    tools:context="Patient.addToCart">
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    tools:context=".Patient.labTestManagement_options">
 
-    <TextView
-        android:id="@+id/textView49"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="52dp"
-        android:fontFamily="@font/regular"
-        android:text="Shopping"
-        android:textColor="@color/black"
-        android:textSize="30sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView20"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView50"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:fontFamily="@font/bold"
-        android:text="Cart"
-        android:textColor="@color/black"
-        android:textSize="60sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView20"
-        app:layout_constraintTop_toBottomOf="@+id/textView49" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/addToCartRecycler"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView50"
-        app:layout_constraintVertical_bias="1.0"
-        tools:layout_editor_absoluteX="0dp" />
+        android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/toForm"
-        android:layout_width="271dp"
-        android:layout_height="42dp"
-        android:layout_margin="10dp"
-        android:background="@drawable/patient_button"
-        android:fontFamily="@font/regular"
-        android:text="Proceed"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/addToCartRecycler"
-        app:layout_constraintVertical_bias="0.448" />
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
 
-    <ImageView
-        android:id="@+id/imageView20"
-        android:layout_width="170dp"
-        android:layout_height="170dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="30dp"
-        android:src="@drawable/cart_flipped"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tprice"
-        android:layout_width="100dp"
-        android:layout_height="33dp"
-        android:textColor="@color/black"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
-        android:text="Total price"
-        app:layout_constraintStart_toEndOf="@+id/toForm"
-        app:layout_constraintTop_toBottomOf="@+id/addToCartRecycler" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Add to cart"
+            android:textColor="@color/light_black"
+            android:textSize="20sp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"/>
+
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginStart="15dp"
+            android:text="List of items in cart"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/addToCartRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="50dp"
+
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="230dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:textSize="18sp"
+
+                android:layout_marginStart="15dp"
+                android:text="Total Price"
+                android:fontFamily="@font/pt_sans_bold"
+                />
+            <TextView
+                android:id="@+id/tprice"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:textSize="18sp"
+                android:layout_marginStart="15dp"
+                android:text="Total Price"
+
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/pharmacyToCart"
+            android:layout_width="367dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Purchase"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

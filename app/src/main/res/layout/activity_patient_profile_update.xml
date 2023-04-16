@@ -1,331 +1,215 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/patient_background_portal"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    android:contentDescription="@string/app_name"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText"
     tools:context=".Patient.patientRegistration">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
+        <ImageView
+            android:id="@+id/back_to_patient_dashboard"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
 
-
-    <TextView
-        android:id="@+id/textView291"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="84dp"
-        android:fontFamily="@font/regular"
-        android:text="Let's"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.061"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    </LinearLayout>
 
     <TextView
-        android:id="@+id/textView30"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/bold"
-        android:text="Update!"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView291"
-        app:layout_constraintVertical_bias="0.0" />
+        android:fontFamily="@font/pt_sans_bold"
+        android:textAlignment="center"
+        android:text="Edit Profile"
+        android:textColor="@color/light_black"
+        android:textSize="25sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/patient_profile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/user_profile"
+        app:civ_border_width="1dp"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        app:civ_border_color="@color/extra_white"/>
+
 
     <ScrollView
-        android:id="@+id/scrollView2"
-        android:layout_width="363dp"
-        android:layout_height="416dp"
-        android:layout_marginLeft="30sp"
-        android:contentDescription="@string/app_name"
-        android:paddingTop="5dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.874">
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
             android:orientation="vertical">
 
+
             <TextView
-                android:id="@+id/textView711"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
-                android:text="@string/first_name"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:text="Full Name"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/updatePatientFirstName"
-                android:layout_width="350dp"
+                android:id="@+id/update_patient_full_name"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
+                android:drawableEnd="@drawable/update_pen"
+                android:background="@drawable/input_field"
                 android:drawablePadding="5sp"
                 android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="Exp: John"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your full name"
                 android:inputType="textPersonName"
                 android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
                 tools:ignore="TouchTargetSizeCheck" />
 
-            <TextView
-                android:id="@+id/textView811"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
-                android:text="@string/last_name"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/updatePatientLastName"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
-                android:drawablePadding="5sp"
-                android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="Exp: Smith"
-                android:inputType="textPersonName"
-                android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp" />
-
 
             <TextView
-                android:id="@+id/textView911"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
                 android:text="@string/email_address"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/updatePatientEmailAddress"
-                android:layout_width="350dp"
+                android:id="@+id/update_patient_email_address"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
+                android:background="@drawable/input_field"
                 android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
                 android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="@string/exp_someone_gmail_com"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter you Email Address"
                 android:inputType="textEmailAddress"
                 android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
                 tools:ignore="TextFields" />
 
 
+
+
             <TextView
-                android:id="@+id/textView311"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
                 android:text="@string/password"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/updatePatientPassword"
-                android:layout_width="350dp"
+                android:id="@+id/update_patient_password"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
+                android:background="@drawable/input_field"
                 android:drawablePadding="5sp"
                 android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="@string/create_it_unique"
+                android:drawableEnd="@drawable/update_pen"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Password"
                 android:inputType="textPassword"
                 android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
                 tools:ignore="TextFields" />
 
             <TextView
-                android:id="@+id/textView101"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
                 android:text="@string/phone_no"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/updatePatientPhoneNo"
-                android:layout_width="350dp"
+                android:id="@+id/update_patient_phone_no"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
+                android:background="@drawable/input_field"
                 android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
                 android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="@string/_030xxxxxxxx"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Phone Number"
                 android:inputType="textPhonetic"
                 android:paddingEnd="7sp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
                 tools:ignore="TextFields" />
 
+
+
             <TextView
-                android:id="@+id/textView1001"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
-                android:text="CNIC"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="Gender"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
-            <EditText
-                android:id="@+id/updatePatientCnic"
-                android:layout_width="350dp"
+            <Spinner
+                android:id="@+id/update_patient_gender"
+                android:layout_width="370dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
+                android:background="@drawable/spinner_field"
                 android:drawablePadding="5sp"
-                android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="@string/exp_61102_0000000_0"
-                android:inputType="number"
                 android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
-                tools:ignore="TextFields" />
-
-            <TextView
-                android:id="@+id/textView111"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
-                android:text="@string/gender"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <RadioGroup
-                android:id="@+id/updatePatientGender"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawablePadding="5sp"
-                android:paddingTop="10sp"
-                android:paddingEnd="7sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.09"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.87">
-
-                <RadioButton
-                    android:id="@+id/updateMale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:backgroundTint="@color/black"
-                    android:buttonTint="@color/purple"
-                    android:fontFamily="@font/inter_font_google"
-                    android:text="Male"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-
-                <RadioButton
-                    android:id="@+id/updatefemale"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:buttonTint="@color/purple"
-                    android:fontFamily="@font/inter_font_google"
-                    android:paddingEnd="7sp"
-                    android:text="Female"
-                    android:textColor="@color/black"
-                    android:textSize="15sp" />
-            </RadioGroup>
+                tools:ignore="SpeakableTextPresentCheck" />
 
 
-            <TextView
-                android:id="@+id/textView13"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/regular"
-                android:paddingTop="30sp"
-                android:text="@string/date_of_birth"
-                android:textColor="@color/black"
-                android:textSize="20sp" />
-
-            <EditText
-                android:id="@+id/updatePatientDateOfBirth"
-                android:layout_width="350dp"
-                android:layout_height="50dp"
-                android:layout_marginTop="5dp"
-                android:background="@drawable/patient_input_field"
-                android:drawablePadding="5sp"
-                android:ems="10"
-                android:fontFamily="@font/inter_font_google"
-                android:hint="@string/exp_8_2_2001"
-                android:inputType="textPersonName"
-                android:paddingEnd="7sp"
-                android:textColor="@color/black"
-                android:textColorHint="@color/dark_grey"
-                android:textSize="18sp"
-                tools:ignore="TextFields" />
-
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                tools:ignore="UselessLeaf" />
 
             <Button
-                android:id="@+id/updateInfo"
-                android:layout_width="150sp"
-                android:layout_height="35sp"
-                android:layout_marginTop="15dp"
+                android:id="@+id/update_patient_profile"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
-                android:background="@drawable/patient_button"
-                android:fontFamily="@font/regular"
-                android:text="Submit"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Save Changes"
+                android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:textSize="22sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.106"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.977" />
-
+                android:textSize="16sp"
+                />
 
         </LinearLayout>
     </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
 
 
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>

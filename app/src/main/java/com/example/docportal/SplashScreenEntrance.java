@@ -1,24 +1,20 @@
 package com.example.docportal;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ProgressBar;
 
-import com.airbnb.lottie.LottieAnimationView;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class SplashScreen extends AppCompatActivity {
-    LottieAnimationView lottieAnimationView;
-    ProgressBar progressBarSplash;
+public class SplashScreenEntrance extends AppCompatActivity {
+    FirebaseFirestore FStore;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash_screen);
-         progressBarSplash = findViewById(R.id.progressBarSplash);
-
 
 
         new Handler().postDelayed(new Runnable() {
@@ -29,5 +25,7 @@ public class SplashScreen extends AppCompatActivity {
 
             }
         },1000);
+
     }
+
 }

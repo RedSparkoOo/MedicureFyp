@@ -57,7 +57,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
         holder.milligram.setText(model.getMilligram());
-        holder.quantity.setText("1");
+        holder.quantity.setText(model.getQuantity());
         String imageUri;
         imageUri = model.getImage();
         Picasso.get().load(imageUri).into(holder.imageView);
@@ -66,7 +66,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Quantity = holder.quantity.getText().toString();
+                    Quantity = holder.count.getText().toString();
                     Price = holder.price.getText().toString();
 
                     price = Integer.parseInt(Price);
@@ -77,7 +77,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                     else
                         i++;
                     price = Integer.parseInt(model.getPrice()) * i;
-                    holder.quantity.setText(i.toString());
+                    holder.count.setText(i.toString());
                     holder.price.setText(price.toString());
 
 
@@ -86,7 +86,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.negative.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Quantity = holder.quantity.getText().toString();
+                    Quantity = holder.count.getText().toString();
                     Price = holder.price.getText().toString();
                     i = Integer.parseInt(Quantity);
                     if (i == 1)
@@ -94,7 +94,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                     else
                         i--;
                     price = Integer.parseInt(model.getPrice()) * i;
-                    holder.quantity.setText(i.toString());
+                    holder.count.setText(i.toString());
                     holder.price.setText(price.toString());
 
                 }
@@ -106,26 +106,28 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
     @NonNull
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_to_cart_recycler,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout,parent,false);
         return new MedicineListViewHolder(view);
     }
 
     public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, price, quantity, milligram;
+        TextView title, description, price, quantity, milligram, count;
         ImageView imageView;
         Button negative, positive;
 
 
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
-            title = itemView.findViewById(R.id.etitle);
-            description = itemView.findViewById(R.id.edescription);
-            price = itemView.findViewById(R.id.eprice);
-            quantity = itemView.findViewById(R.id.equantity);
-            imageView = itemView.findViewById(R.id.eimage);
-            milligram = itemView.findViewById(R.id.emilligram);
-            negative = itemView.findViewById(R.id.enegative);
-            positive = itemView.findViewById(R.id.epositive);
+            title = itemView.findViewById(R.id.productName);
+
+            price = itemView.findViewById(R.id.productPrice);
+            description = itemView.findViewById(R.id.productDescription);
+            quantity = itemView.findViewById(R.id.productQuantity);
+            imageView = itemView.findViewById(R.id.productImage);
+            milligram = itemView.findViewById(R.id.productGram);
+            negative = itemView.findViewById(R.id.subProduct);
+            positive = itemView.findViewById(R.id.addProduct);
+            count = itemView.findViewById(R.id.productCount);
             positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

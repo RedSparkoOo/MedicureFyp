@@ -1,89 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="0.5dp"
-    android:background="@color/dark_grey"
-    android:padding="10dp">
+    android:orientation="vertical"
+    android:elevation="4dp"
+    android:background="@drawable/linear_layout_background_2"
+    android:layout_margin="10dp">
 
-
-    <TextView
-        android:id="@+id/labTestName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="TextView"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintStart_toEndOf="@+id/imageView18"
-        app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="270dp"
-        android:layout_marginTop="110dp"
-        android:orientation="horizontal"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-
-        <Button
-            android:id="@+id/addProduct"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:background="@drawable/patient_button"
-            android:fontFamily="@font/regular"
-            android:text="+"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="210dp"
-            tools:layout_editor_absoluteY="82dp" />
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/labTestCount"
+            android:id="@+id/lab_test_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:fontFamily="@font/gentium_bold"
-            android:text="1"
-            android:textColor="@color/black"
-            android:textSize="26sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/subProduct"
-            app:layout_constraintHorizontal_bias="0.466"
-            app:layout_constraintStart_toEndOf="@+id/addProduct"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.989" />
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="Complete Blood Count"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView18"
+            app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/subProduct"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/patient_button"
-            android:fontFamily="@font/regular"
-            android:text="-"
-            android:textSize="20sp"
-            tools:layout_editor_absoluteX="362dp"
-            tools:layout_editor_absoluteY="82dp" />
+        <TextView
+            android:id="@+id/lab_test_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Complete Blood Count"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/light_black"
+            android:textSize="14sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Rs. "
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/labTestPrice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="500"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/dark_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/add_to_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="ADD TO CART"
+                android:layout_marginEnd="5dp"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/blue_2"
+                android:textSize="16sp"
+                />
+
+
+        </LinearLayout>
     </LinearLayout>
 
-    <ImageView
-        android:id="@+id/imageView18"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginLeft="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/lab_test" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

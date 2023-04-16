@@ -1,10 +1,5 @@
 package com.example.docportal.Doctor;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,10 +7,18 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.docportal.CheckEvent;
+import com.example.docportal.Entrance;
+import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.Pharmacist.PharmacistDashboard;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -24,12 +27,13 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.storage.FirebaseStorage;
+
 
 public class DocLogin extends AppCompatActivity {
     Button login;
@@ -38,8 +42,14 @@ public class DocLogin extends AppCompatActivity {
     EditText Password;
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
+    FirebaseUser FUser;
     TextView doctor_forget_password;
     String userId;
+    boolean patient_flag = false;
+    boolean doctor_flag = false;
+    Bundle rec_bundle;
+    ProgressBar progress_check;
+    ImageView back_to_selection;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,9 +59,26 @@ public class DocLogin extends AppCompatActivity {
         doctor_forget_password = (findViewById(R.id.doctorForgetPassword));
         Email =  findViewById(R.id.doctorEmail);
         Password = findViewById(R.id.doctorPassword);
+        progress_check = findViewById(R.id.progress_check);
         TextView[] textViews ={Email, Password};
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
+        back_to_selection = findViewById(R.id.back_to_selection);
+        FUser = mAuth.getCurrentUser();
+
+
+
+        progress_check.setVisibility(View.INVISIBLE);
+
+    back_to_selection.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent(DocLogin.this, Entrance.class);
+            startActivity(intent);
+        }
+    });
+
+
         doctor_forget_password.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,19 +109,23 @@ public class DocLogin extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int which){}
                 });
                 reset_password_dialog.create().show();
-
             }
         });
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(DocLogin.this, Registeration.class));
-
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                rec_bundle = getIntent().getExtras();
+                patient_flag = rec_bundle.getBoolean("patient_check");
+                doctor_flag = rec_bundle.getBoolean("doctor_check");
+                progress_check.setVisibility(View.VISIBLE);
+
                 try {
                     if (new CheckEvent().isEmpty(textViews));
                     else {
@@ -103,15 +134,55 @@ public class DocLogin extends AppCompatActivity {
                             public void onComplete(@NonNull Task<AuthResult> task) { // node45
                                 if (task.isSuccessful()) {
                                     userId = mAuth.getCurrentUser().getUid();
-                                    DocumentReference documentReference = fStore.collection("Doctor").document(userId);
-                                    documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
-                                        @Override
-                                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                            String category = value.getString("Specialization");
-                                            if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
-                                            else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
-                                        }
-                                    });
+
+                                    //patient login check
+                                    if(patient_flag){
+                                        DocumentReference documentReference = fStore.collection("Patient").document(userId);
+                                        documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                                if(FUser.isEmailVerified()){
+                                                    startActivity(new Intent(getApplicationContext(), patientDashboard.class));
+
+                                                }
+                                                else {
+                                                    progress_check.setVisibility(View.INVISIBLE);
+                                                    Toast.makeText(DocLogin.this, "Please verify your email first", Toast.LENGTH_SHORT).show();
+                                                }
+
+
+
+                                            }
+                                        });
+                                    }
+
+                                    // Doctor/Pharmacist login check
+
+                                    if(doctor_flag){
+                                        DocumentReference documentReference = fStore.collection("Doctor").document(userId);
+                                        documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                String category = value.getString("Specialization");
+
+                                                if(FUser.isEmailVerified()){
+                                                    if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
+                                                    else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
+                                                }
+                                                else {
+                                                    progress_check.setVisibility(View.INVISIBLE);
+                                                    Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                }
+
+
+                                            }
+                                        });
+                                    }
+                                }
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(DocLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
+                                    progress_check.setVisibility(View.INVISIBLE);
                                 }
                             }
                         });
@@ -119,7 +190,6 @@ public class DocLogin extends AppCompatActivity {
                 }catch(Exception e){
                     Toast.makeText(DocLogin.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
     }

@@ -19,7 +19,7 @@ import com.google.firebase.firestore.Query;
 
 public class MedicalEquipmentList extends AppCompatActivity {
     RecyclerView _equipmentList;
-    MedicalEquipmentAdapter equipmentListAdapter;
+    EquipmentListAdapter equipmentListAdapter;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("Medical_Equipment");
 
@@ -45,7 +45,7 @@ public class MedicalEquipmentList extends AppCompatActivity {
         Query query = noteBookref.orderBy("Title",Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                 .setQuery(query, MedicalEquipment.class).build();
-        equipmentListAdapter = new MedicalEquipmentAdapter(options);
+        equipmentListAdapter = new  EquipmentListAdapter (options);
         _equipmentList = findViewById(R.id.medicine_list);
         _equipmentList.setLayoutManager(new LinearLayoutManager(this));
         _equipmentList.setAdapter(equipmentListAdapter);

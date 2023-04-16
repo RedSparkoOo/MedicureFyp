@@ -1,217 +1,313 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:orientation="vertical"
+    android:background="@color/background_white"
     tools:context=".Patient.patientPrescription">
 
-
-    <ImageView
-        android:id="@+id/imageView4"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:layout_marginTop="72dp"
-        android:adjustViewBounds="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/prescriptionbackground" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="24dp"
-        android:fontFamily="@font/regular"
-        android:text="Patient Name"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-    <EditText
-        android:id="@+id/patientPrescriptionName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_marginEnd="73dp"
-        android:background="@drawable/prescriptionborder"
-        android:ems="10"
-        android:fontFamily="@font/inter_font_google"
-        android:inputType="textPersonName"
-        android:padding="3sp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/textView12"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-    <EditText
-        android:id="@+id/prescriptionPatientPhone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:layout_marginEnd="80dp"
-        android:background="@drawable/prescriptionborder"
-        android:ems="10"
-        android:fontFamily="@font/inter_font_google"
-        android:inputType="textPersonName"
-        android:padding="3sp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/textView14"
-        app:layout_constraintTop_toBottomOf="@+id/patientPrescriptionName" />
-
-    <EditText
-        android:id="@+id/prescriptionDoctorName2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:layout_marginEnd="78dp"
-        android:background="@drawable/prescriptionborder"
-        android:ems="10"
-        android:fontFamily="@font/inter_font_google"
-        android:inputType="textPersonName"
-        android:padding="3sp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintStart_toEndOf="@+id/textView23"
-        app:layout_constraintTop_toBottomOf="@+id/prescriptionPatientPhone" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="52dp"
-        android:fontFamily="@font/regular"
-        android:text="Patient Phone"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-    <TextView
-        android:id="@+id/textView23"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="80dp"
-        android:fontFamily="@font/regular"
-        android:text="Doctor Name"
-        android:textColor="@color/black"
-        android:textSize="13sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-    <EditText
-        android:id="@+id/patientPrescriptionWritten"
-        android:layout_width="330dp"
-        android:layout_height="200dp"
-        android:background="@drawable/prescriptionborder"
-        android:ems="10"
-        android:fontFamily="@font/regular"
-        android:inputType="textPersonName"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4"
-        app:layout_constraintHorizontal_bias="0.48"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.588" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="12dp"
-        android:layout_marginTop="156dp"
-        android:fontFamily="@font/regular"
-        android:text="Prescription"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toTopOf="@+id/imageView4" />
-
-    <TextView
-        android:id="@+id/textView16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="80dp"
-        android:fontFamily="@font/regular"
-        android:text="Date"
-        android:textColor="@color/black"
-        android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/imageView4"
-        app:layout_constraintTop_toBottomOf="@+id/patientPrescriptionWritten" />
-
-    <TextView
-        android:id="@+id/textView25"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/regular"
-        android:text="Or"
-        android:textColor="@color/black"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView4"
-        app:layout_constraintVertical_bias="0.298" />
+        android:orientation="vertical">
 
 
-    <EditText
-        android:id="@+id/patientPrescriptionDate"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/prescriptionborder"
-        android:ems="10"
-        android:fontFamily="@font/ubuntu_light"
-        android:inputType="textPersonName"
-        android:padding="3sp"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintStart_toStartOf="@+id/imageView4" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
-    <Button
-        android:id="@+id/uploadPrescription"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:layout_margin="20dp"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/but"
-        android:fontFamily="@font/regular"
-        android:text="Upload"
-        android:textSize="25sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView25"
-        app:layout_constraintVertical_bias="0.175" />
+            <ImageView
+                android:layout_marginTop="20dp"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="20dp"
+                android:src="@drawable/arrow_backwards"/>
 
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="100dp"
-        android:layout_height="30dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="16dp"
-        android:background="@drawable/prescription_button"
-        android:fontFamily="@font/regular"
-        android:text="Send"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="@+id/imageView4"
-        app:layout_constraintEnd_toEndOf="@+id/imageView4" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textAlignment="center"
+                android:layout_marginTop="10dp"
+                android:text="Write Prescription"
+                android:textColor="@color/light_black"
+                android:textSize="25sp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="@color/light_black"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textSize="18sp"
+                android:layout_margin="15dp"
+                android:text="Send medicines to patient based on health problems"
+                android:gravity="center"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="20dp"
+            >
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:layout_marginTop="20dp"
+                android:text="Patient Information"
+                android:textColor="@color/light_black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/prescribed_patient_name"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/full_name_avatar"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter patient name"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                />
+
+            <EditText
+                android:id="@+id/prescribed_patient_email_address"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/person_email"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter patient email address"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:layout_marginTop="40dp"
+                android:text="Doctor Information"
+                android:textColor="@color/light_black"
+                android:textSize="18sp" />
+
+            <EditText
+                android:id="@+id/prescribing_doctor_name"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/full_name_avatar"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your name"
+                android:inputType="textPersonName"
+                android:textSize="14sp"
+                />
+
+            <EditText
+                android:id="@+id/prescribing_doctor_email_address"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/person_email"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your email address"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+        </LinearLayout>
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Prescription Description"
+                android:textColor="@color/light_black"
+                android:textSize="18sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="10dp"
+                android:divider="?android:dividerHorizontal"
+                android:showDividers="middle|end"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:layout_marginTop="20dp"
+                    android:text="Medicine Description"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+
+                    <Spinner
+                        android:id="@+id/first_medicine_name"
+                        style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
+                        android:background="@drawable/spinner_field"
+                        android:layout_width="225dp"
+                        android:layout_height="40dp"/>
+
+                    <Spinner
+                        android:id="@+id/first_medicine_weight"
+                        android:background="@drawable/spinner_field"
+                        android:layout_marginStart="10dp"
+                        android:layout_width="130dp"
+                        android:layout_height="40dp"/>
+
+                </LinearLayout>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:layout_marginTop="10dp"
+                    android:text="Purpose"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+
+                <EditText
+                    android:id="@+id/medicine_purpose"
+                    android:layout_width="370dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/input_field"
+                    android:ems="10"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:gravity="top|left"
+                    android:hint="Specify the disease reference i-e fever, headache"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:layout_marginTop="10dp"
+                    android:text="Usage"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <EditText
+                    android:id="@+id/first_medicine_usage"
+                    android:layout_width="370dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="10dp"
+                    android:paddingLeft="10dp"
+                    android:paddingTop="10dp"
+                    android:gravity="top|left"
+                    android:inputType="textMultiLine"
+                    android:maxLines="10"
+                    android:background="@drawable/input_field"
+                    android:ems="10"
+                    android:textColor="@color/black"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:hint="Specify the consumption of medicine"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/select_total"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/but"
+                    android:text="Select"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:textSize="14sp"
+                    android:textAllCaps="false"
+                    />
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/selected_medics"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Selected Medicines"
+                android:textColor="@color/light_black"
+                android:textSize="18sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/prescription_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edges"
+                android:layout_marginTop="10dp"
+                android:elevation="4dp"
+                android:layout_marginBottom="50dp">
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <Button
+                android:id="@+id/send_total"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/but"
+                android:text="Send"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textSize="14sp"
+                android:textAllCaps="false"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

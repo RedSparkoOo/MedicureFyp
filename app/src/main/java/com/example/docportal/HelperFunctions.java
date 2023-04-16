@@ -1,21 +1,15 @@
 package com.example.docportal;
 
-import androidx.annotation.NonNull;
+import android.view.View;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-
-import java.util.HashMap;
-import java.util.Map;
+import com.google.android.material.snackbar.Snackbar;
 
 public class HelperFunctions {
 
+    public void snackBarShow(View snack_bar_layout, String msg){
+        Snackbar.make(snack_bar_layout,msg,Snackbar.LENGTH_SHORT).show();
+
+    }
 
 
 }

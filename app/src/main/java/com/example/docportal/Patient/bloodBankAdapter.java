@@ -1,12 +1,14 @@
 package com.example.docportal.Patient;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -18,16 +20,23 @@ import java.util.List;
 
 public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.bloodBankAdapter.ViewHolder> implements Filterable {
 
-    private List<String> productList;
+    private List<String> rec_blood_group_names;
+    private List<String> rec_blood_group_donors;
+    private List<String> rec_blood_group_acceptors;
+    private List<String> rec_blood_unit_price;
+    private List<String> rec_blood_group_names_all;
+    private List<Integer> rec_blood_group_quantity;
 
-    private List<String> productListAll;
+    int quantity = 0;
+    Context context;
 
+    public bloodBankAdapter(List<String> fetched_blood_group,List<String> fetched_donors,List<String> fetched_acceptors,List<String> unit_price) {
+        rec_blood_group_names = fetched_blood_group;
+        rec_blood_group_donors = fetched_donors;
+        rec_blood_group_acceptors = fetched_acceptors;
+        rec_blood_unit_price = unit_price;
 
-    public bloodBankAdapter(List<String> dataSet) {
-        productList = dataSet;
-
-
-        this.productListAll = new ArrayList<>(productList);
+        this.rec_blood_group_names_all = new ArrayList<>(rec_blood_group_names);
 
     }
 
@@ -43,10 +52,10 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
             List<String> filteredList = new ArrayList<>();
 
             if(charSequence.toString().isEmpty()){
-                filteredList.addAll(productListAll);
+                filteredList.addAll(rec_blood_group_names_all);
             }
             else{
-                for(String  movie: productListAll){
+                for(String  movie: rec_blood_group_names_all){
                     if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
@@ -63,8 +72,8 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
 
         @Override
         protected void publishResults(CharSequence charSequence, FilterResults filterResults) {
-            productList.clear();
-            productList.addAll((Collection<? extends String>) filterResults.values);
+            rec_blood_group_names.clear();
+            rec_blood_group_names.addAll((Collection<? extends String>) filterResults.values);
             notifyDataSetChanged();
         }
     };
@@ -75,11 +84,13 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
      * (custom ViewHolder).
      */
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView _productName;
-        //        private final TextView _productCount;
-
-        private final Button _addProduct;
-        private final Button _subProduct;
+        private final TextView bg_name;
+        private final TextView bg_donors;
+        private final TextView bg_acceptors;
+        private final TextView bg_unit_price;
+        private final TextView bg_unit_quantity;
+        private final ImageView _addProduct;
+        private final ImageView _subProduct;
 
 
 
@@ -88,25 +99,45 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
             super(view);
             // Define click listener for the ViewHolder's View
 
-            _productName = (TextView) view.findViewById(R.id.bloodName);
-//            _productCount = (TextView) view.findViewById(R.id.productCount);
-
-            _addProduct = (Button) view.findViewById(R.id.addProduct);
-            _subProduct = (Button) view.findViewById(R.id.subProduct);
-
-
+            bg_name = (TextView) view.findViewById(R.id.blood_group_name);
+            bg_donors = (TextView) view.findViewById(R.id.blood_donor_group);
+            bg_acceptors = (TextView) view.findViewById(R.id.lab_acceptor_group);
+            bg_unit_price = (TextView) view.findViewById(R.id.blood_unit_price);
+            bg_unit_quantity = (TextView) view.findViewById(R.id.blood_unit_quantity);
+            _addProduct = (ImageView) view.findViewById(R.id.add_sign);
+            _subProduct = (ImageView) view.findViewById(R.id.sub_sign);
 
 
         }
 
-        public TextView getTextView() {
-            return _productName;
+        public TextView getBg_name() {
+            return bg_name;
+        }
 
+        public TextView getBg_donors() {
+            return bg_donors;
+        }
+
+        public TextView getBg_acceptors() {
+            return bg_acceptors;
+        }
+
+        public TextView getBg_unit_price() {
+            return bg_unit_price;
         }
 
 
+        public ImageView get_addProduct() {
+            return _addProduct;
+        }
 
+        public TextView getBg_unit_quantity() {
+            return bg_unit_quantity;
+        }
 
+        public ImageView get_subProduct() {
+            return _subProduct;
+        }
     }
 
 
@@ -131,7 +162,38 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
-        viewHolder.getTextView().setText(productList.get(position));
+        viewHolder.getBg_name().setText(rec_blood_group_names.get(position));
+        viewHolder.getBg_donors().setText(rec_blood_group_donors.get(position));
+        viewHolder.getBg_acceptors().setText(rec_blood_group_acceptors.get(position));
+        viewHolder.getBg_unit_price().setText(rec_blood_unit_price.get(position));
+        viewHolder.getBg_unit_quantity().setText(Integer.toString(quantity));
+
+        viewHolder.get_addProduct().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+
+                ++quantity;
+                viewHolder.getBg_unit_quantity().setText(Integer.toString(quantity));
+
+            }
+        });
+
+        viewHolder.get_subProduct().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+
+                if(quantity == 0){
+                    Toast.makeText(context, "quantity already 0", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    --quantity;
+                    viewHolder.getBg_unit_quantity().setText(Integer.toString(quantity));
+                }
+
+            }
+        });
 
 
     }
@@ -140,7 +202,7 @@ public class bloodBankAdapter extends RecyclerView.Adapter<com.example.docportal
     @Override
     public int getItemCount() {
 
-        return productList.size();
+        return rec_blood_group_names.size();
 
     }
 }
