@@ -2,7 +2,6 @@ package com.example.docportal.Doctor;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,29 +10,21 @@ import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Patient.bookAppointmentHelperClass;
 import com.example.docportal.R;
-import com.example.docportal.SplashScreenEntrance;
-import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.SetOptions;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,7 +204,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                 Button confirm = dialog.findViewById(R.id.alert_confirm);
                 TextView cancel = dialog.findViewById(R.id.alert_cancel);
                 TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                alert_msg.setText("Are you sure you want to logout?");
+                alert_msg.setText("Confirm Selection?");
 
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -235,7 +226,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
                 dialog.show();
 
-         ;
+
             }
         });
 

@@ -33,6 +33,7 @@ public class healthTracker extends AppCompatActivity{
     CountDownTimer countDownTimer;
     TextView steps_status;
     private Button med_remind_activity;
+    private Button med_remind_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +47,15 @@ public class healthTracker extends AppCompatActivity{
         step_progress_bar = findViewById(R.id.step_progress_bar);
         steps_status = findViewById(R.id.steps_status);
         med_remind_activity= findViewById(R.id.med_remind_activity);
+        med_remind_check = findViewById(R.id.med_remind_check);
+
+        med_remind_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(healthTracker.this,ReminderStored.class);
+                startActivity(intent);
+            }
+        });
 
         med_remind_activity.setOnClickListener(new View.OnClickListener() {
             @Override

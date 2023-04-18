@@ -17,9 +17,7 @@
     <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />
     <uses-permission android:name="android.permission.SENSOR_ACCELEROMETER" />
     <uses-permission android:name="android.permission.SENSOR_STEP_COUNTER" />
-    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
-
-
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
 
     <application
         android:allowBackup="true"
@@ -32,8 +30,11 @@
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:replace="android:label"
         tools:targetApi="31">
+        <activity
+            android:name=".Patient.ReminderStored"
+            android:exported="false" />
 
-        <receiver android:name=".Broadcasts"/>
+        <receiver android:name=".Broadcasts" />
 
         <activity
             android:name=".Patient.medicineReminder"
@@ -67,7 +68,6 @@
                 android:value="false" />
         </service>
         -->
-
         <activity
             android:name=".Patient.allMaps"
             android:exported="true"
@@ -245,22 +245,20 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
+            android:name=".Patient.patientDashboard"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Patient.patient_online_consultation"
+            android:exported="true"
+            android:windowSoftInputMode="adjustPan" /> <!-- <intent-filter> -->
+        <!-- <action android:name="android.intent.action.MAIN" /> -->
+        <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
+        <!-- </intent-filter> -->
+        <activity
             android:name=".Patient.patientViewProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Patient.patientDashboard"
-            android:exported="true"
-            android:windowSoftInputMode="adjustPan">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-
-        </activity>
         <activity
             android:name=".Doctor.checkAppointment"
             android:exported="true"
