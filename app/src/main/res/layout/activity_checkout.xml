@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/extra_white"
-    android:orientation="vertical"
-    tools:context=".Patient.labTestManagement_options">
-
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".Patient.CheckoutActivityJava"
+    >
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -99,21 +98,25 @@
 
         </LinearLayout>
 
-        <Button
-            android:id="@+id/stripe_payment"
-            android:layout_width="367dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="100dp"
-            android:background="@drawable/but"
-            android:elevation="4dp"
-            android:fontFamily="@font/pt_sans_regular"
-            android:text="Purchase"
-            android:textAllCaps="false"
-            android:textColor="@color/extra_white"
-            android:textSize="16sp" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/pay_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="48dp"
+        android:text="Pay now"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent" />
 
-
-</androidx.appcompat.widget.LinearLayoutCompat>
+    <Button
+        android:id="@+id/address_button"
+        android:text="Add shipping address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -72,7 +72,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
         _pharmacyAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(BuyMedicalEquipment.this,AddToCart.class);
+                Intent intent = new Intent(BuyMedicalEquipment.this,CheckoutActivityJava.class);
                 startActivity(intent);
             }
         });

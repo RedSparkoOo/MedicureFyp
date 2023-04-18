@@ -50,6 +50,7 @@ dependencies {
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
 
+
     // FirebaseUI for Cloud Storage
     implementation 'com.firebaseui:firebase-ui-storage:8.0.2'
 
@@ -66,6 +67,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.firebase:firebase-database-ktx:20.2.0'
     implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
+
+    implementation 'com.stripe:stripe-android:20.22.0'
 
 
     testImplementation 'junit:junit:4.13.2'
