@@ -167,8 +167,11 @@ public class DocLogin extends AppCompatActivity {
                                                 String category = value.getString("Specialization");
 
                                                 if(FUser.isEmailVerified()){
+
+
                                                     if (category.equals("Pharmacist")) startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
                                                     else startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
+
                                                 }
                                                 else {
                                                     progress_check.setVisibility(View.INVISIBLE);

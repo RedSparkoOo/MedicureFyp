@@ -1,57 +1,151 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/patient_background_portal"
+    android:orientation="vertical"
+    android:background="@color/background_white"
     tools:context=".Patient.urgentCare">
 
 
-
-    <com.airbnb.lottie.LottieAnimationView
-        android:id="@+id/patientUrgentCare"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.9"
-        app:lottie_autoPlay="true"
-        app:lottie_rawRes="@raw/signal_urgent">
+        android:orientation="vertical">
 
-    </com.airbnb.lottie.LottieAnimationView>
+        <ImageView
+            android:id="@+id/patientUrgent_backToDashboard"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Urgent Care"
+            android:textColor="@color/light_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textAlignment="center"
+            android:text="Reach out your care ones with one touch away"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+
+
+
+    </LinearLayout>
+
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="vertical">
     <TextView
-        android:id="@+id/textView26"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="140dp"
-        android:fontFamily="@font/bold"
-        android:text="Emergency!"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:fontFamily="@font/pt_sans_bold"
+        android:layout_marginTop="10dp"
+        android:text="Emergency Contacts"
+        android:textColor="@color/light_black"
+        android:textSize="22sp" />
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_marginTop="20dp"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+       <androidx.recyclerview.widget.RecyclerView
+           android:id="@+id/urgent_recycler"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="0.0"
+           tools:layout_editor_absoluteX="0dp">
+
+
+       </androidx.recyclerview.widget.RecyclerView>
+
+       <ImageView
+           android:id="@+id/empty_phone_book"
+           android:layout_width="250dp"
+           android:layout_height="250dp"
+           android:src="@drawable/empty_book"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintEnd_toEndOf="parent"
+           app:layout_constraintStart_toStartOf="parent"
+           app:layout_constraintTop_toTopOf="parent" />
+
+
+
+
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
 
     <TextView
-        android:id="@+id/urgentPress"
-        android:layout_width="wrap_content"
+        android:id="@+id/no_contacts_added"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/regular"
-        android:text="Press"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        app:layout_constraintBottom_toBottomOf="@+id/patientUrgentCare"
-        app:layout_constraintEnd_toEndOf="@+id/patientUrgentCare"
-        app:layout_constraintHorizontal_bias="0.502"
-        app:layout_constraintStart_toStartOf="@+id/patientUrgentCare"
-        app:layout_constraintTop_toTopOf="@+id/patientUrgentCare"
-        app:layout_constraintVertical_bias="0.518" />
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="No Contacts Added!"
+        android:textColor="@color/light_black"
+        android:textSize="22sp"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</LinearLayout>
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+  <androidx.constraintlayout.widget.ConstraintLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="bottom"
+      >
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:gravity="end"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          app:layout_constraintVertical_bias="1.0"
+          tools:layout_editor_absoluteX="0dp">
+
+          <ImageView
+              android:id="@+id/add_contacts"
+              android:layout_width="70dp"
+              android:layout_height="70dp"
+              android:layout_margin="20dp"
+              android:layout_marginTop="0dp"
+              android:src="@drawable/add_urgent">
+
+
+          </ImageView>
+
+
+      </LinearLayout>
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

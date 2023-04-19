@@ -15,8 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -24,8 +24,8 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
+
+import timber.log.Timber;
 
 
 public class checkAppointment extends AppCompatActivity {
@@ -120,6 +120,7 @@ public class checkAppointment extends AppCompatActivity {
 
                             appointed_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor ID"));
 
+
                             if (appointed_doctor_id.equals(User_id)) {
 
                                 appointment_ids.add(dc.getDocument().getId());
@@ -133,7 +134,6 @@ public class checkAppointment extends AppCompatActivity {
                                 appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
 
                                 checkAppointmentAdapter = new checkAppointmentAdapter(appointment_ids,patient_name, patient_phone,Doctor_name, Doctor_phone, appointment_date, appointment_time, appointment_description, User_id, patient_id, new checkAppointmentAdapter.ItemClickListenerCheck() {
-
                                     @Override
                                     public String onItemClick(String details) {
                                         Log.d(TAG, "onItemClick: Works ");
@@ -141,24 +141,16 @@ public class checkAppointment extends AppCompatActivity {
                                     }
                                 });
                                 patient_appointment_recycler_view.setAdapter(checkAppointmentAdapter);
+                                store_notification_count();
                                 checkAppointmentAdapter.notifyDataSetChanged();
-                                ++notification_count;
 
 
                             }
 
-//                        checkAppointmentAdapter.notifyDataSetChanged();
                         }
                     }
                 }
-                store_notification_count(User_id,notification_count);
 
-
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.REMOVED) {
-                        checkAppointmentAdapter.notifyDataSetChanged();
-                    }
-                }
             }
         });
 
@@ -166,11 +158,24 @@ public class checkAppointment extends AppCompatActivity {
 
 
 
-    public void store_notification_count(String id, int count) {
-        DocumentReference documentReference = firestore.collection("notification").document(id);
-        Map<String, Object> notification = new HashMap<>();
-        notification.put("notifications", String.valueOf(count));
-        documentReference.set(notification);
+    public void store_notification_count() {
+        CollectionReference reference = firestore.collection("Appointment");
+        reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                    if(error != null){
+                        Toast.makeText(checkAppointment.this, "Listen failed", Toast.LENGTH_SHORT).show();
+                    }
+
+                    for(DocumentChange dc : value.getDocumentChanges()){
+                        switch (dc.getType()){
+                            case ADDED:
+                                Timber.tag(TAG).d("New message: " + dc.getDocument().getData());
+                                String Title = "New";
+                        }
+                    }
+            }
+        });
 
     }
 

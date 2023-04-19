@@ -155,10 +155,26 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 doctor_id_stored = patient_id.get(position);
 
                 approvedAppointments(doctor_id_stored,patient_name,patient_phone,doctor_name,doctor_phone,appointment_date,appointment_time);
-                DeleteData(appointment_id);
+                DeleteData(list_appointment_id.get(position));
+
+                list_appointment_id.remove(position);
                 list_patient_name.remove(position);
+                list_patient_phone.remove(position);
+                list_doctor_name.remove(position);
+                list_doctor_phone.remove(position);
+                list_patient_date.remove(position);
+                list_patient_time.remove(position);
+                list_patient_desc.remove(position);
+
                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, list_appointment_id.size());
                 notifyItemRangeChanged(position, list_patient_name.size());
+                notifyItemRangeChanged(position, list_patient_phone.size());
+                notifyItemRangeChanged(position, list_doctor_name.size());
+                notifyItemRangeChanged(position, list_doctor_phone.size());
+                notifyItemRangeChanged(position, list_patient_date.size());
+                notifyItemRangeChanged(position, list_patient_time.size());
+                notifyItemRangeChanged(position, list_patient_desc.size());
 
             }
         });
@@ -169,15 +185,33 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
             public void onClick(View v) {
 
                 context = v.getContext();
-                listenerCheck.onItemClick(patient_id.get(position));
-                doctor_id_stored = patient_id.get(position);
-                String appointment_id = list_appointment_id.get(position);
-                Toast.makeText(context, doctor_id_stored.toString(), Toast.LENGTH_SHORT).show();
-                DeleteData(appointment_id);
+//                listenerCheck.onItemClick(patient_id.get(position));
+                Toast.makeText(context, list_appointment_id.get(position), Toast.LENGTH_SHORT).show();
+
                 Toast.makeText(context, "Denied", Toast.LENGTH_SHORT).show();
+
+                DeleteData(list_appointment_id.get(position));
+                list_appointment_id.remove(position);
                 list_patient_name.remove(position);
+                list_patient_phone.remove(position);
+                list_doctor_name.remove(position);
+                list_doctor_phone.remove(position);
+                list_patient_date.remove(position);
+                list_patient_time.remove(position);
+                list_patient_desc.remove(position);
+
                 notifyItemRemoved(position);
+                notifyItemRangeChanged(position, list_appointment_id.size());
                 notifyItemRangeChanged(position, list_patient_name.size());
+                notifyItemRangeChanged(position, list_patient_phone.size());
+                notifyItemRangeChanged(position, list_doctor_name.size());
+                notifyItemRangeChanged(position, list_doctor_phone.size());
+                notifyItemRangeChanged(position, list_patient_date.size());
+                notifyItemRangeChanged(position, list_patient_time.size());
+                notifyItemRangeChanged(position, list_patient_desc.size());
+
+
+
 
 
 

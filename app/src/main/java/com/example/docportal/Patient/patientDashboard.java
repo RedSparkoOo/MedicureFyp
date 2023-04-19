@@ -155,8 +155,13 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
               try {
+                  int enterAnim = R.anim.slide_in_right;
+                  int exitAnim = R.anim.slide_out_left;
+
                   Intent appointment = new Intent(patientDashboard.this, Appointment_Doctor_Check.class);
                   startActivity(appointment);
+
+                  overridePendingTransition(enterAnim, exitAnim);
               }
               catch (Exception e){
                   Toast.makeText(patientDashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
