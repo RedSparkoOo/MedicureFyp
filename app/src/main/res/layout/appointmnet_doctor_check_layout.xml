@@ -4,9 +4,9 @@
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
     android:padding="5dp"
-    android:elevation="3dp"
+    android:elevation="5dp"
     android:orientation="vertical"
-    android:background="@drawable/linear_layout_background"
+    android:background="@drawable/edges"
     >
 
     <LinearLayout
@@ -16,8 +16,8 @@
 
         <ImageView
             android:id="@+id/doctor_profile"
-            android:layout_width="80dp"
-            android:layout_height="80dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
             android:layout_margin="10dp"
             android:background="@drawable/image_round_outline"
             android:clipToOutline="true"
@@ -43,7 +43,7 @@
                    android:layout_marginTop="10dp"
                    android:text="Dr. "
                    android:textColor="@color/light_black"
-                   android:textSize="18sp" />
+                   android:textSize="16sp" />
                <TextView
                    android:id="@+id/appointment_doctor_name"
                    android:layout_width="match_parent"
@@ -52,7 +52,7 @@
                    android:fontFamily="@font/pt_sans_bold"
                    android:text="Ali"
                    android:textColor="@color/light_black"
-                   android:textSize="18sp" />
+                   android:textSize="16sp" />
 
 
            </LinearLayout>
@@ -65,7 +65,7 @@
                 android:textStyle="bold"
                 android:layout_marginStart="5dp"
                 android:text="Cardiologist"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="3dp"
                 android:textSize="14sp"
                 android:textColor="@color/light_black" />
 
@@ -86,20 +86,7 @@
                 android:orientation="horizontal">
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:gravity="right"
-                    android:orientation="vertical">
 
-                    <RatingBar
-                        android:layout_width="15dp"
-                        android:layout_height="15dp"
-                        android:layout_marginStart="5dp"
-                        android:background="@drawable/rating_star">
-
-                    </RatingBar>
-                </LinearLayout>
 
 
             </LinearLayout>
@@ -134,6 +121,7 @@
             android:textSize="12sp"
             android:elevation="4dp"
             android:textAllCaps="false"
+            android:layout_margin="5dp"
             android:fontFamily="@font/pt_sans_regular"
             android:text="Book"
             />

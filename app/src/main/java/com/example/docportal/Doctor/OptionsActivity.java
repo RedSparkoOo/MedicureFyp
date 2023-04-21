@@ -161,7 +161,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     });
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+        DocumentReference documentReference = firestore.collection("Professions").document(user_id);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -177,7 +177,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         });
 
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+firebaseAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -233,7 +233,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
 
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
         doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {

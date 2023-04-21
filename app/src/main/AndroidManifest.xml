@@ -31,6 +31,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".Pharmacist.PharmacistRegistration"
+            android:exported="false" />
+        <activity
             android:name=".Patient.UrgentCareForm"
             android:exported="false" />
         <activity
@@ -85,6 +88,12 @@
         </activity>
         <activity
             android:name=".Pharmacist.PharmacyMainPage"
+            android:exported="false" />
+        <activity
+            android:name=".Pharmacist.PharmacistLogin"
+            android:exported="false" />
+        <activity
+            android:name=".Patient.PatientLogin"
             android:exported="false" />
         <activity
             android:name=".Patient.patientRegistration"

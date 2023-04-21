@@ -158,11 +158,49 @@
 
         </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/doctor_list_recycler"
-            android:layout_margin="10dp"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            >
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/doctor_list_recycler"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@drawable/custom_border_white"
+                android:padding="5dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="20dp" />
+
+            <ImageView
+                android:id="@+id/no_doctor_image"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/person_missing"
+                app:layout_constraintEnd_toEndOf="@+id/doctor_list_recycler"
+                app:layout_constraintStart_toStartOf="@+id/doctor_list_recycler"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </ImageView>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <TextView
+            android:id="@+id/no_doctors_available"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="8dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
+            android:text="Oops! Looks like no doctor is available"
+            android:textColor="@color/light_black"
+            android:textSize="16sp" />
     </LinearLayout>
 
 </androidx.appcompat.widget.LinearLayoutCompat>

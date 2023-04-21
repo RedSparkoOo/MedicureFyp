@@ -138,7 +138,7 @@ public class updateDoctorProfile extends AppCompatActivity {
         user_id = fAuth.getCurrentUser().getUid();
         doctor_user = fAuth.getCurrentUser();
         Map<String,Object> doctor = new HashMap<>();
-        DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+        DocumentReference documentReference = firestore.collection("Professions").document(user_id);
 
         doctor_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                 update_Password.setText(documentSnapshot.getString("Password"));
                 update_Phone_No.setText(documentSnapshot.getString("Phone #"));
                 update_License.setText(documentSnapshot.getString("License #"));
-                present_specialization = documentSnapshot.getString("Specialization");
+                present_specialization = documentSnapshot.getString("Doctor_profession");
                 Selected_gender = documentSnapshot.getString("Gender");
                 update_doctor_bio.setText(documentSnapshot.getString("Bio Details"));
                 old_email = documentSnapshot.getString("Email Address");
@@ -480,7 +480,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                     doctor.put("Phone #",update_phoneNo);
                     doctor.put("Gender",update_gend);
                     doctor.put("License #",update_license);
-                    doctor.put("Specialization",update_specializations);
+                    doctor.put("Doctor_profession",update_specializations);
                     doctor.put("Bio Details",update_bio);
                     doctor.put("Token",token);
 

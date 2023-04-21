@@ -60,7 +60,7 @@ public class viewDoctorProfile extends AppCompatActivity {
                @Override
                public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
                    doctor_name.setText(documentSnapshot.getString("Full Name"));
-                   doctor_specialization.setText(documentSnapshot.getString("Specialization"));
+                   doctor_specialization.setText(documentSnapshot.getString("Doctor_profession"));
                    doctor_email.setText(documentSnapshot.getString("Email Address"));
                    doctor_phone.setText(documentSnapshot.getString("Phone #"));
                    doctor_license.setText(documentSnapshot.getString("License #"));

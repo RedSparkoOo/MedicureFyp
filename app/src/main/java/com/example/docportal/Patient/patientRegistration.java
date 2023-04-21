@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,6 +39,7 @@ public class patientRegistration extends AppCompatActivity {
     Spinner patient_gender;
     TextView login;
     Button Register;
+    ImageView back_to_patientpage;
 
     String patient_full_name;
     String patient_email_Address;
@@ -47,10 +49,7 @@ public class patientRegistration extends AppCompatActivity {
     String Gender[] = {"","Male","Female"};
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
-    String user_id;
-    boolean patient_check = true;
-    boolean doctor_check = false;
-    Bundle bundle;
+    String user_id;;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,6 +62,7 @@ public class patientRegistration extends AppCompatActivity {
         patient_gender = findViewById(R.id.patient_gender);
         login = findViewById(R.id.login);
         Register = findViewById(R.id.Submit);
+        back_to_patientpage = findViewById(R.id.back_to_patientpage);
         TextView[] textViews = {patient_fullName, patient_emailAddress, patient_Password, patient_phoneNo};
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
@@ -71,6 +71,14 @@ public class patientRegistration extends AppCompatActivity {
         ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(this, spinner_item, Gender);
         arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         patient_gender.setAdapter(arrayAdapterSpecialization);
+
+        back_to_patientpage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patientRegistration.this,patientMainPage.class);
+                startActivity(intent);
+            }
+        });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

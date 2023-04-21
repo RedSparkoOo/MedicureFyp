@@ -4,20 +4,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.docportal.Doctor.DocLogin;
+import com.example.docportal.Entrance;
 import com.example.docportal.R;
 
 public class patientMainPage extends AppCompatActivity {
 Button _patientSignup;
 Button _patientLogin;
-
-    Bundle patient;
-    boolean patient_check = true;
-    boolean doctor_check = false;
+ImageView back_to_entrance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +23,15 @@ Button _patientLogin;
 
         _patientLogin = findViewById(R.id.patientLogin);
         _patientSignup = findViewById(R.id.patientSignUp);
+        back_to_entrance = findViewById(R.id.back_to_entrance);
+
+        back_to_entrance.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patientMainPage.this, Entrance.class);
+                startActivity(intent);
+            }
+        });
 
 
         _patientSignup.setOnClickListener(new View.OnClickListener() {
@@ -45,11 +52,7 @@ Button _patientLogin;
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(patientMainPage.this, DocLogin.class);
-                patient = new Bundle();
-                patient.putBoolean("patient_check",patient_check);
-                patient.putBoolean("doctor_check",doctor_check);
-                intent.putExtras(patient);
+                Intent intent = new Intent(patientMainPage.this, PatientLogin.class);
                 startActivity(intent);
             }
         });

@@ -6,12 +6,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.R;
+import com.example.docportal.UrgentCareFormCheckEvent;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -53,10 +55,13 @@ public class UrgentCareForm extends AppCompatActivity {
         FAuth = FirebaseAuth.getInstance();
         UID = FAuth.getCurrentUser().getUid();
 
+        TextView[] textViews = {contact_name,contact_relation,contact_number};
+        UrgentCareFormCheckEvent formCheckEvent = new UrgentCareFormCheckEvent();
+
         ContactName = new ArrayList<>();
         ContactRelation = new ArrayList<>();
         ContactPhone = new ArrayList<>();
-        
+
         
         UrgentForm_backToUrgentCare.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,14 +74,21 @@ public class UrgentCareForm extends AppCompatActivity {
         confirm_contact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Contact_Name = contact_name.getText().toString();
-                String Contact_Relation = contact_relation.getText().toString();
-                String Contact_Number = contact_number.getText().toString();
 
-                ContactName.add(Contact_Name);
-                ContactPhone.add(Contact_Number);
-                ContactRelation.add(Contact_Relation);
-                AddToFireBase(ContactName,ContactPhone,ContactRelation);
+                if (formCheckEvent.isEmpty(textViews) || !((formCheckEvent.checkName(contact_name) || (formCheckEvent.checkPhone(contact_number)))));
+                else {
+                    String Contact_Name = contact_name.getText().toString();
+                    String Contact_Relation = contact_relation.getText().toString();
+                    String Contact_Number = contact_number.getText().toString();
+
+                    ContactName.add(Contact_Name);
+                    ContactPhone.add(Contact_Number);
+                    ContactRelation.add(Contact_Relation);
+                    AddToFireBase(ContactName,ContactPhone,ContactRelation);
+                }
+
+
+
 //                Intent intent = new Intent(UrgentCareForm.this,urgentCare.class);
 //                startActivity(intent);
             }
@@ -105,12 +117,12 @@ public class UrgentCareForm extends AppCompatActivity {
 
                     for (String phone_value: Number) {
                         Object Contact_Phone_Latest = phone_value;
-                        contactReference.update("Contact Name", FieldValue.arrayUnion(Contact_Phone_Latest));
+                        contactReference.update("Contact Number", FieldValue.arrayUnion(Contact_Phone_Latest));
                     }
 
                     for (String relation_value: Relation) {
                         Object Contact_Relation_Latest = relation_value;
-                        contactReference.update("Contact Name", FieldValue.arrayUnion(Contact_Relation_Latest));
+                        contactReference.update("Contact Relation", FieldValue.arrayUnion(Contact_Relation_Latest));
                     }
 
                 }

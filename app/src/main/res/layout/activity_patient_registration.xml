@@ -16,6 +16,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/back_to_patientpage"
             android:layout_marginTop="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -71,7 +72,7 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Full Name"
                 android:textColor="@color/light_black"
@@ -99,7 +100,7 @@
                 android:id="@+id/textView9"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="15dp"
                 android:text="@string/email_address"
                 android:textColor="@color/light_black"
@@ -126,7 +127,7 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="15dp"
                 android:text="@string/phone_no"
                 android:textColor="@color/light_black"
@@ -173,7 +174,7 @@
                 android:id="@+id/textView31"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pt_sans_regular"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="15dp"
                 android:text="@string/password"
                 android:textColor="@color/light_black"
