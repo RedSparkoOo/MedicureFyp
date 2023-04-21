@@ -3,6 +3,7 @@ package com.example.docportal.Patient;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.docportal.AppointmentCheckEvent;
 import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +43,7 @@ public class patientAppointmentBook extends AppCompatActivity {
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
     String patient_UID;
+    ImageView back_to_doc_nur_Selection;
 
     DatePickerDialog.OnDateSetListener setListener;
 
@@ -77,15 +81,24 @@ public class patientAppointmentBook extends AppCompatActivity {
         book_appointment = (Button) findViewById(R.id.book);
         firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
+        back_to_doc_nur_Selection = findViewById(R.id.back_to_doc_nur_Selection);
         doctor_phone = bundle.getString("Doctor_phone");
         doctor_name = bundle.getString("Doctor_name");
         doctor_id = bundle.getString("Doctor_Id");
+        TextView[] textViews = {patient_full_name, patient_phone_no, appointment_date, appointment_time,appointment_description};
+        AppointmentCheckEvent checkEvent = new AppointmentCheckEvent();
 
 
         snack_bar_layout = findViewById(android.R.id.content);
         helperFunctions = new HelperFunctions();
 
-
+        back_to_doc_nur_Selection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patientAppointmentBook.this,Appointment_Doctor_Check.class);
+                startActivity(intent);
+            }
+        });
 
         appointment_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +153,9 @@ public class patientAppointmentBook extends AppCompatActivity {
        book_appointment.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View view) {
+
+               if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)));
+               else {
 
                Dialog dialog = new Dialog(patientAppointmentBook.this);
                dialog.setContentView(R.layout.alert_box_layout);
@@ -211,7 +227,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                dialog.show();
 
 
-
+               }
 
 
            }

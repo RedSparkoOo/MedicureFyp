@@ -17,6 +17,7 @@
         >
 
         <ImageView
+            android:id="@+id/back_to_patient_dashboard"
             android:layout_marginTop="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -52,10 +53,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="22sp"
             android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
             android:text="Categories"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:text="Doctors"
             android:fontFamily="@font/pt_sans_bold"
             />
 
@@ -64,7 +76,8 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
             >
 
             <LinearLayout
@@ -141,6 +154,86 @@
 
         </HorizontalScrollView>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginTop="5dp"
+            android:layout_marginStart="15dp"
+            android:text="Nurses"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:layout_marginTop="5dp"
+            >
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+
+                <ImageView
+                    android:id="@+id/all_category_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/all_categories"
+                    />
+
+                <ImageView
+                    android:id="@+id/mhn_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/mhn_nurse"
+                    />
+
+                <ImageView
+                    android:id="@+id/ldn_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ldn_nurse"
+                    />
+
+                <ImageView
+                    android:id="@+id/cn_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/cn_nurse"
+                    />
+
+                <ImageView
+                    android:id="@+id/an_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/an_nurse"
+                    />
+
+
+
+                <ImageView
+                    android:id="@+id/ccn_nurse"
+                    android:layout_width="80dp"
+                    android:layout_height="80dp"
+                    android:layout_marginEnd="10dp"
+                    android:src="@drawable/ccn_nurse"
+                    />
+
+
+
+            </LinearLayout>
+
+
+        </HorizontalScrollView>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -151,6 +244,7 @@
                 android:textColor="@color/light_black"
                 android:textSize="18sp"
                 android:layout_marginStart="15dp"
+                android:layout_marginTop="5dp"
                 android:text="List of Doctors"
                 android:fontFamily="@font/pt_sans_bold"
                 />

@@ -45,10 +45,9 @@ public class Registeration extends AppCompatActivity {
     TextView login;
     String user_id;
     String[] Doctor_profession = {"","Pharmacist","Cardiologist","Oncologist","Nephrologist","Neurologist","Pedriatican","Physiologist","Psychologist"};
-    String[] Nurse_profession = {"","Certified Nursing Assistant (CNA)","Registered Nurse (RN)","Surgical Assistant Registered Nurse (SARN)","Home Care Registered Nurse (HRN)","Emergency Room Registered Nurse (ERN)"};
-    String[] Pharmacist_profession = {"","Community pharmacist","Specialty drug pharmacist","Informatic pharmacist","Hospital pharmacist","Home care pharmacist"};
+    String[] Nurse_profession = {"","Mental Health Nurse (MHN)","Learning Disability Nurse (LDN)","Adult Nurse (AN)","Children Nurse (CN)","Critical Care Nurse (CCN)"};
     String[] Gender = {"","Male","Female"} ;
-    String[] Profession = {"","Doctor","Nurse","Pharmacist"} ;
+    String[] Profession = {"","Doctor","Nurse"} ;
     String[] Empty = {};
     String fName;
     String emailAddress;
@@ -234,12 +233,6 @@ public class Registeration extends AppCompatActivity {
                     Specializations.setAdapter(arrayAdapterSpecialization);
                 }
 
-                if(professionCategory.getSelectedItem() == "Pharmacist"){
-                    ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(Registeration.this, spinner_item, Pharmacist_profession);
-                    arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    Specializations.setAdapter(arrayAdapterSpecialization);
-
-                }
 
 
             }

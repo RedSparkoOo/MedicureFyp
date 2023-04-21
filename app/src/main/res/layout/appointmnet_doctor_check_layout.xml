@@ -36,15 +36,6 @@
                android:orientation="horizontal">
 
                <TextView
-                   android:layout_width="wrap_content"
-                   android:layout_height="wrap_content"
-                   android:fontFamily="@font/pt_sans_bold"
-                   android:layout_marginStart="5dp"
-                   android:layout_marginTop="10dp"
-                   android:text="Dr. "
-                   android:textColor="@color/light_black"
-                   android:textSize="16sp" />
-               <TextView
                    android:id="@+id/appointment_doctor_name"
                    android:layout_width="match_parent"
                    android:layout_height="wrap_content"
@@ -63,7 +54,6 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/pt_sans_regular"
                 android:textStyle="bold"
-                android:layout_marginStart="5dp"
                 android:text="Cardiologist"
                 android:layout_marginTop="3dp"
                 android:textSize="14sp"
@@ -76,7 +66,6 @@
                 android:text="10:00 am - 6:00 pm"
                 android:layout_marginTop="5dp"
                 android:textSize="10sp"
-                android:layout_marginStart="5dp"
                 android:textColor="@color/light_black" />
 
             <LinearLayout

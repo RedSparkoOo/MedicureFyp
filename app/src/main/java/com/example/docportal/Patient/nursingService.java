@@ -1,10 +1,10 @@
 package com.example.docportal.Patient;
 
+import android.os.Bundle;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.os.Bundle;
 
 import com.example.docportal.R;
 
@@ -42,7 +42,7 @@ public class nursingService extends AppCompatActivity {
         nursingPrice.add("$3");
 
         nurseCategory = new ArrayList<>();
-        nurseCategory.add("Mental Health");
+        nurseCategory.add("Mental Health Nurse");
         nurseCategory.add("Learning Disability Nurse");
         nurseCategory.add("Adult Nurse");
         nurseCategory.add("Children Nurse");

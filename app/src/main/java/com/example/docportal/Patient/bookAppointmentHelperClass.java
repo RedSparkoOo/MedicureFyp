@@ -9,12 +9,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -97,6 +99,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         private final TextView appointed_doctor;
         private final TextView appointed_doctor_category;
         private final Button book_appointment;
+        private final ImageView doctor_profile;
 
 
         public ViewHolder(View view) {
@@ -106,6 +109,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
             appointed_doctor = (TextView) view.findViewById(R.id.appointment_doctor_name);
             appointed_doctor_category = (TextView) view.findViewById(R.id.appointment_doctor_specialization);
             book_appointment = (Button) view.findViewById(R.id.appointment_doctor_book);
+            doctor_profile = (ImageView) view.findViewById(R.id.doctor_profile);
 
 
 
@@ -123,6 +127,9 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
             return book_appointment;
         }
 
+        public ImageView getDoctor_profile() {
+            return doctor_profile;
+        }
     }
 
 
@@ -148,6 +155,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         // contents of the view with that element
         viewHolder.getAppointed_doctor().setText(appointed_doctor_name.get(position));
         viewHolder.getAppointed_doctor_category().setText(appointed_doctor_specialization.get(position));
+
 
 
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {
