@@ -52,6 +52,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     TextView doctor_name;
     NavigationView navigationView;
     DrawerLayout DrawerLayout;
+
     Toolbar toolbar;
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int CAMERA_CODE = 101;
