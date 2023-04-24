@@ -204,7 +204,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
                 Button confirm = dialog.findViewById(R.id.alert_confirm);
                 TextView cancel = dialog.findViewById(R.id.alert_cancel);
                 TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                alert_msg.setText("Are you sure you want to logout?");
+                alert_msg.setText("Confirm Selection?");
 
                 confirm.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -226,7 +226,7 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
                 dialog.show();
 
-         ;
+
             }
         });
 

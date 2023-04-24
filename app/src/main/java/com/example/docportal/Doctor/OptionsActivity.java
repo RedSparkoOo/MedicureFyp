@@ -29,7 +29,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
-
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
@@ -126,43 +125,43 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         scroll_to_end.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    upcoming_appointments.smoothScrollToPosition(0);
+                upcoming_appointments.smoothScrollToPosition(0);
 
             }
 
         });
 
-    view_appointment.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Intent view_appointment = new Intent(OptionsActivity.this, checkAppointment.class);
-            startActivity(view_appointment);
-        }
-    });
+        view_appointment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent view_appointment = new Intent(OptionsActivity.this, checkAppointment.class);
+                startActivity(view_appointment);
+            }
+        });
 
-    _appointmentManagement.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(OptionsActivity.this, AppointmentNotifications.class));
-        }
-    });
+        _appointmentManagement.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OptionsActivity.this, AppointmentNotifications.class));
+            }
+        });
 
-    doctor_E_Rx.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(OptionsActivity.this,Prescription.class));
-        }
-    });
+        doctor_E_Rx.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OptionsActivity.this,Prescription.class));
+            }
+        });
 
-    online_consultation.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            startActivity(new Intent(OptionsActivity.this, videoConsultation.class));
-        }
-    });
+        online_consultation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(OptionsActivity.this, videoConsultation.class));
+            }
+        });
 
         storageReference = FirebaseStorage.getInstance().getReference();
-        DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+        DocumentReference documentReference = firestore.collection("Professions").document(user_id);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -178,7 +177,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         });
 
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+firebaseAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -191,12 +190,12 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-                navigationView.bringToFront();
-                ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(OptionsActivity.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
-                toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.blue_2));
-                DrawerLayout.addDrawerListener(toggle);
-                toggle.syncState();
-                navigationView.setNavigationItemSelectedListener(this);    // TO SELECT ITEMS IN NAVIGATION DRAWER
+        navigationView.bringToFront();
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(OptionsActivity.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.blue_2));
+        DrawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+        navigationView.setNavigationItemSelectedListener(this);    // TO SELECT ITEMS IN NAVIGATION DRAWER
 
 
         doctor_profile.setOnClickListener(new View.OnClickListener() {
@@ -204,13 +203,12 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
             public void onClick(View v) {
 
 
-             //-----------------Select Image From Gallery---------\\
+                //-----------------Select Image From Gallery---------\\
 
-             Intent open_gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent open_gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 //noinspection deprecation
                 startActivityForResult(open_gallery, GALLERY_CODE);
-
 
             }
 
@@ -227,7 +225,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                 assert data != null;
                 Uri content_uri = data.getData();
                 doctor_profile.setImageURI(content_uri);
-                
+
                 uploadProfileToFireBase(content_uri);
             }
         }
@@ -235,7 +233,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
 
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
         doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -264,7 +262,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }
 
         else {
-            Intent intent = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+            Intent intent = new Intent(OptionsActivity.this,SplashScreenEntrance.class);
             Dialog dialog = new Dialog(OptionsActivity.this);
             dialog.setContentView(R.layout.alert_box_layout);
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
@@ -331,9 +329,9 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void onClick(View v) {
 
-                          Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
-                          startActivity(intent_main);
-                          dialog.dismiss();
+                        Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+                        startActivity(intent_main);
+                        dialog.dismiss();
 
 
                     }
@@ -384,27 +382,27 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                         Toast.makeText(OptionsActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
                     }
                     else{
-                    ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
-                    if(user_id.equals(ID)){
+                        ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
+                        if(user_id.equals(ID)){
 
-                        if(dc != null){
-                            empty_show.setVisibility(View.INVISIBLE);
-                            upcoming_appointments.setVisibility(View.VISIBLE);
-                            if (dc.getType() == DocumentChange.Type.ADDED) {
+                            if(dc != null){
+                                empty_show.setVisibility(View.INVISIBLE);
+                                upcoming_appointments.setVisibility(View.VISIBLE);
+                                if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                                approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
-                                approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
-                                approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
-                                approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
-                                upcoming_appointments.setAdapter(notificationsAdapter);
-                                upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount()-1);
+                                    approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
+                                    approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
+                                    approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
+                                    approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
+                                    notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time);
+                                    upcoming_appointments.setAdapter(notificationsAdapter);
+                                    upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount()-1);
+                                }
+                                notificationsAdapter.notifyDataSetChanged();
                             }
-                            notificationsAdapter.notifyDataSetChanged();
+                            else
+                                Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
                         }
-                        else
-                            Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
-                    }
                     }
                 }
             }
@@ -422,16 +420,16 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                 assert value != null;
                 int notify_check = Integer.parseInt(value.getString("notifications"));
 
-            if(notify_check == 0){
-                notification_count.setVisibility(View.INVISIBLE);
-                notification_back.setVisibility(View.INVISIBLE);
+                if(notify_check == 0){
+                    notification_count.setVisibility(View.INVISIBLE);
+                    notification_back.setVisibility(View.INVISIBLE);
 
-            }
-            else if(notify_check > 0){
-                notification_count.setVisibility(View.VISIBLE);
-                notification_back.setVisibility(View.VISIBLE);
-                notification_count.setText(value.getString("notifications"));
-            }
+                }
+                else if(notify_check > 0){
+                    notification_count.setVisibility(View.VISIBLE);
+                    notification_back.setVisibility(View.VISIBLE);
+                    notification_count.setText(value.getString("notifications"));
+                }
 
 
             }

@@ -186,31 +186,31 @@ public class patientProfileUpdate extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                               patient_user.updatePassword(patient_updated_password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                   @Override
-                                   public void onComplete(@NonNull Task<Void> task) {
-                                       if (task.isSuccessful()) {
-                                           Log.d(TAG, "User Password updated.");
-                                       }
-                                   }
-                               });
+                                patient_user.updatePassword(patient_updated_password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()) {
+                                            Log.d(TAG, "User Password updated.");
+                                        }
+                                    }
+                                });
                             }
                         });
 
-                    if(!old_email.equals(update_patient_email_address)){
-                        patient_user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
-                            @Override
-                            public void onSuccess(Void unused) {
-                                Toast.makeText(patientProfileUpdate.this, "Email sent to: " + update_patient_email_address+ ". Please verify it!", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                    patient_documentReference.set(patient).addOnSuccessListener(new OnSuccessListener<Void>() {
+                if(!old_email.equals(update_patient_email_address)){
+                    patient_user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(patientProfileUpdate.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(patientProfileUpdate.this, "Email sent to: " + update_patient_email_address+ ". Please verify it!", Toast.LENGTH_SHORT).show();
                         }
                     });
+                }
+                patient_documentReference.set(patient).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+                        Toast.makeText(patientProfileUpdate.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
 
 

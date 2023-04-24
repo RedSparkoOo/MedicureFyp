@@ -18,8 +18,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
 import com.example.docportal.Entrance;
-import com.example.docportal.Patient.patientDashboard;
-import com.example.docportal.Pharmacist.PharmacistDashboard;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -45,10 +43,8 @@ public class DocLogin extends AppCompatActivity {
     FirebaseUser FUser;
     TextView doctor_forget_password;
     String userId;
-    Bundle rec_bundle;
     ProgressBar progress_check;
     ImageView back_to_selection;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,17 +52,19 @@ public class DocLogin extends AppCompatActivity {
         login = findViewById(R.id.doctorLogin);
         Register = findViewById(R.id.Registration);
         doctor_forget_password = (findViewById(R.id.doctorForgetPassword));
-        Email = findViewById(R.id.doctorEmail);
+        Email =  findViewById(R.id.doctorEmail);
         Password = findViewById(R.id.doctorPassword);
         progress_check = findViewById(R.id.progress_check);
-        TextView[] textViews = {Email, Password};
+        TextView[] textViews ={Email, Password};
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         back_to_selection = findViewById(R.id.back_to_selection);
         FUser = mAuth.getCurrentUser();
 
 
+
         progress_check.setVisibility(View.INVISIBLE);
+
 
         back_to_selection.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,7 +79,7 @@ public class DocLogin extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText reset_mail = new EditText(view.getContext());
-                AlertDialog.Builder reset_password_dialog = new AlertDialog.Builder(view.getContext());
+                AlertDialog.Builder reset_password_dialog = new AlertDialog.Builder(view .getContext());
                 reset_password_dialog.setTitle("Reset Password?");
                 reset_password_dialog.setMessage("Enter the mail to receive the reset link");
                 reset_password_dialog.setView(reset_mail);
@@ -92,20 +90,19 @@ public class DocLogin extends AppCompatActivity {
                         mAuth.sendPasswordResetEmail(Email).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(DocLogin.this, "Reset link sent to " + Email, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DocLogin.this, "Reset link sent to "+Email, Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DocLogin.this, "Error! Link not sent " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DocLogin.this, "Error! Link not sent "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
                 });
                 reset_password_dialog.setNegativeButton("No", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
+                    public void onClick(DialogInterface dialog, int which){}
                 });
                 reset_password_dialog.create().show();
             }
@@ -119,55 +116,80 @@ public class DocLogin extends AppCompatActivity {
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mAuth.signInWithEmailAndPassword(Email.getText().toString(), Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            userId = mAuth.getCurrentUser().getUid();
-                            progress_check.setVisibility(View.VISIBLE);
 
-                            try {
-                                System.out.println("Mango");
-                                DocumentReference documentReference = fStore.collection("Doctor").document(userId);
-                                documentReference.addSnapshotListener(DocLogin.this, new EventListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                        String category = value.getString("Specialization");
-                                        System.out.println("Mango1");
+                progress_check.setVisibility(View.VISIBLE);
 
-                                        if (FUser.isEmailVerified()) {
-                                            if (category.equals("Pharmacist"))
-                                                startActivity(new Intent(getApplicationContext(), PharmacistDashboard.class));
-                                            else {
-                                                startActivity(new Intent(getApplicationContext(), OptionsActivity.class));
-                                                System.out.println("Mango1");
+                try {
+                    if (new CheckEvent().isEmpty(textViews));
+                    else {
+                        mAuth.signInWithEmailAndPassword(Email.getText().toString(), Password.getText().toString()).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                            @Override
+                            public void onComplete(@NonNull Task<AuthResult> task) { // node45
+                                if (task.isSuccessful()) {
+                                    userId = mAuth.getCurrentUser().getUid();
+
+                                    //patient login check -----START-----
+
+                                    DocumentReference documentReference = fStore.collection("Professions").document(userId);
+                                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                                            if(error != null){
+                                                Toast.makeText(DocLogin.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
 
 
+                                            else {
+
+                                                String Category = value.getString("Profession");
+                                                if (Category.equals("Doctor")) {
+
+                                                    if (FUser.isEmailVerified()) {
+                                                        Intent intent = new Intent(DocLogin.this, OptionsActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        progress_check.setVisibility(View.INVISIBLE);
+                                                        Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                } else if (Category.equals("Nurse")) {
+
+                                                    if (FUser.isEmailVerified()) {
+                                                        Intent intent = new Intent(DocLogin.this, OptionsActivity.class);
+                                                        startActivity(intent);
+                                                    } else {
+                                                        progress_check.setVisibility(View.INVISIBLE);
+                                                        Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                    }
+
+                                                }
+                                                else {
+                                                    Toast.makeText(DocLogin.this, "No User Exists", Toast.LENGTH_SHORT).show();
+                                                    progress_check.setVisibility(View.INVISIBLE);
+                                                }
+                                            }
+
+
+
                                         }
-                                    }
-
-                                });
+                                    });
 
 
-                            } catch (Exception e) {
-                                Toast.makeText(DocLogin.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                                }
+                                if(!task.isSuccessful()){
+                                    Toast.makeText(DocLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
+                                    progress_check.setVisibility(View.INVISIBLE);
+                                }
                             }
-
-
-                        }
+                        });
                     }
-                });
-
-
+                }catch(Exception e){
+                    Toast.makeText(DocLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
-
-            });
-        }
+        });
     }
 
 
-
-
-
-
+}

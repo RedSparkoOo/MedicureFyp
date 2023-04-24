@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Doctor.Chat;
 import com.example.docportal.R;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,7 +47,6 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
         appointed_doctor_phone = nameDataSet3;
-
 
         this.clickListener = itemClickListener;
         this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
@@ -104,16 +105,17 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         private final TextView appointed_doctor;
         private final TextView appointed_doctor_category;
         private final Button book_appointment;
+        private final ImageView doctor_profile;
 
         private final Button to_chat_reschedule;
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
-
+            to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
             appointed_doctor = (TextView) view.findViewById(R.id.appointment_doctor_name);
             appointed_doctor_category = (TextView) view.findViewById(R.id.appointment_doctor_specialization);
             book_appointment = (Button) view.findViewById(R.id.appointment_doctor_book);
-            to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
+            doctor_profile = (ImageView) view.findViewById(R.id.doctor_profile);
 
 
 
@@ -131,6 +133,9 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
             return book_appointment;
         }
 
+        public ImageView getDoctor_profile() {
+            return doctor_profile;
+        }
     }
 
 

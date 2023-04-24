@@ -23,17 +23,24 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Broadcasts;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class medicineReminder extends AppCompatActivity {
     ImageView back_to_health_tracker;
@@ -82,8 +89,10 @@ public class medicineReminder extends AppCompatActivity {
     String day7_Saturday;
     String med_types;
     String medicine_name_entered;
+    String duration = "";
     String ID;
     FirebaseAuth auth;
+    FirebaseFirestore firestore;
 
 
     @Override
@@ -110,6 +119,7 @@ public class medicineReminder extends AppCompatActivity {
         medicine_to_recycler = findViewById(R.id.medicine_to_recycler);
 
         auth = FirebaseAuth.getInstance();
+        firestore = FirebaseFirestore.getInstance();
         ID = auth.getCurrentUser().getUid();
 
         medicinesNames = new ArrayList<>();
@@ -130,18 +140,15 @@ public class medicineReminder extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                SendMedicines();
+                medicine_name_entered = medicine_name.getText().toString();
+                med_types = medicine_type.getSelectedItem().toString();
+                checkDuration();
 
-//                if(medicinesNames.isEmpty() && medicineType.isEmpty() && medicinesTime.isEmpty()){
-//                    Toast.makeText(medicineReminder.this, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
-//                }
+                RemindertoFirebase(medicine_name_entered,med_types,TIME,duration);
 
-                medicinesNames.add(medicine_name_entered);
-                medicineType.add(med_types);
-                medicinesTime.add(TIME);
-                medicine_added.setLayoutManager(new LinearLayoutManager(medicineReminder.this));
-                MedicineReminderAdapter reminderAdapter = new MedicineReminderAdapter(medicinesNames, medicinesDuration, medicineType,medicinesTime,ID,medicine_confirmation,medicine_added_heading);
-                medicine_added.setAdapter(reminderAdapter);
+
+
+
 
             }
         });
@@ -151,6 +158,10 @@ public class medicineReminder extends AppCompatActivity {
 
 
         SendMedicines();
+        showTimePicker();
+
+
+
 
         back_to_health_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,40 +172,70 @@ public class medicineReminder extends AppCompatActivity {
 
     }
 
-    private void SendMedicines() {
-
-
-        medicine_name_entered = medicine_name.getText().toString();
-        med_types = medicine_type.getSelectedItem().toString();
-
-        medicine_time.setOnClickListener(new View.OnClickListener() {
+    private void RemindertoFirebase(String medic_name, String medic_type, String medic_time, String medic_duration) {
+        firestore.clearPersistence();
+        DocumentReference reference = firestore.collection("Medicine Reminder").document();
+        reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                calendar = Calendar.getInstance();
-                hour = calendar.get(Calendar.HOUR);
-                minute = calendar.get((Calendar.MINUTE));
-                //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-                        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                            TimeZone = "AM";
-                        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                            TimeZone = "PM";
-                        }
-                        TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
-                        medicine_time.setText(TIME);
-
-                    }
-                }, hour, minute, true);
-                timePickerDialog.show();
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                Map<Object,String> reminder = new HashMap<>();
+                reminder.put("Medicine Name",medic_name);
+                reminder.put("Medicine Type",medic_type);
+                reminder.put("Medicine Time",medic_time);
+                reminder.put("Medicine Duration", medic_duration);
+                reminder.put("Patient ID",ID);
+                reference.set(reminder);
+                Intent intent = new Intent(medicineReminder.this,ReminderStored.class);
+                startActivity(intent);
             }
         });
 
+    }
+
+    private void checkDuration() {
+
+        if(day1_Sunday != null){
+            medicinesDuration.add(day1_Sunday);
+        }
+
+        if(day2_Monday != null){
+            medicinesDuration.add(day2_Monday);
+        }
+
+        if(day3_Tuesday != null){
+            medicinesDuration.add(day3_Tuesday);
+        }
+
+        if(day4_Wednesday != null){
+            medicinesDuration.add(day4_Wednesday);
+        }
+
+        if(day5_Thursday != null){
+            medicinesDuration.add(day5_Thursday);
+        }
+
+        if(day6_Friday != null){
+            medicinesDuration.add(day6_Friday);
+        }
+
+        if(day7_Saturday != null){
+            medicinesDuration.add(day7_Saturday);
+        }
+
+        for (String value : medicinesDuration) {
+            duration += value + " " ;
+
+        }
+
+
+
+    }
+
+    private void SendMedicines() {
 
         //--------------------------------ALL DAYS------------------------------------------//
 
-
+        showTimePicker();
         every_day.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,8 +329,7 @@ public class medicineReminder extends AppCompatActivity {
         Sunday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar1 = Calendar.getInstance();
-                calendar1.get(Calendar.DAY_OF_MONTH);
+
                 if (Sunday_count == 0) {
                     Sunday.setBackground(ContextCompat.getDrawable(medicineReminder.this, R.drawable.circle_highlight));
                     Sunday.setTextColor(Color.parseColor("#FFFFFFFF"));
@@ -299,7 +339,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Sunday_count == 1) {
                     Sunday.setBackground(null);
                     Sunday.setTextColor(Color.parseColor("#434242"));
-                    day1_Sunday = null;
+                    day1_Sunday = "";
                     Sunday_count = 0;
 
                 }
@@ -320,7 +360,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Monday_count == 1) {
                     Monday.setBackground(null);
                     Monday.setTextColor(Color.parseColor("#434242"));
-                    day2_Monday = null;
+                    day2_Monday = "";
                     Monday_count = 0;
                 }
 
@@ -340,6 +380,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Tuesday_count == 1) {
                     Tuesday.setBackground(null);
                     Tuesday.setTextColor(Color.parseColor("#434242"));
+                    day3_Tuesday = "";
                     Tuesday_count = 0;
 
                 }
@@ -361,7 +402,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Wednesday_count == 1) {
                     Wednesday.setBackground(null);
                     Wednesday.setTextColor(Color.parseColor("#434242"));
-                    day4_Wednesday = null;
+                    day4_Wednesday = "";
                     Wednesday_count = 0;
 
                 }
@@ -382,7 +423,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Thursday_count == 1) {
                     Thursday.setBackground(null);
                     Thursday.setTextColor(Color.parseColor("#434242"));
-                    day5_Thursday = null;
+                    day5_Thursday = "";
                     Thursday_count = 0;
 
                 }
@@ -404,7 +445,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Friday_count == 1) {
                     Friday.setBackground(null);
                     Friday.setTextColor(Color.parseColor("#434242"));
-                    day6_Friday = null;
+                    day6_Friday = "";
                     Friday_count = 0;
 
                 }
@@ -425,7 +466,7 @@ public class medicineReminder extends AppCompatActivity {
                 } else if (Saturday_count == 1) {
                     Saturday.setBackground(null);
                     Saturday.setTextColor(Color.parseColor("#434242"));
-                    day7_Saturday = null;
+                    day7_Saturday = "";
                     Saturday_count = 0;
 
                 }
@@ -433,133 +474,78 @@ public class medicineReminder extends AppCompatActivity {
             }
         });
 
-
-//    private void checkDuration(ArrayList<String> medicinesDuration) {
-//
-//        if(day1_Sunday == null){
-//            medicinesDuration.add(day1_Sunday);
-//        }
-//
-//        if(!day2_Monday.isEmpty()){
-//            medicinesDuration.add(day2_Monday);
-//        }
-//
-//        if(!day3_Tuesday.isEmpty()){
-//            medicinesDuration.add(day3_Tuesday);
-//        }
-//
-//        if(!day4_Wednesday.isEmpty()){
-//            medicinesDuration.add(day4_Wednesday);
-//        }
-//
-//        if(!day5_Thursday.isEmpty()){
-//            medicinesDuration.add(day5_Thursday);
-//        }
-//
-//        if(!day6_Friday.isEmpty()){
-//            medicinesDuration.add(day6_Friday);
-//        }
-//
-//        if(!day7_Saturday.isEmpty()){
-//            medicinesDuration.add(day7_Saturday);
-//        }
-//
-//
-//    }
-
     }
-        private void cancelAlarm () {
+    private void cancelAlarm () {
 
-            Intent intent = new Intent(this, Broadcasts.class);
-            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        Intent intent = new Intent(this, Broadcasts.class);
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
 
-            if (alarmManager == null) {
+        if (alarmManager == null) {
 
-                alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-            }
-
-            alarmManager.cancel(pendingIntent);
-            Toast.makeText(this, "Alarm Cancelled", Toast.LENGTH_SHORT).show();
-
-        }
-
-        private void setAlarm () {
             alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-
-            Intent intent = new Intent(this, Broadcasts.class);
-
-            pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//
-            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
-
-            Toast.makeText(this, "Alarm time set", Toast.LENGTH_SHORT).show();
         }
 
-        private void showTimePicker () {
+        alarmManager.cancel(pendingIntent);
+        Toast.makeText(this, "Alarm Cancelled", Toast.LENGTH_SHORT).show();
 
-            calendar = Calendar.getInstance();
-            hour = calendar.get(Calendar.HOUR);
-            minute = calendar.get((Calendar.MINUTE));
-            //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
-            TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
-                @Override
-                public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-                    if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                        TimeZone = "AM";
-                    } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                        TimeZone = "PM";
+    }
+
+    private void setAlarm () {
+        alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+
+        Intent intent = new Intent(this, Broadcasts.class);
+
+        pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+
+        Toast.makeText(this, "Alarm time set", Toast.LENGTH_SHORT).show();
+    }
+
+    private void showTimePicker () {
+
+        medicine_time.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendar = Calendar.getInstance();
+                hour = calendar.get(Calendar.HOUR);
+                minute = calendar.get((Calendar.MINUTE));
+                //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
+                        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
+                            TimeZone = "AM";
+                        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
+                            TimeZone = "PM";
+                        }
+                        TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
+                        medicine_time.setText(TIME);
+
                     }
-                    TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
+                }, hour, minute, true);
+                timePickerDialog.show();
 
-                }
-            }, hour, minute, true);
-            timePickerDialog.show();
-
-
-//        picker = new MaterialTimePicker.Builder()
-//                .setTimeFormat(TimeFormat.CLOCK_12H)
-//                .setHour(12)
-//                .setMinute(0)
-//                .setTitleText("Select Reminder Time")
-//                .build();
-//
-//        picker.show(getSupportFragmentManager(),"Medicure");
-//
-//        picker.addOnPositiveButtonClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if(picker.getHour() > 12){
-//                    selected_time.setText(String.format("%02d",(picker.getHour()-12)+" : "+String.format("%02d",picker.getMinute())+" PM"));
-//                }
-//
-//                else {
-//                    selected_time.setText(picker.getHour()+" : "+picker.getMinute()+" AM");
-//                }
-//
-//                calendar = Calendar.getInstance();
-//                calendar.set(Calendar.HOUR_OF_DAY,picker.getHour());
-//                calendar.set(Calendar.MINUTE,picker.getMinute());
-//                calendar.set(Calendar.SECOND,0);
-//                calendar.set(Calendar.MILLISECOND,0);
-//            }
-//        });
-
-        }
-
-
-        private void createNotificationChannel() {
-
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                CharSequence name = "MediCure Medicine Reminder";
-                String description = "Channel for Medicine Reminder";
-                int importance = NotificationManager.IMPORTANCE_HIGH;
-                NotificationChannel channel = new NotificationChannel("Medicure", name, importance);
-                channel.setDescription(description);
-
-                NotificationManager notificationManager = getSystemService(NotificationManager.class);
-                notificationManager.createNotificationChannel(channel);
             }
 
+        });
 
-        }
     }
+
+
+    private void createNotificationChannel() {
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = "MediCure Medicine Reminder";
+            String description = "Channel for Medicine Reminder";
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel channel = new NotificationChannel("Medicure", name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+
+
+    }
+}

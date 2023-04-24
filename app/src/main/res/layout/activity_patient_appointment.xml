@@ -20,6 +20,7 @@
             android:layout_height="wrap_content">
 
             <ImageView
+                android:id="@+id/back_to_doc_nur_Selection"
                 android:layout_marginTop="20dp"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
@@ -60,7 +61,7 @@
             android:fontFamily="@font/pt_sans_bold"
             android:text="Name"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
 
 
@@ -69,20 +70,18 @@
             android:layout_width="370dp"
             android:layout_height="50dp"
             android:layout_marginStart="15sp"
-            android:layout_marginTop="3dp"
-            android:layout_marginBottom="7dp"
-            android:drawablePadding="5sp"
-            android:paddingEnd="7sp"
-            android:drawableEnd="@drawable/full_name_avatar"
+            android:layout_marginTop="5dp"
             android:background="@drawable/input_field"
+            android:drawableEnd="@drawable/full_name_avatar"
+            android:drawablePadding="5sp"
             android:ems="10"
             android:fontFamily="@font/inter_light"
             android:hint="@string/user_name"
             android:inputType="textPersonName"
+            android:paddingEnd="7sp"
             android:textColor="@color/black"
             android:textColorHint="@color/grey"
-            android:textSize="14sp"
-            />
+            android:textSize="14sp" />
 
         <TextView
 
@@ -90,11 +89,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="7dp"
             android:fontFamily="@font/pt_sans_bold"
             android:text="Phone"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             app:layout_constraintBottom_toTopOf="@+id/Phone"
             app:layout_constraintStart_toStartOf="@+id/Phone"
             tools:ignore="MissingConstraints" />
@@ -103,9 +101,8 @@
             android:id="@+id/patient_phone"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="7dp"
             android:drawablePadding="5sp"
             android:paddingEnd="7sp"
             android:drawableEnd="@drawable/person_phone"
@@ -125,11 +122,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="7dp"
             android:fontFamily="@font/pt_sans_bold"
             android:text="@string/user_date"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
 
         <EditText
@@ -158,20 +154,18 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="7dp"
             android:fontFamily="@font/pt_sans_bold"
             android:text="Time"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
 
         <EditText
             android:id="@+id/appointment_time"
             android:layout_width="370dp"
             android:layout_height="50dp"
-            android:layout_marginTop="3dp"
+            android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
-            android:layout_marginBottom="7dp"
             android:focusableInTouchMode="false"
             android:drawableEnd="@drawable/watch_time"
             android:background="@drawable/input_field"
@@ -192,11 +186,10 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:layout_marginBottom="7dp"
             android:fontFamily="@font/pt_sans_bold"
             android:text="Description"
             android:textColor="@color/light_black"
-            android:textSize="18sp"
+            android:textSize="16sp"
             />
 
         <EditText
@@ -204,8 +197,8 @@
             android:layout_width="370dp"
             android:layout_height="150dp"
             android:layout_marginStart="15dp"
-            android:layout_marginTop="3dp"
-            android:padding="5dp"
+            android:layout_marginTop="5dp"
+            android:padding="10dp"
             android:gravity="top|left"
             android:inputType="textMultiLine"
             android:maxLines="10"

@@ -3,6 +3,7 @@ package com.example.docportal.Patient;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -10,12 +11,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.docportal.AppointmentCheckEvent;
 import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -40,6 +43,7 @@ public class patientAppointmentBook extends AppCompatActivity {
     FirebaseFirestore FStore;
     FirebaseAuth FAuth;
     String patient_UID;
+    ImageView back_to_doc_nur_Selection;
 
     DatePickerDialog.OnDateSetListener setListener;
 
@@ -77,15 +81,24 @@ public class patientAppointmentBook extends AppCompatActivity {
         book_appointment = (Button) findViewById(R.id.book);
         firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
+        back_to_doc_nur_Selection = findViewById(R.id.back_to_doc_nur_Selection);
         doctor_phone = bundle.getString("Doctor_phone");
         doctor_name = bundle.getString("Doctor_name");
         doctor_id = bundle.getString("Doctor_Id");
+        TextView[] textViews = {patient_full_name, patient_phone_no, appointment_date, appointment_time,appointment_description};
+        AppointmentCheckEvent checkEvent = new AppointmentCheckEvent();
 
 
         snack_bar_layout = findViewById(android.R.id.content);
         helperFunctions = new HelperFunctions();
 
-
+        back_to_doc_nur_Selection.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patientAppointmentBook.this,Appointment_Doctor_Check.class);
+                startActivity(intent);
+            }
+        });
 
         appointment_time.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,77 +154,80 @@ public class patientAppointmentBook extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Dialog dialog = new Dialog(patientAppointmentBook.this);
-                dialog.setContentView(R.layout.alert_box_layout);
-                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
-                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.setCancelable(true);
-                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                Button confirm = dialog.findViewById(R.id.alert_confirm);
-                TextView cancel = dialog.findViewById(R.id.alert_cancel);
-                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                alert_msg.setText("Are you sure you want to logout?");
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)));
+                else {
 
-                confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
+                    Dialog dialog = new Dialog(patientAppointmentBook.this);
+                    dialog.setContentView(R.layout.alert_box_layout);
+                    dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
+                    dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
+                    dialog.setCancelable(true);
+                    dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
+                    Button confirm = dialog.findViewById(R.id.alert_confirm);
+                    TextView cancel = dialog.findViewById(R.id.alert_cancel);
+                    TextView alert_msg = dialog.findViewById(R.id.alert_msg);
+                    alert_msg.setText("Are you sure you want to logout?");
 
-
-                        FirebaseFirestore.getInstance().clearPersistence();
-                        FStore = FirebaseFirestore.getInstance();
-                        FAuth = FirebaseAuth.getInstance();
-
-                        if(booker_name!= null && booker_phone!= null && booker_description!= null){
-                            booker_name = null;
-                            booker_phone = null;
-                            booker_description = null;
-                        }
-
-                        booker_name = patient_full_name.getText().toString();
-                        booker_phone = patient_phone_no.getText().toString();
-                        booker_description = appointment_description.getText().toString();
-                        patient_UID = FAuth.getCurrentUser().getUid();
-
-                        DocumentReference D_Ref = FStore.collection("Appointment").document();
+                    confirm.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
 
 
-                        D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                            @Override
-                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                Map<String, Object> appointment = new HashMap<>();
-                                appointment.put("Patient ID",patient_UID);
-                                appointment.put("Patient Name",booker_name);
-                                appointment.put("Patient Phone No",booker_phone);
-                                appointment.put("Appointed Doctor ID", doctor_id);
-                                appointment.put("Doctor Name",doctor_name);
-                                appointment.put("Doctor Phone No",doctor_phone);
-                                appointment.put("Appointment Date",DATE);
-                                appointment.put("Appointment Time",TIME);
-                                appointment.put("Appointment Description",booker_description);
+                            FirebaseFirestore.getInstance().clearPersistence();
+                            FStore = FirebaseFirestore.getInstance();
+                            FAuth = FirebaseAuth.getInstance();
 
-
-
-                                D_Ref.set(appointment);
+                            if(booker_name!= null && booker_phone!= null && booker_description!= null){
+                                booker_name = null;
+                                booker_phone = null;
+                                booker_description = null;
                             }
-                        });
-                        dialog.dismiss();
-                        helperFunctions.snackBarShow(snack_bar_layout,"Appointment Booked");
 
-                    }
-                });
+                            booker_name = patient_full_name.getText().toString();
+                            booker_phone = patient_phone_no.getText().toString();
+                            booker_description = appointment_description.getText().toString();
+                            patient_UID = FAuth.getCurrentUser().getUid();
 
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
+                            DocumentReference D_Ref = FStore.collection("Appointment").document();
 
 
+                            D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                    Map<String, Object> appointment = new HashMap<>();
+                                    appointment.put("Patient ID",patient_UID);
+                                    appointment.put("Patient Name",booker_name);
+                                    appointment.put("Patient Phone No",booker_phone);
+                                    appointment.put("Appointed Doctor ID", doctor_id);
+                                    appointment.put("Doctor Name",doctor_name);
+                                    appointment.put("Doctor Phone No",doctor_phone);
+                                    appointment.put("Appointment Date",DATE);
+                                    appointment.put("Appointment Time",TIME);
+                                    appointment.put("Appointment Description",booker_description);
 
+
+
+                                    D_Ref.set(appointment);
+                                }
+                            });
+                            dialog.dismiss();
+                            helperFunctions.snackBarShow(snack_bar_layout,"Appointment Booked");
+
+                        }
+                    });
+
+                    cancel.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            dialog.dismiss();
+                        }
+                    });
+
+                    dialog.show();
+
+
+                }
 
 
             }

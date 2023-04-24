@@ -138,7 +138,7 @@ public class updateDoctorProfile extends AppCompatActivity {
         user_id = fAuth.getCurrentUser().getUid();
         doctor_user = fAuth.getCurrentUser();
         Map<String,Object> doctor = new HashMap<>();
-        DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+        DocumentReference documentReference = firestore.collection("Professions").document(user_id);
 
         doctor_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +165,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                 update_Password.setText(documentSnapshot.getString("Password"));
                 update_Phone_No.setText(documentSnapshot.getString("Phone #"));
                 update_License.setText(documentSnapshot.getString("License #"));
-                present_specialization = documentSnapshot.getString("Specialization");
+                present_specialization = documentSnapshot.getString("Doctor_profession");
                 Selected_gender = documentSnapshot.getString("Gender");
                 update_doctor_bio.setText(documentSnapshot.getString("Bio Details"));
                 old_email = documentSnapshot.getString("Email Address");
@@ -174,26 +174,26 @@ public class updateDoctorProfile extends AppCompatActivity {
 
                 try {
 
-                        for (int i=0; i<Specializations.length; i++) {
-                            if (Specializations[i].equals(present_specialization)) {
+                    for (int i=0; i<Specializations.length; i++) {
+                        if (Specializations[i].equals(present_specialization)) {
 
-                                update_Specializations.setSelection(i);
-                                specialization_on_top = Specializations[0];
-                                specialization_we_got = Specializations[i];
-                                Specializations[0] = specialization_we_got;
-                                Specializations[i] = specialization_on_top;
+                            update_Specializations.setSelection(i);
+                            specialization_on_top = Specializations[0];
+                            specialization_we_got = Specializations[i];
+                            Specializations[0] = specialization_we_got;
+                            Specializations[i] = specialization_on_top;
 
-                                ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(updateDoctorProfile.this, spinner_item,Specializations);
-                                arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                update_Specializations.setAdapter(arrayAdapterSpecialization);
+                            ArrayAdapter arrayAdapterSpecialization = new ArrayAdapter(updateDoctorProfile.this, spinner_item,Specializations);
+                            arrayAdapterSpecialization.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                            update_Specializations.setAdapter(arrayAdapterSpecialization);
 
-                            }
                         }
+                    }
 
                 }
                 catch (Exception e){
                     Toast.makeText(updateDoctorProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
+                }
 
                 try {
                     for (int i =0; i<=Genders.length; i++){
@@ -480,7 +480,7 @@ public class updateDoctorProfile extends AppCompatActivity {
                     doctor.put("Phone #",update_phoneNo);
                     doctor.put("Gender",update_gend);
                     doctor.put("License #",update_license);
-                    doctor.put("Specialization",update_specializations);
+                    doctor.put("Doctor_profession",update_specializations);
                     doctor.put("Bio Details",update_bio);
                     doctor.put("Token",token);
 

@@ -155,8 +155,13 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
                 try {
+                    int enterAnim = R.anim.slide_in_right;
+                    int exitAnim = R.anim.slide_out_left;
+
                     Intent appointment = new Intent(patientDashboard.this, Appointment_Doctor_Check.class);
                     startActivity(appointment);
+
+                    overridePendingTransition(enterAnim, exitAnim);
                 }
                 catch (Exception e){
                     Toast.makeText(patientDashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -314,7 +319,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         }
 
         else {
-            Intent intent = new Intent(patientDashboard.this, SplashScreenEntrance.class);
+            Intent intent = new Intent(patientDashboard.this,SplashScreenEntrance.class);
             Dialog dialog = new Dialog(patientDashboard.this);
             dialog.setContentView(R.layout.alert_box_layout);
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));

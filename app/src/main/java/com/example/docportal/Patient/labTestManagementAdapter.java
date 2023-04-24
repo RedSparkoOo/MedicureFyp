@@ -152,7 +152,7 @@ public class labTestManagementAdapter extends RecyclerView.Adapter<com.example.d
             @Override
             public void onClick(View v) {
                 context = v.getContext();
-                Intent add_to_cart = new Intent(context,AddToCart.class);
+                Intent add_to_cart = new Intent(context, CheckoutActivityJava.class);
                 context.startActivity(add_to_cart);
             }
         });
