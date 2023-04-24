@@ -26,6 +26,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Bot.MainActivity;
 import com.example.docportal.Doctor.UpcomingNotificationsAdapter;
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
@@ -228,7 +229,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientEWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, e_wallet.class);
+                Intent view_appointment = new Intent(patientDashboard.this, MainActivity.class);
                 startActivity(view_appointment);
             }
         });
