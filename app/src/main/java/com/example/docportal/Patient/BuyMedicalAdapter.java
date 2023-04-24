@@ -52,15 +52,15 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
     @Override
     protected void onBindViewHolder(@NonNull MedicineListViewHolder holder, int position, @NonNull Medicine model) {
 
-
+        try {
             holder.title.setText(model.getTitle());
-        holder.description.setText(model.getDescription());
-        holder.price.setText(model.getPrice());
-        holder.milligram.setText(model.getMilligram());
-        holder.quantity.setText(model.getQuantity());
-        String imageUri;
-        imageUri = model.getImage();
-        Picasso.get().load(imageUri).into(holder.imageView);
+            holder.description.setText(model.getDescription());
+            holder.price.setText(model.getPrice());
+            holder.milligram.setText(model.getMilligram());
+            holder.quantity.setText(model.getQuantity());
+            String imageUri;
+            imageUri = model.getImage();
+            Picasso.get().load(imageUri).into(holder.imageView);
 
 
             holder.positive.setOnClickListener(new View.OnClickListener() {
@@ -99,6 +99,10 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
 
                 }
             });
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
     }
 
@@ -106,18 +110,24 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
     @NonNull
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout,parent,false);
-        return new MedicineListViewHolder(view);
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout, parent, false);
+            return new MedicineListViewHolder(view);
+
+
     }
 
     public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, price, quantity, milligram, count;
-        ImageView imageView;
-        Button negative, positive;
+
+            TextView title, description, price, quantity, milligram, count;
+            ImageView imageView;
+            Button negative, positive;
 
 
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
+            try{
+
             title = itemView.findViewById(R.id.productName);
 
             price = itemView.findViewById(R.id.productPrice);
@@ -132,8 +142,8 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                 @Override
                 public void onClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener1.onItemClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener1.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
@@ -146,8 +156,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                             listener1.onItemClick(getSnapshots().getSnapshot(position), position);
 
                         }
-                    }
-                    catch (Exception ex){
+                    } catch (Exception ex) {
                         System.out.println(ex.getMessage());
                     }
                 }
@@ -157,14 +166,20 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                 @Override
                 public boolean onLongClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
 
                     }
                     return false;
                 }
             });
         }
+            catch (Exception ex){
+                System.out.println(ex.getMessage());
+            }
+        }
+
+
 
 
     }

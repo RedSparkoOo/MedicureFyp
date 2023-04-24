@@ -60,22 +60,23 @@ public class BuyMedicine extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacy_equipment_options);
-        editText = findViewById(R.id.medicineSearch);
-        firebaseAuth= FirebaseAuth.getInstance();
-        Object currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser!= null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
-
-        _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
-
-
-
-
-
-        _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
         try {
-            setUpRecycler();
+            editText = findViewById(R.id.medicineSearch);
+            firebaseAuth = FirebaseAuth.getInstance();
+            Object currentUser = firebaseAuth.getCurrentUser();
+            if (currentUser != null) {
+                currentUserId = firebaseAuth.getCurrentUser().getUid();
+            }
+
+            _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
+
+
+            _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
+            try {
+                setUpRecycler();
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());
@@ -94,13 +95,16 @@ public class BuyMedicine extends AppCompatActivity {
 
 
     private void  setUpRecycler(){
-
+        try {
             Query query = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
             FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                     .setQuery(query, Medicine.class).build();
             buyMedicalAdapter = new BuyMedicalAdapter(options);
             _equipmentList = findViewById(R.id.medicalProductRecycler);
-            _equipmentList.setLayoutManager(new LinearLayoutManager(this));
+
+                _equipmentList.setLayoutManager(new WrapContentLinearLayoutManager(BuyMedicine.this,LinearLayoutManager.VERTICAL, false ));
+
+
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -166,6 +170,10 @@ public class BuyMedicine extends AppCompatActivity {
                     });
                 }
             });
+        }
+              catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
     }
 

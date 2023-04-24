@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import android.app.Activity;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
@@ -49,13 +50,13 @@ public class CheckoutActivityJava extends AppCompatActivity {
     RecyclerView _cartList;
     AddToCartAdapter addToCartAdapter;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    Integer Price, count;
+    Integer count;
 
     TextView TotalPrice;
-    Button payment;
+
     FirebaseAuth firebaseAuth;
     Object currentUserId;
-    double totalPrice;
+    double totalPrice, _totalPrice;
     CollectionReference noteBookref = firestore.collection("Cart");
 
     private static final String TAG = "CheckoutActivity";
@@ -98,12 +99,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         if(currentUser!= null) {
             currentUserId = firebaseAuth.getCurrentUser().getUid();
         }
-        try {
-            setUpRecyclerView();
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
+           setUpRecyclerView();
 
 
         PaymentConfiguration.init(
@@ -123,7 +119,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         addressButton.setOnClickListener(this::onAddressClicked);
         addressLauncher = new AddressLauncher(this, this::onAddressLauncherResult);
 
-        fetchPaymentIntent();
+
     }
     private void setUpRecyclerView(){
         Query query = noteBookref.orderBy("Title",Query.Direction.DESCENDING);
@@ -135,7 +131,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
         addToCartAdapter = new AddToCartAdapter(options);
         count = addToCartAdapter.getItemCount();
         _cartList = findViewById(R.id.addToCartRecycler);
-        _cartList.setLayoutManager(new LinearLayoutManager(this));
+        _cartList.setLayoutManager(new WrapContentLinearLayoutManager(CheckoutActivityJava.this,LinearLayoutManager.VERTICAL, false ));
         String aquery = currentUserId.toString();
         Query filteredQuery = noteBookref.orderBy("id", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
         FirestoreRecyclerOptions<Medicine> optionss = new FirestoreRecyclerOptions.Builder<Medicine>()
@@ -151,10 +147,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 totalPrice = 0;
                 for (QueryDocumentSnapshot document : value) {
                     Medicine item = document.toObject(Medicine.class);
-                    totalPrice += Integer.parseInt(item.getPrice())  * Integer.parseInt(item.getQuantity());
+                    totalPrice += Double.parseDouble(item.getPrice());
                 }
                 TotalPrice.setText(String.valueOf(totalPrice) );
-
+                _totalPrice = totalPrice;
+                fetchPaymentIntent();
 
             }
 
@@ -172,6 +169,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 addToCartAdapter.deleteItem(viewHolder.getAbsoluteAdapterPosition());
             }
         }).attachToRecyclerView(_cartList);
+
 
     }
     @Override
@@ -194,7 +192,12 @@ public class CheckoutActivityJava extends AppCompatActivity {
                     .setMessage(message)
                     .setPositiveButton("Ok", null)
                     .create();
-            dialog.show();
+            if(!((Activity) CheckoutActivityJava.this).isFinishing())
+            {
+                dialog.show();
+            }
+
+
         });
     }
 
@@ -204,7 +207,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
     private void fetchPaymentIntent() {
        // final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
-        double amount = totalPrice*100;
+        double amount =  _totalPrice*100;
         Map<String, Object> payMap = new HashMap<>();
         Map<String, Object> itemMap = new HashMap<>();
         List<Map<String,Object>> itemList = new ArrayList<>();

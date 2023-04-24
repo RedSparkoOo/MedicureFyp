@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Doctor.Chat;
 import com.example.docportal.R;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -32,8 +33,9 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
     FirebaseFirestore firestore;
     String phone;
     String doctor_name;
-    String UID;
+    String UID, RID;
     Context context;
+
 
 
 
@@ -43,6 +45,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
         appointed_doctor_phone = nameDataSet3;
+
 
         this.clickListener = itemClickListener;
         this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
@@ -87,6 +90,10 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
             notifyDataSetChanged();
         }
     };
+    private void chatAppointment( View v){
+
+
+    }
 
 
     /**
@@ -98,7 +105,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         private final TextView appointed_doctor_category;
         private final Button book_appointment;
 
-
+        private final Button to_chat_reschedule;
         public ViewHolder(View view) {
             super(view);
             // Define click listener for the ViewHolder's View
@@ -106,6 +113,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
             appointed_doctor = (TextView) view.findViewById(R.id.appointment_doctor_name);
             appointed_doctor_category = (TextView) view.findViewById(R.id.appointment_doctor_specialization);
             book_appointment = (Button) view.findViewById(R.id.appointment_doctor_book);
+            to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
 
 
 
@@ -148,6 +156,19 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
         // contents of the view with that element
         viewHolder.getAppointed_doctor().setText(appointed_doctor_name.get(position));
         viewHolder.getAppointed_doctor_category().setText(appointed_doctor_specialization.get(position));
+
+        viewHolder.to_chat_reschedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context = view.getContext();
+                firestore = FirebaseFirestore.getInstance();
+                RID = appointed_doctor_ID.get(position);
+                Intent intent = new Intent(context, Chat.class );
+                intent.putExtra("ID", RID);
+                intent.putExtra("name", appointed_doctor_name.get(position));
+                context.startActivity(intent);
+            }
+        });
 
 
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {

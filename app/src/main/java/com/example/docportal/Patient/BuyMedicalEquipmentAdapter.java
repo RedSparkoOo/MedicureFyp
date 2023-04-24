@@ -50,7 +50,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        holder.quantity.setText("1");
+        holder.quantity.setText(model.getQuantity());
         holder.gg.setText("");
         String imageUri;
         imageUri = model.getImage();

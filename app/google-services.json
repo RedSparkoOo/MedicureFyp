@@ -1,34 +1,34 @@
 {
   "project_info": {
-    "project_number": "986010263268",
-    "firebase_url": "https://doc-portal-9c5b9-default-rtdb.firebaseio.com",
-    "project_id": "doc-portal-9c5b9",
-    "storage_bucket": "doc-portal-9c5b9.appspot.com"
+    "project_number": "999462725047",
+    "firebase_url": "https://medicure-23880-default-rtdb.firebaseio.com",
+    "project_id": "medicure-23880",
+    "storage_bucket": "medicure-23880.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:986010263268:android:9be4aa72dc55ccbb18d6f1",
+        "mobilesdk_app_id": "1:999462725047:android:20374a2673a4364283f432",
         "android_client_info": {
           "package_name": "com.example.docportal"
         }
       },
       "oauth_client": [
         {
-          "client_id": "986010263268-04vreih5u1eqov2bmccae78t4s7maac2.apps.googleusercontent.com",
+          "client_id": "999462725047-f2afkgkip1hi7j9i1r04f0hlnsk7h57c.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyBrY2Q0kWbvrETrvPK57T3rFP7_IZB1bdc"
+          "current_key": "AIzaSyDXc_xKf4wBT0F9eYuf895zqQz-UpDvm1o"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "986010263268-04vreih5u1eqov2bmccae78t4s7maac2.apps.googleusercontent.com",
+              "client_id": "999462725047-f2afkgkip1hi7j9i1r04f0hlnsk7h57c.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

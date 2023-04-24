@@ -84,7 +84,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
                 .setQuery(query, MedicalEquipment.class).build();
         medicalEquipmentAdapter = new BuyMedicalEquipmentAdapter(options);
         _equipmentList = findViewById(R.id.medicalProductRecycler);
-        _equipmentList.setLayoutManager(new LinearLayoutManager(this));
+        _equipmentList.setLayoutManager(new WrapContentLinearLayoutManager(BuyMedicalEquipment.this,LinearLayoutManager.VERTICAL, false ));
         editText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {

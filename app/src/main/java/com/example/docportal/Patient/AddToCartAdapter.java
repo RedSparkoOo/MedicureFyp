@@ -50,14 +50,12 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         if(model.getMilligram() == null){
             holder.milligram.setText("");
             holder.agg.setText("");
-            System.out.println("bla bla");
-
         }
         else {
             holder.milligram.setText(model.getMilligram());
         }
 
-        holder.quantity.setText("1");
+        holder.quantity.setText(model.getQuantity());
         String imageUri;
         imageUri = model.getImage();
         Picasso.get().load(imageUri).into(holder.imageView);
@@ -70,6 +68,7 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
     @NonNull
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_to_cart,parent,false);
         return new MedicineListViewHolder(view);
     }

@@ -2,6 +2,7 @@ package com.example.docportal.Doctor;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,8 +28,10 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     private final List<String> AppointmentPhones;
     private final List<String> AppointmentDate;
     private final List<String> AppointmentTime;
+    private final String Patient_ids;
     private final List<String> AppointmentNamesAll;
     private final List<String> Appointment_IDs;
+
     ItemClickListenerCheck listenerCheck;
     String appointment_id;
     FirebaseFirestore FStore;
@@ -40,12 +43,13 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
 
 
-    public AppointmentAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
+    public AppointmentAdapter(String patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
         AppointmentDate = nameDataSet2;
         AppointmentTime = nameDataSet3;
         Appointment_IDs = Appointment_ID;
+        Patient_ids = patient_id;
         this.listenerCheck = itemClickListenerCheck;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
 
@@ -102,8 +106,8 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
         private final TextView appointment_date;
         private final TextView appointment_time;
-        private final Button to_appointment_reschedule;
-
+        private final Button to_appointment_reschedule ;
+        private final Button to_chat_reschedule;
 
         public ViewHolder(View view) {
             super(view);
@@ -114,6 +118,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             appointment_date = (TextView) view.findViewById(R.id.appointment_date);
             appointment_time = (TextView) view.findViewById(R.id.appointment_time);
             to_appointment_reschedule = (Button) view.findViewById(R.id.deleteAppointment);
+            to_chat_reschedule= view.findViewById(R.id.chatAppointment);
 
 
 
@@ -165,7 +170,19 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         viewHolder.getApoint_ph().setText(AppointmentPhones.get(position));
         viewHolder.getAppointment_date().setText(AppointmentDate.get(position));
         viewHolder.getAppointment_time().setText(AppointmentTime.get(position));
+        viewHolder.to_chat_reschedule.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                context = view.getContext();
+                FStore = FirebaseFirestore.getInstance();
+                Intent intent = new Intent(context, Chat.class );
+                intent.putExtra("ID", Patient_ids);
+                intent.putExtra("name", AppointmentNames.get(position));
+                context.startActivity(intent);
 
+
+            }
+        });
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

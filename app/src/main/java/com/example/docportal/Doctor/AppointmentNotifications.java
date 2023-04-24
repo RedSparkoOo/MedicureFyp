@@ -30,6 +30,7 @@ import java.util.List;
 
 public class AppointmentNotifications extends AppCompatActivity {
     RecyclerView appointment_recycler_view;
+    List<String> approved_patient_id;
     List<String> approved_patient_names;
     SearchView search_patient;
     List<String> approved_patient_phone_no;
@@ -87,7 +88,7 @@ public class AppointmentNotifications extends AppCompatActivity {
 
          @Override
          public boolean onQueryTextChange(String newText) {
-             appointmentadapter.getFilter().filter(newText);
+           //  appointmentadapter.getFilter().filter(newText);
              return false;
          }
      });
@@ -117,13 +118,15 @@ public class AppointmentNotifications extends AppCompatActivity {
                     if (dc.getType() == DocumentChange.Type.ADDED) {
 
                         if(recieved_doctor_id.equals(User_id)){
+                            System.out.println(String.valueOf(dc.getDocument().get("Appointed Patient Id")==null?"ff":"mang"));
+                            System.out.println(dc.getDocument().get("Appointed Patient Id").toString());
 
                             approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
                             approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
                             approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                             approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
                             approved_appointment_ID.add(dc.getDocument().getId());
-                            appointmentadapter = new AppointmentAdapter(approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new AppointmentAdapter.ItemClickListenerCheck(){
+                            appointmentadapter = new AppointmentAdapter(dc.getDocument().get("Appointed Patient Id").toString(), approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new AppointmentAdapter.ItemClickListenerCheck(){
                                 @Override
                                 public String onItemClick(String details) {
                                     return null;
