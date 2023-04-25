@@ -1,293 +1,182 @@
 package com.example.docportal.Patient;
 
-import android.graphics.Color;
-import android.graphics.Typeface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.SearchView;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Pharmacist.Medicine;
+import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
 
 public class bloodBankOptions extends AppCompatActivity {
-    RecyclerView search_blood_group_recycler;
-    List<String> blood_group_list;
-    List<String> blood_group_donors_list;
-    List<String> blood_group_acceptors_list;
-    List<String> blood_unit_price_list;
-    ImageView all_blood_group;
-    ImageView blood_group_A;
-    ImageView blood_group_B;
-    ImageView blood_group_AB;
-    ImageView blood_group_O;
-    SearchView search_blood_group;
-    String search_HINT_color = "#434242";
-    String search_color = "#434242";
-    bloodBankAdapter bloodBankAdapter;
 
+    RecyclerView bloodList;
+    BloodBankAdapter bloodBankAdapter;
+   // EditText editText;
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    CollectionReference noteBookref = firestore.collection("bloodbankdata");
+   Button _pharmacyAddToCart;
+    FirebaseAuth firebaseAuth;
 
+    Object currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blood_bank_options);
 
+        //     editText = findViewById(R.id.medicineSearch);
+        firebaseAuth = FirebaseAuth.getInstance();
+        Object currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        }
 
-        search_blood_group_recycler = findViewById(R.id.search_blood_group_recycler);
-        search_blood_group = findViewById(R.id.search_blood_group);
-        all_blood_group = findViewById(R.id.all_blood_group);
-        blood_group_A = findViewById(R.id.blood_group_A);
-        blood_group_B = findViewById(R.id.blood_group_B);
-        blood_group_AB = findViewById(R.id.blood_group_AB);
-        blood_group_O = findViewById(R.id.blood_group_O);
+       _pharmacyAddToCart = findViewById(R.id.bloodToCart);
 
-        int id = search_blood_group.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = search_blood_group.findViewById(id);
-        textView.setTextColor(Color.parseColor(search_color));
-        textView.setTextSize(14);
-        textView.setHintTextColor(Color.parseColor(search_HINT_color));
-        Typeface tf = ResourcesCompat.getFont(this,R.font.pt_sans_regular);
-        textView.setTypeface(tf);
 
-        blood_group_list = new ArrayList<>();
-        blood_group_donors_list = new ArrayList<>();
-        blood_group_acceptors_list = new ArrayList<>();
-        blood_unit_price_list = new ArrayList<>();
+        setUpRecycler();
 
-        all_blood_group.setOnClickListener(new View.OnClickListener() {
+        _pharmacyAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                blood_group_list.clear();
-                blood_group_donors_list.clear();
-                blood_group_acceptors_list.clear();
-                blood_unit_price_list.clear();
-
-                blood_group_list.add("A+");
-                blood_group_donors_list.add("A+, AB+");
-                blood_group_acceptors_list.add("A+, A-, O+, O-");
-                blood_unit_price_list.add("150");
-
-
-                blood_group_list.add("A-");
-                blood_group_donors_list.add("A+, A-, AB+, AB-");
-                blood_group_acceptors_list.add("A-,O-");
-                blood_unit_price_list.add("150");
-
-                blood_group_list.add("B+");
-                blood_group_donors_list.add("B+, AB+");
-                blood_group_acceptors_list.add("B+,B-, O+, O-");
-                blood_unit_price_list.add("130");
-
-
-                blood_group_list.add("B-");
-                blood_group_donors_list.add("B+, B-, AB+, AB-");
-                blood_group_acceptors_list.add("B-,O-");
-                blood_unit_price_list.add("150");
-
-
-                blood_group_list.add("AB+");
-                blood_group_donors_list.add("AB+");
-                blood_group_acceptors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-                blood_unit_price_list.add("170");
-
-
-                blood_group_list.add("AB-");
-                blood_group_donors_list.add("AB+, AB-");
-                blood_group_acceptors_list.add("AB-, A-, B-, O-");
-                blood_unit_price_list.add("120");
-
-
-                blood_group_list.add("O+");
-                blood_group_donors_list.add("O+, A+, B+, AB+");
-                blood_group_acceptors_list.add("O+,O-");
-                blood_unit_price_list.add("180");
-
-                blood_group_list.add("O-");
-                blood_group_donors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-                blood_group_acceptors_list.add("O-");
-                blood_unit_price_list.add("250");
-
-                selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
+                Intent intent = new Intent(bloodBankOptions.this, CheckoutActivityJava.class);
+                startActivity(intent);
             }
         });
-
-        blood_group_A.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                blood_group_list.clear();
-                blood_group_donors_list.clear();
-                blood_group_acceptors_list.clear();
-                blood_unit_price_list.clear();
-
-                blood_group_list.add("A+");
-                blood_group_donors_list.add("A+, AB+");
-                blood_group_acceptors_list.add("A+, A-, O+, O-");
-                blood_unit_price_list.add("150");
-
-
-                blood_group_list.add("A-");
-                blood_group_donors_list.add("A+, A-, AB+, AB-");
-                blood_group_acceptors_list.add("A-,O-");
-                blood_unit_price_list.add("150");
-
-                selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
-
-            }
-        });
-
-        blood_group_B.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-
-                blood_group_list.clear();
-                blood_group_donors_list.clear();
-                blood_group_acceptors_list.clear();
-                blood_unit_price_list.clear();
-
-                blood_group_list.add("B+");
-                blood_group_donors_list.add("B+, AB+");
-                blood_group_acceptors_list.add("B+,B-, O+, O-");
-                blood_unit_price_list.add("130");
-
-
-                blood_group_list.add("B-");
-                blood_group_donors_list.add("B+, B-, AB+, AB-");
-                blood_group_acceptors_list.add("B-,O-");
-                blood_unit_price_list.add("150");
-
-                selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
-
-            }
-        });
-
-        blood_group_AB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                blood_group_list.clear();
-                blood_group_donors_list.clear();
-                blood_group_acceptors_list.clear();
-                blood_unit_price_list.clear();
-
-                blood_group_list.add("AB+");
-                blood_group_donors_list.add("AB+");
-                blood_group_acceptors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-                blood_unit_price_list.add("170");
-
-
-                blood_group_list.add("AB-");
-                blood_group_donors_list.add("AB+, AB-");
-                blood_group_acceptors_list.add("AB-, A-, B-, O-");
-                blood_unit_price_list.add("120");
-
-                selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
-            }
-        });
-
-        blood_group_O.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                blood_group_list.clear();
-                blood_group_donors_list.clear();
-                blood_group_acceptors_list.clear();
-                blood_unit_price_list.clear();
-
-                blood_group_list.add("O+");
-                blood_group_donors_list.add("O+, A+, B+, AB+");
-                blood_group_acceptors_list.add("O+,O-");
-                blood_unit_price_list.add("180");
-
-                blood_group_list.add("O-");
-                blood_group_donors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-                blood_group_acceptors_list.add("O-");
-                blood_unit_price_list.add("250");
-
-                selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
-            }
-        });
-        search_blood_group.setOnQueryTextListener(new android.widget.SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-                bloodBankAdapter.getFilter().filter(newText);
-                return true;
-
-            }
-        });
-
-    allPresentBloodGroups();
     }
 
-    private void selectedBloodGroups(List<String> blood_name_dataset,List<String> blood_donor_dataset,List<String> blood_acceptor_dataset,List<String> blood_price_dataset){
 
-        search_blood_group_recycler.setLayoutManager(new LinearLayoutManager(this));
-        bloodBankAdapter = new bloodBankAdapter(blood_name_dataset,blood_donor_dataset,blood_acceptor_dataset,blood_price_dataset);
-        search_blood_group_recycler.setAdapter(bloodBankAdapter);
+
+
+
+
+
+
+
+
+    private void  setUpRecycler(){
+        try {
+            Query query = noteBookref.orderBy("category", Query.Direction.DESCENDING);
+            FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+                    .setQuery(query, BloodBankModel.class).build();
+            bloodBankAdapter = new BloodBankAdapter(options);
+            bloodList = findViewById(R.id.search_blood_group_recycler);
+
+            bloodList.setLayoutManager(new WrapContentLinearLayoutManager(bloodBankOptions.this,LinearLayoutManager.VERTICAL, false ));
+            bloodList.setAdapter(bloodBankAdapter);
+
+//            editText.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    String aquery = charSequence.toString().toLowerCase();
+//                    Query filteredQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
+//                    FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+//                            .setQuery(filteredQuery, BloodBankModel.class).build();
+//                    bloodBankAdapter.updateOptions(options);
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable editable) {
+//
+//
+//
+//                }
+//            });
+
+
+            bloodBankAdapter.setOnItemClickListener(new MedicineListAdapter.onItemClickListener() {
+                @Override
+                public void onItemClick(DocumentSnapshot snapshot, int position) {
+
+                }
+            });
+            bloodBankAdapter.setOnItemLongClickListener(new MedicineListAdapter.onItemLongClickListener() {
+                @Override
+                public void onitemlongClick(DocumentSnapshot documentSnapshot, int position) {
+
+                    String price = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_price)).getText().toString();
+                    String quantity = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_quantity)).getText().toString();
+
+                    String id = documentSnapshot.getId();
+
+                    DocumentReference documentReference = firestore.collection("bloodbankdata").document(id);
+                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            HashMap<String, String> map = new HashMap<>();
+                            map.put("id", String.valueOf(currentUserId));
+                            map.put("Title", value.getString("bloodBankName"));
+
+                            map.put("Price", price);
+                            map.put("Quantity", quantity);
+                            map.put("Milligram", value.getString(("donor")));
+                            map.put("Description", value.getString("acceptor"));
+                            map.put("Identifier", "blood");
+                            map.put("Image", value.getString("logoUrl"));
+                            DocumentReference documentReference = firestore.collection("Cart").document(id);
+                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void unused) {
+                                    Toast.makeText(bloodBankOptions.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
+                        }
+                    });
+                }
+            });
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
+
     }
 
-    private void allPresentBloodGroups(){
-        blood_group_list.add("A+");
-        blood_group_donors_list.add("A+, AB+");
-        blood_group_acceptors_list.add("A+, A-, O+, O-");
-        blood_unit_price_list.add("150");
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bloodBankAdapter.startListening();
 
-
-        blood_group_list.add("A-");
-        blood_group_donors_list.add("A+, A-, AB+, AB-");
-        blood_group_acceptors_list.add("A-,O-");
-        blood_unit_price_list.add("150");
-
-
-        blood_group_list.add("AB+");
-        blood_group_donors_list.add("AB+");
-        blood_group_acceptors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-        blood_unit_price_list.add("170");
-
-
-        blood_group_list.add("AB-");
-        blood_group_donors_list.add("AB+, AB-");
-        blood_group_acceptors_list.add("AB-, A-, B-, O-");
-        blood_unit_price_list.add("120");
-
-
-        blood_group_list.add("B+");
-        blood_group_donors_list.add("B+, AB+");
-        blood_group_acceptors_list.add("B+,B-, O+, O-");
-        blood_unit_price_list.add("130");
-
-
-        blood_group_list.add("B-");
-        blood_group_donors_list.add("B+, B-, AB+, AB-");
-        blood_group_acceptors_list.add("B-,O-");
-        blood_unit_price_list.add("150");
-
-        blood_group_list.add("O+");
-        blood_group_donors_list.add("O+, A+, B+, AB+");
-        blood_group_acceptors_list.add("O+,O-");
-        blood_unit_price_list.add("180");
-
-        blood_group_list.add("O-");
-        blood_group_donors_list.add("A+, A-, B+, B-, AB+, AB-, O+, O-");
-        blood_group_acceptors_list.add("O-");
-        blood_unit_price_list.add("250");
-
-        selectedBloodGroups(blood_group_list,blood_group_donors_list,blood_group_acceptors_list,blood_unit_price_list);
     }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bloodBankAdapter.stopListening();
+    }
+
+
+
+
 }

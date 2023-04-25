@@ -36,12 +36,12 @@
                 android:id="@+id/lab_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
                 android:layout_marginStart="3dp"
+                android:layout_marginTop="10dp"
                 android:fontFamily="@font/pt_sans_bold"
                 android:text="Chugtai labs"
-                android:textSize="18sp"
-                android:textColor="@color/light_black"/>
+                android:textColor="@color/light_black"
+                android:textSize="18sp" />
 
             <TextView
                 android:id="@+id/lab_region"

@@ -6,10 +6,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Pharmacist.Medicine;
@@ -17,30 +15,24 @@ import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
-import java.util.HashMap;
-
-public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBankModel, labTestManagementAdapter.BloodBankViewHolder> {
+public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, BloodBankAdapter.BloodBankViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
 
+    public Integer getI() {
+        return i;
+    }
 
-    Object currentUserId;
+    public Integer getPrice() {
+        return price;
+    }
 
-    FirebaseAuth firebaseAuth;
-
-
-
+    private Integer i, price;
+    private String Quantity, Price;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -48,7 +40,7 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
      *
      * @param options
      */
-    public labTestManagementAdapter(@NonNull FirestoreRecyclerOptions<BloodBankModel> options) {
+    public BloodBankAdapter(@NonNull FirestoreRecyclerOptions<BloodBankModel> options) {
 
         super(options);
     }
@@ -56,68 +48,63 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
     @Override
     protected void onBindViewHolder(@NonNull BloodBankViewHolder holder, int position, @NonNull BloodBankModel model) {
 
-
-
-            holder.name.setText(model.getTestName());
-
-            holder.description.setText(model.getDescription());
+        try {
+            holder.name.setText(model.getBloodBankName());
+            holder.acceptor.setText(model.getAcceptor());
+            holder.donor.setText(model.getDonor());
             holder.price.setText(model.getPrice());
 
-            holder.addToCart.setOnClickListener(new View.OnClickListener() {
+
+
+            holder.positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    firebaseAuth = FirebaseAuth.getInstance();
-                    Object currentUser = firebaseAuth.getCurrentUser();
-                    if (currentUser != null) {
-                        currentUserId = firebaseAuth.getCurrentUser().getUid();
-                    }
+                    Quantity = holder.count.getText().toString();
+                    Price = holder.price.getText().toString();
+
+                    price = Integer.parseInt(Price);
+                    i = Integer.parseInt(Quantity);
+//
+//                    if (i == Integer.parseInt(model.getQuantity()))
+//                        i = Integer.parseInt(model.getQuantity());
+//                    else
+                        i++;
+                    price = Integer.parseInt(model.getPrice()) * i;
+                    holder.count.setText(i.toString());
+                    holder.price.setText(price.toString());
 
 
-
-                    // EditText editText;
-                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-                    DocumentSnapshot documentSnapshot = null;
-                    String id = documentSnapshot.getId();
-
-
-                    DocumentReference documentReference = firestore.collection("LabTests").document(id);
-                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("id", String.valueOf(currentUserId));
-                            map.put("Title", model.getCategory());
-                            map.put("Description", model.getDescription());
-                            map.put("Price", model.getPrice());
-
-
-
-
-                            map.put("Image", value.getString("logoUrl"));
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(view.getContext(), "Item added to cart", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                    });
                 }
             });
+            holder.negative.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Quantity = holder.count.getText().toString();
+                    Price = holder.price.getText().toString();
+                    i = Integer.parseInt(Quantity);
+                   if (i == 1)
+                       i = 1;
+                   else
+                     i--;
+                    price = Integer.parseInt(model.getPrice()) * i;
+                    holder.count.setText(i.toString());
+                    holder.price.setText(price.toString());
 
+                }
+            });
+        }
+        catch (Exception ex){
+            System.out.println(ex.getMessage());
+        }
 
     }
-
 
 
     @NonNull
     @Override
     public BloodBankViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.labtest_text, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.bloodbanklayout, parent, false);
         return new BloodBankViewHolder(view);
 
 
@@ -125,19 +112,31 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
 
     public class  BloodBankViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, description, price, addToCart;
-
+        TextView name, donor, acceptor, price, count;
+        ImageView negative, positive;
 
 
         public BloodBankViewHolder(@NonNull View itemView) {
             super(itemView);
             try{
 
-                name = itemView.findViewById(R.id.lab_test_name);
-                description = itemView.findViewById(R.id.lab_test_description);
-               addToCart = itemView.findViewById(R.id.add_to_cart);
-                price = itemView.findViewById(R.id.lab_test_price);
-                addToCart.setOnClickListener(new View.OnClickListener() {
+                name = itemView.findViewById(R.id.blood_group_name);
+                donor = itemView.findViewById(R.id.blood_donor_group);
+                acceptor = itemView.findViewById(R.id.lab_acceptor_group);
+                price = itemView.findViewById(R.id.blood_unit_price);
+                count = itemView.findViewById(R.id.blood_unit_quantity);
+                negative = itemView.findViewById(R.id.sub_sign);
+                positive = itemView.findViewById(R.id.add_sign);
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAbsoluteAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION && listener != null) {
+                            listener1.onItemClick(getSnapshots().getSnapshot(position), position);
+                        }
+                    }
+                });
+                negative.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         try {
@@ -151,7 +150,6 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
                         }
                     }
                 });
-
 
                 itemView.setOnLongClickListener(new View.OnLongClickListener() {
                     @Override

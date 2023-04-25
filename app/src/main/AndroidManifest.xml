@@ -61,10 +61,6 @@
             android:exported="false"
             android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
 
-        <activity
-            android:name=".Patient.AddToCart"
-            android:exported="false" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:exported="false"
@@ -133,10 +129,14 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Pharmacist.PharmacyMainPage"
-            android:exported="false" />
-        <activity
             android:name=".Patient.patientRegistration"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Patient.bloodBank"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -166,20 +166,7 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-        <activity
-            android:name=".Patient.cartForm"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.addToCart"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
+
         <activity
             android:name=".Doctor.Chat"
             android:exported="true">
@@ -217,13 +204,6 @@
         </activity>
         <activity
             android:name=".Patient.bloodBankOptions"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.bloodBank"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

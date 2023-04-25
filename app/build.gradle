@@ -45,7 +45,7 @@ dependencies {
 
     // FirebaseUI for Cloud Firestore
     implementation 'com.firebaseui:firebase-ui-firestore:8.0.2'
-    implementation 'com.google.firebase:firebase-messaging:23.1.2'
+    implementation 'com.google.firebase:firebase-messaging:22.0.0'
     // FirebaseUI for Firebase Auth
     implementation 'com.firebaseui:firebase-ui-auth:8.0.2'
 
@@ -60,8 +60,7 @@ dependencies {
 
 
     implementation 'com.android.car.ui:car-ui-lib:2.3.0'
-    implementation 'com.google.firebase:firebase-firestore:24.4.3'
-    implementation 'com.google.firebase:firebase-auth:21.1.0'
+
     implementation 'com.google.firebase:firebase-database:20.1.0'
     implementation 'com.google.firebase:firebase-storage:20.1.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'

@@ -143,7 +143,7 @@ public class BuyMedicine extends AppCompatActivity {
 
                     String price = ((TextView) _equipmentList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.productPrice)).getText().toString();
                     String quantity = ((TextView) _equipmentList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.productCount)).getText().toString();
-                    Medicine medicalEquipment = documentSnapshot.toObject(Medicine.class);
+
                     String id = documentSnapshot.getId();
 
                     DocumentReference documentReference = firestore.collection("Medicine").document(id);

@@ -1,79 +1,130 @@
 package com.example.docportal.Patient;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Pharmacist.Medicine;
+import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class labTestManagement extends AppCompatActivity {
 
-    ArrayList<String> lab_name;
-    ArrayList<String> lab_region;
-    ArrayList<String> lab_time;
-    ArrayList<String> lab_latitude_coordinates;
-    ArrayList<String> lab_longitude_coordinates;
-    ArrayList<Integer> lab_logos;
-    labsAdapter labsAdapter;
-    RecyclerView lab_recycler;
+    RecyclerView bloodList;
+    labsAdapter bloodBankAdapter;
+    // EditText editText;
+    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
+    CollectionReference noteBookref = firestore.collection("LabTests");
+    Button _pharmacyAddToCart;
+    FirebaseAuth firebaseAuth;
 
+    Object currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab_test_management);
 
-        lab_recycler = findViewById(R.id.labs_available_recycler);
-        lab_name = new ArrayList<>();
-        lab_region = new ArrayList<>();
-        lab_time = new ArrayList<>();
-        lab_logos = new ArrayList<>();
-        lab_latitude_coordinates = new ArrayList<>();
-        lab_longitude_coordinates = new ArrayList<>();
-
-        lab_name.add("Chughtai Labs");
-        lab_logos.add(R.drawable.chughtai_lab);
-        lab_name.add("TEMAR Diagnostics");
-        lab_logos.add(R.drawable.temar_logo);
-        lab_name.add("Excel Labs");
-        lab_logos.add(R.drawable.excel_labs);
-        lab_name.add("Islamabad Diagnostic Center");
-        lab_logos.add(R.drawable.idc_logo_2);
-        lab_name.add("CITI Lab");
-        lab_logos.add(R.drawable.citi_lab);
-        lab_region.add("Islamabad");
-        lab_region.add("Rawalpindi");
-        lab_region.add("Rawalpindi");
-        lab_region.add("Islamabad");
-        lab_region.add("Rawalpindi");
-        lab_time.add("9:00am - 5:00pm");
-        lab_time.add("9:00am - 5:00pm");
-        lab_time.add("9:00am - 5:00pm");
-        lab_time.add("10:00am - 6:00pm");
-        lab_time.add("10:00am - 8:00pm");
-        lab_latitude_coordinates.add("33.71020637709538");
-        lab_longitude_coordinates.add( "73.05776942666854");
-        lab_latitude_coordinates.add("33.63817621122126");
-        lab_longitude_coordinates.add( "73.06191458556171");
-        lab_latitude_coordinates.add("33.6333495");
-        lab_longitude_coordinates.add( "73.078521");
-        lab_latitude_coordinates.add("33.633486");
-        lab_longitude_coordinates.add( "73.073234");
-        lab_latitude_coordinates.add("33.62805581486235");
-        lab_longitude_coordinates.add( "73.07006551131991");
-
-        lab_recycler.setLayoutManager(new LinearLayoutManager(this));
-        labsAdapter = new labsAdapter(lab_name,lab_region,lab_time,lab_latitude_coordinates,lab_longitude_coordinates,lab_logos);
-        lab_recycler.setAdapter(labsAdapter);
+        //     editText = findViewById(R.id.medicineSearch);
+        firebaseAuth = FirebaseAuth.getInstance();
+        Object currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        }
 
 
 
 
-
+        setUpRecycler();
 
 
     }
+
+
+
+
+
+
+
+
+
+
+    private void  setUpRecycler() {
+
+            Query query = noteBookref.orderBy("labName", Query.Direction.DESCENDING);
+            FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+                    .setQuery(query, BloodBankModel.class).build();
+            bloodBankAdapter = new labsAdapter(options);
+            bloodList = findViewById(R.id.labs_available_recycler);
+
+            bloodList.setLayoutManager(new WrapContentLinearLayoutManager(labTestManagement.this, LinearLayoutManager.VERTICAL, false));
+            bloodList.setAdapter(bloodBankAdapter);
+
+//            editText.addTextChangedListener(new TextWatcher() {
+//                @Override
+//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                }
+//
+//                @Override
+//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+//
+//                    String aquery = charSequence.toString().toLowerCase();
+//                    Query filteredQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
+//                    FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+//                            .setQuery(filteredQuery, BloodBankModel.class).build();
+//                    bloodBankAdapter.updateOptions(options);
+//
+//                }
+//
+//                @Override
+//                public void afterTextChanged(Editable editable) {
+//
+//
+//
+//                }
+//            });
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        bloodBankAdapter.startListening();
+
+    }
+    @Override
+    protected void onStop() {
+        super.onStop();
+        bloodBankAdapter.stopListening();
+    }
+
+
+
+
 }

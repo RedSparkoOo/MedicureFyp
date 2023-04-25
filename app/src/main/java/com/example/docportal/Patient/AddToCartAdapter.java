@@ -41,11 +41,24 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
 
     @Override
     protected void onBindViewHolder(@NonNull MedicineListViewHolder holder, int position, @NonNull Medicine model) {
-
-
+        if(model.getIdentifier() != null) {
+            if (model.getIdentifier().equals("blood")) {
+                holder.acceptor.setText("Acceptor");
+                holder.agg.setText("Donor");
+            }
+        }
+        holder.acceptor.setText("");
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
+
+
+            System.out.println(model.getTitle());
+            System.out.println(model.getDescription());
+            System.out.println(model.getPrice());
+            System.out.println(model.getQuantity());
+
+
 
         if(model.getMilligram() == null){
             holder.milligram.setText("");
@@ -80,7 +93,7 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
 
 
     public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
-        TextView title, description, price, quantity, milligram, agg;
+        TextView title, description, price, quantity, milligram, agg, acceptor;
         ImageView imageView;
 
 
@@ -88,6 +101,7 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.aTitle);
+            acceptor = itemView.findViewById(R.id.aAcceptor);
             agg = itemView.findViewById(R.id.agg);
             description = itemView.findViewById(R.id.aDescription);
             price = itemView.findViewById(R.id.aPrice);

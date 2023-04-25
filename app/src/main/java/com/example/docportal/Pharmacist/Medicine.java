@@ -2,13 +2,24 @@ package com.example.docportal.Pharmacist;
 
 public class Medicine {
     private String Title;
-    public Medicine(String title, String description, String price, String image, String milligram, String quantity) {
+
+    public String getIdentifier() {
+        return Identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        Identifier = identifier;
+    }
+
+    private String Identifier;
+    public Medicine(String title, String description, String price, String image, String milligram, String quantity, String identifier) {
         this.Title = title;
         this.Description = description;
         this.Price = price;
         this.Image = image;
         this.Milligram = milligram;
         this.Quantity = quantity;
+        this.Identifier = identifier;
     }
     public Medicine(){}
 

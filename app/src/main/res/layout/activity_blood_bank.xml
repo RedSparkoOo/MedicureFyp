@@ -48,7 +48,9 @@
             android:textColor="@color/light_black"
             android:textSize="16sp" />
 
+
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,7 +79,9 @@
 
 
 
+
         </androidx.recyclerview.widget.RecyclerView>
+
 
     </LinearLayout>
 

@@ -149,6 +149,20 @@
             android:layout_marginBottom="50dp"
 
             />
+
+        <Button
+            android:id="@+id/bloodToCart"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Proceed to Cart"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
     </LinearLayout>
 
 

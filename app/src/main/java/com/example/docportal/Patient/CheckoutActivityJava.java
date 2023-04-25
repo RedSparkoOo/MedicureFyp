@@ -55,8 +55,9 @@ public class CheckoutActivityJava extends AppCompatActivity {
     TextView TotalPrice;
 
     FirebaseAuth firebaseAuth;
-    Object currentUserId;
+    String currentUserId;
     double totalPrice, _totalPrice;
+    Object currentUser;
     CollectionReference noteBookref = firestore.collection("Cart");
 
     private static final String TAG = "CheckoutActivity";
@@ -95,11 +96,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         firebaseAuth= FirebaseAuth.getInstance();
 
-        Object currentUser = firebaseAuth.getCurrentUser();
+        currentUser = firebaseAuth.getCurrentUser();
         if(currentUser!= null) {
             currentUserId = firebaseAuth.getCurrentUser().getUid();
         }
-           setUpRecyclerView();
+        setUpRecyclerView();
 
 
         PaymentConfiguration.init(
@@ -122,7 +123,9 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
     }
     private void setUpRecyclerView(){
-        Query query = noteBookref.orderBy("Title",Query.Direction.DESCENDING);
+        String aquery = currentUserId;
+        Query query = noteBookref.orderBy("id",Query.Direction.DESCENDING);
+        System.out.println(query);
         FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                 .setQuery(query, Medicine.class).build();
 
@@ -132,11 +135,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
         count = addToCartAdapter.getItemCount();
         _cartList = findViewById(R.id.addToCartRecycler);
         _cartList.setLayoutManager(new WrapContentLinearLayoutManager(CheckoutActivityJava.this,LinearLayoutManager.VERTICAL, false ));
-        String aquery = currentUserId.toString();
-        Query filteredQuery = noteBookref.orderBy("id", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-        FirestoreRecyclerOptions<Medicine> optionss = new FirestoreRecyclerOptions.Builder<Medicine>()
-                .setQuery(filteredQuery, Medicine.class).build();
-        filteredQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
+//
+//        Query filteredQuery = noteBookref.orderBy("id", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
+//        FirestoreRecyclerOptions<Medicine> optionss = new FirestoreRecyclerOptions.Builder<Medicine>()
+//                .setQuery(filteredQuery, Medicine.class).build();
+        query.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
@@ -151,12 +154,12 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 }
                 TotalPrice.setText(String.valueOf(totalPrice) );
                 _totalPrice = totalPrice;
-                fetchPaymentIntent();
+              //  fetchPaymentIntent();
 
             }
 
         });
-        addToCartAdapter.updateOptions(optionss);
+        addToCartAdapter.updateOptions(options);
         _cartList.setAdapter(addToCartAdapter);
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
@@ -206,7 +209,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
     }
 
     private void fetchPaymentIntent() {
-       // final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
+        // final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
         double amount =  _totalPrice*100;
         Map<String, Object> payMap = new HashMap<>();
         Map<String, Object> itemMap = new HashMap<>();
@@ -302,4 +305,6 @@ public class CheckoutActivityJava extends AppCompatActivity {
             // TODO: Handle cancel
         }
     }
+
+
 }
