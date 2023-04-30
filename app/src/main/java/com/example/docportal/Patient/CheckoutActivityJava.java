@@ -1,6 +1,7 @@
 package com.example.docportal.Patient;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
@@ -18,8 +19,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -39,8 +44,10 @@ import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -154,7 +161,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 }
                 TotalPrice.setText(String.valueOf(totalPrice) );
                 _totalPrice = totalPrice;
-              //  fetchPaymentIntent();
+                fetchPaymentIntent();
 
             }
 
@@ -288,7 +295,38 @@ public class CheckoutActivityJava extends AppCompatActivity {
             final PaymentSheetResult paymentSheetResult
     ) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
+            Date currentTime = new Date();
+            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+            String formattedTime = timeFormat.format(currentTime);
+            CollectionReference transactionRef = firestore.collection("Transaction");
             showToast("Payment complete!");
+            for (int i = 0; i < addToCartAdapter.getItemCount(); i++) {
+
+                // Get the data for the current item
+                Medicine model = addToCartAdapter.getItem(i);
+                Map<String, Object> data = new HashMap<>();
+                data.put("id", currentUserId);
+                data.put("item", model.getTitle());
+                data.put("time", formattedTime);
+                data.put("price", model.getPrice());
+
+                // Create a new document in the Firestore collection
+                transactionRef.add(data)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d(TAG, "Document added with ID: " + documentReference.getId());
+                                startActivity(new Intent(CheckoutActivityJava.this, TransactionHistory.class));
+
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w(TAG, "Error adding document", e);
+                            }
+                        });
+            }
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
@@ -305,6 +343,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
             // TODO: Handle cancel
         }
     }
+
 
 
 }

@@ -16,10 +16,14 @@ import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.squareup.picasso.Picasso;
 
 public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, BanksAdapter .BloodBankViewHolder> {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference collectionRef = db.collection("bloodbank");
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
@@ -50,11 +54,11 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
     protected void onBindViewHolder(@NonNull BloodBankViewHolder holder, int position, @NonNull BloodBankModel model) {
 
         try {
-            holder.name.setText(model.getBloodBankName());
+            holder.name.setText(model.getName());
             holder.city.setText("Islamabad");
             holder.time.setText(model.getTiming());
             String imageUri;
-            imageUri = model.getLogoUrl();
+            imageUri = model.getLogo();
             Picasso.get().load(imageUri).into(holder.image);
 
 
@@ -72,7 +76,11 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
             holder.service.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    view.getContext().startActivity(new Intent(view.getContext(), bloodBankOptions.class ));
+                    DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
+                    String documentId = snapshot.getId();
+                    Intent intent =new Intent(view.getContext(), bloodBankOptions.class);
+                    intent.putExtra("bloodId", documentId);
+                    view.getContext().startActivity(intent);
                 }
             });
         }

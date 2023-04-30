@@ -35,7 +35,12 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
@@ -74,10 +79,12 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     StorageReference storageReference;
     FirebaseFirestore firestore;
     FirebaseAuth firebaseAuth;
-    String user_id;
+    Object user_id;
     String ID;
 
     ImageView scroll_to_end;
+
+
 
 
     @Override
@@ -94,11 +101,15 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         navigationView = (NavigationView) findViewById(R.id.navigationBar);
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
-
+        firebaseAuth = FirebaseAuth.getInstance();
+        Object currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            user_id   = firebaseAuth.getCurrentUser().getUid();
+        }
 
         doctor_profile = findViewById(R.id.patient_profile);
 
-        scroll_to_end = findViewById(R.id.scroll);
+
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
         notification_count = findViewById(R.id.notify);
@@ -135,6 +146,36 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 startActivity(new Intent(PharmacistDashboard.this, AddMedicalEquipment.class));
             }
         });
+        storageReference = FirebaseStorage.getInstance().getReference();
+        DocumentReference documentReference = firestore.collection("Professions").document(String.valueOf(user_id));
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                if(value.exists()){
+                    doctor_name.setText(value.getString("Full Name"));
+                }
+                else{
+                    Toast.makeText(PharmacistDashboard.this, "No Value", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
+        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
+        doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+            @Override
+            public void onSuccess(Uri uri) {
+                Picasso.get().load(uri).into(doctor_profile);
+
+            }
+        });
+
+        navigationView = (NavigationView) findViewById(R.id.navigationBar);
+        DrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+
         navigationView.bringToFront();
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(PharmacistDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.blue_2));
@@ -150,11 +191,10 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
 
                 //-----------------Select Image From Gallery---------\\
 
-                Intent open_gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent open_gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
 
                 //noinspection deprecation
                 startActivityForResult(open_gallery, GALLERY_CODE);
-
 
             }
 
@@ -179,7 +219,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
 
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
         doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -208,7 +248,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         }
 
         else {
-            Intent intent = new Intent(PharmacistDashboard.this, SplashScreenEntrance.class);
+            Intent intent = new Intent(PharmacistDashboard.this,SplashScreenEntrance.class);
             Dialog dialog = new Dialog(PharmacistDashboard.this);
             dialog.setContentView(R.layout.alert_box_layout);
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
@@ -298,7 +338,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
 
 
     }
-
 
 
 

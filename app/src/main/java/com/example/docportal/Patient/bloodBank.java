@@ -39,7 +39,7 @@ public class bloodBank extends AppCompatActivity {
     BanksAdapter bloodBankAdapter;
     // EditText editText;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    CollectionReference noteBookref = firestore.collection("bloodbankdata");
+    CollectionReference noteBookref = firestore.collection("bloodbank");
     Button _pharmacyAddToCart;
     FirebaseAuth firebaseAuth;
 
@@ -75,7 +75,7 @@ public class bloodBank extends AppCompatActivity {
 
     private void  setUpRecycler(){
 
-            Query query = noteBookref.orderBy("bloodBankName", Query.Direction.DESCENDING);
+            Query query = noteBookref.orderBy("name", Query.Direction.DESCENDING);
             FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
                     .setQuery(query, BloodBankModel.class).build();
             bloodBankAdapter = new BanksAdapter(options);

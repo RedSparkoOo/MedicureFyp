@@ -1,91 +1,141 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/linearLayout"
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/extra_white">
+    android:layout_margin="7dp"
+    android:background="@drawable/linear_layout_background_2"
+    android:elevation="5dp"
+    android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/medi_picture"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    <LinearLayout
 
-
-    <TextView
-        android:id="@+id/_title"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="27dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="Title"
-        android:textColor="@color/black"
-        android:textSize="22sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/medi_picture"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.235" />
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
 
-    <TextView
-        android:id="@+id/_milligram"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="148dp"
-        android:layout_marginTop="48dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="milligram"
+        <ImageView
+            android:id="@+id/medi_picture"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:layout_margin="5dp"
+            android:elevation="2dp"
+            android:backgroundTint="@color/input_grey"
+            android:background="@drawable/image_round_outline"
+            android:clipToOutline="true"
+            android:adjustViewBounds="true"
 
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/_description"
-        app:layout_constraintTop_toTopOf="parent" />
+            />
 
-    <TextView
-        android:id="@+id/_description"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="5dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="Description"
-        android:textColor="@color/black"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/medi_picture"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.573" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/_Quantity"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="184dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/inter_font_google"
+            <TextView
+                android:id="@+id/_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginStart="3dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Chugtai labs"
+                android:textSize="18sp"
+                android:textColor="@color/light_black"/>
 
-        android:text="Quantity:"
-        android:textColor="@color/black"
+            <TextView
+                android:id="@+id/_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="3dp"
+                android:layout_marginTop="2dp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Islamabad"
+                android:textColor="@color/light_black"
+                android:textSize="14sp" />
 
-        android:textSize="12sp"
-        app:layout_constraintStart_toEndOf="@+id/_title"
-        app:layout_constraintTop_toTopOf="parent" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+                <TextView
 
-    <TextView
-        android:id="@+id/_Price_main"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="172dp"
-        android:fontFamily="@font/inter_font_google"
-        android:text="50 Rs"
-        android:textColor="@color/black"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/_description"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.829" />
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Price: "
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+                <TextView
+                    android:id="@+id/_Price_main"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:text="Islamabad"
+                    android:textColor="@color/light_black"
+                    android:textSize="12sp" />
+                <TextView
+                    android:id="@+id/gg"
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Milligram: "
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/_milligram"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+                    android:layout_marginTop="2dp"
+                    android:fontFamily="@font/pt_sans_regular"
+
+                    android:textColor="@color/light_black"
+                    android:textSize="12sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+                <TextView
+
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="3dp"
+
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Quantity: "
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/_Quantity"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+
+                    android:fontFamily="@font/inter_font_google"
+                    android:text="out of stock"
+                    android:textColor="@color/Red"
+                    android:textSize="12sp"
+                    />
+            </LinearLayout>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

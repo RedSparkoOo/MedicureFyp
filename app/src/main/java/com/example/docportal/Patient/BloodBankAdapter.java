@@ -49,7 +49,7 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
     protected void onBindViewHolder(@NonNull BloodBankViewHolder holder, int position, @NonNull BloodBankModel model) {
 
         try {
-            holder.name.setText(model.getBloodBankName());
+            holder.name.setText(model.getName());
             holder.acceptor.setText(model.getAcceptor());
             holder.donor.setText(model.getDonor());
             holder.price.setText(model.getPrice());
@@ -64,10 +64,10 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
 
                     price = Integer.parseInt(Price);
                     i = Integer.parseInt(Quantity);
-//
-//                    if (i == Integer.parseInt(model.getQuantity()))
-//                        i = Integer.parseInt(model.getQuantity());
-//                    else
+
+                    if (i == Integer.parseInt(model.getQuantity()))
+                        i = Integer.parseInt(model.getQuantity());
+                    else
                         i++;
                     price = Integer.parseInt(model.getPrice()) * i;
                     holder.count.setText(i.toString());

@@ -3,20 +3,45 @@ package com.example.docportal.Patient;
 public class BloodBankModel {
     private String labName;
 
-    public String getBloodBankName() {
-        return bloodBankName;
+
+
+
+
+    private String name;
+
+    public String getName() {
+        return name;
     }
 
-    public void setBloodBankName(String bloodBankName) {
-        this.bloodBankName = bloodBankName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    private String bloodBankName;
     public BloodBankModel() {
 
 
     }
-    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName) {
+
+    public String getLogo() {
+        return logo;
+    }
+
+    public void setLogo(String logo) {
+        this.logo = logo;
+    }
+
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    private String quantity;
+
+    private String logo;
+    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName, String logo, String quantity) {
         this.acceptor = acceptor;
         this.category = category;
         this.description = description;
@@ -28,7 +53,9 @@ public class BloodBankModel {
         this.price = price;
         this.testName = testName;
         this.timing = timing;
-        this.bloodBankName = bloodBankName;
+        this.name = bloodBankName;
+        this.logo = logo;
+        this.quantity = quantity;
     }
     private String acceptor;
 

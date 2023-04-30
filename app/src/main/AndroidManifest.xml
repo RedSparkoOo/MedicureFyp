@@ -32,6 +32,9 @@
         tools:replace="android:label"
         tools:targetApi="31">
         <activity
+            android:name=".Patient.TransactionHistory"
+            android:exported="false" />
+        <activity
             android:name=".Pharmacist.PharmacistRegistration"
             android:exported="false" />
         <activity
@@ -60,7 +63,6 @@
             android:name="com.google.android.geo.API_KEY"
             android:exported="false"
             android:value="AIzaSyDuJ2gKRaOvbw0gUJYlTSTLJCY1D54rCJE" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:exported="false"
@@ -150,6 +152,13 @@
                 android:value="" />
         </activity>
         <activity
+            android:name=".Pharmacist.PharmacistLogin"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".mainstartScreen"
             android:exported="false">
             <meta-data
@@ -166,7 +175,6 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
-
         <activity
             android:name=".Doctor.Chat"
             android:exported="true">
