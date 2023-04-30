@@ -177,7 +177,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         });
 
 
-        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Doctor/"+firebaseAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
