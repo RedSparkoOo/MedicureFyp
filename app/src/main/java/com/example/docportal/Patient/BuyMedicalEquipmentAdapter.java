@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,7 +51,14 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        holder.quantity.setText(model.getQuantity());
+        if(model.getQuantity().equals("0")) {
+            holder.quantity.setText("Out of stock");
+            holder.count.setText("0");
+        }
+        else {
+            holder.quantity.setText(model.getQuantity());
+            holder.quantity.setTextColor(Color.parseColor("#00FF00"));
+        }
         holder.gg.setText("");
         String imageUri;
         imageUri = model.getImage();
@@ -60,18 +68,22 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Quantity = holder.count.getText().toString();
-                Price = holder.price.getText().toString();
-                price = Integer.parseInt(Price);
-                i = Integer.parseInt(Quantity);
-                if(i  ==  Integer.parseInt(model.getQuantity()))
-                    i = Integer.parseInt(model.getQuantity());
-                else
-                    i++;
-                price  = Integer.parseInt(model.getPrice())  * i;
-                holder.count.setText(i.toString());
-                holder.price.setText(price.toString());
+                if(model.getQuantity().equals("0"));
+                else {
+                    Quantity = holder.count.getText().toString();
+                    Price = holder.price.getText().toString();
 
+                    price = Integer.parseInt(Price);
+                    i = Integer.parseInt(Quantity);
+
+                    if (i == Integer.parseInt(model.getQuantity()))
+                        i = Integer.parseInt(model.getQuantity());
+                    else
+                        i++;
+                    price = Integer.parseInt(model.getPrice()) * i;
+                    holder.count.setText(i.toString());
+                    holder.price.setText(price.toString());
+                }
 
             }
         });

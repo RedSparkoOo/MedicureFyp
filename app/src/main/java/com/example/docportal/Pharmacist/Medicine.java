@@ -3,6 +3,15 @@ package com.example.docportal.Pharmacist;
 public class Medicine {
     private String Title;
 
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    private String seller;
     public String getIdentifier() {
         return Identifier;
     }
@@ -12,7 +21,7 @@ public class Medicine {
     }
 
     private String Identifier;
-    public Medicine(String title, String description, String price, String image, String milligram, String quantity, String identifier) {
+    public Medicine(String title, String description, String price, String image, String milligram, String quantity, String identifier, String seller) {
         this.Title = title;
         this.Description = description;
         this.Price = price;
@@ -20,6 +29,7 @@ public class Medicine {
         this.Milligram = milligram;
         this.Quantity = quantity;
         this.Identifier = identifier;
+        this.seller = seller;
     }
     public Medicine(){}
 

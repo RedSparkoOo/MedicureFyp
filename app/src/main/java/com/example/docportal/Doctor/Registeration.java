@@ -133,19 +133,19 @@ public class Registeration extends AppCompatActivity {
 
                                 user_id = firebaseAuth.getCurrentUser().getUid();
 
-                                DocumentReference documentReference = firestore.collection("Professions").document(user_id);
-                                Map<String, Object> doctor = new HashMap<>();
-                                doctor.put("Full Name", fName);
-                                doctor.put("Email Address", emailAddress);
-                                doctor.put("Password", Passcode);
-                                doctor.put("Phone #", phoneNo);
-                                doctor.put("Gender",gender);
-                                doctor.put("License #", license);
-                                doctor.put("Profession",Selected_Profession);
-                                doctor.put("Doctor_profession", specializations);
-                                doctor.put("Bio Details", Bio);
-                                documentReference.set(doctor);
-                                Toast.makeText(Registeration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
+                                    DocumentReference documentReference = firestore.collection("Professions").document(user_id);
+                                    Map<String, Object> doctor = new HashMap<>();
+                                    doctor.put("Full Name", fName);
+                                    doctor.put("Email Address", emailAddress);
+                                    doctor.put("Password", Passcode);
+                                    doctor.put("Phone #", phoneNo);
+                                    doctor.put("Gender",gender);
+                                    doctor.put("License #", license);
+                                    doctor.put("Profession",Selected_Profession);
+                                    doctor.put("Doctor_profession", specializations);
+                                    doctor.put("Bio Details", Bio);
+                                    documentReference.set(doctor);
+                                    Toast.makeText(Registeration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
 
 
 //                                if(Selected_Profession.equals("Nurse")){

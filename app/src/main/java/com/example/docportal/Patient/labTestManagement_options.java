@@ -42,7 +42,7 @@ public class labTestManagement_options extends AppCompatActivity {
     CollectionReference noteBookref = firestore.collection("LabTests");
 
     FirebaseAuth firebaseAuth;
-
+    private String name;
     Object currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +55,7 @@ public class labTestManagement_options extends AppCompatActivity {
         if (currentUser != null) {
             currentUserId = firebaseAuth.getCurrentUser().getUid();
         }
+
 
 
 
@@ -75,10 +76,11 @@ public class labTestManagement_options extends AppCompatActivity {
 
     private void  setUpRecycler(){
         try {
+            Intent intent = getIntent();
             Query query = noteBookref.orderBy("category", Query.Direction.DESCENDING);
             FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
                     .setQuery(query, BloodBankModel.class).build();
-            bloodBankAdapter = new labTestManagementAdapter(options);
+            bloodBankAdapter = new labTestManagementAdapter(intent,options);
             bloodList = findViewById(R.id.searchLabTestRecycler);
 
             bloodList.setLayoutManager(new WrapContentLinearLayoutManager(labTestManagement_options.this,LinearLayoutManager.VERTICAL, false ));
@@ -110,47 +112,8 @@ public class labTestManagement_options extends AppCompatActivity {
 //            });
 
 
-            bloodBankAdapter.setOnItemClickListener(new MedicineListAdapter.onItemClickListener() {
-                @Override
-                public void onItemClick(DocumentSnapshot snapshot, int position) {
 
-                }
-            });
-            bloodBankAdapter.setOnItemLongClickListener(new MedicineListAdapter.onItemLongClickListener() {
-                @Override
-                public void onitemlongClick(DocumentSnapshot documentSnapshot, int position) {
 
-                    String price = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_price)).getText().toString();
-                    String quantity = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_quantity)).getText().toString();
-
-                    String id = documentSnapshot.getId();
-
-                    DocumentReference documentReference = firestore.collection("LabTests").document(id);
-                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("id", String.valueOf(currentUserId));
-                            map.put("Title", value.getString("bloodBankName"));
-
-                            map.put("Price", price);
-                            map.put("Quantity", quantity);
-                            map.put("Milligram", value.getString(("donor")));
-                            map.put("Description", value.getString("acceptor"));
-                            map.put("Identifier", "blood");
-                            map.put("Image", value.getString("logoUrl"));
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(labTestManagement_options.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                    });
-                }
-            });
         }
         catch (Exception ex){
             System.out.println(ex.getMessage());

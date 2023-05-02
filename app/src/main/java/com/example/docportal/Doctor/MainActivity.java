@@ -13,10 +13,10 @@ import com.example.docportal.R;
 
 
 public class MainActivity extends AppCompatActivity {
-    Button login;
-    Button Signup;
-    Bundle doctor;
-    ImageView back_to_entrance;
+Button login;
+Button Signup;
+Bundle doctor;
+ImageView back_to_entrance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

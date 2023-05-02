@@ -43,13 +43,14 @@ public class bloodBankOptions extends AppCompatActivity {
    Button _pharmacyAddToCart;
     FirebaseAuth firebaseAuth;
     private String id;
-
+    private String name;
     Object currentUserId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blood_bank_options);
         id = getIntent().getStringExtra("bloodId");
+        name = getIntent().getStringExtra("name");
         System.out.println(id);
 
 
@@ -132,33 +133,37 @@ public class bloodBankOptions extends AppCompatActivity {
 
                     String price = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_price)).getText().toString();
                     String quantity = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.blood_unit_quantity)).getText().toString();
+                    String totalQuantity = ((TextView) bloodList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.lab_quantity_group)).getText().toString();
+                    if(totalQuantity.equals("Out of stock"));
+                    else {
+                        String id = documentSnapshot.getId();
 
-                    String id = documentSnapshot.getId();
+                        DocumentReference documentReference = firestore.collection("bloodata").document(id);
+                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                HashMap<String, String> map = new HashMap<>();
+                                map.put("id", String.valueOf(currentUserId));
+                                map.put("Title", value.getString("name"));
 
-                    DocumentReference documentReference = firestore.collection("bloodbankdata").document(id);
-                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("id", String.valueOf(currentUserId));
-                            map.put("Title", value.getString("bloodBankName"));
+                                map.put("Price", price);
+                                map.put("Quantity", quantity);
+                                map.put("Milligram", value.getString(("donor")));
+                                map.put("Description", value.getString("acceptor"));
+                                map.put("Identifier", "blood");
+                                map.put("Image", value.getString("logoUrl"));
+                                map.put("seller", name);
+                                DocumentReference documentReference = firestore.collection("Cart").document(id);
+                                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(bloodBankOptions.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                            map.put("Price", price);
-                            map.put("Quantity", quantity);
-                            map.put("Milligram", value.getString(("donor")));
-                            map.put("Description", value.getString("acceptor"));
-                            map.put("Identifier", "blood");
-                            map.put("Image", value.getString("logoUrl"));
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(bloodBankOptions.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-                                }
-                            });
-
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             });
         }

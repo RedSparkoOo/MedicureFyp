@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +58,14 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.description.setText(model.getDescription());
             holder.price.setText(model.getPrice());
             holder.milligram.setText(model.getMilligram());
-            holder.quantity.setText(model.getQuantity());
+            if(model.getQuantity().equals("0")) {
+                holder.quantity.setText("Out of stock");
+                holder.count.setText("0");
+            }
+            else {
+                holder.quantity.setText(model.getQuantity());
+                holder.quantity.setTextColor(Color.parseColor("#00FF00"));
+            }
             String imageUri;
             imageUri = model.getImage();
             Picasso.get().load(imageUri).into(holder.imageView);
@@ -66,19 +74,22 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Quantity = holder.count.getText().toString();
-                    Price = holder.price.getText().toString();
+                    if(model.getQuantity().equals("0"));
+                    else {
+                        Quantity = holder.count.getText().toString();
+                        Price = holder.price.getText().toString();
 
-                    price = Integer.parseInt(Price);
-                    i = Integer.parseInt(Quantity);
+                        price = Integer.parseInt(Price);
+                        i = Integer.parseInt(Quantity);
 
-                    if (i == Integer.parseInt(model.getQuantity()))
-                        i = Integer.parseInt(model.getQuantity());
-                    else
-                        i++;
-                    price = Integer.parseInt(model.getPrice()) * i;
-                    holder.count.setText(i.toString());
-                    holder.price.setText(price.toString());
+                        if (i == Integer.parseInt(model.getQuantity()))
+                            i = Integer.parseInt(model.getQuantity());
+                        else
+                            i++;
+                        price = Integer.parseInt(model.getPrice()) * i;
+                        holder.count.setText(i.toString());
+                        holder.price.setText(price.toString());
+                    }
 
 
                 }
@@ -91,6 +102,8 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                     i = Integer.parseInt(Quantity);
                     if (i == 1)
                         i = 1;
+                    else if( i == 0)
+                        i= 0;
                     else
                         i--;
                     price = Integer.parseInt(model.getPrice()) * i;

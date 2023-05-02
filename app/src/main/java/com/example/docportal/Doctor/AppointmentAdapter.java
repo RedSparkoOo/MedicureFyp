@@ -1,5 +1,7 @@
 package com.example.docportal.Doctor;
 
+import static androidx.core.content.ContextCompat.getDrawable;
+
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,6 +17,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
+import com.example.docportal.SplashScreenEntrance;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 

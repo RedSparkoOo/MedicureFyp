@@ -47,7 +47,10 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
                 holder.agg.setText("Donor");
             }
         }
-        holder.acceptor.setText("");
+        else{
+            holder.acceptor.setText("");
+        }
+
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
@@ -71,7 +74,7 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         holder.quantity.setText(model.getQuantity());
         String imageUri;
         imageUri = model.getImage();
-        Picasso.get().load(imageUri).into(holder.imageView);
+       // Picasso.get().load(imageUri).into(holder.imageView);
 
 
 

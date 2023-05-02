@@ -307,6 +307,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 Map<String, Object> data = new HashMap<>();
                 data.put("id", currentUserId);
                 data.put("item", model.getTitle());
+                data.put("seller", model.getSeller());
                 data.put("time", formattedTime);
                 data.put("price", model.getPrice());
 

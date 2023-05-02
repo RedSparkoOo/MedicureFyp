@@ -78,8 +78,11 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
                 public void onClick(View view) {
                     DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
                     String documentId = snapshot.getId();
-                    Intent intent =new Intent(view.getContext(), bloodBankOptions.class);
+                    String name = snapshot.getString("name");
+                    System.out.println(name);
+                    Intent intent = new Intent(view.getContext(), bloodBankOptions.class);
                     intent.putExtra("bloodId", documentId);
+                    intent.putExtra("name", name); // Add the "name" value to the intent
                     view.getContext().startActivity(intent);
                 }
             });

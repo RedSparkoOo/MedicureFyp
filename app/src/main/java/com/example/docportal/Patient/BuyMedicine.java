@@ -143,31 +143,36 @@ public class BuyMedicine extends AppCompatActivity {
 
                     String price = ((TextView) _equipmentList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.productPrice)).getText().toString();
                     String quantity = ((TextView) _equipmentList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.productCount)).getText().toString();
+                    String totalQuantity = ((TextView) _equipmentList.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.productQuantity)).getText().toString();
+                    if(totalQuantity.equals("Out of stock"));
+                    else {
+                        String id = documentSnapshot.getId();
 
-                    String id = documentSnapshot.getId();
+                        DocumentReference documentReference = firestore.collection("Medicine").document(id);
+                        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                HashMap<String, String> map = new HashMap<>();
+                                map.put("id", String.valueOf(currentUserId));
+                                map.put("Title", value.getString("Title"));
+                                map.put("Image", value.getString("Image"));
+                                map.put("Price", price);
+                                map.put("Quantity", quantity);
+                                map.put("Milligram", value.getString(("Milligram")));
+                                map.put("Description", value.getString("Description"));
+                                map.put("seller", "Pharmacist");
 
-                    DocumentReference documentReference = firestore.collection("Medicine").document(id);
-                    documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                        @Override
-                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                            HashMap<String, String> map = new HashMap<>();
-                            map.put("id", String.valueOf(currentUserId));
-                            map.put("Title", value.getString("Title"));
-                            map.put("Image", value.getString("Image"));
-                            map.put("Price", price);
-                            map.put("Quantity", quantity);
-                            map.put("Milligram", value.getString(("Milligram")));
-                            map.put("Description", value.getString("Description"));
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                @Override
-                                public void onSuccess(Void unused) {
-                                    Toast.makeText(BuyMedicine.this, "Item added to cart", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                DocumentReference documentReference = firestore.collection("Cart").document(id);
+                                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void unused) {
+                                        Toast.makeText(BuyMedicine.this, "Item added to cart", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
 
-                        }
-                    });
+                            }
+                        });
+                    }
                 }
             });
         }

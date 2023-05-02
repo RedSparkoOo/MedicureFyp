@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,11 +32,13 @@ import java.util.HashMap;
 
 public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBankModel, labTestManagementAdapter.BloodBankViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
-
+    private Intent mIntent;
     private MedicineListAdapter.onItemClickListener listener1;
 
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference collectionRef = db.collection("LabTests");
     Object currentUserId;
+
 
     FirebaseAuth firebaseAuth;
 
@@ -48,9 +51,10 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
      *
      * @param options
      */
-    public labTestManagementAdapter(@NonNull FirestoreRecyclerOptions<BloodBankModel> options) {
+    public labTestManagementAdapter(Intent intent,@NonNull FirestoreRecyclerOptions<BloodBankModel> options) {
 
         super(options);
+        this.mIntent = intent;
     }
 
     @Override
@@ -72,16 +76,14 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
                         currentUserId = firebaseAuth.getCurrentUser().getUid();
                     }
 
-
-
+                    DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
+                    String documentId = snapshot.getId();
+                  String  name =  mIntent.getStringExtra("name");
+                    System.out.println(name);
                     // EditText editText;
-                    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-                    DocumentSnapshot documentSnapshot = null;
-                    String id = documentSnapshot.getId();
 
 
-                    DocumentReference documentReference = firestore.collection("LabTests").document(id);
+                    DocumentReference documentReference = db.collection("LabTests").document(documentId);
                     documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                         @Override
                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -90,12 +92,13 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
                             map.put("Title", model.getCategory());
                             map.put("Description", model.getDescription());
                             map.put("Price", model.getPrice());
+                            map.put("seller", name);
 
 
 
 
                             map.put("Image", value.getString("logoUrl"));
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
+                            DocumentReference documentReference = db.collection("Cart").document(documentId);
                             documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

@@ -212,7 +212,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientBloodBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, TransactionHistory.class);
+                Intent view_appointment = new Intent(patientDashboard.this, bloodBank.class);
                 startActivity(view_appointment);
             }
         });

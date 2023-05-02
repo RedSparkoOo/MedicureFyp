@@ -27,15 +27,26 @@ public class TransactionModel {
         this.price = price;
     }
 
-    public TransactionModel(String item, String time, String price) {
+    public TransactionModel(String item, String time, String price, String seller) {
         this.item = item;
         this.time = time;
         this.price = price;
+        this.seller = seller;
     }
     public TransactionModel() {
     }
     private String item;
     private String time;
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    private String seller;
     private String price;
 
 }

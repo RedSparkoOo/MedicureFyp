@@ -1,5 +1,6 @@
 package com.example.docportal.Pharmacist;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,7 +44,12 @@ private onItemLongClickListener listener;
         holder.description.setText(model.getDescription());
         holder.price_main.setText(model.getPrice());
         holder.milligram.setText(model.getMilligram());
-        holder.quantity.setText(model.getQuantity());
+        if(model.getQuantity().equals("0"))
+            holder.quantity.setText("Out of stock");
+        else {
+            holder.quantity.setText(model.getQuantity());
+            holder.quantity.setTextColor(Color.parseColor("#00FF00"));
+        }
         String imageUri;
         imageUri= model.getImage();
         Picasso.get().load(imageUri).into(holder.image);

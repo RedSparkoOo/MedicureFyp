@@ -1,6 +1,7 @@
 package com.example.docportal.Patient;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -72,7 +73,13 @@ public class labsAdapter extends FirestoreRecyclerAdapter<BloodBankModel, labsAd
             holder.service.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    view.getContext().startActivity(new Intent(view.getContext(), labTestManagement_options.class ));
+                    DocumentSnapshot snapshot = getSnapshots().getSnapshot(position);
+                    String documentId = snapshot.getId();
+                    String name = snapshot.getString("labName");
+
+                    Intent intent = new Intent(view.getContext(), labTestManagement_options.class);
+                    intent.putExtra("name", name);
+                    view.getContext().startActivity(intent);
                 }
             });
         }
