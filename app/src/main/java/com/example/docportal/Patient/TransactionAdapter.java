@@ -52,16 +52,8 @@ public class TransactionAdapter extends FirestoreRecyclerAdapter<TransactionMode
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_recycler_layout,parent,false);
         return new MedicineListViewHolder(view);
     }
-
-
-
-
-
     public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
         TextView title,  time, price;
-
-
-
 
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -69,9 +61,6 @@ public class TransactionAdapter extends FirestoreRecyclerAdapter<TransactionMode
 
             price = itemView.findViewById(R.id.itemPrice);
             time = itemView.findViewById(R.id.itemTime);
-
-
-
 
 
         }

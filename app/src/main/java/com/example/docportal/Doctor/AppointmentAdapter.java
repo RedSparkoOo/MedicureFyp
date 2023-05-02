@@ -5,6 +5,7 @@ import static androidx.core.content.ContextCompat.getDrawable;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -178,9 +179,16 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             public void onClick(View view) {
                 context = view.getContext();
                 FStore = FirebaseFirestore.getInstance();
+                Bundle bundle = new Bundle();
+
+                bundle.putString("names",AppointmentNames.get(position));
+
+
+
                 Intent intent = new Intent(context, Chat.class );
+
+
                 intent.putExtra("ID", Patient_ids);
-                intent.putExtra("name", AppointmentNames.get(position));
                 context.startActivity(intent);
 
 

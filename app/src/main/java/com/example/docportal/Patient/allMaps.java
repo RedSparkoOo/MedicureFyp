@@ -1,18 +1,22 @@
 package com.example.docportal.Patient;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.docportal.R;
-//import com.example.docportal.databinding.ActivityAllMapsBinding;
+
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -21,7 +25,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
-  //  private ActivityAllMapsBinding binding;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,8 +34,9 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
 
             AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
-      //  binding = ActivityAllMapsBinding.inflate(getLayoutInflater());
-       // setContentView(binding.getRoot());
+        LayoutInflater inflater = LayoutInflater.from(this);
+        View view = inflater.inflate(R.layout.activity_all_maps, null);
+        setContentView(view);
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -44,10 +49,13 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
         mMap = googleMap;
 
      try {
-         Bundle recieved_coordinates = getIntent().getExtras();
-         double rec_latitude = recieved_coordinates.getDouble("latitude");
-         double rec_longitude = recieved_coordinates.getDouble("longitude");
-         String rec_lab_name= recieved_coordinates.getString("lab_name");
+         Intent intent = getIntent();
+         Bundle bundle = intent.getBundleExtra("myBundle");
+
+
+         double rec_latitude = Double.parseDouble(bundle.getString("latitude")) ;
+         double rec_longitude = Double.parseDouble(bundle.getString("longitude")) ;
+         String rec_lab_name= bundle.getString("lab_name");
 
 
          LatLng lab_bank = new LatLng(rec_latitude, rec_longitude);

@@ -168,9 +168,15 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
                 context = view.getContext();
                 firestore = FirebaseFirestore.getInstance();
                 RID = appointed_doctor_ID.get(position);
+                Bundle bundle = new Bundle();
+
+                bundle.putString("names",appointed_doctor_name.get(position));
+
+
                 Intent intent = new Intent(context, Chat.class );
                 intent.putExtra("ID", RID);
-                intent.putExtra("name", appointed_doctor_name.get(position));
+                intent.putExtra("mBundle", bundle);
+
                 context.startActivity(intent);
             }
         });

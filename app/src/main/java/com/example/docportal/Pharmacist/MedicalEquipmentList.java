@@ -8,8 +8,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import com.example.docportal.Patient.BuyMedicine;
+import com.example.docportal.Patient.WrapContentLinearLayoutManager;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -22,6 +28,8 @@ public class MedicalEquipmentList extends AppCompatActivity {
     EquipmentListAdapter equipmentListAdapter;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("Medical_Equipment");
+    TextView title;
+    EditText search;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item){
@@ -38,6 +46,9 @@ public class MedicalEquipmentList extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_list);
+        title = findViewById(R.id.add_equip);
+        search = findViewById(R.id.medicineSearch);
+        title.setText("Add Medical Equipment");
         setUpRecyclerView();
 
    }
@@ -47,7 +58,33 @@ public class MedicalEquipmentList extends AppCompatActivity {
                 .setQuery(query, MedicalEquipment.class).build();
         equipmentListAdapter = new  EquipmentListAdapter (options);
         _equipmentList = findViewById(R.id.medicine_list);
-        _equipmentList.setLayoutManager(new LinearLayoutManager(this));
+        _equipmentList .setLayoutManager(new WrapContentLinearLayoutManager(MedicalEquipmentList.this,LinearLayoutManager.VERTICAL, false ));
+
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                String aquery = charSequence.toString().toLowerCase();
+                Query filteredQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
+                FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
+                        .setQuery(filteredQuery, MedicalEquipment.class).build();
+                equipmentListAdapter.updateOptions(options);
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+
+
+            }
+        });
         _equipmentList.setAdapter(equipmentListAdapter);
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override

@@ -210,11 +210,6 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
                 notifyItemRangeChanged(position, list_patient_time.size());
                 notifyItemRangeChanged(position, list_patient_desc.size());
 
-
-
-
-
-
             }
         });
     }

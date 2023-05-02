@@ -98,6 +98,8 @@ public class Chat extends AppCompatActivity {
         message.setLayoutManager(new WrapContentLinearLayoutManager(Chat.this, LinearLayoutManager.VERTICAL, false));
         recieverid = getIntent().getStringExtra("ID");
         names = getIntent().getStringExtra("name");
+        System.out.println(names);
+
 
         System.out.println(recieverid);
 

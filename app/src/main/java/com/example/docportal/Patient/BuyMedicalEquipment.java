@@ -43,6 +43,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
     CollectionReference noteBookref = firestore.collection("Medical_Equipment");
     FirebaseAuth firebaseAuth;
     EditText editText;
+    TextView select, list;
     Object currentUserId;
 
 
@@ -52,6 +53,10 @@ public class BuyMedicalEquipment extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacy_equipment_options);
+        select = findViewById(R.id.select);
+        list = findViewById(R.id.list_med);
+        select.setText("Select Medical Equipment");
+        list.setText("List of Medical Equipment");
         firebaseAuth= FirebaseAuth.getInstance();
         Object currentUser = firebaseAuth.getCurrentUser();
         if(currentUser!= null) {

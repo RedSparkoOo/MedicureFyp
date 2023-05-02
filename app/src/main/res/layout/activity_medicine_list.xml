@@ -10,13 +10,40 @@
     tools:context=".Pharmacist.MedicineList">
 
 
-    <androidx.appcompat.widget.SearchView
-        android:id="@+id/pharmacyMedicineSearch"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10sp"
-        android:padding="5sp"
-        android:pointerIcon="zoom_in" />
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/add_equip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="35dp"
+            android:text="Add Medicines"
+            android:textColor="@color/light_black"
+            android:textSize="20sp" />
+
+
+        <EditText
+            android:id="@+id/medicineSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:paddingLeft="1dp"
+            android:background="@drawable/searchview_field"
+            android:drawableStart="@drawable/search_icon"
+            android:hint="Search Medicine"
+            android:closeIcon="@drawable/search_view_end"
+            android:iconifiedByDefault="false"
+            />
+
+    </LinearLayout>
+
+
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/medicine_list"

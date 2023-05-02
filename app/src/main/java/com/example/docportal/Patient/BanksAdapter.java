@@ -1,6 +1,7 @@
 package com.example.docportal.Patient;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -67,7 +68,14 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
             holder.location.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    view.getContext().startActivity(new Intent(view.getContext(), allMaps.class ));
+                    Bundle bundle = new Bundle();
+
+                    bundle.putString("latitude", model.getLatitude());
+                    bundle.putString("longitude", model.getLongitude());
+                    bundle.putString("lab_name", model.getName());
+                    Intent intent = new Intent(view.getContext(), allMaps.class);
+                    intent.putExtra("myBundle", bundle);
+                    view.getContext().startActivity(intent);
 
 
 
