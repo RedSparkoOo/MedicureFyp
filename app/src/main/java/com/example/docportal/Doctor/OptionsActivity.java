@@ -27,6 +27,8 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Patient.customerSupport;
+import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -312,6 +314,12 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
             case R.id.updateProfile:
                 Intent intent_update = new Intent(OptionsActivity.this,updateDoctorProfile.class);
                 startActivity(intent_update);
+                break;
+            case R.id.customer_support:
+                Intent intent_support = new Intent(OptionsActivity.this, customerSupport.class);
+
+                intent_support.putExtra("identify", "doctor");
+                startActivity(intent_support);
                 break;
             case R.id.logoutNavigation:
                 Dialog dialog = new Dialog(OptionsActivity.this);

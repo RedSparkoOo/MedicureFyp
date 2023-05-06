@@ -153,7 +153,7 @@ public class bloodBankOptions extends AppCompatActivity {
                                 map.put("Identifier", "blood");
                                 map.put("Image", value.getString("logoUrl"));
                                 map.put("seller", name);
-                                DocumentReference documentReference = firestore.collection("Cart").document(id);
+                                DocumentReference documentReference = firestore.collection("Cart").document(currentUserId.toString());
                                 documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {

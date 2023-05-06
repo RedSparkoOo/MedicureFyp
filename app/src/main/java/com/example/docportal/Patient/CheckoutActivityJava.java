@@ -328,6 +328,19 @@ public class CheckoutActivityJava extends AppCompatActivity {
                             }
                         });
             }
+            DocumentReference docRef = firestore.collection("Cart").document(currentUserId.toString());
+
+            docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    // Document has been deleted successfully
+                }
+            }).addOnFailureListener(new OnFailureListener() {
+                @Override
+                public void onFailure(@NonNull Exception e) {
+                    // Handle any errors here
+                }
+            });
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {

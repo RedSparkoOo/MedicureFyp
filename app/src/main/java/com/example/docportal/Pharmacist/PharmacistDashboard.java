@@ -29,6 +29,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Doctor.OptionsActivity;
 import com.example.docportal.Doctor.updateDoctorProfile;
 import com.example.docportal.Doctor.viewDoctorProfile;
+import com.example.docportal.Patient.customerSupport;
+import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -298,6 +300,12 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             case R.id.updateProfile:
                 Intent intent_update = new Intent(PharmacistDashboard.this,updateDoctorProfile.class);
                 startActivity(intent_update);
+                break;
+            case R.id.customer_support:
+                Intent intent_support = new Intent(PharmacistDashboard.this, customerSupport.class);
+
+                intent_support.putExtra("identify", "doctor");
+                startActivity(intent_support);
                 break;
             case R.id.logoutNavigation:
                 Dialog dialog = new Dialog(PharmacistDashboard.this);

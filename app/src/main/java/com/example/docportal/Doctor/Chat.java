@@ -89,6 +89,7 @@ public class Chat extends AppCompatActivity {
                 String message = sendMessage.getText().toString();
                 if (message.trim().length() > 0) {
                     sendMessage(message);
+                    sendMessage.setText("");
 
                 }
             }
@@ -174,6 +175,7 @@ public class Chat extends AppCompatActivity {
 
         documentReferenceReciever= firestore.collection("Chat").document(recieverRoom).collection(senderRoom).document(messageId);
         documentReferenceReciever.set(messageModel);
+
 
     }
 }

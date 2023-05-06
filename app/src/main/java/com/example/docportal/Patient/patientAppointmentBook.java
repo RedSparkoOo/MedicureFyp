@@ -64,9 +64,11 @@ public class patientAppointmentBook extends AppCompatActivity {
     String TimeZone;
     String TIME;
     String DATE;
+    FirebaseFirestore firebaseFirestore;
 
     View snack_bar_layout;
     FirebaseAuth firebaseAuth;
+    Object currentUserId;
     HelperFunctions helperFunctions;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,13 +83,27 @@ public class patientAppointmentBook extends AppCompatActivity {
         book_appointment = (Button) findViewById(R.id.book);
         firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
+        firebaseFirestore = FirebaseFirestore.getInstance();
         back_to_doc_nur_Selection = findViewById(R.id.back_to_doc_nur_Selection);
         doctor_phone = bundle.getString("Doctor_phone");
         doctor_name = bundle.getString("Doctor_name");
         doctor_id = bundle.getString("Doctor_Id");
+
+        Object currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        }
         TextView[] textViews = {patient_full_name, patient_phone_no, appointment_date, appointment_time,appointment_description};
         AppointmentCheckEvent checkEvent = new AppointmentCheckEvent();
+        DocumentReference documentReference = firebaseFirestore.collection("Patient").document(currentUserId.toString());
+        documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                                  @Override
+                                                  public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                                      patient_full_name.setText(value.getString("Patient Name"));
+                                                      patient_phone_no.setText(value.getString("Patient phone_no"));
 
+                                                  }
+                                              });
 
         snack_bar_layout = findViewById(android.R.id.content);
         helperFunctions = new HelperFunctions();

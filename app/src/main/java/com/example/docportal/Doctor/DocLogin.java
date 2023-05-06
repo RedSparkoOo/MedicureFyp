@@ -147,6 +147,7 @@ public class DocLogin extends AppCompatActivity {
 
                                                     if (FUser.isEmailVerified()) {
                                                         Intent intent = new Intent(DocLogin.this, OptionsActivity.class);
+
                                                         startActivity(intent);
                                                     } else {
                                                         progress_check.setVisibility(View.INVISIBLE);

@@ -158,7 +158,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
                             map.put("Quantity", quantity);
                             map.put("Description", value.getString("Description"));
                             map.put("seller", "Pharmacist");
-                            DocumentReference documentReference = firestore.collection("Cart").document(id);
+                            DocumentReference documentReference = firestore.collection("Cart").document(currentUserId.toString());
                             documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {

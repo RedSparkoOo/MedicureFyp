@@ -116,6 +116,7 @@ public class PatientLogin extends AppCompatActivity {
 
                                                 if (FUser.isEmailVerified()) {
                                                     Intent intent = new Intent(PatientLogin.this, patientDashboard.class);
+
                                                     startActivity(intent);
                                                 } else {
                                                     progress_check.setVisibility(View.INVISIBLE);

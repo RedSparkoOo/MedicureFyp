@@ -370,6 +370,12 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                 Intent intent_update = new Intent(patientDashboard.this,patientProfileUpdate.class);
                 startActivity(intent_update);
                 break;
+            case R.id.customer_support:
+                Intent intent_support = new Intent(patientDashboard.this,customerSupport.class);
+
+                    intent_support.putExtra("identify", "patient");
+                startActivity(intent_support);
+                break;
             case R.id.logoutNavigation:
                 Dialog dialog = new Dialog(patientDashboard.this);
                 dialog.setContentView(R.layout.alert_box_layout);
