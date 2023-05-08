@@ -1,69 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/patient_background_portal"
+
+    android:orientation="vertical"
     tools:context=".Patient.searchDisease">
-
-
-
-    <EditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="350dp"
-        android:layout_height="50dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:drawableStart="@drawable/search"
-        android:hint="Enter Symptoms"
-        android:textColorHint="@color/grey"
-        android:fontFamily="@font/ubuntu_regular"
-        android:background="@drawable/patient_input_field"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
     <TextView
-        android:id="@+id/textView36"
+        android:id="@+id/registerHeader2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="95dp"
-        android:layout_marginEnd="4dp"
-        android:gravity="center"
-        android:fontFamily="@font/regular"
-        android:text="Let's"
-        android:textColor="@color/white"
-        android:textSize="40sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        android:fontFamily="@font/inter_bold"
+        android:textAlignment="center"
+        android:layout_marginTop="35dp"
+        android:text="Search Disease"
+        android:textColor="@color/blue_2"
+        android:textSize="24sp" />
     <TextView
-        android:id="@+id/textView43"
+        android:id="@+id/disease"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="4dp"
-        android:fontFamily="@font/bold"
-        android:gravity="center"
-        android:text="Search !"
-        android:textColor="@color/white"
-        android:textSize="60sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView36" />
+        android:fontFamily="@font/pt_sans_bold"
 
-    <Button
-        android:id="@+id/checkDisease"
-        android:layout_width="150sp"
-        android:layout_height="40sp"
-        android:layout_marginTop="244dp"
-        android:background="@drawable/patient_button"
-        android:fontFamily="@font/regular"
-        android:text="Check"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.927"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_marginTop="10dp"
+        android:text="Select Organ"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+
+    <Spinner
+        android:id="@+id/spinner_disease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/symptom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Select Symptom"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spinner_symptom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Causes"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/spinner_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Recommended Doctors"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/spinner_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

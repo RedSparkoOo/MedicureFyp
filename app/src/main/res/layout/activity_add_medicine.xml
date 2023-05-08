@@ -193,7 +193,7 @@
                 android:fontFamily="@font/inter_medium"
                 android:text="Add Medicine"
                 android:textColor="@color/white"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
         </LinearLayout>
     </ScrollView>
 

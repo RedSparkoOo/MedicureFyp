@@ -98,10 +98,10 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
 
 
                             map.put("Image", value.getString("logoUrl"));
-                            DocumentReference documentReference = db.collection("Cart").document(currentUserId.toString());
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            CollectionReference documentReference = db.collection("Cart");
+                            documentReference.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
-                                public void onSuccess(Void unused) {
+                                public void onSuccess(DocumentReference documentReference) {
                                     Toast.makeText(view.getContext(), "Item added to cart", Toast.LENGTH_SHORT).show();
                                 }
                             });

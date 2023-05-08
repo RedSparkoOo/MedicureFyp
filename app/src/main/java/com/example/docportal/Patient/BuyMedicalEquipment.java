@@ -158,10 +158,10 @@ public class BuyMedicalEquipment extends AppCompatActivity {
                             map.put("Quantity", quantity);
                             map.put("Description", value.getString("Description"));
                             map.put("seller", "Pharmacist");
-                            DocumentReference documentReference = firestore.collection("Cart").document(currentUserId.toString());
-                            documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            CollectionReference documentReference = firestore.collection("Cart");
+                            documentReference.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
-                                public void onSuccess(Void unused) {
+                                public void onSuccess(DocumentReference documentReference) {
                                     Toast.makeText(BuyMedicalEquipment.this, "Item added to cart", Toast.LENGTH_SHORT).show();
                                 }
                             });

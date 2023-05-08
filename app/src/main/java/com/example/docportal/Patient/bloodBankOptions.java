@@ -153,10 +153,10 @@ public class bloodBankOptions extends AppCompatActivity {
                                 map.put("Identifier", "blood");
                                 map.put("Image", value.getString("logoUrl"));
                                 map.put("seller", name);
-                                DocumentReference documentReference = firestore.collection("Cart").document(currentUserId.toString());
-                                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                CollectionReference documentReference = firestore.collection("Cart");
+                                documentReference.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                     @Override
-                                    public void onSuccess(Void unused) {
+                                    public void onSuccess(DocumentReference documentReference) {
                                         Toast.makeText(bloodBankOptions.this, "Item added to cart", Toast.LENGTH_SHORT).show();
                                     }
                                 });

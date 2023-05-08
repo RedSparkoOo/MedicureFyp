@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:id="@+id/contact_form_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Add disease Data"
+        android:textColor="@color/blue_2"
+        android:textSize="40sp"
+        />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Select Organ"
+        android:textColor="@color/light_black"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/organ_spinner"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Add Symptom"
+        android:textColor="@color/light_black"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/symptom_doctor"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+
+        android:hint="Symptom"
+        android:inputType="textEmailAddress" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Add Disease"
+        android:textColor="@color/light_black"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/disease_name"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+
+        android:hint="Disease name"
+         />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Add Description"
+        android:textColor="@color/light_black"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/description_doctor"
+        android:layout_width="fill_parent"
+        android:layout_height="150dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+
+        android:gravity="top"
+        android:hint="Description"
+        android:fitsSystemWindows="true"
+        android:breakStrategy="balanced"
+        android:inputType="textMultiLine"
+        android:singleLine="false"
+        android:padding="5dp" />
+
+    <Button
+        android:id="@+id/submit_disease"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@color/blue_2"
+        android:elevation="4dp"
+        android:paddingLeft="70dp"
+        android:paddingRight="70dp"
+        android:text="Submit"
+        android:textColor="#fff" />
+</LinearLayout>

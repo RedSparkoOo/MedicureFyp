@@ -1,11 +1,13 @@
 package com.example.docportal.Patient;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.util.Log;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
@@ -16,11 +18,15 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.load.Options;
+import com.example.docportal.CheckEvent;
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
@@ -31,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.FirestoreClient;
 import com.google.gson.Gson;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
@@ -43,6 +50,8 @@ import com.stripe.android.paymentsheet.addresselement.AddressLauncherResult;
 import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -73,7 +82,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
     private String paymentIntentClientSecret;
     private PaymentSheet paymentSheet;
 
-    private Button payButton;
+    private Button payButton, easypaisa, cashOnDelivery;
 
     private AddressLauncher addressLauncher;
 
@@ -100,13 +109,128 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         setContentView(R.layout.activity_checkout);
         TotalPrice = findViewById(R.id.tprice);
+        CheckEvent checkEvent = new CheckEvent();
 
         firebaseAuth= FirebaseAuth.getInstance();
-
         currentUser = firebaseAuth.getCurrentUser();
         if(currentUser!= null) {
             currentUserId = firebaseAuth.getCurrentUser().getUid();
         }
+        easypaisa = findViewById(R.id.easy_button);
+        cashOnDelivery = findViewById(R.id.delivery_button);
+        cashOnDelivery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CheckoutActivityJava.this);
+                builder.setTitle("User Billing Address");
+
+                // Set the custom layout for the dialog
+                View dialogView = getLayoutInflater().inflate(R.layout.dialog_user_info, null);
+                builder.setView(dialogView);
+
+                // Find the dialog's views
+                EditText editTextFullName = dialogView.findViewById(R.id.editText_full_name);
+                EditText editTextCity = dialogView.findViewById(R.id.editText_city);
+                EditText editTextAddress = dialogView.findViewById(R.id.editText_address_line);
+                EditText editTextZipCode = dialogView.findViewById(R.id.editText_zip_code);
+                EditText editTextState = dialogView.findViewById(R.id.editText_state);
+                EditText editTextPhoneNumber = dialogView.findViewById(R.id.editText_phone_number);
+
+
+
+                // Set any additional properties or validations for the fields if needed
+
+                // Add the Submit button
+                builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TextView[] textView = {editTextFullName, editTextCity, editTextAddress, editTextZipCode, editTextState, editTextPhoneNumber};
+
+
+
+                            // Handle the Submit button click event
+                            String fullName = editTextFullName.getText().toString().trim();
+                            String city = editTextCity.getText().toString().trim();
+                            String address = editTextAddress.getText().toString().trim();
+                            String zipCode = editTextZipCode.getText().toString().trim();
+                            String state = editTextState.getText().toString().trim();
+                            String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+
+                            // Create a Firestore document with the entered data
+                            Map<String, Object> data = new HashMap<>();
+                            data.put("id", currentUserId);
+                            data.put("fullName", fullName);
+                            data.put("city", city);
+                            data.put("address", address);
+                            data.put("zipCode", zipCode);
+                            data.put("state", state);
+                            data.put("phoneNumber", phoneNumber);
+
+                            // Get a reference to the Firestore collection "Billing Address"
+                            CollectionReference billingAddressCollection = firestore.collection("Billing Address");
+
+                            // Insert the data into Firestore
+                            billingAddressCollection.add(data)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(DocumentReference documentReference) {
+                                            deleteCart();
+                                            Transaction();
+                                            // Data inserted successfully
+                                            Toast.makeText(CheckoutActivityJava.this, "Data inserted successfully", Toast.LENGTH_SHORT).show();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            // Error occurred while inserting data
+                                            Toast.makeText(CheckoutActivityJava.this, "Failed to insert data: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+
+                            // Close the dialog
+                            dialog.dismiss();
+                        }
+
+                });
+
+                // Add a Cancel button if needed
+                builder.setNegativeButton("Cancel", null);
+
+                AlertDialog dialog = builder.create();
+                dialog.show();
+            }
+        });
+        easypaisa.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                    // Get the phone number from your data source or any other way
+                    String phoneNumber = "1234567890"; // Replace with your actual phone number
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckoutActivityJava.this);
+                    builder.setTitle("Phone Number");
+                    builder.setMessage("The phone number is: " + phoneNumber);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            payButton.setEnabled(false);
+                            cashOnDelivery.setEnabled(false);
+                            Transaction();
+                            deleteCart();
+
+                            //startActivity(new Intent(CheckoutActivityJava.this, TransactionHistory.class));
+                        }
+                    }); // You can add a listener to perform an action on button click if needed
+
+                    AlertDialog dialog = builder.create();
+                    dialog.show();
+
+
+            }
+        });
+
+
         setUpRecyclerView();
 
 
@@ -131,7 +255,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
     }
     private void setUpRecyclerView(){
         String aquery = currentUserId;
-        Query query = noteBookref.orderBy("id",Query.Direction.DESCENDING);
+        Query query = noteBookref.orderBy("id",Query.Direction.DESCENDING).startAt(aquery).endAt(aquery);
         System.out.println(query);
         FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                 .setQuery(query, Medicine.class).build();
@@ -295,52 +419,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
             final PaymentSheetResult paymentSheetResult
     ) {
         if (paymentSheetResult instanceof PaymentSheetResult.Completed) {
-            Date currentTime = new Date();
-            SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-            String formattedTime = timeFormat.format(currentTime);
-            CollectionReference transactionRef = firestore.collection("Transaction");
-            showToast("Payment complete!");
-            for (int i = 0; i < addToCartAdapter.getItemCount(); i++) {
+            cashOnDelivery.setEnabled(false);
+            easypaisa.setEnabled(false);
+            Transaction();
 
-                // Get the data for the current item
-                Medicine model = addToCartAdapter.getItem(i);
-                Map<String, Object> data = new HashMap<>();
-                data.put("id", currentUserId);
-                data.put("item", model.getTitle());
-                data.put("seller", model.getSeller());
-                data.put("time", formattedTime);
-                data.put("price", model.getPrice());
-
-                // Create a new document in the Firestore collection
-                transactionRef.add(data)
-                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                            @Override
-                            public void onSuccess(DocumentReference documentReference) {
-                                Log.d(TAG, "Document added with ID: " + documentReference.getId());
-                                startActivity(new Intent(CheckoutActivityJava.this, TransactionHistory.class));
-
-                            }
-                        })
-                        .addOnFailureListener(new OnFailureListener() {
-                            @Override
-                            public void onFailure(@NonNull Exception e) {
-                                Log.w(TAG, "Error adding document", e);
-                            }
-                        });
-            }
-            DocumentReference docRef = firestore.collection("Cart").document(currentUserId.toString());
-
-            docRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-                @Override
-                public void onSuccess(Void aVoid) {
-                    // Document has been deleted successfully
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Handle any errors here
-                }
-            });
+            deleteCart();
         } else if (paymentSheetResult instanceof PaymentSheetResult.Canceled) {
             Log.i(TAG, "Payment canceled!");
         } else if (paymentSheetResult instanceof PaymentSheetResult.Failed) {
@@ -355,6 +438,83 @@ public class CheckoutActivityJava extends AppCompatActivity {
             shippingDetails = ((AddressLauncherResult.Succeeded) result).getAddress();
         } else if (result instanceof AddressLauncherResult.Canceled) {
             // TODO: Handle cancel
+        }
+    }
+    private void deleteCart() {
+        CollectionReference collectionRef = firestore.collection("Cart");
+
+        Query query = collectionRef.whereEqualTo("id", currentUserId);
+
+// Step 4: Fetch the document(s) that match the query criteria
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Documents that match the query criteria exist
+                        for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
+                            // Access the document data using documentSnapshot.getData()
+                            System.out.println("Document data: " + documentSnapshot.getData());
+
+                            // Step 5: Delete the document
+                            DocumentReference docRef = documentSnapshot.getReference();
+                            docRef.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(Task<Void> deleteTask) {
+                                    if (deleteTask.isSuccessful()) {
+                                        System.out.println("Document deleted successfully.");
+                                    } else {
+                                        System.out.println("Failed to delete document: " + deleteTask.getException());
+                                    }
+                                }
+                            });
+                        }
+                    } else {
+                        // No documents match the query criteria
+                        System.out.println("No documents found.");
+                    }
+                } else {
+                    // Failed to fetch documents
+                    System.out.println("Failed to fetch documents: " + task.getException());
+                }
+            }
+        });
+    }
+
+    private void Transaction(){
+        Date currentTime = new Date();
+        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+        String formattedTime = timeFormat.format(currentTime);
+        CollectionReference transactionRef = firestore.collection("Transaction");
+        showToast("Payment complete!");
+        for (int i = 0; i < addToCartAdapter.getItemCount(); i++) {
+
+            // Get the data for the current item
+            Medicine model = addToCartAdapter.getItem(i);
+            Map<String, Object> data = new HashMap<>();
+            data.put("id", currentUserId);
+            data.put("item", model.getTitle());
+            data.put("seller", model.getSeller());
+            data.put("time", formattedTime);
+            data.put("price", model.getPrice());
+
+            // Create a new document in the Firestore collection
+            transactionRef.add(data)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            Log.d(TAG, "Document added with ID: " + documentReference.getId());
+
+
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Log.w(TAG, "Error adding document", e);
+                        }
+                    });
         }
     }
 

@@ -316,7 +316,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                 startActivity(intent_update);
                 break;
             case R.id.customer_support:
-                Intent intent_support = new Intent(OptionsActivity.this, customerSupport.class);
+                Intent intent_support = new Intent(OptionsActivity.this, AddDiseaseData.class);
 
                 intent_support.putExtra("identify", "doctor");
                 startActivity(intent_support);

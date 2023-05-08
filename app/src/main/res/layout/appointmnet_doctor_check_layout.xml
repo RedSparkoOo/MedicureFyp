@@ -122,7 +122,7 @@
         android:layout_height="wrap_content"
         android:gravity="right"
         android:layout_marginTop="2dp"
-        android:orientation="vertical">
+      >
         <Button
             android:id="@+id/chat_doctor_book"
             android:layout_width="70dp"
