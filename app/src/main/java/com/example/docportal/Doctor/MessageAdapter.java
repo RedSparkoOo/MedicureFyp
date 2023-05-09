@@ -74,6 +74,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         MessageModel messageModel = messageModels.get(position);
+
         switch (holder.getItemViewType()) {
 
             case VIEW_TYPE_MESSAGE_SENT:
@@ -146,6 +147,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
             // Format the stored timestamp into a readable String using method.
             timeText.setText(message.getTime());
             dateText.setText(message.getDate());
+
 
 
 

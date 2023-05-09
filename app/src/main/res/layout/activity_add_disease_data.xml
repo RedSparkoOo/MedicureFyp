@@ -16,7 +16,7 @@
         android:fontFamily="@font/pt_sans_bold"
         android:text="Add disease Data"
         android:textColor="@color/blue_2"
-        android:textSize="40sp"
+        android:textSize="30sp"
         />
     <TextView
 

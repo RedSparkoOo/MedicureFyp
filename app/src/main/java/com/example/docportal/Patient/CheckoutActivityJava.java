@@ -109,7 +109,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
         setContentView(R.layout.activity_checkout);
         TotalPrice = findViewById(R.id.tprice);
-        CheckEvent checkEvent = new CheckEvent();
+
 
         firebaseAuth= FirebaseAuth.getInstance();
         currentUser = firebaseAuth.getCurrentUser();
@@ -144,17 +144,18 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 builder.setPositiveButton("Submit", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TextView[] textView = {editTextFullName, editTextCity, editTextAddress, editTextZipCode, editTextState, editTextPhoneNumber};
 
 
-
-                            // Handle the Submit button click event
-                            String fullName = editTextFullName.getText().toString().trim();
-                            String city = editTextCity.getText().toString().trim();
-                            String address = editTextAddress.getText().toString().trim();
-                            String zipCode = editTextZipCode.getText().toString().trim();
-                            String state = editTextState.getText().toString().trim();
-                            String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+                        // Handle the Submit button click event
+                        String fullName = editTextFullName.getText().toString().trim();
+                        String city = editTextCity.getText().toString().trim();
+                        String address = editTextAddress.getText().toString().trim();
+                        String zipCode = editTextZipCode.getText().toString().trim();
+                        String state = editTextState.getText().toString().trim();
+                        String phoneNumber = editTextPhoneNumber.getText().toString().trim();
+                        if (fullName.isEmpty() || city.isEmpty() || address.isEmpty() || zipCode.isEmpty() || state.isEmpty() || phoneNumber.isEmpty()) {
+                            Toast.makeText(CheckoutActivityJava.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                        } else {
 
                             // Create a Firestore document with the entered data
                             Map<String, Object> data = new HashMap<>();
@@ -191,6 +192,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                             // Close the dialog
                             dialog.dismiss();
                         }
+                    }
 
                 });
 

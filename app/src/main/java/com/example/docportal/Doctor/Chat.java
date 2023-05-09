@@ -114,36 +114,43 @@ public class Chat extends AppCompatActivity {
         documentReferenceSender = firestore.collection("Chat").document(senderRoom);
         documentReferenceReciever = firestore.collection("Chat").document(recieverRoom);
 
+        documentReferenceSender = firestore.collection("Chat").document(senderRoom);
+        documentReferenceReciever = firestore.collection("Chat").document(recieverRoom);
+
+
 
         documentReferenceSender.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Log.e(TAG, "Error listening to sender's document: ", error);
+                    return;
+                }
 
 
+                    firestore.collection("Chat")
+                            .document(senderRoom)
+                            .collection(recieverRoom)
+                            .orderBy("time", Query.Direction.ASCENDING)
+                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                                @Override
+                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                firestore.collection("Chat").document(senderRoom).collection(recieverRoom).orderBy("time", Query.Direction.ASCENDING)
-                        .get()
-                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    System.out.println("bang bang");
-                                    for (QueryDocumentSnapshot document : task.getResult()) {   // LOOP
-                                        MessageModel messageModel = document.toObject(MessageModel.class);
-                                        System.out.println(messageModel);
-                                        messageAdapter.add(messageModel);
 
+                                    if (value != null) {
+                                     // Clear the existing data
+
+                                        for (QueryDocumentSnapshot document : value) {
+                                            MessageModel messageModel = document.toObject(MessageModel.class);
+                                            messageAdapter.add(messageModel);
+                                        }
+
+                                        messageAdapter.notifyDataSetChanged();
+                                        // Scroll to the last message
+                                        message.scrollToPosition(messageAdapter.getItemCount() - 1);
                                     }
-                                } else {
-                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            }
-
-
-                        });
-
-
-
+                            });
 
             }
         });
@@ -173,9 +180,12 @@ public class Chat extends AppCompatActivity {
         documentReferenceSender = firestore. collection("Chat").document(senderRoom).  collection(recieverRoom).document(messageId) ;
         documentReferenceSender.set(messageModel);
 
+
+
         documentReferenceReciever= firestore.collection("Chat").document(recieverRoom).collection(senderRoom).document(messageId);
         documentReferenceReciever.set(messageModel);
 
 
     }
+
 }

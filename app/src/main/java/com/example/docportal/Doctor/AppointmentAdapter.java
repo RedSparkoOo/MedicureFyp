@@ -186,6 +186,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
 
                 Intent intent = new Intent(context, Chat.class );
+                intent.putExtra("mBundle", bundle);
 
 
                 intent.putExtra("ID", Patient_ids);
