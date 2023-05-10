@@ -10,7 +10,7 @@ import android.widget.Button;
 import com.example.docportal.R;
 
 
-public class patientPharmacy extends AppCompatActivity {
+public class PharmacyService extends AppCompatActivity {
     Button patientPharmacyMedicine;
     Button patientPharmacyEquipment;
     @Override
@@ -24,7 +24,7 @@ public class patientPharmacy extends AppCompatActivity {
         patientPharmacyMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientPharmacy.this,BuyMedicine.class);
+                Intent intent = new Intent(PharmacyService.this,BuyMedicine.class);
                 startActivity(intent);
             }
         });
@@ -32,7 +32,7 @@ public class patientPharmacy extends AppCompatActivity {
         patientPharmacyEquipment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientPharmacy.this,BuyMedicalEquipment.class);
+                Intent intent = new Intent(PharmacyService.this,BuyMedicalEquipment.class);
                 startActivity(intent);
             }
         });

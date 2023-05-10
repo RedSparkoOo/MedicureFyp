@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@color/extra_white"
     android:orientation="vertical"
-    tools:context=".Patient.Appointment_Doctor_Check">
+    tools:context=".Patient.AppointmentDoctorNurseSelection">
 
 
 
@@ -263,7 +263,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"
-                android:background="@drawable/custom_border_white"
+
                 android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

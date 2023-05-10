@@ -38,7 +38,7 @@ import com.google.firebase.storage.StorageReference;
 import java.util.ArrayList;
 
 
-public class Appointment_Doctor_Check extends AppCompatActivity {
+public class AppointmentDoctorNurseSelection extends AppCompatActivity {
 
     SearchView search_doctor;
     String search_HINT_color = "#434242";
@@ -51,6 +51,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     ArrayList<String> doctor_UID;
     ArrayList<String> doctor_phone_no;
     ArrayList<String> imageList;
+    ArrayList<String> doctor_start_time;
+    ArrayList<String> doctor_close_time;
+    ArrayList<String> doctor_bio;
 
     FirebaseFirestore firestore;
     ImageView all_category;
@@ -78,7 +81,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_appointment_doctor_check);
+        setContentView(R.layout.activity_doctor_nurse_selection);
 
         all_category = findViewById(R.id.all_category);
         cardio_category = findViewById(R.id.cardio_category);
@@ -101,7 +104,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         back_to_patient_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Appointment_Doctor_Check.this,patientDashboard.class);
+                Intent intent = new Intent(AppointmentDoctorNurseSelection.this,patientDashboard.class);
                 startActivity(intent);
             }
         });
@@ -130,9 +133,12 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         doctor_UID = new ArrayList<>();
         doctor_phone_no = new ArrayList<>();
         imageList = new ArrayList<>();
+        doctor_start_time = new ArrayList<>();
+        doctor_close_time = new ArrayList<>();
+        doctor_bio = new ArrayList<>();
 
-        doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(Appointment_Doctor_Check.this));
-        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new AppointmentBookingAdapter.ItemClickListener() {
+        doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(AppointmentDoctorNurseSelection.this));
+        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,doctor_start_time,doctor_close_time,doctor_bio,new AppointmentBookingAdapter.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
                 Log.d(details,"Works");
@@ -154,6 +160,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsers();
                 snackBarShow(snack_bar_layout,"All Doctors Selected");
 
@@ -172,6 +181,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Cardiologist");
                 snackBarShow(snack_bar_layout,"Cardiologist Selected");
 
@@ -189,6 +201,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Neurologist");
                 snackBarShow(snack_bar_layout,"Neurologist Selected");
 
@@ -206,6 +221,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Nephrologist");
                 snackBarShow(snack_bar_layout,"Nephrologist Selected");
 
@@ -219,6 +237,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Oncologist");
                 snackBarShow(snack_bar_layout,"Oncologist Selected");
 
@@ -232,6 +253,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Pedriatican");
                 snackBarShow(snack_bar_layout,"Pedriatican Selected");
 
@@ -245,6 +269,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Physiologist");
                 snackBarShow(snack_bar_layout,"Physiologist Selected");
 
@@ -258,6 +285,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 FireStoreUsersSpecific("Psychologist");
                 snackBarShow(snack_bar_layout,"Psychologist Selected");
 
@@ -278,6 +308,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsers();
                 snackBarShow(snack_bar_layout,"All Nurses Selected");
 
@@ -296,6 +329,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsersSpecific("Mental Health Nurse (MHN)");
                 snackBarShow(snack_bar_layout,"Mental Health Nurse Selected");
 
@@ -313,6 +349,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsersSpecific("Learning Disability Nurse (LDN)");
                 snackBarShow(snack_bar_layout,"Learning Disability Nurse Selected");
 
@@ -326,6 +365,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsersSpecific("Adult Nurse (AN)");
                 snackBarShow(snack_bar_layout,"Adult Nurse Selected");
 
@@ -339,6 +381,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsersSpecific("Children Nurse (CN)");
                 snackBarShow(snack_bar_layout,"Children Nurse Selected");
 
@@ -352,6 +397,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                 doctor_specializations.clear();
                 doctor_UID.clear();
                 doctor_phone_no.clear();
+                doctor_start_time.clear();
+                doctor_close_time.clear();
+                doctor_bio.clear();
                 NurseFireStoreUsersSpecific("Critical Care Nurse (CCN)");
                 snackBarShow(snack_bar_layout,"Critical Care Nurse Selected");
 
@@ -378,6 +426,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                         String category = String.valueOf(documentChange.getDocument().get("Profession"));
                         String Specialization = String.valueOf(documentChange.getDocument().get("Doctor_profession"));
 
+
                         if(category.equals("Nurse")){
 
                             if(Specialization.equals(Category)){
@@ -386,6 +435,9 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                                 doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Doctor_profession")));
                                 doctor_UID.add(documentChange.getDocument().getId());
                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
+                                doctor_start_time.add(String.valueOf(documentChange.getDocument().get("Start Time")));
+                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("End Time")));
+                                doctor_bio.add(String.valueOf(documentChange.getDocument().get("Bio Details")));
 
 
                             }
@@ -419,7 +471,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null){
-                    Toast.makeText(Appointment_Doctor_Check.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppointmentDoctorNurseSelection.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -434,6 +486,10 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                             doctor_specializations.add(String.valueOf(dc.getDocument().get("Doctor_profession")));
                             doctor_UID.add(dc.getDocument().getId());
                             doctor_phone_no.add(String.valueOf(dc.getDocument().get("Phone #")));
+                            doctor_start_time.add(String.valueOf(dc.getDocument().get("Start Time")));
+                            doctor_close_time.add(String.valueOf(dc.getDocument().get("End Time")));
+                            doctor_bio.add(String.valueOf(dc.getDocument().get("Bio Details")));
+
 
                             if(doctor_names.size() == 0 && doctor_specializations.size() == 0 || doctor_phone_no.size() == 0){
                                 no_doctor_image.setVisibility(View.VISIBLE);
@@ -497,7 +553,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if(error != null){
-                    Toast.makeText(Appointment_Doctor_Check.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AppointmentDoctorNurseSelection.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -512,6 +568,10 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                             doctor_specializations.add(String.valueOf(dc.getDocument().get("Doctor_profession")));
                             doctor_UID.add(dc.getDocument().getId());
                             doctor_phone_no.add(String.valueOf(dc.getDocument().get("Phone #")));
+                            doctor_start_time.add(String.valueOf(dc.getDocument().get("Start Time")));
+                            doctor_close_time.add(String.valueOf(dc.getDocument().get("End Time")));
+                            doctor_bio.add(String.valueOf(dc.getDocument().get("Bio Details")));
+
 
                             if(doctor_names.size() == 0 && doctor_specializations.size() == 0 || doctor_phone_no.size() == 0){
                                 no_doctor_image.setVisibility(View.VISIBLE);
@@ -548,6 +608,10 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
                                 doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Doctor_profession")));
                                 doctor_UID.add(documentChange.getDocument().getId());
                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
+                                doctor_start_time.add(String.valueOf(documentChange.getDocument().get("Start Time")));
+                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("End Time")));
+                                doctor_bio.add(String.valueOf(documentChange.getDocument().get("Bio Details")));
+
 
 
                             }

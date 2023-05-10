@@ -28,6 +28,9 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     private final List<String> appointed_doctor_specialization;
     private final List<String> appointed_doctor_ID;
     private final List<String> appointed_doctor_phone;
+    private final List<String> appointed_doctor_start_time;
+    private final List<String> appointed_doctor_close_time;
+    private final List<String> appointed_doctor_bio;
     private ItemClickListener clickListener;
 
     private final List<String> appointed_doctor_name_all;
@@ -41,11 +44,14 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
 
 
 
-    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, ItemClickListener itemClickListener)  {
+    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3,List<String> nameDataSet4,List<String> nameDataSet5,List<String> nameDataSet6, ItemClickListener itemClickListener)  {
         appointed_doctor_name = nameDataSet;
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
         appointed_doctor_phone = nameDataSet3;
+        appointed_doctor_start_time = nameDataSet4;
+        appointed_doctor_close_time = nameDataSet5;
+        appointed_doctor_bio = nameDataSet6;
 
         this.clickListener = itemClickListener;
         this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
@@ -103,6 +109,9 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView appointed_doctor;
         private final TextView appointed_doctor_category;
+        private final TextView doctor_start_time;
+        private final TextView doctor_close_time;
+        private final TextView doctor_bio;
         private final Button book_appointment;
         private final ImageView doctor_profile;
 
@@ -113,14 +122,24 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
             to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
             appointed_doctor = (TextView) view.findViewById(R.id.appointment_doctor_name);
             appointed_doctor_category = (TextView) view.findViewById(R.id.appointment_doctor_specialization);
+            doctor_start_time = (TextView) view.findViewById(R.id.doctor_start_time);
+            doctor_close_time = (TextView) view.findViewById(R.id.doctor_close_time);
+            doctor_bio = (TextView) view.findViewById(R.id.doctor_bio);
             book_appointment = (Button) view.findViewById(R.id.appointment_doctor_book);
             doctor_profile = (ImageView) view.findViewById(R.id.doctor_profile);
-
-
-
         }
 
+        public TextView getDoctor_start_time() {
+            return doctor_start_time;
+        }
 
+        public TextView getDoctor_close_time() {
+            return doctor_close_time;
+        }
+
+        public TextView getDoctor_bio() {
+            return doctor_bio;
+        }
 
         public TextView getAppointed_doctor() {
             return appointed_doctor;
@@ -131,7 +150,6 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         public Button getto_appointment_reschedule() {
             return book_appointment;
         }
-
         public ImageView getDoctor_profile() {
             return doctor_profile;
         }
@@ -145,7 +163,7 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     public AppointmentBookingAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.appointmnet_doctor_check_layout, viewGroup, false);
+                .inflate(R.layout.activity_appointment_doctor_nurse_recycler, viewGroup, false);
 
         return new AppointmentBookingAdapter.ViewHolder(view);
     }
@@ -160,6 +178,9 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         // contents of the view with that element
         viewHolder.getAppointed_doctor().setText(appointed_doctor_name.get(position));
         viewHolder.getAppointed_doctor_category().setText(appointed_doctor_specialization.get(position));
+        viewHolder.getDoctor_start_time().setText(appointed_doctor_start_time.get(position));
+        viewHolder.getDoctor_close_time().setText(appointed_doctor_close_time.get(position));
+        viewHolder.getDoctor_bio().setText(appointed_doctor_bio.get(position));
 
         viewHolder.to_chat_reschedule.setOnClickListener(new View.OnClickListener() {
             @Override

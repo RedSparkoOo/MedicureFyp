@@ -47,7 +47,10 @@ public class searchDisease extends AppCompatActivity {
     ArrayList<String> doctor_names = new ArrayList<>();;
     ArrayList<String> doctor_specializations = new ArrayList<>();;
     ArrayList<String> doctor_UID = new ArrayList<>();;
-    ArrayList<String> doctor_phone_no = new ArrayList<>();;
+    ArrayList<String> doctor_phone_no = new ArrayList<>();
+    ArrayList<String> doctor_start_time = new ArrayList<>();
+    ArrayList<String> doctor_close_time = new ArrayList<>();
+    ArrayList<String> doctor_bio = new ArrayList<>();
 
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -68,7 +71,7 @@ public class searchDisease extends AppCompatActivity {
         doctor_profile_recycler = findViewById(R.id.spinner_doctor);
 
         doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(searchDisease.this));
-        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new AppointmentBookingAdapter.ItemClickListener() {
+        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,doctor_start_time,doctor_close_time,doctor_bio,new AppointmentBookingAdapter.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
                 Log.d(details,"Works");
@@ -198,6 +201,9 @@ public class searchDisease extends AppCompatActivity {
                                 doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Doctor_profession")));
                                 doctor_UID.add(documentChange.getDocument().getId());
                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
+                                doctor_start_time.add(String.valueOf(documentChange.getDocument().get("Start Time")));
+                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("Close Time")));
+                                doctor_bio.add(String.valueOf(documentChange.getDocument().get("Bio Details")));
                             }
                         }
 

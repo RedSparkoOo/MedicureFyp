@@ -111,7 +111,7 @@ public class AppointmentBooking extends AppCompatActivity {
         back_to_doc_nur_Selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AppointmentBooking.this,Appointment_Doctor_Check.class);
+                Intent intent = new Intent(AppointmentBooking.this, AppointmentDoctorNurseSelection.class);
                 startActivity(intent);
             }
         });

@@ -161,7 +161,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                     int enterAnim = R.anim.slide_in_right;
                     int exitAnim = R.anim.slide_out_left;
 
-                    Intent appointment = new Intent(patientDashboard.this, Appointment_Doctor_Check.class);
+                    Intent appointment = new Intent(patientDashboard.this, AppointmentDoctorNurseSelection.class);
                     startActivity(appointment);
 
                     overridePendingTransition(enterAnim, exitAnim);
@@ -175,7 +175,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientPharmacyService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, patientPharmacy.class);
+                Intent view_appointment = new Intent(patientDashboard.this, PharmacyService.class);
                 startActivity(view_appointment);
             }
         });

@@ -3,6 +3,7 @@
 	    xmlns:app="http://schemas.android.com/apk/res-auto"
 	    xmlns:tools="http://schemas.android.com/tools"
 	    android:layout_width="match_parent"
+		android:background="@color/background_white"
 	    android:layout_height="match_parent">
 
 	    <com.google.android.material.appbar.AppBarLayout
@@ -13,21 +14,23 @@
 	        android:orientation="vertical"
 	        app:layout_constraintTop_toTopOf="parent">
 
-	        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar_gchannel"
-	            android:layout_width="match_parent"
-	            android:layout_height="?attr/actionBarSize"
-	            android:theme="@style/Widget.AppCompat.Toolbar"
-	            app:popupTheme="@style/Theme.AppCompat.Light">
+			<androidx.appcompat.widget.Toolbar
+				android:id="@+id/toolbar_gchannel"
+				android:layout_width="match_parent"
+				android:background="@color/background_white"
+				android:layout_height="?attr/actionBarSize"
+				android:theme="@style/Widget.AppCompat.Toolbar"
+				app:popupTheme="@style/Theme.AppCompat.Light">
 
-	        </androidx.appcompat.widget.Toolbar>
-	    </com.google.android.material.appbar.AppBarLayout>
+			</androidx.appcompat.widget.Toolbar>
+		</com.google.android.material.appbar.AppBarLayout>
 
 	    <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_gchat"
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent"
 	        android:layout_marginBottom="16dp"
+			android:background="@color/background_white"
 	        app:layout_constrainedHeight="true"
 	        app:layout_constraintBottom_toTopOf="@+id/text_gchat_indicator"
 	        app:layout_constraintTop_toBottomOf="@+id/layout_group_chat" />
@@ -41,17 +44,20 @@
 	        app:layout_constraintBottom_toTopOf="@id/view"
 	        app:layout_constraintStart_toStartOf="parent" />
 
-	    <View
-            android:id="@+id/view"
-	        android:layout_width="match_parent"
-	        android:layout_height="1dp"
-	        android:background="#e0e0e0"
-	        app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox" />
+	<View
+		android:id="@+id/view"
+		android:layout_width="match_parent"
+		android:layout_height="1dp"
+		android:background="@color/background_white"
+		app:layout_constraintBottom_toTopOf="@+id/layout_gchat_chatbox"
+		tools:layout_editor_absoluteX="0dp" />
 
-	    <RelativeLayout
+	<RelativeLayout
             android:id="@+id/layout_gchat_chatbox"
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
+			android:elevation="4dp"
+			android:background="@color/background_white"
 	        app:layout_constraintBottom_toBottomOf="parent"
 	        app:layout_constraintStart_toStartOf="parent">
 
@@ -63,8 +69,12 @@
 	            android:layout_height="wrap_content"
 	            android:layout_centerVertical="true"
 	            android:layout_toStartOf="@+id/button_gchat_send"
-	            android:background="@android:color/transparent"
+	            android:background="@color/background_white"
 	            android:hint="Enter Message"
+				android:fontFamily="@font/pt_sans_regular"
+				android:textSize="16sp"
+				android:textColor="@color/light_black"
+				android:textColorHint="@color/grey"
 	            android:inputType="text"
 	            android:maxLines="6"
 	            tools:ignore="Autofill" />
@@ -74,9 +84,9 @@
 	            android:layout_width="64dp"
 	            android:layout_height="48dp"
 	            android:layout_alignParentEnd="true"
-	            android:background="?attr/selectableItemBackground"
+	            android:background="@color/blue_2"
 	            android:text="Send"
-	           android:textColor="@color/blue_2"/>
+	           android:textColor="@color/extra_white"/>
 
 	    </RelativeLayout>
 

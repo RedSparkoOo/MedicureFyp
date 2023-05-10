@@ -119,7 +119,7 @@ public class healthTracker extends AppCompatActivity{
                     MagnitudePrevious = Magnitude;
 
 
-                    if(MagnitudeDelta > 7){
+                    if(MagnitudeDelta > 6){
 
 
 
