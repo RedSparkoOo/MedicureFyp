@@ -51,6 +51,7 @@ public class DocLogin extends AppCompatActivity {
         setContentView(R.layout.activity_doc_login);
         login = findViewById(R.id.doctorLogin);
         Register = findViewById(R.id.Registration);
+
         doctor_forget_password = (findViewById(R.id.doctorForgetPassword));
         Email =  findViewById(R.id.doctorEmail);
         Password = findViewById(R.id.doctorPassword);

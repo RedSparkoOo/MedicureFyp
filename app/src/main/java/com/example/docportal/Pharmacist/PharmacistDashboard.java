@@ -71,6 +71,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     ImageView doctor_profile;
     ImageButton profile_doctor;
     ImageView online_consultation;
+    Uri content_uri;
 
     TextView notification_count;
     CardView notification_back;
@@ -156,6 +157,8 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
 
                 if(value.exists()){
                     doctor_name.setText(value.getString("Full Name"));
+                    String Image = value.getString("Image");
+                    Picasso.get().load(Uri.parse(Image)).into(doctor_profile);
                 }
                 else{
                     Toast.makeText(PharmacistDashboard.this, "No Value", Toast.LENGTH_SHORT).show();
@@ -165,14 +168,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         });
 
 
-        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
-        doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-            @Override
-            public void onSuccess(Uri uri) {
-                Picasso.get().load(uri).into(doctor_profile);
-
-            }
-        });
 
         navigationView = (NavigationView) findViewById(R.id.navigationBar);
         DrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -189,56 +184,26 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         doctor_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-                //-----------------Select Image From Gallery---------\\
-
-                Intent open_gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                //noinspection deprecation
-                startActivityForResult(open_gallery, GALLERY_CODE);
+                    startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), 1000);
 
             }
 
         });
 
     }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_CODE){
+        if(requestCode == 1000){
             if(resultCode == Activity.RESULT_OK){
                 assert data != null;
-                Uri content_uri = data.getData();
+                content_uri = data.getData();
                 doctor_profile.setImageURI(content_uri);
-
-                uploadProfileToFireBase(content_uri);
             }
         }
     }
 
-    private void uploadProfileToFireBase(Uri content_uri) {
-
-        StorageReference doc_file_ref = storageReference.child("Professions/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/doctor_profile.jpg");
-        doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(profile_doctor);
-                    }
-                });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(PharmacistDashboard.this, "Profile not uploaded", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
 
 
     @Override
@@ -298,7 +263,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
                 startActivity(intent_view);
                 break;
             case R.id.updateProfile:
-                Intent intent_update = new Intent(PharmacistDashboard.this,updateDoctorProfile.class);
+                Intent intent_update = new Intent(PharmacistDashboard.this,UpdatePharmacist.class);
                 startActivity(intent_update);
                 break;
             case R.id.customer_support:

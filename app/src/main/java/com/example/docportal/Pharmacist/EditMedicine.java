@@ -78,12 +78,13 @@ EditMedicine extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
                 Title = value.getString("Title");
-                Image = value.getString("Image");
+
                 Price = value.getString("Price");
                 Quantity = value.getString("Quantity");
                 Description = value.getString("Description");
                 String Milligram = value.getString("Milligram");
                 title.setText(Title);
+                Image = value.getString("Image");
                 Picasso.get().load(Uri.parse(Image)).into(imageView);
                 price.setText(Price);
                 quantity.setText(Quantity);

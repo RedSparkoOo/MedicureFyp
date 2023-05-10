@@ -41,6 +41,7 @@ public class PharmacistLogin extends AppCompatActivity {
     FirebaseAuth mAuth;
     FirebaseFirestore fStore;
     FirebaseUser FUser;
+
     TextView pharmacist_forget_password;
     String userId;
     ProgressBar progress_check;
@@ -61,7 +62,12 @@ public class PharmacistLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         back_to_selection = findViewById(R.id.back_to_selection);
-        FUser = mAuth.getCurrentUser();
+        mAuth  = FirebaseAuth.getInstance();
+        if(mAuth.getCurrentUser() != null) {
+            FUser = mAuth.getCurrentUser();
+        }
+
+
         progress_check.setVisibility(View.INVISIBLE);
 
         back_to_selection.setOnClickListener(new View.OnClickListener() {
@@ -108,12 +114,8 @@ public class PharmacistLogin extends AppCompatActivity {
                                             if (error != null) {
                                                 Toast.makeText(PharmacistLogin.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
-                                            else {
-
-                                                String Category = value.getString("Profession");
-                                                 if (Category.equals("Pharmacist")) {
-
-                                                    if (FUser.isEmailVerified()) {
+                                            else if (FUser.isEmailVerified())
+                                            {
                                                         Intent intent = new Intent(PharmacistLogin.this, PharmacistDashboard.class);
                                                         startActivity(intent);
                                                     } else {
@@ -123,17 +125,13 @@ public class PharmacistLogin extends AppCompatActivity {
 
                                                 }
 
-                                            }
-                                        }
 
-                                    });
+                                        });
+
+                                    }
 
                                 }
-                                if(!task.isSuccessful()){
-                                    Toast.makeText(PharmacistLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
-                                    progress_check.setVisibility(View.INVISIBLE);
-                                }
-                            }
+
                         });
                     }
                 }catch(Exception e){

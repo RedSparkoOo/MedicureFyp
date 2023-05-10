@@ -142,7 +142,7 @@ public class PharmacistRegistration extends AppCompatActivity {
                                 documentReference.set(doctor);
                                 Toast.makeText(PharmacistRegistration.this, "Registration Successful", Toast.LENGTH_SHORT).show();
 
-                                if(Selected_Profession.equals("")){
+                                if(specializations.equals("")){
                                     Toast.makeText(PharmacistRegistration.this, "Please Select a Profession", Toast.LENGTH_SHORT).show();
                                 }
 

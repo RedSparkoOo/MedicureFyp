@@ -25,7 +25,7 @@
     </LinearLayout>
 
     <TextView
-        android:id="@+id/Token"
+
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pt_sans_bold"
