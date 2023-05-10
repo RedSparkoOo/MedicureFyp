@@ -20,7 +20,6 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,10 +28,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Doctor.UpcomingNotificationsAdapter;
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
+import com.example.docportal.mainstartScreen;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -66,12 +69,10 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     ImageView patientEWallet;
     ImageView patientUrgentCare;
     ImageView patient_profile;
+    ImageView cart_icon;
 
     ImageView online_consultation;
     TextView patient_name;
-    TextView notification_count;
-    CardView notification_back;
-
     NavigationView navigationView;
     DrawerLayout DrawerLayout;
     Toolbar toolbar;
@@ -87,11 +88,9 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     List<String> approved_doctor_names;
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
+    List<String> approved_doctor_id;
     LinearLayout patient_empty_show;
 
-
-    private final int max_count = 99;
-    int notifications_count = 0;
     UpcomingNotificationsAdapter notificationsAdapter;
 
 
@@ -111,6 +110,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientHealthTracker = findViewById(R.id.patientHealthTracker);
         patientEWallet = findViewById(R.id.patientEWallet);
         patientUrgentCare = findViewById(R.id.patientUrgentCare);
+        cart_icon = findViewById(R.id.cart_icon);
 
 
 
@@ -120,8 +120,6 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         scroll_to_end = findViewById(R.id.scroll);
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        notification_count = findViewById(R.id.notify);
-        notification_back = findViewById(R.id.notification_icon_count_back);
         patient_empty_show = findViewById(R.id.patient_empty_show);
         online_consultation = findViewById(R.id.patientOnlineConsultation);
         patient_upcoming_appointments.setVisibility(View.INVISIBLE);
@@ -134,13 +132,18 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         upcomingAppointments();
         loadProfile();
         loadUserData();
-        notification_count.setVisibility(View.INVISIBLE);
-        notification_back.setVisibility(View.INVISIBLE);
+
 //        notifications_check();
 
 
 
-
+        cart_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(patientDashboard.this, CheckoutActivityJava.class);
+                startActivity(intent);
+            }
+        });
 
         scroll_to_end.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,8 +231,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientEWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, e_wallet.class);
-                startActivity(view_appointment);
+
             }
         });
 
@@ -362,18 +364,29 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-            case R.id.viewProfile:
-                Intent intent_view = new Intent(patientDashboard.this,patientViewProfile.class);
-                startActivity(intent_view);
+            case R.id.removeProfile:
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(patientDashboard.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(patientDashboard.this, mainstartScreen.class);
+                            startActivity(intent);
+                        } else {
+                            // Handle any errors
+                        }
+                    }
+                });
                 break;
             case R.id.updateProfile:
-                Intent intent_update = new Intent(patientDashboard.this,patientProfileUpdate.class);
+                Intent intent_update = new Intent(patientDashboard.this, UpdatePatientProfile.class);
                 startActivity(intent_update);
                 break;
             case R.id.customer_support:
                 Intent intent_support = new Intent(patientDashboard.this,customerSupport.class);
 
-                    intent_support.putExtra("identify", "patient");
+                intent_support.putExtra("identify", "patient");
                 startActivity(intent_support);
                 break;
             case R.id.logoutNavigation:
@@ -424,6 +437,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         approved_doctor_phone_no = new ArrayList<>();
         approved_appointment_date = new ArrayList<>();
         approved_appointment_time = new ArrayList<>();
+        approved_doctor_id = new ArrayList<>();
 
         approved_doctor_names.clear();
         approved_doctor_phone_no.clear();
@@ -466,32 +480,6 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         });
     }
 
-    public void notifications_check(){
-        FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-        DocumentReference notification_ref = FStore.collection("notification").document(user_id);
-        notification_ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
-
-                assert value != null;
-                int notify_check = Integer.parseInt(value.getString("notifications"));
-
-                if(notify_check == 0){
-                    notification_count.setVisibility(View.INVISIBLE);
-                    notification_back.setVisibility(View.INVISIBLE);
-
-                }
-                else if(notify_check > 0){
-                    notification_count.setVisibility(View.VISIBLE);
-                    notification_back.setVisibility(View.VISIBLE);
-                    notification_count.setText(value.getString("notifications"));
-                }
-
-
-            }
-        });
-    }
     private void loadProfile(){
         StorageReference doc_file_ref = storageReference.child("Patient/"+firebaseAuth.getCurrentUser().getUid()+"/patient_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CAMERA" />
@@ -30,7 +34,6 @@
         android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/medicure_logo"
         android:supportsRtl="true"
-        android:usesCleartextTraffic="true"
         android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
         tools:replace="android:label"
         tools:targetApi="31">
@@ -55,9 +58,6 @@
 
         <receiver android:name=".Broadcasts" />
 
-        <activity
-            android:name=".Doctor.AddDiseaseData"
-            android:exported="false" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -122,7 +122,14 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Patient.patientRegistration"
+            android:name=".Patient.PatientRegistration"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".Patient.patient_online_consultation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -157,7 +164,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Doctor.videoConsultation"
+            android:name=".Doctor.OnlineConsultation"
             android:exported="false" />
         <activity
             android:name=".Patient.paymentConfirmation"
@@ -182,13 +189,6 @@
         </activity>
         <activity
             android:name=".Patient.searchDisease"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.e_wallet"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -224,13 +224,6 @@
         </activity>
         <activity
             android:name=".Patient.viewMedicalRecord"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.nursingService"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -279,7 +272,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.patientProfileUpdate"
+            android:name=".Patient.UpdatePatientProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -300,15 +293,11 @@
 
         </activity>
         <activity
-            android:name=".Doctor.checkAppointment"
+            android:name=".Doctor.ManageAppointment"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Doctor.updateDoctorProfile"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Doctor.viewDoctorProfile"
+            android:name=".Doctor.UpdateDoctorNurseProfile"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -329,15 +318,15 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Doctor.Registeration"
+            android:name=".Doctor.DoctorNurseRegistration"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Patient.patientAppointmentBook"
+            android:name=".Patient.AppointmentBooking"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Doctor.OptionsActivity"
+            android:name=".Doctor.DoctorNurseDashboard"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
 
@@ -349,7 +338,7 @@
             <!-- </intent-filter> -->
         </activity>
         <activity
-            android:name=".Doctor.DocLogin"
+            android:name=".Doctor.DoctorLogin"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
@@ -357,7 +346,7 @@
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Doctor.AppointmentNotifications"
+            android:name=".Doctor.ViewAppointments"
             android:exported="true"
             android:windowSoftInputMode="adjustPan" />
         <activity

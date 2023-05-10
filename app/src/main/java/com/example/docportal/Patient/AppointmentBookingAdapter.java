@@ -17,13 +17,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Doctor.Chat;
 import com.example.docportal.R;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppointmentHelperClass.ViewHolder> implements Filterable {
+public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentBookingAdapter.ViewHolder> implements Filterable {
 
     private final List<String> appointed_doctor_name;
     private final List<String> appointed_doctor_specialization;
@@ -42,7 +41,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
 
 
 
-    public bookAppointmentHelperClass(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2,List<String> nameDataSet3, ItemClickListener itemClickListener)  {
+    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, ItemClickListener itemClickListener)  {
         appointed_doctor_name = nameDataSet;
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
@@ -143,19 +142,19 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
 
     // Create new views (invoked by the layout manager)
     @Override
-    public bookAppointmentHelperClass.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public AppointmentBookingAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.appointmnet_doctor_check_layout, viewGroup, false);
 
-        return new bookAppointmentHelperClass.ViewHolder(view);
+        return new AppointmentBookingAdapter.ViewHolder(view);
     }
 
 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(bookAppointmentHelperClass.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(AppointmentBookingAdapter.ViewHolder viewHolder, final int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
@@ -198,7 +197,7 @@ public class bookAppointmentHelperClass extends RecyclerView.Adapter<bookAppoint
                 bundle.putString("Doctor_name", doctor_name);
                 bundle.putString("Doctor_Id", UID);
                 Context context = v.getContext();
-                Intent intent = new Intent(context, patientAppointmentBook.class);
+                Intent intent = new Intent(context, AppointmentBooking.class);
                 intent.putExtras(bundle);
                 context.startActivity(intent);
 

@@ -50,7 +50,7 @@ public class PatientLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doc_login);
+        setContentView(R.layout.activity_doctor_login);
 
         login = findViewById(R.id.doctorLogin);
         Register = findViewById(R.id.Registration);
@@ -62,7 +62,9 @@ public class PatientLogin extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         fStore = FirebaseFirestore.getInstance();
         back_to_selection = findViewById(R.id.back_to_selection);
-        FUser = mAuth.getCurrentUser();
+        if(mAuth.getCurrentUser()  != null) {
+            FUser = mAuth.getCurrentUser();
+        }
         progress_check.setVisibility(View.INVISIBLE);
 
         back_to_selection.setOnClickListener(new View.OnClickListener() {
@@ -76,7 +78,7 @@ public class PatientLogin extends AppCompatActivity {
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(PatientLogin.this, patientRegistration.class));
+                startActivity(new Intent(PatientLogin.this, PatientRegistration.class));
             }
         });
 
@@ -112,8 +114,9 @@ public class PatientLogin extends AppCompatActivity {
 
                                             if (error != null) {
                                                 Toast.makeText(PatientLogin.this, error.getMessage(), Toast.LENGTH_SHORT).show();
-                                            } if(value.exists()) {
-
+                                            }
+                                            assert value != null;
+                                            if(value.exists()) {
                                                 if (FUser.isEmailVerified()) {
                                                     Intent intent = new Intent(PatientLogin.this, patientDashboard.class);
 

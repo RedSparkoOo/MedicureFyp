@@ -70,7 +70,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
     ImageView an_nurse;
     ImageView ccn_nurse;
     ImageView back_to_patient_dashboard;
-    bookAppointmentHelperClass book_appointment_helper_class;
+    AppointmentBookingAdapter book_appointment_helper_class;
     String UID;
     FirebaseAuth firebaseAuth;
     View snack_bar_layout;
@@ -132,7 +132,7 @@ public class Appointment_Doctor_Check extends AppCompatActivity {
         imageList = new ArrayList<>();
 
         doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(Appointment_Doctor_Check.this));
-        book_appointment_helper_class = new bookAppointmentHelperClass(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new bookAppointmentHelperClass.ItemClickListener() {
+        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new AppointmentBookingAdapter.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
                 Log.d(details,"Works");

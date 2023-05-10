@@ -26,7 +26,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Doctor.OptionsActivity;
+
 import com.example.docportal.Doctor.updateDoctorProfile;
 import com.example.docportal.Doctor.viewDoctorProfile;
 import com.example.docportal.Patient.customerSupport;
@@ -258,7 +258,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-            case R.id.viewProfile:
+            case R.id.removeProfile:
                 Intent intent_view = new Intent(PharmacistDashboard.this,viewDoctorProfile.class);
                 startActivity(intent_view);
                 break;

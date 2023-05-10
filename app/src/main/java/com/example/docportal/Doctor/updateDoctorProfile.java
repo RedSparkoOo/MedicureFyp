@@ -88,7 +88,7 @@ public class updateDoctorProfile extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_doctor_profile);
+        setContentView(R.layout.activity_update_doctor_nurse_profile);
 
         Token = findViewById(R.id.Token);
 

@@ -8,35 +8,26 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SearchView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class searchDisease extends AppCompatActivity {
     String[] diseases = {"Heart", "Brain", "Lungs"};
@@ -61,7 +52,7 @@ public class searchDisease extends AppCompatActivity {
 
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
-    bookAppointmentHelperClass book_appointment_helper_class;
+    AppointmentBookingAdapter book_appointment_helper_class;
 
     SearchDiseaseAdapter searchDiseaseAdapter;
 
@@ -77,7 +68,7 @@ public class searchDisease extends AppCompatActivity {
         doctor_profile_recycler = findViewById(R.id.spinner_doctor);
 
         doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(searchDisease.this));
-        book_appointment_helper_class = new bookAppointmentHelperClass(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new bookAppointmentHelperClass.ItemClickListener() {
+        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new AppointmentBookingAdapter.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
                 Log.d(details,"Works");
@@ -148,36 +139,36 @@ public class searchDisease extends AppCompatActivity {
 
     }
     public void fetchData() {
-            firestore.collection("SearchDisease").orderBy("organ", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestore.collection("SearchDisease").orderBy("organ", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
-                @SuppressLint("NotifyDataSetChanged")
-                @Override
-                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                    if (error != null)
-                        Toast.makeText(searchDisease.this, error.toString(), Toast.LENGTH_SHORT).show();
-                    for (DocumentChange dc : value.getDocumentChanges()) {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null)
+                    Toast.makeText(searchDisease.this, error.toString(), Toast.LENGTH_SHORT).show();
+                for (DocumentChange dc : value.getDocumentChanges()) {
 
-                        if (disease.equals("Brain") && dc.getDocument().get("organ").equals("Brain") && !Brain.contains(dc.getDocument().get("symptom"))) {
-                                Brain.add(String.valueOf(dc.getDocument().get("symptom")));
-                            setAdapter(Brain);
-                        } else if (disease.equals("Heart") && dc.getDocument().get("organ").equals("Heart") && !Heart.contains(dc.getDocument().get("symptom"))) {
-                                Heart.add(String.valueOf(dc.getDocument().get("symptom")));
-                            setAdapter(Heart);
-                        } else if (disease.equals("Lungs") && dc.getDocument().get("organ").equals("Lungs") && !Lungs.contains(dc.getDocument().get("symptom"))) {
-                                Lungs.add(String.valueOf(dc.getDocument().get("symptom")));
-                            setAdapter(Lungs);
-                        }
+                    if (disease.equals("Brain") && dc.getDocument().get("organ").equals("Brain") && !Brain.contains(dc.getDocument().get("symptom"))) {
+                        Brain.add(String.valueOf(dc.getDocument().get("symptom")));
+                        setAdapter(Brain);
+                    } else if (disease.equals("Heart") && dc.getDocument().get("organ").equals("Heart") && !Heart.contains(dc.getDocument().get("symptom"))) {
+                        Heart.add(String.valueOf(dc.getDocument().get("symptom")));
+                        setAdapter(Heart);
+                    } else if (disease.equals("Lungs") && dc.getDocument().get("organ").equals("Lungs") && !Lungs.contains(dc.getDocument().get("symptom"))) {
+                        Lungs.add(String.valueOf(dc.getDocument().get("symptom")));
+                        setAdapter(Lungs);
                     }
-                        book_appointment_helper_class.notifyDataSetChanged();
-                    }
-                });
+                }
+                book_appointment_helper_class.notifyDataSetChanged();
             }
-            private void setAdapter(List<String> list){
+        });
+    }
+    private void setAdapter(List<String> list){
 
-                ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
-                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                symptoms.setAdapter(adapter2);
-            }
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
+        adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        symptoms.setAdapter(adapter2);
+    }
 
     @Override
     protected void onStart() {

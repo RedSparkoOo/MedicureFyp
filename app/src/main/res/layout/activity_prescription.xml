@@ -67,7 +67,7 @@
 
             <EditText
                 android:id="@+id/prescribed_patient_name"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
@@ -85,7 +85,7 @@
 
             <EditText
                 android:id="@+id/prescribed_patient_email_address"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
@@ -112,7 +112,7 @@
 
             <EditText
                 android:id="@+id/prescribing_doctor_name"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
@@ -130,7 +130,7 @@
 
             <EditText
                 android:id="@+id/prescribing_doctor_email_address"
-                android:layout_width="370dp"
+                android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
@@ -219,7 +219,7 @@
 
                 <EditText
                     android:id="@+id/medicine_purpose"
-                    android:layout_width="370dp"
+                    android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/input_field"
@@ -246,7 +246,7 @@
 
                 <EditText
                     android:id="@+id/first_medicine_usage"
-                    android:layout_width="370dp"
+                    android:layout_width="match_parent"
                     android:layout_height="100dp"
                     android:layout_marginTop="10dp"
                     android:paddingLeft="10dp"
@@ -266,46 +266,16 @@
                     android:id="@+id/select_total"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="20dp"
                     android:background="@drawable/but"
                     android:text="Select"
+                    android:textColor="@color/extra_white"
                     android:fontFamily="@font/pt_sans_regular"
                     android:textSize="14sp"
                     android:textAllCaps="false"
                     />
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/selected_medics"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:fontFamily="@font/pt_sans_bold"
-                android:text="Selected Medicines"
-                android:textColor="@color/light_black"
-                android:textSize="18sp" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/prescription_recycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/edges"
-                android:layout_marginTop="10dp"
-                android:elevation="4dp"
-                android:layout_marginBottom="50dp">
-            </androidx.recyclerview.widget.RecyclerView>
-
-            <Button
-                android:id="@+id/send_total"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="20dp"
-                android:background="@drawable/but"
-                android:text="Send"
-                android:fontFamily="@font/pt_sans_regular"
-                android:textSize="14sp"
-                android:textAllCaps="false"
-                />
         </LinearLayout>
 
     </LinearLayout>

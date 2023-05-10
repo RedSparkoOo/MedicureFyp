@@ -50,7 +50,7 @@ public class PharmacistLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doc_login);
+        setContentView(R.layout.activity_doctor_login);
 
         login = findViewById(R.id.doctorLogin);
         Register = findViewById(R.id.Registration);

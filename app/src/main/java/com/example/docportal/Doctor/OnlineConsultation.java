@@ -21,11 +21,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Random;
 
-public class videoConsultation extends AppCompatActivity {
+public class OnlineConsultation extends AppCompatActivity {
 
     EditText code;
     Button start;
-    Button share;
     URL server_url;
     ImageView copy_text;
     private final String Letters = "abcdefghijklmnopqrstuvwxyz";
@@ -35,12 +34,11 @@ public class videoConsultation extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_video_consultation);
+        setContentView(R.layout.activity_online_consultation);
 
 
         code = findViewById(R.id.code);
         start = findViewById(R.id.start);
-        share = findViewById(R.id.share);
         copy_text = findViewById(R.id.copy_text);
         code.setFocusable(false);
 
@@ -65,16 +63,10 @@ public class videoConsultation extends AppCompatActivity {
 
                         .build();
 
-                JitsiMeetActivity.launch(videoConsultation.this, options);
+                JitsiMeetActivity.launch(OnlineConsultation.this, options);
             }
         });
 
-        share.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
 
         String result = generateAlphaNumeric(16);
         code.setText(result);

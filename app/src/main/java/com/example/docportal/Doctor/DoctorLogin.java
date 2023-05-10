@@ -33,7 +33,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 
-public class DocLogin extends AppCompatActivity {
+public class DoctorLogin extends AppCompatActivity {
     Button login;
     TextView Register;
     EditText Email;
@@ -48,10 +48,9 @@ public class DocLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_doc_login);
+        setContentView(R.layout.activity_doctor_login);
         login = findViewById(R.id.doctorLogin);
         Register = findViewById(R.id.Registration);
-
         doctor_forget_password = (findViewById(R.id.doctorForgetPassword));
         Email =  findViewById(R.id.doctorEmail);
         Password = findViewById(R.id.doctorPassword);
@@ -70,7 +69,7 @@ public class DocLogin extends AppCompatActivity {
         back_to_selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DocLogin.this, Entrance.class);
+                Intent intent = new Intent(DoctorLogin.this, Entrance.class);
                 startActivity(intent);
             }
         });
@@ -91,12 +90,12 @@ public class DocLogin extends AppCompatActivity {
                         mAuth.sendPasswordResetEmail(Email).addOnSuccessListener(new OnSuccessListener<Void>() {
                             @Override
                             public void onSuccess(Void unused) {
-                                Toast.makeText(DocLogin.this, "Reset link sent to "+Email, Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DoctorLogin.this, "Reset link sent to "+Email, Toast.LENGTH_SHORT).show();
                             }
                         }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                Toast.makeText(DocLogin.this, "Error! Link not sent "+e.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DoctorLogin.this, "Error! Link not sent "+e.getMessage(), Toast.LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -111,7 +110,7 @@ public class DocLogin extends AppCompatActivity {
         Register.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(DocLogin.this, Registeration.class));
+                startActivity(new Intent(DoctorLogin.this, DoctorNurseRegistration.class));
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
@@ -137,7 +136,7 @@ public class DocLogin extends AppCompatActivity {
                                         public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
                                             if(error != null){
-                                                Toast.makeText(DocLogin.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                                                Toast.makeText(DoctorLogin.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                                             }
 
 
@@ -147,27 +146,27 @@ public class DocLogin extends AppCompatActivity {
                                                 if (Category.equals("Doctor")) {
 
                                                     if (FUser.isEmailVerified()) {
-                                                        Intent intent = new Intent(DocLogin.this, OptionsActivity.class);
+                                                        Intent intent = new Intent(DoctorLogin.this, DoctorNurseDashboard.class);
 
                                                         startActivity(intent);
                                                     } else {
                                                         progress_check.setVisibility(View.INVISIBLE);
-                                                        Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(DoctorLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
                                                     }
 
                                                 } else if (Category.equals("Nurse")) {
 
                                                     if (FUser.isEmailVerified()) {
-                                                        Intent intent = new Intent(DocLogin.this, OptionsActivity.class);
+                                                        Intent intent = new Intent(DoctorLogin.this, DoctorNurseDashboard.class);
                                                         startActivity(intent);
                                                     } else {
                                                         progress_check.setVisibility(View.INVISIBLE);
-                                                        Toast.makeText(DocLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
+                                                        Toast.makeText(DoctorLogin.this, "Please verify your email first!", Toast.LENGTH_SHORT).show();
                                                     }
 
                                                 }
                                                 else {
-                                                    Toast.makeText(DocLogin.this, "No User Exists", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(DoctorLogin.this, "No User Exists", Toast.LENGTH_SHORT).show();
                                                     progress_check.setVisibility(View.INVISIBLE);
                                                 }
                                             }
@@ -180,14 +179,14 @@ public class DocLogin extends AppCompatActivity {
 
                                 }
                                 if(!task.isSuccessful()){
-                                    Toast.makeText(DocLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(DoctorLogin.this, "Insert correct email and password", Toast.LENGTH_SHORT).show();
                                     progress_check.setVisibility(View.INVISIBLE);
                                 }
                             }
                         });
                     }
                 }catch(Exception e){
-                    Toast.makeText(DocLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoctorLogin.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         });

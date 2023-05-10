@@ -1,12 +1,16 @@
 package com.example.docportal.Doctor;
 
+import static android.content.ContentValues.TAG;
 import static com.example.docportal.R.layout.spinner_item;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,20 +19,31 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.docportal.CheckEvent;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class Prescription extends AppCompatActivity {
 
     Spinner first_medicine_name;
     Spinner first_medicine_weight;
-
     EditText prescribed_patient_name;
     EditText prescribed_patient_email;
     EditText prescribing_doctor_name;
@@ -49,23 +64,17 @@ public class Prescription extends AppCompatActivity {
     String selected_medicine_name;
     String selected_medicine_weight;
     String selected_medicine_usage;
-
-    ArrayList<String> selected_patient_name_list;
-    ArrayList<String> selected_patient_email_list;
-    ArrayList<String> selected_doctor_name_list;
-    ArrayList<String> selected_doctor_email_list;
-    ArrayList<String> selected_medicines_list;
-    ArrayList<String> selected_medicines_weight_list;
-    ArrayList<String> selected_medicines_usage_list;
-    ArrayList<String> selected_medicine_purpose;
-    ArrayList<String> date_prescribed;
-
-
     String[] medicine_names = {"","Panadol","Paracetamol","Bruffin","Amoxil","Telynol"};
     String[] medicines_weight = {"","10mg","20mg","30mg","40mg"};
-    PrescriptionAdapter prescriptionAdapter;
 
+    List<String> patient_email_list;
+    List<String> patient_id_list;
+
+    FirebaseFirestore FStore;
+    FirebaseAuth FAuth;
+    String user_id;
     Date calendar;
+    Boolean flag = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,53 +88,130 @@ public class Prescription extends AppCompatActivity {
         prescribing_doctor_name = findViewById(R.id.prescribing_doctor_name);
         prescribing_doctor_email = findViewById(R.id.prescribing_doctor_email_address);
         medicine_purpose = findViewById(R.id.medicine_purpose);
-        prescription_recycler = findViewById(R.id.prescription_recycler);
-        selected_medics = findViewById(R.id.selected_medics);
         select_total = findViewById(R.id.select_total);
-        send_total = findViewById(R.id.send_total);
-        send_total.setVisibility(View.INVISIBLE);
-        selected_medics.setVisibility(View.INVISIBLE);
 
-        selected_patient_name_list = new ArrayList<>();
-        selected_patient_email_list = new ArrayList<>();
-        selected_doctor_name_list = new ArrayList<>();
-        selected_doctor_email_list = new ArrayList<>();
-        selected_medicines_list = new ArrayList<>();
-        selected_medicines_weight_list = new ArrayList<>();
-        selected_medicines_usage_list = new ArrayList<>();
-        selected_medicine_purpose = new ArrayList<>();
-        date_prescribed = new ArrayList<>();
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            prescribed_patient_email.setText(bundle.getString("Email"));
+            prescribed_patient_name.setText(bundle.getString("Name"));
+
+        }
 
         select_total.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                selected_medicine_name = first_medicine_name.getSelectedItem().toString();
-                selected_medicine_weight = first_medicine_weight.getSelectedItem().toString();
+                TextView[] textViews = {prescribed_patient_name, prescribed_patient_email, prescribing_doctor_name,prescribing_doctor_email,medicine_usage,medicine_purpose};
+                CheckEvent checkEvent = new CheckEvent();
 
-                patient_name = prescribed_patient_name.getText().toString();
-                patient_email = prescribed_patient_email.getText().toString();
-                doctor_name = prescribing_doctor_name.getText().toString();
-                doctor_email = prescribing_doctor_email.getText().toString();
-                medic_purpose = medicine_purpose.getText().toString();
-                selected_medicine_usage = medicine_usage.getText().toString();
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(prescribed_patient_name) || checkEvent.checkEmail(prescribed_patient_email) || checkEvent.checkName(prescribing_doctor_name) || checkEvent.checkPassword(prescribing_doctor_email) || first_medicine_name.getSelectedItem().equals("")) || first_medicine_weight.getSelectedItem().equals("")){
+
+                    TextView errorText = (TextView)first_medicine_name.getSelectedView();
+                    errorText.setError("");
+                    errorText.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText.setText("Select at least one");//changes the selected item text to this
+
+                    TextView errorText1 = (TextView)first_medicine_weight.getSelectedView();
+                    errorText1.setError("");
+                    errorText1.setTextColor(Color.RED);//just to highlight that this is an error
+                    errorText1.setText("Select at least one");//changes the selected item text to this
+                }
+                else {
+                    checkPatient();
+                }
 
 
-                medicineSelection(patient_name,patient_email,doctor_name,doctor_email,selected_medicine_name,selected_medicine_weight,selected_medicine_usage,medic_purpose);
-                send_total.setVisibility(View.VISIBLE);
-                selected_medics.setVisibility(View.VISIBLE);
+
 
             }
         });
 
-        send_total.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(Prescription.this, "Data Stored", Toast.LENGTH_SHORT).show();
-                prescriptionAdapter.prescriptionFireStore();
-            }
-        });
         medicineAssignment(medicine_names,medicines_weight);
+
+    }
+
+    private void checkPatient() {
+
+        calendar = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
+        String formattedDate = df.format(calendar);
+        patient_name = prescribed_patient_name.getText().toString();
+        patient_email = prescribed_patient_email.getText().toString();
+        doctor_name = prescribing_doctor_name.getText().toString();
+        doctor_email = prescribing_doctor_email.getText().toString();
+        selected_medicine_name = first_medicine_name.getSelectedItem().toString();
+        selected_medicine_weight = first_medicine_weight.getSelectedItem().toString();
+        medic_purpose = medicine_purpose.getText().toString();
+        selected_medicine_usage = medicine_usage.getText().toString();
+
+        FStore = FirebaseFirestore.getInstance();
+        FAuth = FirebaseAuth.getInstance();
+        user_id = FAuth.getCurrentUser().getUid();
+
+        DocumentReference documentReference = FStore.collection("Patient").document();
+
+        FStore.collection("Patient").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+
+
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                if (error != null) {
+                    Toast.makeText(Prescription.this, error.toString(), Toast.LENGTH_SHORT).show();
+                }
+
+                for (DocumentChange dc : value.getDocumentChanges()) {
+
+                    if(dc != null) {
+
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
+
+
+                            String patient_id = dc.getDocument().getId();
+                            String selected_patient_email = String.valueOf(dc.getDocument().get("Patient Email Address"));
+
+                            if (selected_patient_email.equals(patient_email)) {
+                                flag = true;
+                                DocumentReference DC = FStore.collection("Prescription Sent").document();
+                                DC.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                                        Map<String, Object> prescription = new HashMap<>();
+                                        prescription.put("Patient Name",patient_name);
+                                        prescription.put("Patient Email",patient_email);
+                                        prescription.put("Doctor Name",doctor_name);
+                                        prescription.put("Doctor Email",doctor_email);
+                                        prescription.put("Medicine Prescribed",selected_medicine_name);
+                                        prescription.put("Medicine Weight",selected_medicine_weight);
+                                        prescription.put("Medicine Purpose",medic_purpose);
+                                        prescription.put("Medicine Usage",selected_medicine_usage);
+                                        prescription.put("Prescription Date",formattedDate);
+                                        prescription.put("Doctor Id",user_id);
+                                        prescription.put("Patient Id",patient_id);
+                                        DC.set(prescription);
+
+                                        Toast.makeText(Prescription.this, "Prescription sent", Toast.LENGTH_SHORT).show();
+                                        first_medicine_name.setSelection(0);
+                                        first_medicine_weight.setSelection(0);
+                                        medicine_purpose.setText(null);
+                                        medicine_usage.setText(null);
+
+                                    }
+                                });
+
+                            }
+
+                        }
+
+                    }
+                }
+                if(flag.equals(false)){
+                    Toast.makeText(Prescription.this, "No User found. Please check patient's email!", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+
 
     }
 
@@ -140,29 +226,6 @@ public class Prescription extends AppCompatActivity {
         medicine_weight_assignment.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         first_medicine_weight.setAdapter(medicine_weight_assignment);
 
-
-    }
-
-    public void medicineSelection(String pat_name, String pat_email, String doc_name, String doc_email, String medicine_name_dataset, String medicine_weight_dataset, String med_purpose, String medicine_usage_dataset){
-
-        calendar = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy", Locale.getDefault());
-        String formattedDate = df.format(calendar);
-
-
-        selected_patient_name_list.add(pat_name);
-        selected_patient_email_list.add(pat_email);
-        selected_doctor_name_list.add(doc_name);
-        selected_doctor_email_list.add(doc_email);
-        selected_medicines_list.add(medicine_name_dataset);
-        selected_medicines_weight_list.add(medicine_weight_dataset);
-        selected_medicines_usage_list.add(medicine_usage_dataset);
-        selected_medicine_purpose.add(med_purpose);
-        date_prescribed.add(formattedDate);
-
-        prescription_recycler.setLayoutManager(new LinearLayoutManager(this));
-        prescriptionAdapter = new PrescriptionAdapter(selected_patient_name_list,selected_patient_email_list,selected_doctor_name_list,selected_doctor_email_list,selected_medicines_list,selected_medicines_weight_list,selected_medicines_usage_list,selected_medicine_purpose,send_total,selected_medics,date_prescribed);
-        prescription_recycler.setAdapter(prescriptionAdapter);
 
     }
 }

@@ -3,15 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:orientation="vertical"
     android:layout_height="match_parent"
     android:background="@color/extra_white"
-    tools:context=".Doctor.UpcomingNotificationsAdapter">
+    android:orientation="vertical"
+    tools:context=".Patient.AppointmentBooking">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/back_to_doctor_dashboard"
             android:layout_marginTop="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -26,7 +28,7 @@
         android:textColor="@color/light_black"
         android:fontFamily="@font/pt_sans_bold"
         android:textSize="25sp"
-        android:text="View Appointments"
+        android:text="Manage Appointments"
         android:gravity="center"
         />
 
@@ -37,20 +39,8 @@
         android:fontFamily="@font/pt_sans_regular"
         android:textSize="18sp"
         android:layout_margin="15dp"
-        android:text="View or delete appointments recieved from patients"
+        android:text="Approve or deny the appointments recieved from patients"
         android:gravity="center"
-        />
-    <SearchView
-        android:id="@+id/search_patient"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        android:elevation="4dp"
-        android:background="@drawable/searchview_field"
-        android:searchIcon="@drawable/search_icon"
-        android:queryHint="Search Patient"
-        android:closeIcon="@drawable/search_view_end"
-        android:iconifiedByDefault="false"
         />
 
     <LinearLayout
@@ -60,12 +50,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="10dp"
             >
 
             <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/manage_appointment_recycler"
+                android:id="@+id/patient_appointment_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
@@ -78,21 +68,19 @@
                 app:layout_constraintTop_toTopOf="parent" />
 
             <LinearLayout
-                android:id="@+id/letter_box"
+                android:id="@+id/mail_box_show"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                tools:ignore="MissingConstraints">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_margin="20dp"
                     android:adjustViewBounds="true"
-                    android:src="@drawable/empty_mail"
-                    />
+                    android:src="@drawable/empty_mail" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -109,9 +97,12 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
+
+
+
     </LinearLayout>
-
-
 
 
 </androidx.appcompat.widget.LinearLayoutCompat>

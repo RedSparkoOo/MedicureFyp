@@ -510,7 +510,7 @@ public class medicineReminder extends AppCompatActivity {
                 calendar = Calendar.getInstance();
                 hour = calendar.get(Calendar.HOUR);
                 minute = calendar.get((Calendar.MINUTE));
-                //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
+                //  boolean Is24hourFormat = DateFormat.is24HourFormat(AppointmentBooking.this);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(medicineReminder.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {

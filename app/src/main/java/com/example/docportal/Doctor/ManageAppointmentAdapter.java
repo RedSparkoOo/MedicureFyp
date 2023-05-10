@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.docportal.Doctor.checkAppointmentAdapter.ViewHolder>{
+public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppointmentAdapter.ViewHolder>{
 
     private final List<String> list_appointment_id;
     private final List<String> list_patient_name;
@@ -40,10 +40,10 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
     FirebaseFirestore FStore;
     Context context;
     int position_changed;
-    checkAppointmentAdapter appointmentAdapter;
+    ManageAppointmentAdapter appointmentAdapter;
     private ItemClickListenerCheck listenerCheck;
 
-    public checkAppointmentAdapter(List<String> appointment_uid_dataSet,List<String> name_dataSet, List<String> phone_dataSet,List<String> doc_name_dataSet, List<String> doc_phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
+    public ManageAppointmentAdapter(List<String> appointment_uid_dataSet, List<String> name_dataSet, List<String> phone_dataSet, List<String> doc_name_dataSet, List<String> doc_phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
 
         list_appointment_id = appointment_uid_dataSet;
         list_patient_name = name_dataSet;
@@ -118,16 +118,16 @@ public class checkAppointmentAdapter extends RecyclerView.Adapter<com.example.do
 
     @NonNull
     @Override
-    public com.example.docportal.Doctor.checkAppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ManageAppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
                 .inflate(R.layout.check_appointment_layout, viewGroup, false);
 
-        return new com.example.docportal.Doctor.checkAppointmentAdapter.ViewHolder(view);
+        return new ManageAppointmentAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(com.example.docportal.Doctor.checkAppointmentAdapter.ViewHolder viewHolder, int position) {
+    public void onBindViewHolder(ManageAppointmentAdapter.ViewHolder viewHolder, int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element

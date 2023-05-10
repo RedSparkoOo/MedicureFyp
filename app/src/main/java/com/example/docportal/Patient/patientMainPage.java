@@ -39,7 +39,7 @@ public class patientMainPage extends AppCompatActivity {
             public void onClick(View v) {
 
                 try {
-                    Intent intent = new Intent(patientMainPage.this, patientRegistration.class);
+                    Intent intent = new Intent(patientMainPage.this, PatientRegistration.class);
                     startActivity(intent);
                 }
                 catch (Exception e){

@@ -28,13 +28,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Patient.customerSupport;
-import com.example.docportal.Patient.patientDashboard;
 import com.example.docportal.R;
 import com.example.docportal.SplashScreenEntrance;
+import com.example.docportal.mainstartScreen;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -52,7 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class OptionsActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class DoctorNurseDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final int CAMERA_REQUEST_CODE = 101;
     public static final int CAMERA_CODE = 101;
     public static final int REQUEST_CODE = 100;
@@ -63,6 +66,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     ImageView doctor_profile;
     ImageButton profile_doctor;
     ImageView online_consultation;
+    ImageView add_disease_data;
     TextView doctor_name;
     TextView notification_count;
     CardView notification_back;
@@ -82,6 +86,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     List<String> approved_patient_names;
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
+    List<String> approved_patient_id;
     LinearLayout empty_show;
 
     private final int max_count = 99;
@@ -92,7 +97,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_options);
+        setContentView(R.layout.activity_doctor_nurse_dashboard);
 
         doctor_name = findViewById(R.id.doctor_name);
         view_appointment = findViewById(R.id.doctor_view_appointment);
@@ -100,11 +105,10 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         doctor_E_Rx = findViewById(R.id.doctor_E_Rx);
         doctor_profile = findViewById(R.id.doctor_profile);
         upcoming_appointments = findViewById(R.id.upcoming_appointments);
+        add_disease_data = findViewById(R.id.add_disease_data);
         scroll_to_end = findViewById(R.id.scroll);
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        notification_count = findViewById(R.id.notify);
-        notification_back = findViewById(R.id.notification_icon_count_back);
         empty_show = findViewById(R.id.empty_show);
         online_consultation = findViewById(R.id.doctor_online_consultation);
         upcoming_appointments.setVisibility(View.INVISIBLE);
@@ -115,13 +119,6 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         user_id = firebaseAuth.getCurrentUser().getUid();
         upcoming_appointments.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
         upcomingAppointments();
-
-
-        notification_count.setVisibility(View.INVISIBLE);
-        notification_back.setVisibility(View.INVISIBLE);
-//        notifications_check();
-
-
 
 
         scroll_to_end.setOnClickListener(new View.OnClickListener() {
@@ -136,7 +133,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         view_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(OptionsActivity.this, checkAppointment.class);
+                Intent view_appointment = new Intent(DoctorNurseDashboard.this, ManageAppointment.class);
                 startActivity(view_appointment);
             }
         });
@@ -144,21 +141,29 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         _appointmentManagement.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OptionsActivity.this, AppointmentNotifications.class));
+                startActivity(new Intent(DoctorNurseDashboard.this, ViewAppointments.class));
             }
         });
 
         doctor_E_Rx.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OptionsActivity.this,Prescription.class));
+                startActivity(new Intent(DoctorNurseDashboard.this,Prescription.class));
             }
         });
 
         online_consultation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(OptionsActivity.this, videoConsultation.class));
+                startActivity(new Intent(DoctorNurseDashboard.this, OnlineConsultation.class));
+            }
+        });
+
+        add_disease_data.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DoctorNurseDashboard.this,AddDiseaseData.class);
+                startActivity(intent);
             }
         });
 
@@ -172,14 +177,14 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                     doctor_name.setText(value.getString("Full Name"));
                 }
                 else{
-                    Toast.makeText(OptionsActivity.this, "No Value", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoctorNurseDashboard.this, "No Value", Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
 
 
-        StorageReference doc_file_ref = storageReference.child("Professions/"+firebaseAuth.getCurrentUser().getUid()+"/profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Doctor/"+firebaseAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -193,7 +198,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         toolbar = (Toolbar) findViewById(R.id.toolbar);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(OptionsActivity.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(DoctorNurseDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.blue_2));
         DrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -249,7 +254,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(OptionsActivity.this, "Profile not uploaded", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoctorNurseDashboard.this, "Profile not uploaded", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -264,8 +269,8 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         }
 
         else {
-            Intent intent = new Intent(OptionsActivity.this,SplashScreenEntrance.class);
-            Dialog dialog = new Dialog(OptionsActivity.this);
+            Intent intent = new Intent(DoctorNurseDashboard.this,SplashScreenEntrance.class);
+            Dialog dialog = new Dialog(DoctorNurseDashboard.this);
             dialog.setContentView(R.layout.alert_box_layout);
             dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
             dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -280,7 +285,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                 @Override
                 public void onClick(View v) {
 
-                    Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+                    Intent intent_main = new Intent(DoctorNurseDashboard.this, SplashScreenEntrance.class);
                     startActivity(intent_main);
                     dialog.dismiss();
 
@@ -307,22 +312,35 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()){
 
-            case R.id.viewProfile:
-                Intent intent_view = new Intent(OptionsActivity.this,viewDoctorProfile.class);
-                startActivity(intent_view);
+            case R.id.removeProfile:
+                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(DoctorNurseDashboard.this, "Account deleted", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(DoctorNurseDashboard.this, mainstartScreen.class);
+                            startActivity(intent);
+                        } else {
+                            // Handle any errors
+                        }
+                    }
+                });
+
+
                 break;
             case R.id.updateProfile:
-                Intent intent_update = new Intent(OptionsActivity.this,updateDoctorProfile.class);
+                Intent intent_update = new Intent(DoctorNurseDashboard.this, UpdateDoctorNurseProfile.class);
                 startActivity(intent_update);
                 break;
             case R.id.customer_support:
-                Intent intent_support = new Intent(OptionsActivity.this, AddDiseaseData.class);
+                Intent intent_support = new Intent(DoctorNurseDashboard.this, customerSupport.class);
 
                 intent_support.putExtra("identify", "doctor");
                 startActivity(intent_support);
                 break;
             case R.id.logoutNavigation:
-                Dialog dialog = new Dialog(OptionsActivity.this);
+                Dialog dialog = new Dialog(DoctorNurseDashboard.this);
                 dialog.setContentView(R.layout.alert_box_layout);
                 dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
                 dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -337,7 +355,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                     @Override
                     public void onClick(View v) {
 
-                        Intent intent_main = new Intent(OptionsActivity.this, SplashScreenEntrance.class);
+                        Intent intent_main = new Intent(DoctorNurseDashboard.this, SplashScreenEntrance.class);
                         startActivity(intent_main);
                         dialog.dismiss();
 
@@ -369,6 +387,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         approved_patient_phone_no = new ArrayList<>();
         approved_appointment_date = new ArrayList<>();
         approved_appointment_time = new ArrayList<>();
+        approved_patient_id = new ArrayList<>();
 
         approved_patient_names.clear();
         approved_patient_phone_no.clear();
@@ -381,15 +400,16 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
-                    Toast.makeText(OptionsActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(DoctorNurseDashboard.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
 
                     if(dc.equals(null)){
-                        Toast.makeText(OptionsActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(DoctorNurseDashboard.this, "Nothing to show", Toast.LENGTH_SHORT).show();
                     }
                     else{
+                        String patientId = String.valueOf(dc.getDocument().get("Appointed Patient ID"));
                         ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
                         if(user_id.equals(ID)){
 
@@ -409,7 +429,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
                                 notificationsAdapter.notifyDataSetChanged();
                             }
                             else
-                                Toast.makeText(OptionsActivity.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(DoctorNurseDashboard.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
                         }
                     }
                 }
@@ -417,35 +437,8 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         });
     }
 
-    public void notifications_check(){
-        FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-        DocumentReference notification_ref = FStore.collection("notification").document(user_id);
-        notification_ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-            @Override
-            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-
-
-                assert value != null;
-                int notify_check = Integer.parseInt(value.getString("notifications"));
-
-                if(notify_check == 0){
-                    notification_count.setVisibility(View.INVISIBLE);
-                    notification_back.setVisibility(View.INVISIBLE);
-
-                }
-                else if(notify_check > 0){
-                    notification_count.setVisibility(View.VISIBLE);
-                    notification_back.setVisibility(View.VISIBLE);
-                    notification_count.setText(value.getString("notifications"));
-                }
-
-
-            }
-        });
-    }
-
     public void alertBox(){
-        Dialog dialog = new Dialog(OptionsActivity.this);
+        Dialog dialog = new Dialog(DoctorNurseDashboard.this);
         dialog.setContentView(R.layout.alert_box_layout);
         dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
         dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -458,7 +451,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(OptionsActivity.this, "Confirm", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoctorNurseDashboard.this, "Confirm", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
@@ -466,7 +459,7 @@ public class OptionsActivity extends AppCompatActivity implements NavigationView
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(OptionsActivity.this, "Cancelled", Toast.LENGTH_SHORT).show();
+                Toast.makeText(DoctorNurseDashboard.this, "Cancelled", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });

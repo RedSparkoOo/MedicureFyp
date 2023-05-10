@@ -1,16 +1,29 @@
 package com.example.docportal.Doctor;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.docportal.R;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -81,6 +94,7 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         private final TextView apoint_names;
         private final TextView appointment_date;
         private final TextView appointment_time;
+        private final ImageView profile_image;
 
 
         public ViewHolder(View view) {
@@ -90,11 +104,13 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
             apoint_names = (TextView) view.findViewById(R.id.appointmentNames);
             appointment_date = (TextView) view.findViewById(R.id.appointment_date);
             appointment_time = (TextView) view.findViewById(R.id.appointment_time);
+            profile_image = (ImageView) view.findViewById(R.id.appointment_patient_profile);
 
 
+        }
 
-
-
+        public ImageView getProfile_image() {
+            return profile_image;
         }
 
         public TextView getApoint_names() {
@@ -136,6 +152,9 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         viewHolder.getAppointment_date().setText(AppointmentDate.get(position));
         viewHolder.getAppointment_time().setText(AppointmentTime.get(position));
 
+
+
+
     }
 
 
@@ -144,6 +163,12 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
     public int getItemCount() {
 
         return AppointmentNames.size();
+
+    }
+
+    public void Profile(){
+
+
 
     }
 

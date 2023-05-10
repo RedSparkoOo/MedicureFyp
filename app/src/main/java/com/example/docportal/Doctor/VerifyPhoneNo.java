@@ -67,21 +67,21 @@ public class VerifyPhoneNo extends AppCompatActivity {
         // #2 Get the phone number entered by user
         Intent intent = getIntent();
         _UserFirstName = intent.getStringExtra("userFirstName");
-         _UserLastName = intent.getStringExtra("userLastName");
+        _UserLastName = intent.getStringExtra("userLastName");
         _UserEmailAddress = intent.getStringExtra("userEmailAddress");
-         _UserHomeAddress = intent.getStringExtra("userHomeAddress");
-         _UserPasscode = intent.getStringExtra("userPasscode");
-         _UserPhoneNumber = intent.getStringExtra("userPhoneNo");
+        _UserHomeAddress = intent.getStringExtra("userHomeAddress");
+        _UserPasscode = intent.getStringExtra("userPasscode");
+        _UserPhoneNumber = intent.getStringExtra("userPhoneNo");
         _UserCNIC = intent.getStringExtra("userCnic");
-         _UserGender = intent.getStringExtra("userGender");
-         _UserDOB = intent.getStringExtra("userDOB");
+        _UserGender = intent.getStringExtra("userGender");
+        _UserDOB = intent.getStringExtra("userDOB");
         _UserLicense = intent.getStringExtra("userLicense");
-         _UserSpecializations = intent.getStringExtra("userSpecialization");
+        _UserSpecializations = intent.getStringExtra("userSpecialization");
 
         phoneNoOtp.setText(_UserPhoneNumber);
         // #3 Send verification code to user
 
-            SendVerificationCodetoUser(_UserPhoneNumber);
+        SendVerificationCodetoUser(_UserPhoneNumber);
         Verify_OTP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,20 +100,20 @@ public class VerifyPhoneNo extends AppCompatActivity {
     }
 
 
-  //#3 Add Code of Authentication
+    //#3 Add Code of Authentication
 
-        private void SendVerificationCodetoUser(String phoneNumber) {
+    private void SendVerificationCodetoUser(String phoneNumber) {
 
-            PhoneAuthOptions options =
-                    PhoneAuthOptions.newBuilder(mAuth)
-                            .setPhoneNumber("+92"+phoneNumber)       // Phone number to verify
-                            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
-                            .setActivity(this)                 // Activity (for callback binding)
-                            .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
-                            .build();
-            PhoneAuthProvider.verifyPhoneNumber(options);
+        PhoneAuthOptions options =
+                PhoneAuthOptions.newBuilder(mAuth)
+                        .setPhoneNumber("+92"+phoneNumber)       // Phone number to verify
+                        .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                        .setActivity(this)                 // Activity (for callback binding)
+                        .setCallbacks(mCallbacks)          // OnVerificationStateChangedCallbacks
+                        .build();
+        PhoneAuthProvider.verifyPhoneNumber(options);
 
-        }
+    }
 
 
     // #4 Add Firebase Auth Object and mCallbacks Object with two functions.
@@ -131,7 +131,7 @@ public class VerifyPhoneNo extends AppCompatActivity {
             //# 6 store the code entered by the user got through SMS and call it in a verifyCode Function.
             String Code = phoneAuthCredential.getSmsCode();
             if(Code!=null){
-              //  phoneNumberByUser.setText(Code);
+                //  phoneNumberByUser.setText(Code);
                 verifyCode(Code);
             }
         }
@@ -144,28 +144,28 @@ public class VerifyPhoneNo extends AppCompatActivity {
     };
 
     private void verifyCode(String CodeByUser){
-    // #7 Code by the system and Code by the user
-    PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCodeBySystem,CodeByUser);
-    // #8 Check credentials entered by the user
-    signIntheUserbyCredentials(credential);
+        // #7 Code by the system and Code by the user
+        PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationCodeBySystem,CodeByUser);
+        // #8 Check credentials entered by the user
+        signIntheUserbyCredentials(credential);
     }
 
 
 
 
 
-private void signIntheUserbyCredentials(PhoneAuthCredential credential) {
+    private void signIntheUserbyCredentials(PhoneAuthCredential credential) {
 
-       mAuth.signInWithCredential(credential).addOnCompleteListener(VerifyPhoneNo.this, new OnCompleteListener<AuthResult>() {
-           @Override
-          public void onComplete(@NonNull Task<AuthResult> task) {
+        mAuth.signInWithCredential(credential).addOnCompleteListener(VerifyPhoneNo.this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
 
 
-                 if(task.isSuccessful()){
+                if(task.isSuccessful()){
 
-                     Toast.makeText(VerifyPhoneNo.this, "Got it!", Toast.LENGTH_SHORT).show();
-                     RootNode = FirebaseDatabase.getInstance("https://doc-portal-9515b-default-rtdb.firebaseio.com/");
-                     reference = RootNode.getReference("Doctor");
+                    Toast.makeText(VerifyPhoneNo.this, "Got it!", Toast.LENGTH_SHORT).show();
+                    RootNode = FirebaseDatabase.getInstance("https://doc-portal-9515b-default-rtdb.firebaseio.com/");
+                    reference = RootNode.getReference("Doctor");
 //                     reference.child(_UserPhoneNumber).setValue(_UserFirstName);
 //                     reference.child(_UserPhoneNumber).setValue(_UserLastName);
 //                     reference.child(_UserPhoneNumber).setValue(_UserEmailAddress);
@@ -177,16 +177,16 @@ private void signIntheUserbyCredentials(PhoneAuthCredential credential) {
 //                     reference.child(_UserPhoneNumber).setValue(_UserDOB);
 //                     reference.child(_UserPhoneNumber).setValue(_UserLicense);
 //                     reference.child(_UserPhoneNumber).setValue(_UserSpecializations);
-                     DoctorHelperClass helperClass = new DoctorHelperClass(_UserFirstName, _UserLastName, _UserEmailAddress, _UserHomeAddress, _UserPasscode,_UserPhoneNumber,_UserCNIC, _UserGender,_UserDOB, _UserLicense, _UserSpecializations);
-                     reference.child(_UserPhoneNumber).setValue(helperClass);
-                     Intent intent = new Intent(VerifyPhoneNo.this,DocLogin.class);
-                     startActivity(intent);
+                    DoctorHelperClass helperClass = new DoctorHelperClass(_UserFirstName, _UserLastName, _UserEmailAddress, _UserHomeAddress, _UserPasscode,_UserPhoneNumber,_UserCNIC, _UserGender,_UserDOB, _UserLicense, _UserSpecializations);
+                    reference.child(_UserPhoneNumber).setValue(helperClass);
+                    Intent intent = new Intent(VerifyPhoneNo.this, DoctorLogin.class);
+                    startActivity(intent);
 
-                  }
-                   else{Toast.makeText(VerifyPhoneNo.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
-                 }
-           }
-      });
+                }
+                else{Toast.makeText(VerifyPhoneNo.this, task.getException().getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 

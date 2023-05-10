@@ -1,7 +1,5 @@
 package com.example.docportal.Doctor;
 
-import static androidx.core.content.ContextCompat.getDrawable;
-
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -15,20 +13,25 @@ import android.widget.Filterable;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
-import com.example.docportal.SplashScreenEntrance;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.ViewHolder> implements Filterable {
+public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointmentAdapter.ViewHolder> implements Filterable {
 
     private final List<String> AppointmentNames;
+    private final List<String> ApprovedPatientID;
     private final List<String> AppointmentPhones;
     private final List<String> AppointmentDate;
     private final List<String> AppointmentTime;
@@ -40,22 +43,24 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
     String appointment_id;
     FirebaseFirestore FStore;
     Context context;
-   //  private final List<String> AppointmentPhone;
+    //  private final List<String> AppointmentPhone;
 
-   // private final List<String> AppointmentDate;
-   // private final List<String> AppointmentTime;
+    // private final List<String> AppointmentDate;
+    // private final List<String> AppointmentTime;
 
 
 
-    public AppointmentAdapter(String patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
+    public ViewAppointmentAdapter(String patient_id,List<String> app_patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
         AppointmentDate = nameDataSet2;
         AppointmentTime = nameDataSet3;
         Appointment_IDs = Appointment_ID;
+        ApprovedPatientID = app_patient_id;
         Patient_ids = patient_id;
         this.listenerCheck = itemClickListenerCheck;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
+
 
 //, List<String> phoneDataSet, List<String> dateDataSet, List<String> timeDataSet
 
@@ -112,6 +117,7 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
         private final TextView appointment_time;
         private final Button to_appointment_reschedule ;
         private final Button to_chat_reschedule;
+        private final Button sendPrescription;
 
         public ViewHolder(View view) {
             super(view);
@@ -123,10 +129,15 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             appointment_time = (TextView) view.findViewById(R.id.appointment_time);
             to_appointment_reschedule = (Button) view.findViewById(R.id.deleteAppointment);
             to_chat_reschedule= view.findViewById(R.id.chatAppointment);
+            sendPrescription = view.findViewById(R.id.sendPrescription);
 
 
 
 
+        }
+
+        public Button getSendPrescription() {
+            return sendPrescription;
         }
 
         public TextView getApoint_names() {
@@ -154,19 +165,19 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
 
     // Create new views (invoked by the layout manager)
     @Override
-    public AppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
+    public ViewAppointmentAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.manage_appointments_row, viewGroup, false);
+                .inflate(R.layout.view_appointments_recycler, viewGroup, false);
 
-        return new AppointmentAdapter.ViewHolder(view);
+        return new ViewAppointmentAdapter.ViewHolder(view);
     }
 
 
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(AppointmentAdapter.ViewHolder viewHolder, final int position) {
+    public void onBindViewHolder(ViewAppointmentAdapter.ViewHolder viewHolder, final int position) {
 
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
@@ -258,8 +269,46 @@ public class AppointmentAdapter extends RecyclerView.Adapter<AppointmentAdapter.
             }
         });
 
+        viewHolder.getSendPrescription().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+                String ID = ApprovedPatientID.get(position);
+
+                FirebaseFirestore FStore = FirebaseFirestore.getInstance();
+                FirebaseAuth FAuth = FirebaseAuth.getInstance();
+
+                DocumentReference documentReference = FStore.collection("Patient").document(ID);
+                documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                    @Override
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+
+                        assert value != null;
+                        String patient_email_address = value.getString("Patient Email Address");
+                        String patient_name = value.getString("Patient Name");
+
+                        Bundle bundle = new Bundle();
+                        bundle.putString("Email",patient_email_address);
+                        bundle.putString("Name",patient_name);
+
+
+
+                        Intent intent = new Intent(context,Prescription.class);
+                        intent.putExtras(bundle);
+                        context.startActivity(intent);
+
+
+                    }
+                });
+
+
+
+            }
+        });
+
 
     }
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override

@@ -13,10 +13,10 @@ import com.example.docportal.R;
 
 
 public class MainActivity extends AppCompatActivity {
-Button login;
-Button Signup;
-Bundle doctor;
-ImageView back_to_entrance;
+    Button login;
+    Button Signup;
+    Bundle doctor;
+    ImageView back_to_entrance;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -41,7 +41,7 @@ ImageView back_to_entrance;
             @Override
             public void onClick(View view) {
 
-                Intent intent = new Intent(MainActivity.this,Registeration.class);
+                Intent intent = new Intent(MainActivity.this,DoctorNurseRegistration.class);
                 startActivity(intent);
 
             }
@@ -52,7 +52,7 @@ ImageView back_to_entrance;
             public void onClick(View view) {
 
 
-                Intent intent = new Intent(MainActivity.this,DocLogin.class);
+                Intent intent = new Intent(MainActivity.this, DoctorLogin.class);
                 startActivity(intent);
 
 

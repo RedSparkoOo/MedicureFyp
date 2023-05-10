@@ -2,11 +2,13 @@ package com.example.docportal.Doctor;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,7 +22,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
-public class AddDiseaseData extends AppCompatActivity {
+public class
+AddDiseaseData extends AppCompatActivity {
     private TextView disease, symptom, description;
     Spinner organ;
     String organs;
@@ -29,6 +32,7 @@ public class AddDiseaseData extends AppCompatActivity {
     FirebaseFirestore firebaseFirestore;
     FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
     Object currentUserId;
+    ImageView back_to_doctorDashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,14 @@ public class AddDiseaseData extends AppCompatActivity {
         description = findViewById(R.id.description_doctor);
         submit = findViewById(R.id.submit_disease);
         organ = findViewById(R.id.organ_spinner);
+        back_to_doctorDashboard = findViewById(R.id.back_to_doctorDashboard);
+        back_to_doctorDashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddDiseaseData.this,DoctorNurseDashboard.class);
+                startActivity(intent);
+            }
+        });
 
         Object currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {

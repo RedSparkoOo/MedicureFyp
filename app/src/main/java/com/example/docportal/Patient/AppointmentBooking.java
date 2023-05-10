@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
-public class patientAppointmentBook extends AppCompatActivity {
+public class AppointmentBooking extends AppCompatActivity {
     EditText patient_full_name;
     EditText patient_phone_no;
     EditText appointment_date;
@@ -74,7 +74,7 @@ public class patientAppointmentBook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_patient_appointment);
+        setContentView(R.layout.activity_appointment_booking);
         patient_full_name = (EditText) findViewById(R.id.patient_first_name);
         patient_phone_no = (EditText) findViewById(R.id.patient_phone);
         appointment_date = (EditText) findViewById(R.id.appointment_date);
@@ -97,13 +97,13 @@ public class patientAppointmentBook extends AppCompatActivity {
         AppointmentCheckEvent checkEvent = new AppointmentCheckEvent();
         DocumentReference documentReference = firebaseFirestore.collection("Patient").document(currentUserId.toString());
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
-                                                  @Override
-                                                  public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                                      patient_full_name.setText(value.getString("Patient Name"));
-                                                      patient_phone_no.setText(value.getString("Patient phone_no"));
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                patient_full_name.setText(value.getString("Patient Name"));
+                patient_phone_no.setText(value.getString("Patient phone_no"));
 
-                                                  }
-                                              });
+            }
+        });
 
         snack_bar_layout = findViewById(android.R.id.content);
         helperFunctions = new HelperFunctions();
@@ -111,7 +111,7 @@ public class patientAppointmentBook extends AppCompatActivity {
         back_to_doc_nur_Selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientAppointmentBook.this,Appointment_Doctor_Check.class);
+                Intent intent = new Intent(AppointmentBooking.this,Appointment_Doctor_Check.class);
                 startActivity(intent);
             }
         });
@@ -122,8 +122,8 @@ public class patientAppointmentBook extends AppCompatActivity {
                 Calendar calendar = Calendar.getInstance();
                 hour = calendar.get(Calendar.HOUR);
                 minute = calendar.get((Calendar.MINUTE));
-                //  boolean Is24hourFormat = DateFormat.is24HourFormat(patientAppointmentBook.this);
-                TimePickerDialog timePickerDialog = new TimePickerDialog(patientAppointmentBook.this, new TimePickerDialog.OnTimeSetListener() {
+                //  boolean Is24hourFormat = DateFormat.is24HourFormat(AppointmentBooking.this);
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AppointmentBooking.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
                         if(calendar.get(Calendar.AM_PM) == Calendar.AM){
@@ -150,7 +150,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                 month = calendar.get(Calendar.MONTH);
                 year = calendar.get(Calendar.YEAR);
 
-                DatePickerDialog datePickerDialog = new DatePickerDialog(patientAppointmentBook.this, new DatePickerDialog.OnDateSetListener() {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AppointmentBooking.this, new DatePickerDialog.OnDateSetListener() {
 
                     @Override
                     public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
@@ -173,7 +173,7 @@ public class patientAppointmentBook extends AppCompatActivity {
                 if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)));
                 else {
 
-                    Dialog dialog = new Dialog(patientAppointmentBook.this);
+                    Dialog dialog = new Dialog(AppointmentBooking.this);
                     dialog.setContentView(R.layout.alert_box_layout);
                     dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
                     dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);

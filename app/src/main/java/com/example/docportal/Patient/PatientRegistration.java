@@ -17,7 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
-import com.example.docportal.Doctor.DocLogin;
+import com.example.docportal.Doctor.DoctorLogin;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,7 +31,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
-public class patientRegistration extends AppCompatActivity {
+public class PatientRegistration extends AppCompatActivity {
     EditText patient_fullName;
     EditText patient_emailAddress;
     EditText patient_phoneNo;
@@ -75,14 +75,14 @@ public class patientRegistration extends AppCompatActivity {
         back_to_patientpage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientRegistration.this,patientMainPage.class);
+                Intent intent = new Intent(PatientRegistration.this,patientMainPage.class);
                 startActivity(intent);
             }
         });
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientRegistration.this,DocLogin.class);
+                Intent intent = new Intent(PatientRegistration.this, DoctorLogin.class);
                 startActivity(intent);
 
             }
@@ -109,10 +109,10 @@ public class patientRegistration extends AppCompatActivity {
                                 Patient.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void unused) {
-                                        Toast.makeText(patientRegistration.this, "Email sent to: " + patient_email_Address, Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(PatientRegistration.this, "Email sent to: " + patient_email_Address, Toast.LENGTH_SHORT).show();
                                     }
                                 });
-                                Toast.makeText(patientRegistration.this, "User Created", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(PatientRegistration.this, "User Created", Toast.LENGTH_SHORT).show();
                                 user_id = firebaseAuth.getCurrentUser().getUid();
                                 DocumentReference documentReference = firestore.collection("Patient").document(user_id);
                                 Map<String, Object> patient = new HashMap<>();
