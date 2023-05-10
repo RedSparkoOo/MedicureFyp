@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    tools:context=".Patient.labTestManagement_options">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/select"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Select Medicines"
+            android:textColor="@color/light_black"
+            android:textSize="20sp" />
+
+
+        <EditText
+            android:id="@+id/medicineSearch"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:paddingLeft="1dp"
+            android:background="@drawable/searchview_field"
+            android:drawableStart="@drawable/search_icon"
+            android:hint="Search"
+            android:closeIcon="@drawable/search_view_end"
+            android:iconifiedByDefault="false"
+            />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:id="@+id/list_med"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginStart="15dp"
+            android:text="List of Medicines"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/medicalProductRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="50dp"
+
+            />
+
+        <Button
+            android:id="@+id/pharmacyToCart"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Proceed to Cart"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

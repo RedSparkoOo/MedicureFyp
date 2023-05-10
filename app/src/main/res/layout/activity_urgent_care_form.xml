@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    tools:context=".Patient.UrgentCareForm">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/UrgentForm_backToUrgentCare"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Add Urgent Contact"
+            android:textColor="@color/light_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textAlignment="center"
+            android:text="Please fill out the relevant fields to create an emergency contact"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Contact Name"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/light_black"/>
+
+        <EditText
+            android:id="@+id/contact_name"
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_field"
+            android:drawableEnd="@drawable/full_name_avatar"
+            android:drawablePadding="5sp"
+            android:ems="10"
+            android:fontFamily="@font/pt_sans_regular"
+            android:hint="Enter Contact Name"
+            android:inputType="textPersonName"
+            android:paddingEnd="7sp"
+            android:textColor="@color/light_black"
+            android:textColorHint="@color/grey"
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Relation with contact"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/light_black"/>
+
+        <EditText
+            android:id="@+id/contact_relation"
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_field"
+            android:drawableEnd="@drawable/full_name_avatar"
+            android:drawablePadding="5sp"
+            android:ems="10"
+            android:fontFamily="@font/pt_sans_regular"
+            android:hint="Enter Relation"
+            android:inputType="textPersonName"
+            android:paddingEnd="7sp"
+            android:textColor="@color/light_black"
+            android:textColorHint="@color/grey"
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="16sp"
+            android:text="Contact Number"
+            android:layout_marginTop="20dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/light_black"/>
+
+        <EditText
+            android:id="@+id/contact_number"
+            android:layout_width="360dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/input_field"
+            android:drawableEnd="@drawable/person_phone"
+            android:drawablePadding="5sp"
+            android:ems="10"
+            android:fontFamily="@font/pt_sans_regular"
+            android:hint="Enter Contact Number"
+            android:inputType="textPersonName"
+            android:paddingEnd="7sp"
+            android:textColor="@color/light_black"
+            android:textColorHint="@color/grey"
+            android:textSize="14sp"
+            tools:ignore="TouchTargetSizeCheck" />
+
+
+    </LinearLayout>
+
+   <androidx.constraintlayout.widget.ConstraintLayout
+       android:layout_width="match_parent"
+       android:layout_height="match_parent">
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_marginBottom="20dp"
+           app:layout_constraintBottom_toBottomOf="parent"
+           app:layout_constraintTop_toTopOf="parent"
+           app:layout_constraintVertical_bias="1.0"
+           tools:layout_editor_absoluteX="0dp">
+
+           <Button
+               android:id="@+id/confirm_contact"
+               android:layout_width="370dp"
+               android:layout_height="50dp"
+               android:layout_marginStart="20dp"
+               android:background="@drawable/but"
+               android:elevation="4dp"
+               android:fontFamily="@font/pt_sans_regular"
+               android:text="Add Contact"
+               android:textAllCaps="false"
+               android:textColor="@color/extra_white"
+               android:textSize="16sp" />
+
+       </LinearLayout>
+
+
+   </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

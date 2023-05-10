@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:orientation="vertical"
+    android:background="@drawable/custom_border_linear_layout">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Prescription for"
+            android:textSize="16sp"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_bold"
+            android:layout_margin="10dp"/>
+
+        <TextView
+            android:id="@+id/disease_type"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fever"
+            android:textSize="16sp"
+            android:layout_marginTop="10dp"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:gravity="right"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/cutout_prescription"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/cancel_cross"
+                android:layout_margin="10dp"
+
+                />
+
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dr. "
+            android:textSize="12sp"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_regular"
+            android:layout_marginStart="10dp"/>
+
+        <TextView
+            android:id="@+id/doctor_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="John Smith"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_regular"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text=","
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_regular"
+            />
+        <TextView
+            android:id="@+id/doctor_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:text="Cardiologist"
+            android:layout_marginStart="5dp"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_regular"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/prescription_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Date"
+            android:layout_marginStart="10dp"
+            android:textSize="12sp"
+            android:textColor="@color/extra_white"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:background="@drawable/edges"
+        android:orientation="vertical">
+
+
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal">
+
+
+           <TextView
+               android:id="@+id/medicine_name"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="10dp"
+               android:layout_marginTop="10dp"
+               android:fontFamily="@font/pt_sans_bold"
+               android:text="Medicine Name"
+               android:textColor="@color/light_black"
+               android:textSize="14sp" />
+
+           <TextView
+               android:id="@+id/medicine_weight"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginStart="5dp"
+               android:layout_marginTop="10dp"
+               android:fontFamily="@font/pt_sans_bold"
+               android:text="Medicine Name"
+               android:textColor="@color/light_black"
+               android:textSize="14sp" />
+
+
+       </LinearLayout>
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content">
+
+          <TextView
+              android:id="@+id/medicine_usage"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Medicine usage"
+              android:textSize="12sp"
+              android:layout_marginTop="5dp"
+              android:textColor="@color/light_black"
+              android:fontFamily="@font/pt_sans_regular"
+              android:layout_marginStart="10dp"
+              />
+
+      </LinearLayout>
+
+
+        <Button
+            android:id="@+id/buy_medicine"
+            android:layout_width="60dp"
+            android:layout_height="20dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="10dp"
+            android:background="@drawable/but"
+            android:text="Order"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:elevation="5dp"
+            android:textColor="@color/extra_white"
+            android:textSize="9sp"
+            android:textAllCaps="false"
+            android:fontFamily="@font/pt_sans_regular"/>
+
+
+    </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

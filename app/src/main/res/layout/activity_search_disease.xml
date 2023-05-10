@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:orientation="vertical"
+    tools:context=".Patient.searchDisease">
+    <TextView
+        android:id="@+id/registerHeader2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:textAlignment="center"
+        android:layout_marginTop="35dp"
+        android:text="Search Disease"
+        android:textColor="@color/blue_2"
+        android:textSize="24sp" />
+    <TextView
+        android:id="@+id/disease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans_bold"
+
+        android:layout_marginTop="10dp"
+        android:text="Select Organ"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+
+    <Spinner
+        android:id="@+id/spinner_disease"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/symptom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Select Symptom"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <Spinner
+        android:id="@+id/spinner_symptom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Causes"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/spinner_recycler"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <TextView
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:fontFamily="@font/pt_sans_bold"
+        android:text="Recommended Doctors"
+        android:textColor="@color/light_black"
+        android:textSize="20sp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/spinner_doctor"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

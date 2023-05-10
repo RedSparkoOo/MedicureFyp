@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    tools:context=".Patient.labTestManagement_options">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Select Desried Blood Group"
+            android:textColor="@color/light_black"
+            android:textSize="20sp" />
+
+        <SearchView
+            android:id="@+id/search_blood_group"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:paddingLeft="1dp"
+            android:background="@drawable/searchview_field"
+            android:searchIcon="@drawable/search_icon"
+            android:queryHint="Search Blood group"
+            android:closeIcon="@drawable/search_view_end"
+            android:iconifiedByDefault="false"
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="15dp"
+            android:text="Categories"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+    </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/all_blood_group"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/all_categories"
+                />
+            <ImageView
+                android:id="@+id/blood_group_A"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/blood_a"
+                />
+            <ImageView
+                android:id="@+id/blood_group_B"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/blood_b"
+                />
+
+            <ImageView
+                android:id="@+id/blood_group_AB"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/blood_ab"
+                />
+
+            <ImageView
+                android:id="@+id/blood_group_O"
+                android:layout_width="80dp"
+                android:layout_height="80dp"
+                android:layout_marginEnd="10dp"
+                android:src="@drawable/blood_o"
+                />
+
+
+        </LinearLayout>
+
+
+
+    </HorizontalScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            android:layout_marginStart="15dp"
+            android:text="List of Test"
+            android:fontFamily="@font/pt_sans_bold"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/search_blood_group_recycler"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="50dp"
+
+            />
+
+        <Button
+            android:id="@+id/bloodToCart"
+            android:layout_width="370dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="100dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Proceed to Cart"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
