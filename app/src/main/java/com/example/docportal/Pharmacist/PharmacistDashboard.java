@@ -24,7 +24,6 @@ import androidx.cardview.widget.CardView;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
-import com.example.docportal.Doctor.DoctorNurseDashboard;
 import com.example.docportal.Doctor.UpdateDoctorNurseProfile;
 import com.example.docportal.Patient.customerSupport;
 import com.example.docportal.R;
@@ -91,7 +90,7 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pharmacy_options);
+        setContentView(R.layout.activity_pharmacist_dashboard);
 
         _addMedicine =findViewById(R.id.add_medicine);
         _addEquipments = findViewById(R.id.add_medical_equipment);

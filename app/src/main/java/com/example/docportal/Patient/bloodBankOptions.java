@@ -37,7 +37,7 @@ public class bloodBankOptions extends AppCompatActivity {
 
     RecyclerView bloodList;
     BloodBankAdapter bloodBankAdapter;
-   // EditText editText;
+   // EditText medicineSearch;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("bloodata");
    Button _pharmacyAddToCart;
@@ -54,7 +54,7 @@ public class bloodBankOptions extends AppCompatActivity {
         System.out.println(id);
 
 
-        //     editText = findViewById(R.id.medicineSearch);
+        //     medicineSearch = findViewById(R.id.medicineSearch);
         firebaseAuth = FirebaseAuth.getInstance();
         Object currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
@@ -95,7 +95,7 @@ public class bloodBankOptions extends AppCompatActivity {
             bloodList.setLayoutManager(new WrapContentLinearLayoutManager(bloodBankOptions.this,LinearLayoutManager.VERTICAL, false ));
             bloodList.setAdapter(bloodBankAdapter);
 
-//            editText.addTextChangedListener(new TextWatcher() {
+//            medicineSearch.addTextChangedListener(new TextWatcher() {
 //                @Override
 //                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //

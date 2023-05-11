@@ -37,7 +37,7 @@ public class labTestManagement_options extends AppCompatActivity {
 
     RecyclerView bloodList;
     labTestManagementAdapter bloodBankAdapter;
-    // EditText editText;
+    // EditText medicineSearch;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("LabTests");
 
@@ -49,7 +49,7 @@ public class labTestManagement_options extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab_test_management_options);
 
-        //     editText = findViewById(R.id.medicineSearch);
+        //     medicineSearch = findViewById(R.id.medicineSearch);
         firebaseAuth = FirebaseAuth.getInstance();
         Object currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {

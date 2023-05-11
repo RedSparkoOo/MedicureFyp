@@ -23,7 +23,7 @@ import com.squareup.picasso.Picasso;
 
 import java.sql.SQLOutput;
 
-public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMedicalAdapter.MedicineListViewHolder> {
+public class  BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMedicalAdapter.MedicineListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;

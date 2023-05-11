@@ -7,24 +7,36 @@
     android:background="@color/extra_white"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_to_PharmacistPage"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
     <TextView
         android:id="@+id/registerHeader2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
+        android:fontFamily="@font/pt_sans_bold"
         android:textAlignment="center"
-        android:layout_marginTop="35dp"
         android:text="Add Medicine"
         android:textColor="@color/light_black"
-        android:textSize="30sp" />
+        android:textSize="25sp" />
     <TextView
-        android:id="@+id/textView1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_medium"
-        android:paddingTop="10sp"
-        android:text="Add medicine image"
+        android:layout_margin="22dp"
+        android:fontFamily="@font/pt_sans_regular"
         android:textAlignment="center"
+        android:text="Add Medicine by filling out the relevant fields"
         android:textColor="@color/light_black"
         android:textSize="18sp" />
 
@@ -37,24 +49,26 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        >
 
         <LinearLayout
 
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="10pt">
+            >
 
             <TextView
                 android:id="@+id/textView2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Medicine Title"
                 android:textColor="@color/light_black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/title"
@@ -78,11 +92,11 @@
                 android:id="@+id/textView6"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Medicine Description"
                 android:textColor="@color/light_black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/description"
@@ -106,11 +120,11 @@
                 android:id="@+id/textView61"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Medicine Quantity"
                 android:textColor="@color/light_black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/quantity"
@@ -134,11 +148,11 @@
                 android:id="@+id/textView8"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Medicine Price"
                 android:textColor="@color/light_black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
                 android:id="@+id/price"
@@ -162,11 +176,11 @@
                 android:id="@+id/textView10"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_bold"
                 android:paddingTop="10sp"
                 android:text="Medicine milligram"
                 android:textColor="@color/light_black"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/medicine_milligram"
@@ -186,14 +200,15 @@
             <Button
                 android:id="@+id/Add"
                 android:layout_width="350dp"
-                android:layout_height="55dp"
+                android:layout_height="50dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="10dp"
                 android:background="@drawable/but"
-                android:fontFamily="@font/inter_medium"
+                android:fontFamily="@font/pt_sans_regular"
                 android:text="Add Medicine"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
+                android:textAllCaps="false"
+                android:textColor="@color/background_white"
+                android:textSize="16sp" />
         </LinearLayout>
     </ScrollView>
 

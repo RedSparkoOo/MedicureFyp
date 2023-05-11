@@ -17,7 +17,6 @@ import com.example.docportal.R;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -30,7 +29,8 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
     private final List<String> medicines_usage;
     private final List<String> medicine_weight;
     private final List<String> prescription_date;
-    String ID;
+    private final List<String> doctor_category;
+    private final List<String> prescription_id;
     FirebaseFirestore FStore;
 
     private final List<String> medicine_names_all;
@@ -39,13 +39,14 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
     Button Totaled;
 
 
-    public patientPrescriptionAdapter(List<String> doc_name, List<String> medicine_name,List<String> medi_weight, List<String> usage, List<String> pres_date,String uid)  {
+    public patientPrescriptionAdapter(List<String> doc_name, List<String> medicine_name,List<String> medi_weight, List<String> usage, List<String> pres_date,List<String> specialization,List<String> pres_id)  {
         doctor_name = doc_name;
         medicine_prescribed = medicine_name;
         medicine_weight = medi_weight;
         medicines_usage = usage;
-        ID = uid;
+        doctor_category = specialization;
         prescription_date = pres_date;
+        prescription_id = pres_id;
         this.medicine_names_all = new ArrayList<>(doctor_name);
 
     }
@@ -101,7 +102,7 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
         private final TextView med_weight;
         private final ImageView cutout_prescription;
         private final Button buy_medicine;
-
+        private final TextView doctor_category;
 
         public ViewHolder(View view) {
             super(view);
@@ -114,8 +115,13 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
             med_weight = (TextView) view.findViewById(R.id.medicine_weight);
             cutout_prescription = (ImageView) view.findViewById(R.id.cutout_prescription);
             buy_medicine = (Button) view.findViewById(R.id.buy_medicine);
+            doctor_category = (TextView) view.findViewById(R.id.doctor_category);
 
 
+        }
+
+        public TextView getDoctor_category() {
+            return doctor_category;
         }
 
         public TextView getMed_weight() {
@@ -152,7 +158,7 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
     public patientPrescriptionAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         // Create a new view, which defines the UI of the list item
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.patient_prescription_layout, viewGroup, false);
+                .inflate(R.layout.activity_patient_prescription_layout, viewGroup, false);
 
         return new patientPrescriptionAdapter.ViewHolder(view);
     }
@@ -170,12 +176,11 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
         viewHolder.getMed_usage().setText(medicines_usage.get(position));
         viewHolder.getPresc_date().setText(prescription_date.get(position));
         viewHolder.getMed_weight().setText(medicine_weight.get(position));
+        viewHolder.getDoctor_category().setText(doctor_category.get(position));
 
         viewHolder.getCutout_prescription().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
 
                 context = v.getContext();
 
@@ -189,15 +194,18 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
                 notifyItemRangeChanged(position, doctor_name.size());
 
                 FStore = FirebaseFirestore.getInstance();
-                FStore.collection("Prescriptions Sent").document(ID).update("Prescribed Doctor Name",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Prescription Date",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Medicines Prescribed Weight",FieldValue.arrayRemove(position));
-                FStore.collection("Prescriptions Sent").document(ID).update("Medicines Prescribed Usage",FieldValue.arrayRemove(position));
-
-
+                deletePrescription(prescription_id.get(position));
 
             }
         });
+
+    }
+
+    private void deletePrescription(String RID) {
+
+        FStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = FStore.collection("Prescription Sent").document(RID);
+        documentReference.delete();
 
     }
 

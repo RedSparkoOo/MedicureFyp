@@ -122,7 +122,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CheckoutActivityJava.this);
-                builder.setTitle("User Billing Address");
+
 
                 // Set the custom layout for the dialog
                 View dialogView = getLayoutInflater().inflate(R.layout.dialog_user_info, null);

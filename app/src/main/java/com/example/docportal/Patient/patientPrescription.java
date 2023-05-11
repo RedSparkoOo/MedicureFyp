@@ -37,7 +37,9 @@ public class patientPrescription extends AppCompatActivity {
     List<String> medicine_usage;
     List<String> prescription_date;
     List<String> final_medicines_stored;
-
+    List<String> doctor_category;
+    List<String> Prescription_id;
+    String doctor_id;
     String id;
 
     FirebaseFirestore FStore;
@@ -54,9 +56,44 @@ public class patientPrescription extends AppCompatActivity {
         medicine_usage = new ArrayList<>();
         prescription_date = new ArrayList<>();
         final_medicines_stored = new ArrayList<>();
+        doctor_category = new ArrayList<>();
+        Prescription_id = new ArrayList<>();
 
 
         recievedPrescription();
+
+
+    }
+
+    private void doctorData(String ID) {
+
+        FStore = FirebaseFirestore.getInstance();
+        FStore.collection("Professions").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                for(DocumentChange doc_change : value.getDocumentChanges()){
+
+                    if(doc_change.getType() == DocumentChange.Type.ADDED){
+                        String doc_id = doc_change.getDocument().getId();
+
+                        if(doc_id.equals(ID)){
+
+                            doctor_category.add(String.valueOf(doc_change.getDocument().get("Doctor_profession")));
+                            patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(patientPrescription.this));
+                            prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,doctor_category,Prescription_id);
+                            patient_prescription_recycler.setAdapter(prescriptionAdapter);
+
+                        }
+
+
+
+
+
+
+                    }
+                }
+            }
+        });
 
     }
 
@@ -64,23 +101,42 @@ public class patientPrescription extends AppCompatActivity {
 
 
         FStore = FirebaseFirestore.getInstance();
-        FStore.collection("Prescriptions Sent").orderBy("Prescribed Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        FStore.collection("Prescription Sent").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 for(DocumentChange doc_change : value.getDocumentChanges()){
 
+
                     if(doc_change.getType() == DocumentChange.Type.ADDED){
+                        String recieved_email = String.valueOf(doc_change.getDocument().get("Patient Email"));
+                        doctor_name.add(String.valueOf(doc_change.getDocument().getData().get("Doctor Name")));
+                        medicine_name.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Prescribed")));
+                        medicine_weight.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Weight")));
+                        medicine_usage.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Usage")));
+                        prescription_date.add(String.valueOf(doc_change.getDocument().getData().get("Prescription Date")));
+                        doctor_id = String.valueOf(doc_change.getDocument().getData().get("Doctor Id"));
+                        Prescription_id.add(doc_change.getDocument().getId());
+
+                        FStore.collection("Patient").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                                for(DocumentChange doc_change : value.getDocumentChanges()){
+
+                                    if(doc_change.getType() == DocumentChange.Type.ADDED){
+                                        String email = String.valueOf(doc_change.getDocument().get("Patient Email Address"));
+
+                                        if(email.equals(recieved_email)){
+                                            doctorData(doctor_id);
 
 
-                        doctor_name = (List<String>) doc_change.getDocument().getData().get("Prescribed Doctor Name");
-                        medicine_name = (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed");
-                        medicine_weight =  (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed Weight");
-                        medicine_usage = (List<String>) doc_change.getDocument().getData().get("Medicines Prescribed Usage");
-                        prescription_date = (List<String>) doc_change.getDocument().getData().get("Prescription Date");
-                        id = doc_change.getDocument().getId();
-                        patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(patientPrescription.this));
-                        prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,id);
-                        patient_prescription_recycler.setAdapter(prescriptionAdapter);
+                                        }
+
+
+                                    }
+                                }
+                            }
+                        });
+
 
 
 

@@ -1,9 +1,20 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:background="@color/background_white"
     android:orientation="vertical">
 
-
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:textColor="@color/light_black"
+    android:text="User Details"
+    android:layout_marginTop="10dp"
+    android:fontFamily="@font/pt_sans_bold"
+    android:textSize="25sp"
+    android:layout_marginBottom="10dp"
+    android:gravity="center"
+    />
     <EditText
         android:id="@+id/editText_full_name"
         android:layout_width="match_parent"
@@ -12,17 +23,15 @@
         android:layout_marginEnd="20sp"
         android:layout_marginTop="5dp"
         android:background="@drawable/input_field"
-
         android:drawablePadding="5sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:inputType="textPersonName"
         android:paddingEnd="7sp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
         android:textSize="14sp"
-        android:hint="Full Name" />
+        android:hint="Full name" />
 
     <EditText
         android:id="@+id/editText_city"
@@ -30,13 +39,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/input_field"
-
         android:drawablePadding="5sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:inputType="textPersonName"
         android:paddingEnd="7sp"
         android:textColor="@color/black"
@@ -50,13 +57,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/input_field"
-
         android:drawablePadding="5sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:hint="Address Line"
         android:inputType="textPersonName"
         android:paddingEnd="7sp"
@@ -70,13 +75,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/input_field"
-
         android:drawablePadding="5sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:paddingEnd="7sp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"
@@ -90,13 +93,11 @@
         android:layout_height="50dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/input_field"
-
         android:drawablePadding="5sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:inputType="textPersonName"
         android:paddingEnd="7sp"
         android:textColor="@color/black"
@@ -110,13 +111,12 @@
         android:layout_height="50dp"
         android:layout_marginStart="20sp"
         android:layout_marginEnd="20sp"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
         android:background="@drawable/input_field"
-
-        android:drawablePadding="5sp"
+        android:drawablePadding="10sp"
         android:ems="10"
-        android:fontFamily="@font/inter_light"
-
+        android:fontFamily="@font/pt_sans_regular"
         android:paddingEnd="7sp"
         android:textColor="@color/black"
         android:textColorHint="@color/grey"

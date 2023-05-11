@@ -80,7 +80,7 @@ public class labTestManagementAdapter extends FirestoreRecyclerAdapter<BloodBank
                     String documentId = snapshot.getId();
                   String  name =  mIntent.getStringExtra("name");
                     System.out.println(name);
-                    // EditText editText;
+                    // EditText medicineSearch;
 
 
                     DocumentReference documentReference = db.collection("LabTests").document(documentId);

@@ -37,7 +37,7 @@ public class labTestManagement extends AppCompatActivity {
 
     RecyclerView bloodList;
     labsAdapter bloodBankAdapter;
-    // EditText editText;
+    // EditText medicineSearch;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("LabTests");
     Button _pharmacyAddToCart;
@@ -49,7 +49,7 @@ public class labTestManagement extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lab_test_management);
 
-        //     editText = findViewById(R.id.medicineSearch);
+        //     medicineSearch = findViewById(R.id.medicineSearch);
         firebaseAuth = FirebaseAuth.getInstance();
         Object currentUser = firebaseAuth.getCurrentUser();
         if (currentUser != null) {
@@ -84,7 +84,7 @@ public class labTestManagement extends AppCompatActivity {
             bloodList.setLayoutManager(new WrapContentLinearLayoutManager(labTestManagement.this, LinearLayoutManager.VERTICAL, false));
             bloodList.setAdapter(bloodBankAdapter);
 
-//            editText.addTextChangedListener(new TextWatcher() {
+//            medicineSearch.addTextChangedListener(new TextWatcher() {
 //                @Override
 //                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 //

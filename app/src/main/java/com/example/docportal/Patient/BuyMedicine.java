@@ -1,6 +1,5 @@
 package com.example.docportal.Patient;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -13,22 +12,17 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.SearchView;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.docportal.Pharmacist.MedicalEquipment;
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -36,16 +30,14 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Locale;
 
 public class BuyMedicine extends AppCompatActivity {
     RecyclerView _equipmentList;
     BuyMedicalAdapter buyMedicalAdapter;
-    EditText editText;
+    EditText medicineSearch;
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
     CollectionReference noteBookref = firestore.collection("Medicine");
     Button _pharmacyAddToCart;
@@ -54,6 +46,9 @@ public class BuyMedicine extends AppCompatActivity {
     CollectionReference databaseReference;
     ArrayList<Medicine> arrayList;
     Object currentUserId;
+    ImageView back_to_pharmacy_options;
+    String search_HINT_color = "#434242";
+    String search_color = "#434242";
 
 
     @Override
@@ -61,8 +56,17 @@ public class BuyMedicine extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pharmacy_equipment_options);
         try {
-            editText = findViewById(R.id.medicineSearch);
+            medicineSearch = findViewById(R.id.medicineSearch);
             firebaseAuth = FirebaseAuth.getInstance();
+            back_to_pharmacy_options = findViewById(R.id.back_to_pharmacy_options);
+
+            back_to_pharmacy_options.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(BuyMedicine.this,PharmacyService.class);
+                    startActivity(intent);
+                }
+            });
             Object currentUser = firebaseAuth.getCurrentUser();
             if (currentUser != null) {
                 currentUserId = firebaseAuth.getCurrentUser().getUid();
@@ -105,7 +109,7 @@ public class BuyMedicine extends AppCompatActivity {
                 _equipmentList.setLayoutManager(new WrapContentLinearLayoutManager(BuyMedicine.this,LinearLayoutManager.VERTICAL, false ));
 
 
-        editText.addTextChangedListener(new TextWatcher() {
+        medicineSearch.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 

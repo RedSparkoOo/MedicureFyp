@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,7 +47,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
     TextView select, list;
     Object currentUserId;
 
-
+    ImageView back_to_pharmacy_options;
 
 
     @Override
@@ -59,6 +60,15 @@ public class BuyMedicalEquipment extends AppCompatActivity {
         list.setText("List of Medical Equipment");
         firebaseAuth= FirebaseAuth.getInstance();
         Object currentUser = firebaseAuth.getCurrentUser();
+        back_to_pharmacy_options = findViewById(R.id.back_to_pharmacy_options);
+
+        back_to_pharmacy_options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(BuyMedicalEquipment.this,PharmacyService.class);
+                startActivity(intent);
+            }
+        });
         if(currentUser!= null) {
              currentUserId = firebaseAuth.getCurrentUser().getUid();
         }
