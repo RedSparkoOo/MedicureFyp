@@ -12,6 +12,7 @@ import com.airbnb.lottie.LottieAnimationView;
 import com.airbnb.lottie.RenderMode;
 import com.example.docportal.Doctor.MainActivity;
 import com.example.docportal.Patient.patientMainPage;
+import com.example.docportal.Pharmacist.PharmacistMainPage;
 import com.example.docportal.Pharmacist.PharmacistRegistration;
 
 
@@ -66,7 +67,7 @@ public class Entrance extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                startActivity(new Intent(Entrance.this, PharmacistRegistration.class));
+                startActivity(new Intent(Entrance.this, PharmacistMainPage.class));
 
             }
         });
