@@ -8,32 +8,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.airbnb.lottie.utils.Utils;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MESSAGE_SENT = 1;
     private static final int VIEW_TYPE_MESSAGE_RECEIVED = 2;
+    private final Context context;
+    private final List<MessageModel> messageModels;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
 
-
-    private Context context;
-    FirebaseAuth firebaseAuth;
-    String currentUserId;
-    Object currentUser;
     public MessageAdapter(Context context) {
         this.context = context;
         messageModels = new ArrayList<>();
@@ -41,9 +33,9 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
     @Override
     public int getItemViewType(int position) {
-        MessageModel message = (MessageModel) messageModels.get(position);
+        MessageModel message = messageModels.get(position);
 
-        if (message.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+        if (message.getSenderId().equals(firestoreHandler.getCurrentUser())) {
             // If the current user is the sender of the message
             return VIEW_TYPE_MESSAGE_SENT;
         } else {
@@ -51,8 +43,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
             return VIEW_TYPE_MESSAGE_RECEIVED;
         }
     }
-
-    private List<MessageModel> messageModels;
 
     @NonNull
     @Override
@@ -82,11 +72,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 break;
             case VIEW_TYPE_MESSAGE_RECEIVED:
                 ((ReceivedMessageHolder) holder).bind(messageModel);
-    }
-
-
-
-
+        }
 
 
     }
@@ -113,8 +99,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
         SentMessageHolder(View itemView) {
             super(itemView);
             dateText = itemView.findViewById(R.id.text_gchat_date_me);
-            messageText = (TextView) itemView.findViewById(R.id.text_gchat_message_me);
-            timeText = (TextView) itemView.findViewById(R.id.text_gchat_timestamp_me);
+            messageText = itemView.findViewById(R.id.text_gchat_message_me);
+            timeText = itemView.findViewById(R.id.text_gchat_timestamp_me);
         }
 
         void bind(MessageModel message) {
@@ -133,10 +119,10 @@ public class MessageAdapter extends RecyclerView.Adapter {
         ReceivedMessageHolder(View itemView) {
             super(itemView);
             dateText = itemView.findViewById(R.id.text_gchat_date_other);
-            messageText = (TextView) itemView.findViewById(R.id.text_gchat_message_other);
-            timeText = (TextView) itemView.findViewById(R.id.text_gchat_timestamp_other);
-            nameText = (TextView) itemView.findViewById(R.id.text_gchat_user_other);
-            profileImage = (ImageView) itemView.findViewById(R.id.image_gchat_profile_other);
+            messageText = itemView.findViewById(R.id.text_gchat_message_other);
+            timeText = itemView.findViewById(R.id.text_gchat_timestamp_other);
+            nameText = itemView.findViewById(R.id.text_gchat_user_other);
+            profileImage = itemView.findViewById(R.id.image_gchat_profile_other);
         }
 
         void bind(MessageModel message) {
@@ -147,8 +133,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
             // Format the stored timestamp into a readable String using method.
             timeText.setText(message.getTime());
             dateText.setText(message.getDate());
-
-
 
 
             nameText.setText(bundle.getString("names"));

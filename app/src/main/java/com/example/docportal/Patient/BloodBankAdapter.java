@@ -3,34 +3,22 @@ package com.example.docportal.Patient;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, BloodBankAdapter.BloodBankViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
-
-    public Integer getI() {
-        return i;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
     private Integer i, price;
     private String Quantity, Price;
 
@@ -45,66 +33,69 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
         super(options);
     }
 
+    public Integer getI() {
+        return i;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull BloodBankViewHolder holder, int position, @NonNull BloodBankModel model) {
 
-        try {
-            holder.name.setText(model.getName());
-            holder.acceptor.setText(model.getAcceptor());
-            holder.donor.setText(model.getDonor());
-            holder.price.setText(model.getPrice());
-            if(model.getQuantity().equals("0"))
-                holder.quantity.setText("Out of stock");
-            else
-                holder.quantity.setText(model.getQuantity());
+
+        holder.name.setText(model.getName());
+        holder.acceptor.setText(model.getAcceptor());
+        holder.donor.setText(model.getDonor());
+        holder.price.setText(model.getPrice());
+        if (model.getQuantity().equals("0"))
+            holder.quantity.setText("Out of stock");
+        else
+            holder.quantity.setText(model.getQuantity());
 
 
-
-
-            holder.positive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if(model.getQuantity().equals("0"));
-                    else {
-                        Quantity = holder.count.getText().toString();
-                        Price = holder.price.getText().toString();
-
-                        price = Integer.parseInt(Price);
-                        i = Integer.parseInt(Quantity);
-
-                        if (i == Integer.parseInt(model.getQuantity()))
-                            i = Integer.parseInt(model.getQuantity());
-                        else
-                            i++;
-                        price = Integer.parseInt(model.getPrice()) * i;
-                        holder.count.setText(i.toString());
-                        holder.price.setText(price.toString());
-
-                    }
-                }
-            });
-            holder.negative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
+        holder.positive.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (model.getQuantity().equals("0")) ;
+                else {
                     Quantity = holder.count.getText().toString();
                     Price = holder.price.getText().toString();
+
+                    price = Integer.parseInt(Price);
                     i = Integer.parseInt(Quantity);
-                   if (i == 1)
-                       i = 1;
-                   else if( i==0)
-                       i=0;
-                   else
-                     i--;
+
+                    if (i == Integer.parseInt(model.getQuantity()))
+                        i = Integer.parseInt(model.getQuantity());
+                    else
+                        i++;
                     price = Integer.parseInt(model.getPrice()) * i;
                     holder.count.setText(i.toString());
                     holder.price.setText(price.toString());
 
                 }
-            });
-        }
-        catch (Exception ex){
-            System.out.println(ex.getMessage());
-        }
+            }
+        });
+        holder.negative.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Quantity = holder.count.getText().toString();
+                Price = holder.price.getText().toString();
+                i = Integer.parseInt(Quantity);
+                if (i == 1)
+                    i = 1;
+                else if (i == 0)
+                    i = 0;
+                else
+                    i--;
+                price = Integer.parseInt(model.getPrice()) * i;
+                holder.count.setText(i.toString());
+                holder.price.setText(price.toString());
+
+            }
+        });
+
 
     }
 
@@ -119,7 +110,29 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
 
     }
 
-    public class  BloodBankViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getReference().delete();
+
+
+    }
+
+    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener) {
+        this.listener1 = listener;
+    }
+
+    public interface onItemLongClickListener {
+        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public class BloodBankViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, donor, acceptor, price, count, quantity;
         ImageView negative, positive;
@@ -127,7 +140,7 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
 
         public BloodBankViewHolder(@NonNull View itemView) {
             super(itemView);
-            try{
+            try {
 
                 name = itemView.findViewById(R.id.blood_group_name);
                 donor = itemView.findViewById(R.id.blood_donor_group);
@@ -172,32 +185,11 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
                         return false;
                     }
                 });
-            }
-            catch (Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
             }
         }
 
 
-
-
-    }
-
-    public interface onItemLongClickListener {
-        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
-    }
-    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener){
-        this.listener = listener;
-    }
-    public void deleteItem(int position){
-        getSnapshots().getSnapshot(position).getReference().delete();
-
-
-    }
-    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener){
-        this.listener1 = listener;
-    }
-    public interface onItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 }

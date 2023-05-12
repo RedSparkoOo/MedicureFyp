@@ -4,27 +4,20 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.ReminderStoredAdapter.ViewHolder>{
+public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.ReminderStoredAdapter.ViewHolder> {
 
     private final List<String> list_medicine_name;
     private final List<String> list_medicine_type;
@@ -33,12 +26,11 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
     private final List<String> list_reminder_id;
 
 
-    FirebaseFirestore FStore;
     Context context;
     int position_changed;
 
 
-    public ReminderStoredAdapter(List<String> medic_names,List<String> medic_type, List<String> medic_duration,List<String> medic_time,List<String> remind_id) {
+    public ReminderStoredAdapter(List<String> medic_names, List<String> medic_type, List<String> medic_duration, List<String> medic_time, List<String> remind_id) {
 
         list_medicine_name = medic_names;
         list_medicine_type = medic_type;
@@ -47,54 +39,6 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
         list_reminder_id = remind_id;
 
 
-    }
-
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView text_medicine_name;
-        private final TextView text_medicine_type;
-        private final TextView text_medicine_duration;
-        private final TextView text_medicine_time;
-        private final ImageView remove_reminder;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            text_medicine_name = view.findViewById(R.id.medicine_name);
-            text_medicine_type = view.findViewById(R.id.medicine_type);
-            text_medicine_duration = view.findViewById(R.id.medicine_duration);
-            text_medicine_time = view.findViewById(R.id.medicine_time);
-            remove_reminder = view.findViewById(R.id.remove_reminder);
-
-        }
-
-        public TextView getText_medicine_name() {
-            return text_medicine_name;
-        }
-
-        public TextView getText_medicine_type() {
-            return text_medicine_type;
-        }
-
-        public TextView getText_medicine_time() {
-            return text_medicine_time;
-        }
-
-        public TextView getText_medicine_duration() {
-            return text_medicine_duration;
-        }
-
-
-
-        public ImageView getRemove_reminder() {
-            return remove_reminder;
-        }
     }
 
     @NonNull
@@ -138,7 +82,6 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
 
     }
 
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
@@ -146,17 +89,60 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
         return list_medicine_type.size();
     }
 
+    private void DeleteData(String RID) {
+        FirestoreHandler firestoreHandler = new FirestoreHandler();
 
-
-    private void DeleteData(String RID){
-        FStore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = FStore.collection("Medicine Reminder").document(RID);
+        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine Reminder").document(RID);
         documentReference.delete();
-
 
 
     }
 
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView text_medicine_name;
+        private final TextView text_medicine_type;
+        private final TextView text_medicine_duration;
+        private final TextView text_medicine_time;
+        private final ImageView remove_reminder;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            text_medicine_name = view.findViewById(R.id.medicine_name);
+            text_medicine_type = view.findViewById(R.id.medicine_type);
+            text_medicine_duration = view.findViewById(R.id.medicine_duration);
+            text_medicine_time = view.findViewById(R.id.medicine_time);
+            remove_reminder = view.findViewById(R.id.remove_reminder);
+
+        }
+
+        public TextView getText_medicine_name() {
+            return text_medicine_name;
+        }
+
+        public TextView getText_medicine_type() {
+            return text_medicine_type;
+        }
+
+        public TextView getText_medicine_time() {
+            return text_medicine_time;
+        }
+
+        public TextView getText_medicine_duration() {
+            return text_medicine_duration;
+        }
+
+
+        public ImageView getRemove_reminder() {
+            return remove_reminder;
+        }
+    }
 
 
 }

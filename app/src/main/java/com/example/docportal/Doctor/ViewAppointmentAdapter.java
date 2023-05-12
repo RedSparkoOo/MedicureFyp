@@ -16,7 +16,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,48 +43,23 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
     ItemClickListenerCheck listenerCheck;
     String appointment_id;
-    FirebaseFirestore FStore;
+
     Context context;
     //  private final List<String> AppointmentPhone;
 
     // private final List<String> AppointmentDate;
     // private final List<String> AppointmentTime;
-
-
-
-    public ViewAppointmentAdapter(String patient_id,List<String> app_patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
-        AppointmentNames = nameDataSet;
-        AppointmentPhones = nameDataSet1;
-        AppointmentDate = nameDataSet2;
-        AppointmentTime = nameDataSet3;
-        Appointment_IDs = Appointment_ID;
-        ApprovedPatientID = app_patient_id;
-        Patient_ids = patient_id;
-        this.listenerCheck = itemClickListenerCheck;
-        this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
-
-
-//, List<String> phoneDataSet, List<String> dateDataSet, List<String> timeDataSet
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             List<String> filteredList = new ArrayList<>();
 
-            if(charSequence.toString().isEmpty()){
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(AppointmentNamesAll);
-            }
-            else{
-                for(String  movie: AppointmentNamesAll){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+            } else {
+                for (String movie : AppointmentNamesAll) {
+                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -104,64 +81,26 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
         }
     };
 
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView apoint_names;
-        private final TextView apoint_ph;
-
-        private final TextView appointment_date;
-        private final TextView appointment_time;
-        private final Button to_appointment_reschedule ;
-        private final Button to_chat_reschedule;
-        private final Button sendPrescription;
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            apoint_names = (TextView) view.findViewById(R.id.appointmentNames);
-            apoint_ph = (TextView) view.findViewById(R.id.appointeePhone);
-            appointment_date = (TextView) view.findViewById(R.id.appointment_date);
-            appointment_time = (TextView) view.findViewById(R.id.appointment_time);
-            to_appointment_reschedule = (Button) view.findViewById(R.id.deleteAppointment);
-            to_chat_reschedule= view.findViewById(R.id.chatAppointment);
-            sendPrescription = view.findViewById(R.id.sendPrescription);
+    public ViewAppointmentAdapter(String patient_id, List<String> app_patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck) {
+        AppointmentNames = nameDataSet;
+        AppointmentPhones = nameDataSet1;
+        AppointmentDate = nameDataSet2;
+        AppointmentTime = nameDataSet3;
+        Appointment_IDs = Appointment_ID;
+        ApprovedPatientID = app_patient_id;
+        Patient_ids = patient_id;
+        this.listenerCheck = itemClickListenerCheck;
+        this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
 
 
-
-
-        }
-
-        public Button getSendPrescription() {
-            return sendPrescription;
-        }
-
-        public TextView getApoint_names() {
-            return apoint_names;
-        }
-        public  TextView getApoint_ph() {
-            return apoint_ph;
-        }
-        public Button getto_appointment_reschedule() {
-            return to_appointment_reschedule;
-        }
-
-        public TextView getAppointment_date() {
-            return appointment_date;
-        }
-
-        public TextView getAppointment_time() {
-            return appointment_time;
-        }
+//, List<String> phoneDataSet, List<String> dateDataSet, List<String> timeDataSet
 
     }
 
-
-
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -172,8 +111,6 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
         return new ViewAppointmentAdapter.ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -189,19 +126,12 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
             @Override
             public void onClick(View view) {
                 context = view.getContext();
-                FStore = FirebaseFirestore.getInstance();
+
                 Bundle bundle = new Bundle();
 
-                bundle.putString("names",AppointmentNames.get(position));
-
-
-
-                Intent intent = new Intent(context, Chat.class );
-                intent.putExtra("mBundle", bundle);
-
-
-                intent.putExtra("ID", Patient_ids);
-                context.startActivity(intent);
+                bundle.putString("names", AppointmentNames.get(position));
+                Singleton singleton = new Singleton();
+                context.startActivity(singleton.getIntent(context, Chat.class).putExtra("mBundle", bundle).putExtra("ID", Patient_ids));
 
 
             }
@@ -288,12 +218,11 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
                         String patient_name = value.getString("Patient Name");
 
                         Bundle bundle = new Bundle();
-                        bundle.putString("Email",patient_email_address);
-                        bundle.putString("Name",patient_name);
+                        bundle.putString("Email", patient_email_address);
+                        bundle.putString("Name", patient_name);
 
 
-
-                        Intent intent = new Intent(context,Prescription.class);
+                        Intent intent = new Intent(context, Prescription.class);
                         intent.putExtras(bundle);
                         context.startActivity(intent);
 
@@ -302,13 +231,11 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
                 });
 
 
-
             }
         });
 
 
     }
-
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -318,17 +245,72 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
     }
 
-    private void deleteAppointment(String RID){
-        FStore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = FStore.collection("Approved Appointments").document(RID);
+    private void deleteAppointment(String RID) {
+        FirestoreHandler firestoreHandler = new FirestoreHandler();
+
+        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Approved Appointments").document(RID);
         documentReference.delete();
         Toast.makeText(context, "Appointment Deleted", Toast.LENGTH_SHORT).show();
     }
 
-    public interface ItemClickListenerCheck{
+    public interface ItemClickListenerCheck {
         String onItemClick(String details);
     }
 
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView apoint_names;
+        private final TextView apoint_ph;
+
+        private final TextView appointment_date;
+        private final TextView appointment_time;
+        private final Button to_appointment_reschedule;
+        private final Button to_chat_reschedule;
+        private final Button sendPrescription;
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            apoint_names = view.findViewById(R.id.appointmentNames);
+            apoint_ph = view.findViewById(R.id.appointeePhone);
+            appointment_date = view.findViewById(R.id.appointment_date);
+            appointment_time = view.findViewById(R.id.appointment_time);
+            to_appointment_reschedule = view.findViewById(R.id.deleteAppointment);
+            to_chat_reschedule = view.findViewById(R.id.chatAppointment);
+            sendPrescription = view.findViewById(R.id.sendPrescription);
+
+
+        }
+
+        public Button getSendPrescription() {
+            return sendPrescription;
+        }
+
+        public TextView getApoint_names() {
+            return apoint_names;
+        }
+
+        public TextView getApoint_ph() {
+            return apoint_ph;
+        }
+
+        public Button getto_appointment_reschedule() {
+            return to_appointment_reschedule;
+        }
+
+        public TextView getAppointment_date() {
+            return appointment_date;
+        }
+
+        public TextView getAppointment_time() {
+            return appointment_time;
+        }
+
+    }
 
 
 }

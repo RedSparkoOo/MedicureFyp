@@ -1,8 +1,5 @@
 package com.example.docportal.Pharmacist;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,13 +7,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipment,EquipmentListAdapter.EquipmentListViewHolder> {
+public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipment, EquipmentListAdapter.EquipmentListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
 
@@ -44,20 +44,29 @@ public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipm
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        if(model.getQuantity().equals("0"))
+        if (model.getQuantity().equals("0"))
             holder.quantity.setText("Out of stock");
         else {
             holder.quantity.setText(model.getQuantity());
             holder.quantity.setTextColor(Color.parseColor("#00FF00"));
         }
         String imageUri;
-        imageUri= model.getImage();
+        imageUri = model.getImage();
         Picasso.get().load(imageUri).into(holder.imageView);
     }
-    public void deleteItem(int position){
+
+    public void deleteItem(int position) {
         getSnapshots().getSnapshot(position).getReference().delete();
 
 
+    }
+
+    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface onItemLongClickListener {
+        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
     }
 
     public class EquipmentListViewHolder extends RecyclerView.ViewHolder {
@@ -75,8 +84,8 @@ public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipm
                 @Override
                 public boolean onLongClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
 
                     }
                     return false;
@@ -84,12 +93,6 @@ public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipm
             });
         }
 
-    }
-    public interface onItemLongClickListener {
-        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
-    }
-    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener){
-        this.listener = listener;
     }
 }
 

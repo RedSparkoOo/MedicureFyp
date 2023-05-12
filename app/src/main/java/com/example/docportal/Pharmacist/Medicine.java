@@ -2,25 +2,14 @@ package com.example.docportal.Pharmacist;
 
 public class Medicine {
     private String Title;
-
-    public String getSeller() {
-        return seller;
-    }
-
-    public void setSeller(String seller) {
-        this.seller = seller;
-    }
-
     private String seller;
-    public String getIdentifier() {
-        return Identifier;
-    }
-
-    public void setIdentifier(String identifier) {
-        Identifier = identifier;
-    }
-
     private String Identifier;
+    private String Description;
+    private String Price;
+    private String Image;
+    private String Milligram;
+    private String Quantity;
+
     public Medicine(String title, String description, String price, String image, String milligram, String quantity, String identifier, String seller) {
         this.Title = title;
         this.Description = description;
@@ -31,11 +20,26 @@ public class Medicine {
         this.Identifier = identifier;
         this.seller = seller;
     }
-    public Medicine(){}
 
 
-    private String Description;
-    private String Price;
+    public Medicine() {
+    }
+
+    public String getSeller() {
+        return seller;
+    }
+
+    public void setSeller(String seller) {
+        this.seller = seller;
+    }
+
+    public String getIdentifier() {
+        return Identifier;
+    }
+
+    public void setIdentifier(String identifier) {
+        Identifier = identifier;
+    }
 
     public String getImage() {
         return Image;
@@ -45,10 +49,6 @@ public class Medicine {
         this.Image = image;
     }
 
-    private String Image;
-    private String Milligram;
-
-
     public String getQuantity() {
         return Quantity;
     }
@@ -56,8 +56,6 @@ public class Medicine {
     public void setQuantity(String quantity) {
         Quantity = quantity;
     }
-
-    private String Quantity;
 
     public String getTitle() {
         return Title;

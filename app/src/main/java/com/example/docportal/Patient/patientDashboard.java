@@ -1,15 +1,12 @@
 package com.example.docportal.Patient;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -26,21 +23,16 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Doctor.UpcomingNotificationsAdapter;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.example.docportal.SplashScreenEntrance;
-import com.example.docportal.mainstartScreen;
-import com.google.android.gms.tasks.OnCompleteListener;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.navigation.NavigationView;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -51,7 +43,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
+
 
 public class patientDashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     public static final int CAMERA_REQUEST_CODE = 101;
@@ -77,10 +69,11 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     DrawerLayout DrawerLayout;
     Toolbar toolbar;
     StorageReference storageReference;
-    FirebaseFirestore firestore;
-    FirebaseAuth firebaseAuth;
-    String user_id;
+
+
     String ID;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    Singleton singleton = new Singleton();
     RecyclerView patient_upcoming_appointments;
     ImageView scroll_to_end;
 
@@ -113,22 +106,18 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         cart_icon = findViewById(R.id.cart_icon);
 
 
-
         patient_name = findViewById(R.id.patient_name);
         patient_profile = findViewById(R.id.patient_profile);
         patient_upcoming_appointments = findViewById(R.id.patient_upcoming_appointments);
         scroll_to_end = findViewById(R.id.scroll);
-        firestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
+
         patient_empty_show = findViewById(R.id.patient_empty_show);
         online_consultation = findViewById(R.id.patientOnlineConsultation);
         patient_upcoming_appointments.setVisibility(View.INVISIBLE);
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-
-        user_id = firebaseAuth.getCurrentUser().getUid();
-        patient_upcoming_appointments.setLayoutManager(new LinearLayoutManager(this,RecyclerView.HORIZONTAL,false));
+        patient_upcoming_appointments.setLayoutManager(new LinearLayoutManager(this, RecyclerView.HORIZONTAL, false));
         upcomingAppointments();
         loadProfile();
         loadUserData();
@@ -136,12 +125,11 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
 //        notifications_check();
 
 
-
         cart_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientDashboard.this, CheckoutActivityJava.class);
-                startActivity(intent);
+                singleton.openActivity(patientDashboard.this, CheckoutActivityJava.class);
+
             }
         });
 
@@ -160,13 +148,11 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                 try {
                     int enterAnim = R.anim.slide_in_right;
                     int exitAnim = R.anim.slide_out_left;
+                    singleton.openActivity(patientDashboard.this, Appointment_Doctor_Check.class);
 
-                    Intent appointment = new Intent(patientDashboard.this, Appointment_Doctor_Check.class);
-                    startActivity(appointment);
 
                     overridePendingTransition(enterAnim, exitAnim);
-                }
-                catch (Exception e){
+                } catch (Exception e) {
                     Toast.makeText(patientDashboard.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
@@ -175,81 +161,74 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientPharmacyService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, patientPharmacy.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, patientPharmacy.class);
             }
         });
 
         patientOnlineConsultation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, patient_online_consultation.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, patient_online_consultation.class);
             }
         });
 
         patientPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, patientPrescription.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, patientPrescription.class);
             }
         });
 
         patientSearchDisease.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, searchDisease.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, searchDisease.class);
             }
         });
 
         patientLabTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, labTestManagement.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, labTestManagement.class);
+
             }
         });
 
         patientBloodBank.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, bloodBank.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, bloodBank.class);
             }
         });
 
         patientHealthTracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, healthTracker.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, healthTracker.class);
             }
         });
 
         patientEWallet.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                singleton.openActivity(patientDashboard.this, TransactionHistory.class);
             }
         });
 
         patientUrgentCare.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, urgentCare.class);
-                startActivity(view_appointment);
+                singleton.openActivity(patientDashboard.this, urgentCare.class);
             }
         });
 
 
-        navigationView = (NavigationView) findViewById(R.id.navigationBar);
-        DrawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        navigationView = findViewById(R.id.navigationBar);
+        DrawerLayout = findViewById(R.id.drawerLayout);
+        toolbar = findViewById(R.id.toolbar);
 
         navigationView.bringToFront();
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(patientDashboard.this,DrawerLayout,toolbar,R.string.navigation_drawer_open,R.string.navigation_drawer_close);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(patientDashboard.this, DrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.blue_2));
         DrawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -260,13 +239,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
             @Override
             public void onClick(View v) {
 
-
-                //-----------------Select Image From Gallery---------\\
-
-                Intent open_gallery = new Intent(Intent.ACTION_PICK,MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-
-                //noinspection deprecation
-                startActivityForResult(open_gallery, GALLERY_CODE);
+                startActivityForResult(new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI), GALLERY_CODE);
 
             }
 
@@ -278,8 +251,8 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_CODE){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == GALLERY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 Uri content_uri = data.getData();
                 uploadProfileToFireBase(content_uri);
@@ -292,7 +265,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
 
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = storageReference.child("Patient/"+ Objects.requireNonNull(firebaseAuth.getCurrentUser()).getUid()+"/patient_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
         doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -316,111 +289,28 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     public void onBackPressed() {
 
 
-        if(DrawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (DrawerLayout.isDrawerOpen(GravityCompat.START))
             DrawerLayout.closeDrawer(GravityCompat.START);
-        }
 
-        else {
-            Intent intent = new Intent(patientDashboard.this,SplashScreenEntrance.class);
-            Dialog dialog = new Dialog(patientDashboard.this);
-            dialog.setContentView(R.layout.alert_box_layout);
-            dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
-            dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
-            dialog.setCancelable(true);
-            dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-            Button confirm = dialog.findViewById(R.id.alert_confirm);
-            TextView cancel = dialog.findViewById(R.id.alert_cancel);
-            TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-            alert_msg.setText("Are you sure you want to logout?");
-
-            confirm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Intent intent_main = new Intent(patientDashboard.this, SplashScreenEntrance.class);
-                    startActivity(intent_main);
-                    dialog.dismiss();
-
-
-                }
-            });
-
-            cancel.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
-            });
-
-            dialog.show();
-
-
-        }
-
-
+        else
+            singleton.logout(patientDashboard.this);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
 
             case R.id.removeProfile:
-                FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(patientDashboard.this, "Account deleted", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(patientDashboard.this, mainstartScreen.class);
-                            startActivity(intent);
-                        } else {
-                            // Handle any errors
-                        }
-                    }
-                });
+                firestoreHandler.deleteProfile(patientDashboard.this);
                 break;
             case R.id.updateProfile:
-                Intent intent_update = new Intent(patientDashboard.this, UpdatePatientProfile.class);
-                startActivity(intent_update);
+                singleton.openActivity(patientDashboard.this, UpdatePatientProfile.class);
                 break;
             case R.id.customer_support:
-                Intent intent_support = new Intent(patientDashboard.this,customerSupport.class);
-
-                intent_support.putExtra("identify", "patient");
-                startActivity(intent_support);
+                startActivity(singleton.getIntent(patientDashboard.this, customerSupport.class).putExtra("identify", "patient"));
                 break;
             case R.id.logoutNavigation:
-                Dialog dialog = new Dialog(patientDashboard.this);
-                dialog.setContentView(R.layout.alert_box_layout);
-                dialog.getWindow().setBackgroundDrawable(getDrawable(R.drawable.edges));
-                dialog.getWindow().setLayout(700, ViewGroup.LayoutParams.WRAP_CONTENT);
-                dialog.setCancelable(true);
-                dialog.getWindow().getAttributes().windowAnimations = R.style.alert_animation;
-                Button confirm = dialog.findViewById(R.id.alert_confirm);
-                TextView cancel = dialog.findViewById(R.id.alert_cancel);
-                TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                alert_msg.setText("Are you sure you want to logout?");
-
-                confirm.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                        Intent intent_main = new Intent(patientDashboard.this, SplashScreenEntrance.class);
-                        startActivity(intent_main);
-                        dialog.dismiss();
-
-
-                    }
-                });
-
-                cancel.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.dismiss();
-                    }
-                });
-
-                dialog.show();
+                singleton.logout(patientDashboard.this);
                 break;
         }
         DrawerLayout.closeDrawer(GravityCompat.START);
@@ -429,10 +319,9 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
 
     }
 
-    public void upcomingAppointments(){
+    public void upcomingAppointments() {
 
-        FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-        FStore.clearPersistence();
+        firestoreHandler.getFirestoreInstance().clearPersistence();
         approved_doctor_names = new ArrayList<>();
         approved_doctor_phone_no = new ArrayList<>();
         approved_appointment_date = new ArrayList<>();
@@ -444,20 +333,21 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         approved_appointment_date.clear();
         approved_appointment_time.clear();
 
-        FStore.collection("Approved Appointments").orderBy("Approved Doctor Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreHandler.getFirestoreInstance().collection("Approved Appointments").orderBy("Approved Doctor Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (error != null) {
-                    Toast.makeText(patientDashboard.this, error.toString(), Toast.LENGTH_SHORT).show();
+                    singleton.showToast(patientDashboard.this, error.toString());
+
                 }
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
                     ID = String.valueOf(dc.getDocument().get("Appointed Patient Id"));
-                    if(user_id.equals(ID)){
+                    if (firestoreHandler.getCurrentUser().equals(ID)) {
 
-                        if(dc != null){
+                        if (dc != null) {
                             patient_empty_show.setVisibility(View.INVISIBLE);
                             patient_upcoming_appointments.setVisibility(View.VISIBLE);
                             if (dc.getType() == DocumentChange.Type.ADDED) {
@@ -466,22 +356,22 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                                 approved_doctor_phone_no.add(String.valueOf(dc.getDocument().get("Approved Doctor Cell")));
                                 approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                                 approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no,approved_appointment_date,approved_appointment_time);
+                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no, approved_appointment_date, approved_appointment_time);
                                 patient_upcoming_appointments.setAdapter(notificationsAdapter);
-                                patient_upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount()-1);
+                                patient_upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount() - 1);
                             }
                             notificationsAdapter.notifyDataSetChanged();
-                        }
-                        else
-                            Toast.makeText(patientDashboard.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
+                        } else
+                            singleton.showToast(patientDashboard.this, "No Appointments to show");
+
                     }
                 }
             }
         });
     }
 
-    private void loadProfile(){
-        StorageReference doc_file_ref = storageReference.child("Patient/"+firebaseAuth.getCurrentUser().getUid()+"/patient_profile.jpg");
+    private void loadProfile() {
+        StorageReference doc_file_ref = storageReference.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -491,8 +381,8 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         });
     }
 
-    private void loadUserData(){
-        DocumentReference documentReference = firestore.collection("Patient").document(user_id);
+    private void loadUserData() {
+        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Patient").document(firestoreHandler.getCurrentUser());
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

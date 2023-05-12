@@ -9,14 +9,12 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -28,11 +26,12 @@ public class viewDoctorProfile extends AppCompatActivity {
     TextView doctor_email;
     TextView doctor_phone;
     TextView doctor_license;
-    FirebaseAuth fAuth;
-    FirebaseFirestore firestore;
+
     ImageView doc_profile;
     StorageReference storageReference;
-    String user_id;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,16 +45,11 @@ public class viewDoctorProfile extends AppCompatActivity {
         doc_profile = findViewById(R.id.doc_profile);
         storageReference = FirebaseStorage.getInstance().getReference();
 
-        fAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
-        user_id = fAuth.getCurrentUser().getUid();
-        FirebaseUser doctor = fAuth.getCurrentUser();
 
-
-        if(doctor.isEmailVerified()){
+        if (firestoreHandler.getFirebaseUser().isEmailVerified()) {
             loadProfile();
 
-            DocumentReference documentReference = firestore.collection("Doctor").document(user_id);
+            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Doctor").document(firestoreHandler.getCurrentUser());
             documentReference.addSnapshotListener(this, new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
@@ -71,8 +65,8 @@ public class viewDoctorProfile extends AppCompatActivity {
 
     }
 
-    private void loadProfile(){
-        StorageReference doc_file_ref = storageReference.child("Doctor/"+fAuth.getCurrentUser().getUid()+"/doctor_profile.jpg");
+    private void loadProfile() {
+        StorageReference doc_file_ref = storageReference.child("Doctor/" + firestoreHandler.getCurrentUser() + "/doctor_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {

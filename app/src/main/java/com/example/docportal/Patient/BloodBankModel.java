@@ -2,13 +2,41 @@ package com.example.docportal.Patient;
 
 public class BloodBankModel {
     private String labName;
-
-
-
-
-
-
     private String name;
+    private String quantity;
+    private String logo;
+    private String acceptor;
+    private String category;
+    private String description;
+    private String donor;
+    private String latitude;
+    private String logoUrl;
+    private String longitude;
+    private String price;
+    private String testName;
+    private String timing;
+
+    public BloodBankModel() {
+
+
+    }
+
+    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName, String logo, String quantity) {
+        this.acceptor = acceptor;
+        this.category = category;
+        this.description = description;
+        this.donor = donor;
+        this.labName = labName;
+        this.latitude = latitude;
+        this.logoUrl = logoUrl;
+        this.longitude = longitude;
+        this.price = price;
+        this.testName = testName;
+        this.timing = timing;
+        this.name = bloodBankName;
+        this.logo = logo;
+        this.quantity = quantity;
+    }
 
     public String getName() {
         return name;
@@ -16,11 +44,6 @@ public class BloodBankModel {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public BloodBankModel() {
-
-
     }
 
     public String getLogo() {
@@ -38,27 +61,6 @@ public class BloodBankModel {
     public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
-
-    private String quantity;
-
-    private String logo;
-    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName, String logo, String quantity) {
-        this.acceptor = acceptor;
-        this.category = category;
-        this.description = description;
-        this.donor = donor;
-        this.labName = labName;
-        this.latitude = latitude;
-        this.logoUrl = logoUrl;
-        this.longitude = longitude;
-        this.price = price;
-        this.testName = testName;
-        this.timing = timing;
-        this.name = bloodBankName;
-        this.logo = logo;
-        this.quantity = quantity;
-    }
-    private String acceptor;
 
     public String getAcceptor() {
         return acceptor;
@@ -147,15 +149,4 @@ public class BloodBankModel {
     public void setTiming(String timing) {
         this.timing = timing;
     }
-
-    private String category;
-    private String description;
-    private String donor;
-
-    private String latitude;
-    private String logoUrl;
-    private String longitude;
-    private String price;
-    private String testName;
-    private String timing;
 }

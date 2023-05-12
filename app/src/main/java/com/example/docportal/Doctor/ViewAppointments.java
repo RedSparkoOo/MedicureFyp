@@ -1,6 +1,5 @@
 package com.example.docportal.Doctor;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -9,7 +8,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,11 +15,11 @@ import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.docportal.Singleton;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -40,11 +38,11 @@ public class ViewAppointments extends AppCompatActivity {
     List<String> approved_appointment_time;
     List<String> approved_appointment_ID;
     ViewAppointmentAdapter appointmentadapter;
-    FirebaseFirestore FStore;
-    FirebaseAuth FAuth;
+    Singleton singleton = new Singleton();
+
     String recieved_doctor_id;
     LinearLayout appointments_viewed;
-    String User_id;
+
     String search_HINT_color = "#434242";
     String search_color = "#434242";
     ImageView back_to_doctor_dashboard;
@@ -57,9 +55,6 @@ public class ViewAppointments extends AppCompatActivity {
         appointments_viewed = findViewById(R.id.letter_box);
         search_patient = findViewById(R.id.search_patient);
         back_to_doctor_dashboard = findViewById(R.id.back_to_doctor_dashboard);
-        FStore = FirebaseFirestore.getInstance();
-        FAuth = FirebaseAuth.getInstance();
-        User_id = FAuth.getCurrentUser().getUid();
 
         approved_patient_names = new ArrayList<>();
         approved_patient_phone_no = new ArrayList<>();
@@ -74,11 +69,11 @@ public class ViewAppointments extends AppCompatActivity {
 
         search_patient = findViewById(R.id.search_patient);
         int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-        TextView textView = (TextView) search_patient.findViewById(id);
+        TextView textView = search_patient.findViewById(id);
         textView.setTextColor(Color.parseColor(search_color));
         textView.setTextSize(14);
         textView.setHintTextColor(Color.parseColor(search_HINT_color));
-        Typeface tf = ResourcesCompat.getFont(this,R.font.pt_sans_regular);
+        Typeface tf = ResourcesCompat.getFont(this, R.font.pt_sans_regular);
         textView.setTypeface(tf);
 
         FireStoreApprovedAppointments();
@@ -101,39 +96,37 @@ public class ViewAppointments extends AppCompatActivity {
         back_to_doctor_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ViewAppointments.this,DoctorNurseDashboard.class);
-                startActivity(intent);
+                singleton.openActivity(ViewAppointments.this, DoctorNurseDashboard.class);
             }
         });
     }
 
     private void FireStoreApprovedAppointments() {
+        FirestoreHandler firestoreHandler = new FirestoreHandler();
 
-        FStore.collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreHandler.getFirestoreInstance().collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Toast.makeText(ViewAppointments.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
+                if (error != null)
+                    singleton.showToast(ViewAppointments.this, error.toString());
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
 
-                    if(dc != null){
-
+                    if (dc != null) {
 
 
                         recieved_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
                         if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                            if(recieved_doctor_id.equals(User_id)){
+                            if (recieved_doctor_id.equals(firestoreHandler.getCurrentUser())) {
 
                                 appointments_viewed.setVisibility(View.INVISIBLE);
                                 appointment_recycler_view.setVisibility(View.VISIBLE);
                                 search_patient.setVisibility(View.VISIBLE);
 
-                                System.out.println(String.valueOf(dc.getDocument().get("Appointed Patient Id")==null?"ff":"mang"));
+                                System.out.println(dc.getDocument().get("Appointed Patient Id") == null ? "ff" : "mang");
                                 System.out.println(dc.getDocument().get("Appointed Patient Id").toString());
                                 approved_patient_id.add(String.valueOf(dc.getDocument().get("Appointed Patient Id")));
                                 approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
@@ -141,7 +134,7 @@ public class ViewAppointments extends AppCompatActivity {
                                 approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                                 approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
                                 approved_appointment_ID.add(dc.getDocument().getId());
-                                appointmentadapter = new ViewAppointmentAdapter(dc.getDocument().get("Appointed Patient Id").toString(),approved_patient_id, approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new ViewAppointmentAdapter.ItemClickListenerCheck(){
+                                appointmentadapter = new ViewAppointmentAdapter(dc.getDocument().get("Appointed Patient Id").toString(), approved_patient_id, approved_patient_names, approved_patient_phone_no, approved_appointment_date, approved_appointment_time, approved_appointment_ID, new ViewAppointmentAdapter.ItemClickListenerCheck() {
                                     @Override
                                     public String onItemClick(String details) {
                                         return null;
@@ -152,15 +145,12 @@ public class ViewAppointments extends AppCompatActivity {
 
                         }
 
-                    }
-                    else
-                        Toast.makeText(ViewAppointments.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
-
+                    } else
+                        singleton.showToast(ViewAppointments.this, "No Appointments to show");
                 }
             }
         });
     }
-
 
 
 }

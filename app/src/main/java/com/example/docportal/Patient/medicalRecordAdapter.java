@@ -3,7 +3,6 @@ package com.example.docportal.Patient;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.TextView;
@@ -18,35 +17,20 @@ import java.util.List;
 
 public class medicalRecordAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.medicalRecordAdapter.ViewHolder> implements Filterable {
 
-    private List<String> MoviesList;
+    private final List<String> MoviesList;
 
-    private List<String> MoviesListAll;
-
-
-    public medicalRecordAdapter(List<String> dataSet) {
-        MoviesList = dataSet;
-
-        this.MoviesListAll = new ArrayList<>(MoviesList);
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
+    private final List<String> MoviesListAll;
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             List<String> filteredList = new ArrayList<>();
 
-            if(charSequence.toString().isEmpty()){
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(MoviesListAll);
-            }
-            else{
-                for(String  movie: MoviesListAll){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+            } else {
+                for (String movie : MoviesListAll) {
+                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -68,38 +52,17 @@ public class medicalRecordAdapter extends RecyclerView.Adapter<com.example.docpo
         }
     };
 
+    public medicalRecordAdapter(List<String> dataSet) {
+        MoviesList = dataSet;
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView _medicalFileName;
-
-
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            _medicalFileName = (TextView) view.findViewById(R.id.medicalFileName);
-
-
-
-        }
-
-        public TextView getTextView() {
-            return _medicalFileName;
-
-        }
-
+        this.MoviesListAll = new ArrayList<>(MoviesList);
 
     }
 
-
-
-
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -110,8 +73,6 @@ public class medicalRecordAdapter extends RecyclerView.Adapter<com.example.docpo
 
         return new com.example.docportal.Patient.medicalRecordAdapter.ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     //@Override
@@ -128,6 +89,31 @@ public class medicalRecordAdapter extends RecyclerView.Adapter<com.example.docpo
     public int getItemCount() {
 
         return MoviesList.size();
+
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView _medicalFileName;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            _medicalFileName = view.findViewById(R.id.medicalFileName);
+
+
+        }
+
+        public TextView getTextView() {
+            return _medicalFileName;
+
+        }
+
 
     }
 }

@@ -14,12 +14,11 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
@@ -43,38 +42,11 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
     private final List<String> date_prescribed;
     private final List<String> medicine_names_all;
 
-    String doc_id;
 
     Context context;
 
     Button Totaled;
     TextView Selected;
-    FirebaseFirestore FStore;
-    FirebaseAuth FAtuh;
-
-    public PrescriptionAdapter(List<String> pat_name,List<String> pat_email,List<String> doc_name,List<String> doc_email,List<String> med_names, List<String> med_weight, List<String> med_purpose,List<String> med_usage, Button Sent_totaled, TextView selected_medics,List<String> pres_date)  {
-
-        patient_names_list = pat_name;
-        patient_email_list = pat_email;
-        doctor_names_list = doc_name;
-        doctor_email_list = doc_email;
-        medicine_names = med_names;
-        medicine_weight = med_weight;
-        medicine_purpose = med_purpose;
-        medicines_usage = med_usage;
-        date_prescribed = pres_date;
-        this.medicine_names_all = new ArrayList<>(medicine_names);
-        Totaled = Sent_totaled;
-        Selected = selected_medics;
-
-
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
 
     Filter filter = new Filter() {
         @Override
@@ -82,12 +54,11 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
             List<String> filteredList = new ArrayList<>();
 
-            if(charSequence.toString().isEmpty()){
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(medicine_names_all);
-            }
-            else{
-                for(String  movie: medicine_names_all){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+            } else {
+                for (String movie : medicine_names_all) {
+                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -109,47 +80,28 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
         }
     };
 
+    public PrescriptionAdapter(List<String> pat_name, List<String> pat_email, List<String> doc_name, List<String> doc_email, List<String> med_names, List<String> med_weight, List<String> med_purpose, List<String> med_usage, Button Sent_totaled, TextView selected_medics, List<String> pres_date) {
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView med_name;
-        private final TextView med_weight;
-        private final TextView med_usage;
-        private final ImageView cancel_medicine;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            med_name = (TextView) view.findViewById(R.id.medicine_name);
-            med_weight = (TextView) view.findViewById(R.id.medicine_weight);
-            med_usage = (TextView) view.findViewById(R.id.medicine_usage);
-            cancel_medicine = (ImageView) view.findViewById(R.id.cancel_medicine);
+        patient_names_list = pat_name;
+        patient_email_list = pat_email;
+        doctor_names_list = doc_name;
+        doctor_email_list = doc_email;
+        medicine_names = med_names;
+        medicine_weight = med_weight;
+        medicine_purpose = med_purpose;
+        medicines_usage = med_usage;
+        date_prescribed = pres_date;
+        this.medicine_names_all = new ArrayList<>(medicine_names);
+        Totaled = Sent_totaled;
+        Selected = selected_medics;
 
 
-        }
-
-        public TextView getMed_name() {
-            return med_name;
-        }
-        public  TextView getMed_weight() {
-            return med_weight;
-        }
-        public TextView getMed_usage() {
-            return med_usage;
-        }
-
-        public ImageView getCancel_medicine() {
-            return cancel_medicine;
-        }
     }
 
-
-
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -160,8 +112,6 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
         return new PrescriptionAdapter.ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -180,9 +130,9 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
                 medicine_names.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position,medicine_names.size());
+                notifyItemRangeChanged(position, medicine_names.size());
 
-                if(medicine_names.size() == 0){
+                if (medicine_names.size() == 0) {
                     Totaled.setVisibility(View.INVISIBLE);
                     Selected.setVisibility(View.INVISIBLE);
                 }
@@ -240,44 +190,79 @@ public class PrescriptionAdapter extends RecyclerView.Adapter<PrescriptionAdapte
 
     }
 
-    public void prescriptionFireStore(){
+    public void prescriptionFireStore() {
+        FirestoreHandler firestoreHandler = new FirestoreHandler();
 
-        FAtuh = FirebaseAuth.getInstance();
-        FStore = FirebaseFirestore.getInstance();
 
-        doc_id = FAtuh.getCurrentUser().getUid();
-        FStore.clearPersistence();
+        firestoreHandler.getFirestoreInstance().clearPersistence();
 
-        DocumentReference documentReference = FStore.collection("Prescriptions Sent").document();
+        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Prescriptions Sent").document();
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                Map<Object,List<String>> prescription = new HashMap<>();
+                Map<Object, List<String>> prescription = new HashMap<>();
 
 
 //                   prescription.put("Prescribed Patient Email",patient_email_list);
 
 
-
-                prescription.put("Prescribed Patient Name",patient_names_list);
-                prescription.put("Prescribed Patient Email",patient_email_list);
-                prescription.put("Prescribed Doctor Name",doctor_names_list);
-                prescription.put("Prescribed Doctor Email",doctor_email_list);
-                prescription.put("Medicines Prescribed",medicine_names);
-                prescription.put("Medicines Prescribed Weight",medicine_weight);
-                prescription.put("Medicines Prescribed Purpose",medicine_purpose);
-                prescription.put("Medicines Prescribed Usage",medicines_usage);
-                prescription.put("Prescription Date",date_prescribed);
-                prescription.put("Doctor ID", Collections.singletonList(doc_id));
+                prescription.put("Prescribed Patient Name", patient_names_list);
+                prescription.put("Prescribed Patient Email", patient_email_list);
+                prescription.put("Prescribed Doctor Name", doctor_names_list);
+                prescription.put("Prescribed Doctor Email", doctor_email_list);
+                prescription.put("Medicines Prescribed", medicine_names);
+                prescription.put("Medicines Prescribed Weight", medicine_weight);
+                prescription.put("Medicines Prescribed Purpose", medicine_purpose);
+                prescription.put("Medicines Prescribed Usage", medicines_usage);
+                prescription.put("Prescription Date", date_prescribed);
+                prescription.put("Doctor ID", Collections.singletonList(firestoreHandler.getCurrentUser()));
 
                 documentReference.set(prescription);
 
 
-
-
             }
         });
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView med_name;
+        private final TextView med_weight;
+        private final TextView med_usage;
+        private final ImageView cancel_medicine;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            med_name = view.findViewById(R.id.medicine_name);
+            med_weight = view.findViewById(R.id.medicine_weight);
+            med_usage = view.findViewById(R.id.medicine_usage);
+            cancel_medicine = view.findViewById(R.id.cancel_medicine);
+
+
+        }
+
+        public TextView getMed_name() {
+            return med_name;
+        }
+
+        public TextView getMed_weight() {
+            return med_weight;
+        }
+
+        public TextView getMed_usage() {
+            return med_usage;
+        }
+
+        public ImageView getCancel_medicine() {
+            return cancel_medicine;
+        }
     }
 
 }

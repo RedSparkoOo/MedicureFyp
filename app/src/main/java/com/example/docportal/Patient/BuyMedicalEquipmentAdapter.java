@@ -23,15 +23,6 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
-
-    public Integer getI() {
-        return i;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
     private Integer i, price;
     private String Quantity, Price;
 
@@ -46,16 +37,23 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         super(options);
     }
 
+    public Integer getI() {
+        return i;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull EquipmentListViewHolder holder, int position, @NonNull MedicalEquipment model) {
         holder.title.setText(model.getTitle());
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
-        if(model.getQuantity().equals("0")) {
+        if (model.getQuantity().equals("0")) {
             holder.quantity.setText("Out of stock");
             holder.count.setText("0");
-        }
-        else {
+        } else {
             holder.quantity.setText(model.getQuantity());
             holder.quantity.setTextColor(Color.parseColor("#00FF00"));
         }
@@ -68,7 +66,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         holder.positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(model.getQuantity().equals("0"));
+                if (model.getQuantity().equals("0")) ;
                 else {
                     Quantity = holder.count.getText().toString();
                     Price = holder.price.getText().toString();
@@ -93,11 +91,11 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 Quantity = holder.count.getText().toString();
                 Price = holder.price.getText().toString();
                 i = Integer.parseInt(Quantity);
-                if(i  ==  1)
+                if (i == 1)
                     i = 1;
                 else
                     i--;
-                price  = Integer.parseInt(model.getPrice())  * i;
+                price = Integer.parseInt(model.getPrice()) * i;
                 holder.count.setText(i.toString());
                 holder.price.setText(price.toString());
 
@@ -105,15 +103,35 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         });
 
 
-
-
     }
 
     @NonNull
     @Override
     public EquipmentListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout, parent, false);
         return new EquipmentListViewHolder(view);
+    }
+
+    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getReference().delete();
+
+
+    }
+
+    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener) {
+        this.listener1 = listener;
+    }
+
+    public interface onItemLongClickListener {
+        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 
     public class EquipmentListViewHolder extends RecyclerView.ViewHolder {
@@ -125,7 +143,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
         public EquipmentListViewHolder(@NonNull View itemView) {
             super(itemView);
             title = itemView.findViewById(R.id.productName);
-            gg= itemView.findViewById(R.id.gg);
+            gg = itemView.findViewById(R.id.gg);
 
             price = itemView.findViewById(R.id.productPrice);
             description = itemView.findViewById(R.id.productDescription);
@@ -138,8 +156,8 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 @Override
                 public void onClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener1.onItemClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener1.onItemClick(getSnapshots().getSnapshot(position), position);
                     }
                 }
             });
@@ -147,8 +165,8 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 @Override
                 public void onClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener1.onItemClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener1.onItemClick(getSnapshots().getSnapshot(position), position);
 
                     }
                 }
@@ -158,8 +176,8 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
                 @Override
                 public boolean onLongClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
 
                     }
                     return false;
@@ -167,23 +185,5 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
             });
         }
 
-    }
-
-    public interface onItemLongClickListener {
-        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
-    }
-    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener){
-        this.listener = listener;
-    }
-    public void deleteItem(int position){
-        getSnapshots().getSnapshot(position).getReference().delete();
-
-
-    }
-    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener){
-        this.listener1 = listener;
-    }
-    public interface onItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 }

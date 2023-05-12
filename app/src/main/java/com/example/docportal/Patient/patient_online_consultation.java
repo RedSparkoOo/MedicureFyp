@@ -1,39 +1,28 @@
 package com.example.docportal.Patient;
 
-import static android.content.ContentValues.TAG;
 
-import android.app.Activity;
-import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Pharmacist.Medicine;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.gson.Gson;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
-import com.stripe.android.paymentsheet.addresselement.AddressDetails;
-import com.stripe.android.paymentsheet.addresselement.AddressLauncher;
-import com.stripe.android.paymentsheet.addresselement.AddressLauncherResult;
 
 import org.jitsi.meet.sdk.JitsiMeet;
 import org.jitsi.meet.sdk.JitsiMeetActivity;
@@ -61,24 +50,16 @@ import okhttp3.Response;
 import okhttp3.ResponseBody;
 
 public class patient_online_consultation extends AppCompatActivity {
-EditText rec_code;
-Button rec_start;
-URL rec_server_url;
-
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
-
     private static final String TAG = "CheckoutActivity";
     private static final String BACKEND_URL = "http://10.0.2.2:4242";
-
+    EditText rec_code;
+    Button rec_start;
+    URL rec_server_url;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
     private String paymentIntentClientSecret;
     private PaymentSheet paymentSheet;
 
     private Button payButton;
-    FirebaseAuth firebaseAuth;
-    Object currentUserId;
-
-
 
 
     @Override
@@ -90,12 +71,6 @@ URL rec_server_url;
         rec_start = findViewById(R.id.rec_start);
         rec_start.setEnabled(false);
 
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        Object currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
         fetchPaymentIntent();
 
         try {
@@ -127,10 +102,9 @@ URL rec_server_url;
             @Override
             public void onClick(View v) {
 
-                if(rec_code.length() < 16){
+                if (rec_code.length() < 16) {
                     Toast.makeText(patient_online_consultation.this, "Incorrect code", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
 
                     JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
                             .setRoom(rec_code.getText().toString())
@@ -155,8 +129,7 @@ URL rec_server_url;
                     .setMessage(message)
                     .setPositiveButton("Ok", null)
                     .create();
-            if(!((Activity) patient_online_consultation.this).isFinishing())
-            {
+            if (!patient_online_consultation.this.isFinishing()) {
                 dialog.show();
             }
 
@@ -170,13 +143,13 @@ URL rec_server_url;
 
     private void fetchPaymentIntent() {
         // final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
-        double amount =  20*100;
+        double amount = 20 * 100;
         Map<String, Object> payMap = new HashMap<>();
         Map<String, Object> itemMap = new HashMap<>();
-        List<Map<String,Object>> itemList = new ArrayList<>();
-        itemMap.put("currency","usd");
-        itemMap.put("id","xl-tshirt");
-        itemMap.put("amount",amount);
+        List<Map<String, Object>> itemList = new ArrayList<>();
+        itemMap.put("currency", "usd");
+        itemMap.put("id", "xl-tshirt");
+        itemMap.put("amount", amount);
         itemList.add(itemMap);
         payMap.put("items", itemList);
         String shoppingCartContent = new Gson().toJson(payMap);
@@ -196,7 +169,7 @@ URL rec_server_url;
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        showAlert("Failed to load data", "Error: " + e.toString());
+                        showAlert("Failed to load data", "Error: " + e);
                     }
 
                     @Override
@@ -207,7 +180,7 @@ URL rec_server_url;
                         if (!response.isSuccessful()) {
                             showAlert(
                                     "Failed to load page",
-                                    "Error: " + response.toString()
+                                    "Error: " + response
                             );
                         } else {
                             final JSONObject responseJson = parseResponse(response.body());
@@ -240,7 +213,6 @@ URL rec_server_url;
     }
 
 
-
     private void onPaymentSheetResult(
             final PaymentSheetResult paymentSheetResult
     ) {
@@ -259,23 +231,22 @@ URL rec_server_url;
     }
 
 
-
-    private void Transaction(){
+    private void Transaction() {
         Date currentTime = new Date();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         String formattedTime = timeFormat.format(currentTime);
-        CollectionReference transactionRef = firestore.collection("Transaction");
+        CollectionReference transactionRef = firestoreHandler.getFirestoreInstance().collection("Transaction");
         showToast("Payment complete!");
 
 
         // Get the data for the current item
 
         Map<String, Object> data = new HashMap<>();
-        data.put("id", currentUserId.toString());
+        data.put("id", firestoreHandler.getCurrentUser());
         data.put("item", "Online Consultation");
         data.put("seller", "N/A");
         data.put("time", formattedTime);
-        data.put("price","20.00$");
+        data.put("price", "20.00$");
 
         // Create a new document in the Firestore collection
         transactionRef.add(data)

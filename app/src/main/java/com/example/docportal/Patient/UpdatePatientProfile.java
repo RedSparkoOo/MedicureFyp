@@ -2,8 +2,6 @@ package com.example.docportal.Patient;
 
 import static android.content.ContentValues.TAG;
 
-import static com.example.docportal.R.layout.spinner_item;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,32 +10,29 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -46,9 +41,9 @@ import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class UpdatePatientProfile extends AppCompatActivity {
+    public static final int GALLERY_CODE = 1000;
     ImageView back_to_patient_Dashboard;
     ImageView patient_profile_pic;
     EditText update_patient_name;
@@ -57,17 +52,15 @@ public class UpdatePatientProfile extends AppCompatActivity {
     EditText update_patient_phone;
     Button update_patient_profile;
     Spinner update_patient_gender;
-    FirebaseAuth FAuth;
-    FirebaseFirestore FStore;
     StorageReference FStorage;
-    FirebaseUser patient_user;
-    String UID;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    Singleton singleton = new Singleton();
     String Selected_gender;
-    String Gender[] = {"Male","Female"};
+    String[] Gender = {"Male", "Female"};
     String old_email;
     String old_pass;
     DocumentReference patient_documentReference;
-    public static final int GALLERY_CODE = 1000;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,23 +75,18 @@ public class UpdatePatientProfile extends AppCompatActivity {
         update_patient_phone = findViewById(R.id.update_patient_phone_no);
         update_patient_gender = findViewById(R.id.update_patient_gender);
         update_patient_profile = findViewById(R.id.update_patient_profile);
-        FAuth = FirebaseAuth.getInstance();
-        FStore = FirebaseFirestore.getInstance();
+
         FStorage = FirebaseStorage.getInstance().getReference();
-        patient_user = FAuth.getCurrentUser();
 
 
-        UID = FAuth.getUid();
-
-        patient_documentReference = FStore.collection("Patient").document(UID);
+        patient_documentReference = firestoreHandler.getFirestoreInstance().collection("Patient").document(firestoreHandler.getCurrentUser());
         patientProfileChange();
         getProfile();
 
         back_to_patient_Dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(UpdatePatientProfile.this,patientDashboard.class);
-                startActivity(intent);
+                singleton.openActivity(UpdatePatientProfile.this, patientDashboard.class);
             }
         });
 
@@ -118,7 +106,6 @@ public class UpdatePatientProfile extends AppCompatActivity {
                 updatePatientProfile();
 
 
-
             }
         });
 
@@ -135,20 +122,16 @@ public class UpdatePatientProfile extends AppCompatActivity {
                 update_patient_phone.setText(documentSnapshot.getString("Patient phone_no"));
                 Selected_gender = documentSnapshot.getString("Patient Gender");
                 try {
-                    for (int i =0; i<=Gender.length; i++){
+                    for (int i = 0; i <= Gender.length; i++) {
 
-                        if(Gender[i].equals(Selected_gender)){
+                        if (Gender[i].equals(Selected_gender)) {
                             update_patient_gender.setSelection(i);
-
-                            ArrayAdapter gender_adapter = new ArrayAdapter(UpdatePatientProfile.this,spinner_item,Gender);
-                            gender_adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                            update_patient_gender.setAdapter(gender_adapter);
+                            singleton.setAdatper(UpdatePatientProfile.this, update_patient_gender, Gender);
                         }
 
 
                     }
-                }
-                catch (Exception e){
+                } catch (Exception e) {
 
                 }
 
@@ -159,7 +142,6 @@ public class UpdatePatientProfile extends AppCompatActivity {
         });
 
 
-
     }
 
 
@@ -167,33 +149,32 @@ public class UpdatePatientProfile extends AppCompatActivity {
 
         TextView[] textViews = {update_patient_name, update_patient_email_address, update_patient_password, update_patient_phone};
         CheckEvent checkEvent = new CheckEvent();
-        Map<String,Object> patient = new HashMap<>();
+        Map<String, Object> patient = new HashMap<>();
 
-        if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(update_patient_name) || checkEvent.checkPhone(update_patient_phone) || checkEvent.checkEmail(update_patient_email_address) || checkEvent.checkPassword(update_patient_password) || update_patient_gender.getSelectedItem().equals(null))){
-            TextView errorText = (TextView)update_patient_gender.getSelectedView();
+        if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(update_patient_name) || checkEvent.checkPhone(update_patient_phone) || checkEvent.checkEmail(update_patient_email_address) || checkEvent.checkPassword(update_patient_password) || update_patient_gender.getSelectedItem().equals(null))) {
+            TextView errorText = (TextView) update_patient_gender.getSelectedView();
             errorText.setError("");
             errorText.setTextColor(Color.RED);//just to highlight that this is an error
             errorText.setText("Select at least one");//changes the selected item text to this
-        }
-        else {
+        } else {
             String patient_updated_name = update_patient_name.getText().toString();
             String patient_updated_cell = update_patient_phone.getText().toString();
             String patient_updated_email_address = update_patient_email_address.getText().toString();
             String patient_updated_password = update_patient_password.getText().toString();
             String patient_update_gender = update_patient_gender.getSelectedItem().toString();
 
-            patient.put("Patient Name",patient_updated_name);
-            patient.put("Patient Email Address",patient_updated_email_address);
-            patient.put("Patient Password",patient_updated_password);
-            patient.put("Patient phone_no",patient_updated_cell);
-            patient.put("Patient Gender",patient_update_gender);
+            patient.put("Patient Name", patient_updated_name);
+            patient.put("Patient Email Address", patient_updated_email_address);
+            patient.put("Patient Password", patient_updated_password);
+            patient.put("Patient phone_no", patient_updated_cell);
+            patient.put("Patient Gender", patient_update_gender);
 
 
             try {
                 AuthCredential credential = EmailAuthProvider
                         .getCredential(old_email, old_pass); // Current Login Credentials \\
                 // Prompt the user to re-provide their sign-in credentials
-                patient_user.reauthenticate(credential)
+                firestoreHandler.getFirebaseUser().reauthenticate(credential)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
@@ -201,7 +182,7 @@ public class UpdatePatientProfile extends AppCompatActivity {
                                 //Now change your email address \\
                                 //----------------Code for Changing Email Address----------\\
 
-                                patient_user.updateEmail(patient_updated_email_address)
+                                firestoreHandler.getFirebaseUser().updateEmail(patient_updated_email_address)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
@@ -210,7 +191,7 @@ public class UpdatePatientProfile extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                                patient_user.updatePassword(patient_updated_password).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                firestoreHandler.getFirebaseUser().updatePassword(patient_updated_password).addOnCompleteListener(new OnCompleteListener<Void>() {
                                     @Override
                                     public void onComplete(@NonNull Task<Void> task) {
                                         if (task.isSuccessful()) {
@@ -221,40 +202,36 @@ public class UpdatePatientProfile extends AppCompatActivity {
                             }
                         });
 
-                if(!old_email.equals(patient_updated_email_address))
-                    patient_user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                if (!old_email.equals(patient_updated_email_address))
+                    firestoreHandler.getFirebaseUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(UpdatePatientProfile.this, "Email sent to: " + update_patient_email_address+ ". Please verify it!", Toast.LENGTH_SHORT).show();
+                            singleton.showToast(UpdatePatientProfile.this, "Email sent to: " + update_patient_email_address + ". Please verify it!");
                         }
                     });
 
                 patient_documentReference.set(patient).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(UpdatePatientProfile.this, "Profile Updated", Toast.LENGTH_SHORT).show();
+                        singleton.showToast(UpdatePatientProfile.this, "Profile Updated");
                     }
                 });
 
-            }
-            catch (Exception e){
-                Toast.makeText(UpdatePatientProfile.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            } catch (Exception e) {
+                singleton.showToast(UpdatePatientProfile.this, e.getMessage());
             }
 
 
         }
 
 
-
-
-
     }
 
-    private void patientProfileChange(){
+    private void patientProfileChange() {
 
         FStorage = FirebaseStorage.getInstance().getReference();
 
-        StorageReference doc_file_ref = FStorage.child("Patient/"+FAuth.getCurrentUser().getUid()+"/patient_profile.jpg");
+        StorageReference doc_file_ref = FStorage.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -268,8 +245,8 @@ public class UpdatePatientProfile extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == GALLERY_CODE){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == GALLERY_CODE) {
+            if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 Uri content_uri = data.getData();
                 patient_profile_pic.setImageURI(content_uri);
@@ -281,7 +258,7 @@ public class UpdatePatientProfile extends AppCompatActivity {
 
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = FStorage.child("Patient/"+ Objects.requireNonNull(FAuth.getCurrentUser()).getUid()+"/patient_profile.jpg");
+        StorageReference doc_file_ref = FStorage.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
         doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
@@ -295,7 +272,7 @@ public class UpdatePatientProfile extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(UpdatePatientProfile.this, "Profile not uploaded", Toast.LENGTH_SHORT).show();
+                singleton.showToast(UpdatePatientProfile.this, "Profile not uploaded");
             }
         });
     }

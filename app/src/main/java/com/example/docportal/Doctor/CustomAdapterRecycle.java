@@ -18,32 +18,18 @@ import java.util.List;
 public class CustomAdapterRecycle extends RecyclerView.Adapter<CustomAdapterRecycle.ViewHolder> implements Filterable {
 
     private final List<String> MoviesList;
-    private List<String> MoviesListAll;
-
-
-    public CustomAdapterRecycle(List<String> dataSet) {
-        MoviesList = dataSet;
-        this.MoviesListAll = new ArrayList<>(MoviesList);
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
+    private final List<String> MoviesListAll;
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             List<String> filteredList = new ArrayList<>();
 
-            if(charSequence.toString().isEmpty()){
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(MoviesListAll);
-            }
-            else{
-                for(String  movie: MoviesListAll){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+            } else {
+                for (String movie : MoviesListAll) {
+                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -65,32 +51,16 @@ public class CustomAdapterRecycle extends RecyclerView.Adapter<CustomAdapterRecy
         }
     };
 
+    public CustomAdapterRecycle(List<String> dataSet) {
+        MoviesList = dataSet;
+        this.MoviesListAll = new ArrayList<>(MoviesList);
 
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView textView;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            textView = (TextView) view.findViewById(R.id.name);
-
-
-        }
-
-        public TextView getTextView() {
-            return textView;
-        }
     }
 
-
-
-
+    @Override
+    public Filter getFilter() {
+        return filter;
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -101,8 +71,6 @@ public class CustomAdapterRecycle extends RecyclerView.Adapter<CustomAdapterRecy
 
         return new ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -119,6 +87,28 @@ public class CustomAdapterRecycle extends RecyclerView.Adapter<CustomAdapterRecy
 
         return MoviesList.size();
 
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView textView;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            textView = view.findViewById(R.id.name);
+
+
+        }
+
+        public TextView getTextView() {
+            return textView;
+        }
     }
 }
 

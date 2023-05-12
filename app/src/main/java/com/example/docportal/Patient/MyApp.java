@@ -1,6 +1,7 @@
 package com.example.docportal.Patient;
 
 import android.app.Application;
+
 import com.stripe.android.PaymentConfiguration;
 
 public class MyApp extends Application {

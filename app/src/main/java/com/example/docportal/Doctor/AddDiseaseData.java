@@ -1,38 +1,35 @@
 package com.example.docportal.Doctor;
 
-import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.example.docportal.Patient.customerSupport;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 
 public class
 AddDiseaseData extends AppCompatActivity {
-    private TextView disease, symptom, description;
     Spinner organ;
     String organs;
     String[] Organs = {"Heart", "Brain", "Lungs"};
     Button submit;
-    FirebaseFirestore firebaseFirestore;
-    FirebaseAuth firebaseAuth = FirebaseAuth.getInstance();
-    Object currentUserId;
+
+
     ImageView back_to_doctorDashboard;
+    Singleton singleton = new Singleton();
+    private TextView disease, symptom, description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,24 +44,15 @@ AddDiseaseData extends AppCompatActivity {
         back_to_doctorDashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(AddDiseaseData.this,DoctorNurseDashboard.class);
-                startActivity(intent);
+                singleton.openActivity(AddDiseaseData.this, DoctorNurseDashboard.class);
             }
         });
+        singleton.setAdatper(getApplicationContext(), organ, Organs);
 
-        Object currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
-        firebaseFirestore = FirebaseFirestore.getInstance();
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, Organs);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        organ.setAdapter(adapter);
         organ.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                organs=  organ.getItemAtPosition(position).toString();
-
+                organs = organ.getItemAtPosition(position).toString();
             }
 
             @Override
@@ -75,17 +63,18 @@ AddDiseaseData extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FirestoreHandler firestoreHandler = new FirestoreHandler();
                 HashMap<String, String> map = new HashMap<>();
                 map.put("organ", organs);
                 map.put("symptom", symptom.getText().toString());
                 map.put("disease", disease.getText().toString());
                 map.put("description", description.getText().toString());
 
-                DocumentReference documentReference = firebaseFirestore.collection("SearchDisease").document(currentUserId.toString());
+                DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("SearchDisease").document(firestoreHandler.getCurrentUser());
                 documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(AddDiseaseData.this, "Data inserted", Toast.LENGTH_SHORT).show();
+                        singleton.showToast(AddDiseaseData.this, "Data inserted");
                     }
                 });
             }

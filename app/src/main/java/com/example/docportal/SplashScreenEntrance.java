@@ -11,6 +11,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 public class SplashScreenEntrance extends AppCompatActivity {
     FirebaseFirestore FStore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,7 +25,7 @@ public class SplashScreenEntrance extends AppCompatActivity {
                 startActivity(intent);
 
             }
-        },1000);
+        }, 1000);
 
     }
 

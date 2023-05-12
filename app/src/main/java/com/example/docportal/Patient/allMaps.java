@@ -13,10 +13,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
 import com.example.docportal.R;
-
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -32,7 +30,7 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
 
 
-            AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
 
         LayoutInflater inflater = LayoutInflater.from(this);
         View view = inflater.inflate(R.layout.activity_all_maps, null);
@@ -48,25 +46,24 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-     try {
-         Intent intent = getIntent();
-         Bundle bundle = intent.getBundleExtra("myBundle");
+        try {
+            Intent intent = getIntent();
+            Bundle bundle = intent.getBundleExtra("myBundle");
 
 
-         double rec_latitude = 41.890251;
-         double rec_longitude = 12.492373 ;
-         String rec_lab_name= bundle.getString("lab_name");
+            double rec_latitude = 41.890251;
+            double rec_longitude = 12.492373;
+            String rec_lab_name = bundle.getString("lab_name");
 
 
-         LatLng lab_bank = new LatLng(rec_latitude, rec_longitude);
-         float zoom = 20;
-         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lab_bank, zoom));
-         mMap.addMarker(new MarkerOptions().position(lab_bank).title(rec_lab_name));
-         mMap.moveCamera(CameraUpdateFactory.newLatLng(lab_bank));
-     }
-     catch (Exception e){
-         Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
-     }
+            LatLng lab_bank = new LatLng(rec_latitude, rec_longitude);
+            float zoom = 20;
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lab_bank, zoom));
+            mMap.addMarker(new MarkerOptions().position(lab_bank).title(rec_lab_name));
+            mMap.moveCamera(CameraUpdateFactory.newLatLng(lab_bank));
+        } catch (Exception e) {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        }
     }
 
     @Override

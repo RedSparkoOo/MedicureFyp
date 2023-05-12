@@ -18,7 +18,8 @@ import com.squareup.picasso.Picasso;
 
 public class MedicineListAdapter extends FirestoreRecyclerAdapter<Medicine, MedicineListAdapter.MedicineListViewHolder> {
 
-private onItemLongClickListener listener;
+    private onItemLongClickListener listener;
+
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
      * FirestoreRecyclerOptions} for configuration options.
@@ -34,9 +35,10 @@ private onItemLongClickListener listener;
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medicine_list_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.medicine_list_layout, parent, false);
         return new MedicineListViewHolder(view);
     }
+
     @Override
     protected void onBindViewHolder(@NonNull MedicineListViewHolder holder, int position, @NonNull Medicine model) {
 
@@ -44,32 +46,41 @@ private onItemLongClickListener listener;
         holder.description.setText(model.getDescription());
         holder.price_main.setText(model.getPrice());
         holder.milligram.setText(model.getMilligram());
-        if(model.getQuantity().equals("0"))
+        if (model.getQuantity().equals("0"))
             holder.quantity.setText("Out of stock");
         else {
             holder.quantity.setText(model.getQuantity());
             holder.quantity.setTextColor(Color.parseColor("#00FF00"));
         }
         String imageUri;
-        imageUri= model.getImage();
+        imageUri = model.getImage();
         Picasso.get().load(imageUri).into(holder.image);
     }
 
-    public void deleteItem(int position){
+    public void deleteItem(int position) {
         getSnapshots().getSnapshot(position).getReference().delete();
 
 
     }
+
+    public void setOnItemLongClickListener(onItemLongClickListener listener) {
+        this.listener = listener;
+    }
+
 
     public interface onItemClickListener {
 
         void onItemClick(DocumentSnapshot snapshot, int position);
     }
 
+    public interface onItemLongClickListener {
+        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
+    }
 
-    public class MedicineListViewHolder extends RecyclerView.ViewHolder  {
+    public class MedicineListViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, price_main, quantity, milligram;
         ImageView image;
+
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);
             image = itemView.findViewById(R.id.medi_picture);
@@ -82,8 +93,8 @@ private onItemLongClickListener listener;
                 @Override
                 public boolean onLongClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
 
                     }
                     return false;
@@ -91,12 +102,6 @@ private onItemLongClickListener listener;
             });
         }
 
-    }
-    public interface onItemLongClickListener {
-        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
-    }
-    public void setOnItemLongClickListener(onItemLongClickListener listener){
-        this.listener = listener;
     }
 
 }

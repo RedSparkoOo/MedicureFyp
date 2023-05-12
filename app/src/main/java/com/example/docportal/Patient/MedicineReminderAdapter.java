@@ -44,8 +44,7 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
     FirebaseAuth FAuth;
 
 
-
-    public MedicineReminderAdapter(List<String> medicine_name,List<String> med_duration, List<String> med_type, List<String> med_time,String uid,Button medicine_confirmation,TextView Selected)  {
+    public MedicineReminderAdapter(List<String> medicine_name, List<String> med_duration, List<String> med_type, List<String> med_time, String uid, Button medicine_confirmation, TextView Selected) {
         medicine_names = medicine_name;
         medicine_duration = med_duration;
         medicine_type = med_type;
@@ -94,49 +93,6 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
 //        }
 //    };
 
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView med_name;
-        private final TextView med_dur;
-        private final TextView med_type;
-        private final ImageView cutout_med;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-            med_name = (TextView) view.findViewById(R.id.medicine_name);
-            med_dur = (TextView) view.findViewById(R.id.medicine_duration);
-            med_type = (TextView) view.findViewById(R.id.medicine_type);
-            cutout_med = (ImageView) view.findViewById(R.id.cancel_medicine);
-
-
-
-        }
-
-
-        public  TextView getMed_name() {
-            return med_name;
-        }
-        public TextView getMed_dur() {
-            return med_dur;
-        }
-        public ImageView getCutout_med() {
-            return cutout_med;
-        }
-        public TextView getMed_type() {
-            return med_type;
-        }
-
-    }
-
-
-
-
     // Create new views (invoked by the layout manager)
     @Override
     public MedicineReminderAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -146,7 +102,6 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
 
         return new MedicineReminderAdapter.ViewHolder(view);
     }
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -168,7 +123,6 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
                 context = v.getContext();
 
 
-
                 medicine_type.remove(position);
                 medicine_names.remove(position);
                 medicine_time.remove(position);
@@ -178,14 +132,12 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
                 notifyItemRangeChanged(position, medicine_names.size());
 
 
-                if(medicine_names.size() == 0){
+                if (medicine_names.size() == 0) {
                     Totaled.setVisibility(View.INVISIBLE);
                     medicine_selected.setVisibility(View.INVISIBLE);
                 }
 
                 FStore = FirebaseFirestore.getInstance();
-
-
 
 
             }
@@ -228,7 +180,6 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
                 dialog.show();
 
 
-
             }
         });
 
@@ -254,11 +205,7 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
         });
 
 
-
-
-
     }
-
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -268,7 +215,7 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
 
     }
 
-    public void MedicineReminder(){
+    public void MedicineReminder() {
 
         FAuth = FirebaseAuth.getInstance();
         FStore = FirebaseFirestore.getInstance();
@@ -281,13 +228,13 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                if(value.contains("Medicine Name") && value.contains("Medicine Duration") && value.contains("Medicine Type") && value.contains("Medicine Time") && value.exists()){
+                if (value.contains("Medicine Name") && value.contains("Medicine Duration") && value.contains("Medicine Type") && value.contains("Medicine Time") && value.exists()) {
                     Toast.makeText(context, "Data Exists", Toast.LENGTH_SHORT).show();
 
-                    Object medicine_duration_last_value = medicine_duration.get(medicine_duration.size() -1);
-                    Object medicine_type_last_value = medicine_type.get(medicine_type.size() -1);
-                    Object medicine_time_last_value = medicine_time.get(medicine_time.size() -1);
-                    for (String new_values: medicine_names) {
+                    Object medicine_duration_last_value = medicine_duration.get(medicine_duration.size() - 1);
+                    Object medicine_type_last_value = medicine_type.get(medicine_type.size() - 1);
+                    Object medicine_time_last_value = medicine_time.get(medicine_time.size() - 1);
+                    for (String new_values : medicine_names) {
 
                         Object medicine_name_last_value = new_values;
                         documentReference.update("Medicine Name", FieldValue.arrayUnion(medicine_name_last_value));
@@ -297,28 +244,61 @@ public class MedicineReminderAdapter extends RecyclerView.Adapter<MedicineRemind
                     documentReference.update("Medicine Time", FieldValue.arrayUnion(medicine_time_last_value));
                     documentReference.update("Medicine Type", FieldValue.arrayUnion(medicine_type_last_value));
                     documentReference.update("Medicine Duration", FieldValue.arrayUnion(medicine_duration_last_value));
-                }
-                else {
-                    Map<Object,List<String>> Reminder = new HashMap<>();
+                } else {
+                    Map<Object, List<String>> Reminder = new HashMap<>();
 
-                    Reminder.put("Medicine Name",medicine_names);
-                    Reminder.put("Medicine Type",medicine_type);
-                    Reminder.put("Medicine Duration",medicine_duration);
-                    Reminder.put("Medicine Time",medicine_time);
+                    Reminder.put("Medicine Name", medicine_names);
+                    Reminder.put("Medicine Type", medicine_type);
+                    Reminder.put("Medicine Duration", medicine_duration);
+                    Reminder.put("Medicine Time", medicine_time);
                     documentReference.set(Reminder);
                 }
-
-
-
-
 
 
             }
         });
     }
 
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView med_name;
+        private final TextView med_dur;
+        private final TextView med_type;
+        private final ImageView cutout_med;
 
 
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+            med_name = view.findViewById(R.id.medicine_name);
+            med_dur = view.findViewById(R.id.medicine_duration);
+            med_type = view.findViewById(R.id.medicine_type);
+            cutout_med = view.findViewById(R.id.cancel_medicine);
+
+
+        }
+
+
+        public TextView getMed_name() {
+            return med_name;
+        }
+
+        public TextView getMed_dur() {
+            return med_dur;
+        }
+
+        public ImageView getCutout_med() {
+            return cutout_med;
+        }
+
+        public TextView getMed_type() {
+            return med_type;
+        }
+
+    }
 
 
 }

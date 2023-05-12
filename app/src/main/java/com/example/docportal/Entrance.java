@@ -13,7 +13,6 @@ import com.airbnb.lottie.RenderMode;
 import com.example.docportal.Doctor.MainActivity;
 import com.example.docportal.Patient.patientMainPage;
 import com.example.docportal.Pharmacist.PharmacistMainPage;
-import com.example.docportal.Pharmacist.PharmacistRegistration;
 
 
 public class Entrance extends AppCompatActivity {
@@ -23,7 +22,6 @@ public class Entrance extends AppCompatActivity {
     Button patient_selection;
     Button pharmacist_selection;
     ImageView back_to_start;
-
 
 
     @Override

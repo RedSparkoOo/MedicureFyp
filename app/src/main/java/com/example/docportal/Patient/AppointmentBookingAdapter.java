@@ -1,7 +1,6 @@
 package com.example.docportal.Patient;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,11 +15,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Doctor.Chat;
 import com.example.docportal.R;
-import com.google.firebase.firestore.FirebaseFirestore;
+import com.example.docportal.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+
 
 public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentBookingAdapter.ViewHolder> implements Filterable {
 
@@ -28,48 +28,24 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     private final List<String> appointed_doctor_specialization;
     private final List<String> appointed_doctor_ID;
     private final List<String> appointed_doctor_phone;
-    private ItemClickListener clickListener;
-
     private final List<String> appointed_doctor_name_all;
-    FirebaseFirestore firestore;
+    private final ItemClickListener clickListener;
     String phone;
     String doctor_name;
     String UID, RID;
     Context context;
-
-
-
-
-
-    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, ItemClickListener itemClickListener)  {
-        appointed_doctor_name = nameDataSet;
-        appointed_doctor_specialization = nameDataSet1;
-        appointed_doctor_ID = nameDataSet2;
-        appointed_doctor_phone = nameDataSet3;
-
-        this.clickListener = itemClickListener;
-        this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
-
-
-    }
-
-    @Override
-    public Filter getFilter() {
-        return filter;
-    }
-
+    Singleton singleton = new Singleton();
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
 
             List<String> filteredList = new ArrayList<>();
 
-            if(charSequence.toString().isEmpty()){
+            if (charSequence.toString().isEmpty()) {
                 filteredList.addAll(appointed_doctor_name_all);
-            }
-            else{
-                for(String  movie: appointed_doctor_name_all){
-                    if(movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
+            } else {
+                for (String movie : appointed_doctor_name_all) {
+                    if (movie.toLowerCase().contains(charSequence.toString().toLowerCase())) {
                         filteredList.add(movie);
                     }
                 }
@@ -90,55 +66,28 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
             notifyDataSetChanged();
         }
     };
-    private void chatAppointment( View v){
+
+    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, ItemClickListener itemClickListener) {
+        appointed_doctor_name = nameDataSet;
+        appointed_doctor_specialization = nameDataSet1;
+        appointed_doctor_ID = nameDataSet2;
+        appointed_doctor_phone = nameDataSet3;
+
+        this.clickListener = itemClickListener;
+        this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
 
 
     }
 
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView appointed_doctor;
-        private final TextView appointed_doctor_category;
-        private final Button book_appointment;
-        private final ImageView doctor_profile;
-
-        private final Button to_chat_reschedule;
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-            to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
-            appointed_doctor = (TextView) view.findViewById(R.id.appointment_doctor_name);
-            appointed_doctor_category = (TextView) view.findViewById(R.id.appointment_doctor_specialization);
-            book_appointment = (Button) view.findViewById(R.id.appointment_doctor_book);
-            doctor_profile = (ImageView) view.findViewById(R.id.doctor_profile);
-
-
-
-        }
-
-
-
-        public TextView getAppointed_doctor() {
-            return appointed_doctor;
-        }
-        public  TextView getAppointed_doctor_category() {
-            return appointed_doctor_category;
-        }
-        public Button getto_appointment_reschedule() {
-            return book_appointment;
-        }
-
-        public ImageView getDoctor_profile() {
-            return doctor_profile;
-        }
+    @Override
+    public Filter getFilter() {
+        return filter;
     }
 
+    private void chatAppointment(View v) {
 
 
+    }
 
     // Create new views (invoked by the layout manager)
     @Override
@@ -149,8 +98,6 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
 
         return new AppointmentBookingAdapter.ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     @Override
@@ -164,19 +111,15 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         viewHolder.to_chat_reschedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 context = view.getContext();
-                firestore = FirebaseFirestore.getInstance();
+
                 RID = appointed_doctor_ID.get(position);
                 Bundle bundle = new Bundle();
 
-                bundle.putString("names",appointed_doctor_name.get(position));
+                bundle.putString("names", appointed_doctor_name.get(position));
+                context.startActivity(singleton.getIntent(context, Chat.class).putExtra("ID", RID).putExtra("mBundle", bundle));
 
-
-                Intent intent = new Intent(context, Chat.class );
-                intent.putExtra("ID", RID);
-                intent.putExtra("mBundle", bundle);
-
-                context.startActivity(intent);
             }
         });
 
@@ -196,11 +139,8 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
                 bundle.putString("Doctor_phone", phone);
                 bundle.putString("Doctor_name", doctor_name);
                 bundle.putString("Doctor_Id", UID);
-                Context context = v.getContext();
-                Intent intent = new Intent(context, AppointmentBooking.class);
-                intent.putExtras(bundle);
-                context.startActivity(intent);
 
+                context.startActivity(singleton.getIntent(context, AppointmentBooking.class).putExtras(bundle));
 
             }
         });
@@ -215,8 +155,50 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
 
     }
 
-    public interface ItemClickListener{
+    public interface ItemClickListener {
         void onItemClick(String details);
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView appointed_doctor;
+        private final TextView appointed_doctor_category;
+        private final Button book_appointment;
+        private final ImageView doctor_profile;
+
+        private final Button to_chat_reschedule;
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+            to_chat_reschedule = view.findViewById(R.id.chat_doctor_book);
+            appointed_doctor = view.findViewById(R.id.appointment_doctor_name);
+            appointed_doctor_category = view.findViewById(R.id.appointment_doctor_specialization);
+            book_appointment = view.findViewById(R.id.appointment_doctor_book);
+            doctor_profile = view.findViewById(R.id.doctor_profile);
+
+
+        }
+
+
+        public TextView getAppointed_doctor() {
+            return appointed_doctor;
+        }
+
+        public TextView getAppointed_doctor_category() {
+            return appointed_doctor_category;
+        }
+
+        public Button getto_appointment_reschedule() {
+            return book_appointment;
+        }
+
+        public ImageView getDoctor_profile() {
+            return doctor_profile;
+        }
     }
 
 }

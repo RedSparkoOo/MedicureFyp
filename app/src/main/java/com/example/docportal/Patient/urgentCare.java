@@ -1,6 +1,6 @@
 package com.example.docportal.Patient;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,17 +11,18 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.docportal.Singleton;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class urgentCare extends AppCompatActivity {
 
@@ -31,12 +32,12 @@ public class urgentCare extends AppCompatActivity {
     TextView no_contacts_added;
     ImageView add_contacts;
     UrgentCareAdapter careAdapter;
-    FirebaseFirestore FStore;
-    FirebaseAuth FAuth;
-    String UID;
+
+
     List<String> ContactName;
     List<String> ContactNumber;
     List<String> Relation;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,12 +51,11 @@ public class urgentCare extends AppCompatActivity {
         urgent_recycler.setVisibility(View.INVISIBLE);
 
 
-
         add_contacts.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(urgentCare.this,UrgentCareForm.class);
-                startActivity(intent);
+                Singleton singleton = new Singleton();
+                singleton.openActivity(urgentCare.this, UrgentCareForm.class);
             }
         });
 
@@ -64,29 +64,23 @@ public class urgentCare extends AppCompatActivity {
     }
 
     private void loadContacts() {
+        FirestoreHandler firestoreHandler = new FirestoreHandler();
 
-        FStore = FirebaseFirestore.getInstance();
-        FAuth = FirebaseAuth.getInstance();
-        UID = FAuth.getCurrentUser().getUid();
-        FStore.clearPersistence();
-
-
-
-        FStore.collection("Emergency Contacts").orderBy("Contact Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreHandler.getFirestoreInstance().collection("Emergency Contacts").orderBy("Contact Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
 
-                for(DocumentChange dc : value.getDocumentChanges()){
-                    if(dc != null){
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    if (dc != null) {
                         empty_phone_book.setVisibility(View.INVISIBLE);
                         no_contacts_added.setVisibility(View.INVISIBLE);
                         urgent_recycler.setVisibility(View.VISIBLE);
 
-                        if(dc.getType() == DocumentChange.Type.ADDED){
+                        if (dc.getType() == DocumentChange.Type.ADDED) {
                             String ID = dc.getDocument().getId();
 
-                            if(ID.equals(UID)){
+                            if (ID.equals(firestoreHandler.getCurrentUser())) {
 
                                 ContactName = new ArrayList<>();
                                 ContactNumber = new ArrayList<>();
@@ -97,18 +91,8 @@ public class urgentCare extends AppCompatActivity {
                                 Relation = (List<String>) dc.getDocument().getData().get("Contact Relation ");
 
                                 urgent_recycler.setLayoutManager(new LinearLayoutManager(urgentCare.this));
-                                careAdapter = new UrgentCareAdapter(ContactName,Relation,ContactNumber);
+                                careAdapter = new UrgentCareAdapter(ContactName, Relation, ContactNumber);
                                 urgent_recycler.setAdapter(careAdapter);
-
-
-
-
-
-
-
-
-
-
 
 
                             }
@@ -118,17 +102,11 @@ public class urgentCare extends AppCompatActivity {
                     }
 
 
-
                 }
-
 
 
             }
         });
-
-
-
-
 
 
     }

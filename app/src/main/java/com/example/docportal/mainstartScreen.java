@@ -27,10 +27,18 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class mainstartScreen extends AppCompatActivity {
+    private final ActivityResultLauncher<String> requestPermissionLauncher =
+            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
+                if (isGranted) {
+                    // FCM SDK (and your app) can post notifications.
+                } else {
+                    // TODO: Inform user that that your app will not show notifications.
+                }
+            });
     Button toEntrance;
     FirebaseFirestore firestore;
-
     int setting_count;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,29 +56,16 @@ public class mainstartScreen extends AppCompatActivity {
                         .setPersistenceEnabled(false)
                         .build();
                 firestore.setFirestoreSettings(settings);
-                Intent intent = new Intent(mainstartScreen.this,Entrance.class);
+                Intent intent = new Intent(mainstartScreen.this, Entrance.class);
                 startActivity(intent);
                 ++setting_count;
-
 
 
             }
         });
 
 
-
-
-
     }
-
-    private final ActivityResultLauncher<String> requestPermissionLauncher =
-            registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
-                if (isGranted) {
-                    // FCM SDK (and your app) can post notifications.
-                } else {
-                    // TODO: Inform user that that your app will not show notifications.
-                }
-            });
 
     private void askNotificationPermission() {
         // This is only necessary for API level >= 33 (TIRAMISU)
@@ -134,7 +129,6 @@ public class mainstartScreen extends AppCompatActivity {
 
         moveTaskToBack(true);
     }
-
 
 
 }

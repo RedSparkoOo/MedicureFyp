@@ -2,68 +2,46 @@ package com.example.docportal.Doctor;
 
 import static android.content.ContentValues.TAG;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import com.example.docportal.Patient.BuyMedicalAdapter;
-import com.example.docportal.Patient.BuyMedicine;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Patient.WrapContentLinearLayoutManager;
-import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.R;
-
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
 import java.util.UUID;
 
 public class Chat extends AppCompatActivity {
 
     String recieverid;
-    StorageReference storageReference;
     String senderRoom, recieverRoom;
-    FirebaseFirestore firestore;
+
     MessageAdapter messageAdapter;
     RecyclerView message;
     Button send;
     EditText sendMessage;
 
 
-    FirebaseAuth firebaseAuth;
-    Object currentUserId;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+
     String names;
 
 
@@ -75,8 +53,7 @@ public class Chat extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
-        firebaseAuth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
+
         sendMessage = findViewById(R.id.edit_gchat_message);
         messageAdapter = new MessageAdapter(this);
         message = findViewById(R.id.recycler_gchat);
@@ -97,26 +74,21 @@ public class Chat extends AppCompatActivity {
 
         message.setAdapter(messageAdapter);
         message.setLayoutManager(new WrapContentLinearLayoutManager(Chat.this, LinearLayoutManager.VERTICAL, false));
+
         recieverid = getIntent().getStringExtra("ID");
-        names = getIntent().getStringExtra("name");
-        System.out.println(names);
+        Bundle bundle = getIntent().getBundleExtra("mBundle");
+        names = bundle.getString("names");
+        System.out.println("ID" + recieverid + "/n" + "names" + names);
+
+        senderRoom = firestoreHandler.getCurrentUser() + recieverid;
+        recieverRoom = recieverid + firestoreHandler.getCurrentUser();
 
 
-        System.out.println(recieverid);
+        documentReferenceSender = firestoreHandler.getFirestoreInstance().collection("Chat").document(senderRoom);
+        documentReferenceReciever = firestoreHandler.getFirestoreInstance().collection("Chat").document(recieverRoom);
 
-        Object currentUser = firebaseAuth.getCurrentUser();
-        senderRoom = firebaseAuth.getUid() + recieverid;
-        recieverRoom = recieverid + firebaseAuth.getUid();
-        if (currentUser != null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
-
-        documentReferenceSender = firestore.collection("Chat").document(senderRoom);
-        documentReferenceReciever = firestore.collection("Chat").document(recieverRoom);
-
-        documentReferenceSender = firestore.collection("Chat").document(senderRoom);
-        documentReferenceReciever = firestore.collection("Chat").document(recieverRoom);
-
+        documentReferenceSender = firestoreHandler.getFirestoreInstance().collection("Chat").document(senderRoom);
+        documentReferenceReciever = firestoreHandler.getFirestoreInstance().collection("Chat").document(recieverRoom);
 
 
         documentReferenceSender.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -128,29 +100,30 @@ public class Chat extends AppCompatActivity {
                 }
 
 
-                    firestore.collection("Chat")
-                            .document(senderRoom)
-                            .collection(recieverRoom)
-                            .orderBy("time", Query.Direction.ASCENDING)
-                            .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                                @Override
-                                public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
+                firestoreHandler.getFirestoreInstance().collection("Chat")
+                        .document(senderRoom)
+                        .collection(recieverRoom)
+                        .orderBy("time", Query.Direction.ASCENDING)
+                        .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                            @Override
+                            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
 
 
-                                    if (value != null) {
-                                     // Clear the existing data
+                                if (value != null) {
+                                    // Clear the existing data
+                                    messageAdapter.clear();
 
-                                        for (QueryDocumentSnapshot document : value) {
-                                            MessageModel messageModel = document.toObject(MessageModel.class);
-                                            messageAdapter.add(messageModel);
-                                        }
-
-                                        messageAdapter.notifyDataSetChanged();
-                                        // Scroll to the last message
-                                        message.scrollToPosition(messageAdapter.getItemCount() - 1);
+                                    for (QueryDocumentSnapshot document : value) {
+                                        MessageModel messageModel = document.toObject(MessageModel.class);
+                                        messageAdapter.add(messageModel);
                                     }
+
+                                    messageAdapter.notifyDataSetChanged();
+                                    // Scroll to the last message
+                                    message.scrollToPosition(messageAdapter.getItemCount() - 1);
                                 }
-                            });
+                            }
+                        });
 
             }
         });
@@ -177,12 +150,11 @@ public class Chat extends AppCompatActivity {
         messageAdapter.add(messageModel);
 
 
-        documentReferenceSender = firestore. collection("Chat").document(senderRoom).  collection(recieverRoom).document(messageId) ;
+        documentReferenceSender = firestoreHandler.getFirestoreInstance().collection("Chat").document(senderRoom).collection(recieverRoom).document(messageId);
         documentReferenceSender.set(messageModel);
 
 
-
-        documentReferenceReciever= firestore.collection("Chat").document(recieverRoom).collection(senderRoom).document(messageId);
+        documentReferenceReciever = firestoreHandler.getFirestoreInstance().collection("Chat").document(recieverRoom).collection(senderRoom).document(messageId);
         documentReferenceReciever.set(messageModel);
 
 

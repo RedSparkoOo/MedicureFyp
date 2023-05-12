@@ -1,21 +1,23 @@
 package com.example.docportal.Patient;
 
-import android.content.Intent;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.Entrance;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 
 public class patientMainPage extends AppCompatActivity {
     Button _patientSignup;
     Button _patientLogin;
     ImageView back_to_entrance;
+    Singleton singleton = new Singleton();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,7 @@ public class patientMainPage extends AppCompatActivity {
         back_to_entrance.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(patientMainPage.this, Entrance.class);
-                startActivity(intent);
+                singleton.openActivity(patientMainPage.this, Entrance.class);
             }
         });
 
@@ -38,22 +39,18 @@ public class patientMainPage extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                try {
-                    Intent intent = new Intent(patientMainPage.this, PatientRegistration.class);
-                    startActivity(intent);
-                }
-                catch (Exception e){
-                    Toast.makeText(patientMainPage.this, e.toString(), Toast.LENGTH_SHORT).show();
-                }
+
+                singleton.openActivity(patientMainPage.this, PatientRegistration.class);
+
+
             }
         });
 
         _patientLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                singleton.openActivity(patientMainPage.this, PatientLogin.class);
 
-                Intent intent = new Intent(patientMainPage.this, PatientLogin.class);
-                startActivity(intent);
             }
         });
     }

@@ -17,17 +17,15 @@ import java.util.List;
 
 public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docportal.Patient.UrgentCareAdapter.ViewHolder> {
 
-    private List<String> list_contact_name;
-    private List<String> list_contact_phone;
-    private List<String> list_contact_relation;
+    private final List<String> list_contact_name;
+    private final List<String> list_contact_phone;
+    private final List<String> list_contact_relation;
 
 
-
-    public UrgentCareAdapter(List<String> name_dataset,List<String> relation_data_set, List<String> phone_data_set) {
+    public UrgentCareAdapter(List<String> name_dataset, List<String> relation_data_set, List<String> phone_data_set) {
         list_contact_name = name_dataset;
         list_contact_relation = relation_data_set;
         list_contact_phone = phone_data_set;
-
 
 
     }
@@ -70,57 +68,6 @@ public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docporta
 //        }
 //    };
 
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView contact_name;
-        private final TextView contact_relation;
-        private final TextView contact_phone;
-        private final ImageView call_contact;
-        private final ImageView message_contact;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            contact_name = (TextView) view.findViewById(R.id.contact_name);
-            contact_relation = (TextView) view.findViewById(R.id.contact_relation);
-            call_contact = (ImageView) view.findViewById(R.id.call_contact);
-            contact_phone = (TextView) view.findViewById(R.id.contact_phone);
-            message_contact = (ImageView) view.findViewById(R.id.message_contact);
-
-
-        }
-
-        public TextView getContact_name() {
-            return contact_name;
-        }
-
-        public TextView getContact_relation() {
-            return contact_relation;
-        }
-
-        public TextView getContact_phone() {
-            return contact_phone;
-        }
-
-        public ImageView getCall_contact() {
-            return call_contact;
-        }
-
-        public ImageView getMessage_contact() {
-            return message_contact;
-        }
-    }
-
-
-
-
-
     // Create new views (invoked by the layout manager)
     @Override
     public com.example.docportal.Patient.UrgentCareAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
@@ -130,8 +77,6 @@ public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docporta
 
         return new com.example.docportal.Patient.UrgentCareAdapter.ViewHolder(view);
     }
-
-
 
     // Replace the contents of a view (invoked by the layout manager)
     //@Override
@@ -180,5 +125,51 @@ public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docporta
 
         return list_contact_name.size();
 
+    }
+
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView contact_name;
+        private final TextView contact_relation;
+        private final TextView contact_phone;
+        private final ImageView call_contact;
+        private final ImageView message_contact;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            contact_name = view.findViewById(R.id.contact_name);
+            contact_relation = view.findViewById(R.id.contact_relation);
+            call_contact = view.findViewById(R.id.call_contact);
+            contact_phone = view.findViewById(R.id.contact_phone);
+            message_contact = view.findViewById(R.id.message_contact);
+
+
+        }
+
+        public TextView getContact_name() {
+            return contact_name;
+        }
+
+        public TextView getContact_relation() {
+            return contact_relation;
+        }
+
+        public TextView getContact_phone() {
+            return contact_phone;
+        }
+
+        public ImageView getCall_contact() {
+            return call_contact;
+        }
+
+        public ImageView getMessage_contact() {
+            return message_contact;
+        }
     }
 }

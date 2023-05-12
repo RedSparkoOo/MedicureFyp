@@ -1,11 +1,5 @@
 package com.example.docportal.Patient;
 
-import static java.lang.Boolean.valueOf;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
@@ -16,12 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -44,19 +44,18 @@ public class searchDisease extends AppCompatActivity {
 
     RecyclerView doctor_profile_recycler;
 
-    ArrayList<String> doctor_names = new ArrayList<>();;
-    ArrayList<String> doctor_specializations = new ArrayList<>();;
-    ArrayList<String> doctor_UID = new ArrayList<>();;
-    ArrayList<String> doctor_phone_no = new ArrayList<>();;
+    ArrayList<String> doctor_names = new ArrayList<>();
+    ArrayList<String> doctor_specializations = new ArrayList<>();
+    ArrayList<String> doctor_UID = new ArrayList<>();
+    ArrayList<String> doctor_phone_no = new ArrayList<>();
 
-
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-
+    Singleton singleton = new Singleton();
     AppointmentBookingAdapter book_appointment_helper_class;
 
     SearchDiseaseAdapter searchDiseaseAdapter;
 
-    CollectionReference noteBookref = firestore.collection("SearchDisease");
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("SearchDisease");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,29 +63,26 @@ public class searchDisease extends AppCompatActivity {
         setContentView(R.layout.activity_search_disease);
         organ = findViewById(R.id.spinner_disease);
         symptoms = findViewById(R.id.spinner_symptom);
-        firestore = FirebaseFirestore.getInstance();
+
         doctor_profile_recycler = findViewById(R.id.spinner_doctor);
 
         doctor_profile_recycler.setLayoutManager(new LinearLayoutManager(searchDisease.this));
-        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no,new AppointmentBookingAdapter.ItemClickListener() {
+        book_appointment_helper_class = new AppointmentBookingAdapter(doctor_names, doctor_specializations, doctor_UID, doctor_phone_no, new AppointmentBookingAdapter.ItemClickListener() {
             @Override
             public void onItemClick(String details) {
-                Log.d(details,"Works");
+                Log.d(details, "Works");
             }
         });
         doctor_profile_recycler.setAdapter(book_appointment_helper_class);
-        setUpRecycler ();
+        setUpRecycler();
 
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, diseases);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        organ.setAdapter(adapter);
+        singleton.setAdatper(getApplicationContext(), organ, diseases);
         organ.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 disease = adapterView.getItemAtPosition(i).toString();
 
-                if(disease != null) {
+                if (disease != null) {
                     if (disease.equals("Lungs"))
                         checkDisease("Hospital pharmacist");
                     else if (disease.equals("Brain"))
@@ -97,7 +93,8 @@ public class searchDisease extends AppCompatActivity {
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {}
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
         });
         symptoms.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -105,12 +102,15 @@ public class searchDisease extends AppCompatActivity {
                 symptom = parent.getItemAtPosition(position).toString();
                 setUpRecycler();
             }
+
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
 
     }
-    private void checkDisease(String doctor){
+
+    private void checkDisease(String doctor) {
         Brain.clear();
         Lungs.clear();
         Heart.clear();
@@ -123,7 +123,8 @@ public class searchDisease extends AppCompatActivity {
         doctor_phone_no.clear();
         FireStoreUsersSpecific(doctor);
     }
-    private void setUpRecycler () {
+
+    private void setUpRecycler() {
         System.out.println(symptom);
 
         Query query = noteBookref.whereEqualTo("symptom", symptom);
@@ -138,8 +139,9 @@ public class searchDisease extends AppCompatActivity {
 
 
     }
+
     public void fetchData() {
-        firestore.collection("SearchDisease").orderBy("organ", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreHandler.getFirestoreInstance().collection("SearchDisease").orderBy("organ", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -163,8 +165,8 @@ public class searchDisease extends AppCompatActivity {
             }
         });
     }
-    private void setAdapter(List<String> list){
 
+    private void setAdapter(List<String> list) {
         ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_spinner_item, list);
         adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         symptoms.setAdapter(adapter2);
@@ -175,25 +177,26 @@ public class searchDisease extends AppCompatActivity {
         super.onStart();
         searchDiseaseAdapter.startListening();
     }
+
     @Override
     protected void onStop() {
         super.onStop();
         searchDiseaseAdapter.stopListening();
     }
 
-    public void FireStoreUsersSpecific(String Category){
-        firestore.collection("Professions").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+    public void FireStoreUsersSpecific(String Category) {
+        firestoreHandler.getFirestoreInstance().collection("Professions").orderBy("Full Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                for(DocumentChange documentChange : value.getDocumentChanges()){
-                    if(documentChange.getType() == DocumentChange.Type.ADDED){
+                for (DocumentChange documentChange : value.getDocumentChanges()) {
+                    if (documentChange.getType() == DocumentChange.Type.ADDED) {
 
                         String category = String.valueOf(documentChange.getDocument().get("Profession"));
                         String Specialization = String.valueOf(documentChange.getDocument().get("Doctor_profession"));
 
-                        if(category.equals("Doctor")){
+                        if (category.equals("Doctor")) {
 
-                            if(Specialization.equals(Category)){
+                            if (Specialization.equals(Category)) {
                                 doctor_names.add(String.valueOf(documentChange.getDocument().get("Full Name")));
                                 doctor_specializations.add(String.valueOf(documentChange.getDocument().get("Doctor_profession")));
                                 doctor_UID.add(documentChange.getDocument().getId());

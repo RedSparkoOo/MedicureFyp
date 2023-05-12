@@ -1,26 +1,18 @@
 package com.example.docportal.Patient;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Pharmacist.Medicine;
-import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 public class TransactionAdapter extends FirestoreRecyclerAdapter<TransactionModel, TransactionAdapter.MedicineListViewHolder> {
-
-
 
 
     /**
@@ -41,7 +33,6 @@ public class TransactionAdapter extends FirestoreRecyclerAdapter<TransactionMode
         holder.time.setText(model.getTime());
 
 
-
     }
 
 
@@ -49,11 +40,12 @@ public class TransactionAdapter extends FirestoreRecyclerAdapter<TransactionMode
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_recycler_layout,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.transaction_recycler_layout, parent, false);
         return new MedicineListViewHolder(view);
     }
-    public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
-        TextView title,  time, price;
+
+    public class MedicineListViewHolder extends RecyclerView.ViewHolder {
+        TextView title, time, price;
 
         public MedicineListViewHolder(@NonNull View itemView) {
             super(itemView);

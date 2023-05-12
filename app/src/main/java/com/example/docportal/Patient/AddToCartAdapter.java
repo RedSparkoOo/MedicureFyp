@@ -1,6 +1,5 @@
 package com.example.docportal.Patient;
 
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,17 +15,12 @@ import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.squareup.picasso.Picasso;
 
 public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCartAdapter.MedicineListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
 
-
-
-    private Integer i, price;
-    private String Quantity, Price;
 
     /**
      * Create a new RecyclerView adapter that listens to a Firestore Query.  See {@link
@@ -41,13 +35,12 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
 
     @Override
     protected void onBindViewHolder(@NonNull MedicineListViewHolder holder, int position, @NonNull Medicine model) {
-        if(model.getIdentifier() != null) {
+        if (model.getIdentifier() != null) {
             if (model.getIdentifier().equals("blood")) {
                 holder.acceptor.setText("Acceptor");
                 holder.agg.setText("Donor");
             }
-        }
-        else{
+        } else {
             holder.acceptor.setText("");
         }
 
@@ -55,27 +48,17 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         holder.description.setText(model.getDescription());
         holder.price.setText(model.getPrice());
 
-
-            System.out.println(model.getTitle());
-            System.out.println(model.getDescription());
-            System.out.println(model.getPrice());
-            System.out.println(model.getQuantity());
-
-
-
-        if(model.getMilligram() == null){
+        if (model.getMilligram() == null) {
             holder.milligram.setText("");
             holder.agg.setText("");
-        }
-        else {
+        } else {
             holder.milligram.setText(model.getMilligram());
         }
 
         holder.quantity.setText(model.getQuantity());
         String imageUri;
         imageUri = model.getImage();
-       // Picasso.get().load(imageUri).into(holder.imageView);
-
+        // Picasso.get().load(imageUri).into(holder.imageView);
 
 
     }
@@ -85,7 +68,7 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_to_cart,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.add_to_cart, parent, false);
         return new MedicineListViewHolder(view);
     }
 
@@ -93,12 +76,31 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         return RecyclerView.NO_POSITION;
     }
 
+    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener) {
+        this.listener = listener;
+    }
+
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getReference().delete();
 
 
-    public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
+    }
+
+    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener) {
+        this.listener1 = listener;
+    }
+
+    public interface onItemLongClickListener {
+        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public interface onItemClickListener {
+        void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public class MedicineListViewHolder extends RecyclerView.ViewHolder {
         TextView title, description, price, quantity, milligram, agg, acceptor;
         ImageView imageView;
-
 
 
         public MedicineListViewHolder(@NonNull View itemView) {
@@ -117,8 +119,8 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
                 @Override
                 public boolean onLongClick(View view) {
                     int position = getAbsoluteAdapterPosition();
-                    if(position != RecyclerView.NO_POSITION && listener != null){
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position),position);
+                    if (position != RecyclerView.NO_POSITION && listener != null) {
+                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
 
                     }
                     return false;
@@ -127,23 +129,5 @@ public class AddToCartAdapter extends FirestoreRecyclerAdapter<Medicine, AddToCa
         }
 
 
-    }
-
-    public interface onItemLongClickListener {
-        void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
-    }
-    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener){
-        this.listener = listener;
-    }
-    public void deleteItem(int position){
-        getSnapshots().getSnapshot(position).getReference().delete();
-
-
-    }
-    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener){
-        this.listener1 = listener;
-    }
-    public interface onItemClickListener {
-        void onItemClick(DocumentSnapshot documentSnapshot, int position);
     }
 }

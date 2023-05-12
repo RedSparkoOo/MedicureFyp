@@ -23,13 +23,13 @@ import java.util.Random;
 
 public class OnlineConsultation extends AppCompatActivity {
 
+    private final String Letters = "abcdefghijklmnopqrstuvwxyz";
+    private final String Number = "0123456789";
+    private final char[] AlphaNumeric = (Letters + Letters.toUpperCase() + Number).toCharArray();
     EditText code;
     Button start;
     URL server_url;
     ImageView copy_text;
-    private final String Letters = "abcdefghijklmnopqrstuvwxyz";
-    private final String Number = "0123456789";
-    private final char[] AlphaNumeric = (Letters + Letters.toUpperCase() + Number).toCharArray();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +74,7 @@ public class OnlineConsultation extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ClipboardManager manager = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData Data = ClipData.newPlainText("Copy",code.getText().toString());
+                ClipData Data = ClipData.newPlainText("Copy", code.getText().toString());
                 manager.setPrimaryClip(Data);
 
             }
@@ -85,7 +85,7 @@ public class OnlineConsultation extends AppCompatActivity {
 
     public String generateAlphaNumeric(int length) {
         StringBuilder builder = new StringBuilder();
-        for(int i = 0; i<length; i++){
+        for (int i = 0; i < length; i++) {
             builder.append(AlphaNumeric[new Random().nextInt(AlphaNumeric.length)]);
         }
         return builder.toString();

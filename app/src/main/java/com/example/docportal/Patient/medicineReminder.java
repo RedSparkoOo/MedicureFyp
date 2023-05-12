@@ -29,12 +29,11 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.Broadcasts;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
 import java.util.ArrayList;
@@ -59,15 +58,11 @@ public class medicineReminder extends AppCompatActivity {
     CheckBox every_day;
     Button medicine_confirmation;
     Button medicine_to_recycler;
-
-    private Calendar calendar;
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
     String TimeZone;
     String TIME;
     int hour;
     int minute;
-    String[] medicine_types = {"","Capsule","Adhesive","Syrup","Tablet"};
+    String[] medicine_types = {"", "Capsule", "Adhesive", "Syrup", "Tablet"};
     ArrayList<String> medicinesNames;
     ArrayList<String> medicinesDuration;
     ArrayList<String> medicinesTime;
@@ -79,7 +74,6 @@ public class medicineReminder extends AppCompatActivity {
     int Thursday_count = 0;
     int Friday_count = 0;
     int Saturday_count = 0;
-
     String day1_Sunday;
     String day2_Monday;
     String day3_Tuesday;
@@ -90,10 +84,10 @@ public class medicineReminder extends AppCompatActivity {
     String med_types;
     String medicine_name_entered;
     String duration = "";
-    String ID;
-    FirebaseAuth auth;
-    FirebaseFirestore firestore;
-
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    private Calendar calendar;
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,9 +112,6 @@ public class medicineReminder extends AppCompatActivity {
         medicine_confirmation = findViewById(R.id.medicine_confirmation);
         medicine_to_recycler = findViewById(R.id.medicine_to_recycler);
 
-        auth = FirebaseAuth.getInstance();
-        firestore = FirebaseFirestore.getInstance();
-        ID = auth.getCurrentUser().getUid();
 
         medicinesNames = new ArrayList<>();
         medicineType = new ArrayList<>();
@@ -144,23 +135,15 @@ public class medicineReminder extends AppCompatActivity {
                 med_types = medicine_type.getSelectedItem().toString();
                 checkDuration();
 
-                RemindertoFirebase(medicine_name_entered,med_types,TIME,duration);
-
-
-
+                RemindertoFirebase(medicine_name_entered, med_types, TIME, duration);
 
 
             }
         });
 
 
-
-
-
         SendMedicines();
         showTimePicker();
-
-
 
 
         back_to_health_tracker.setOnClickListener(new View.OnClickListener() {
@@ -173,19 +156,19 @@ public class medicineReminder extends AppCompatActivity {
     }
 
     private void RemindertoFirebase(String medic_name, String medic_type, String medic_time, String medic_duration) {
-        firestore.clearPersistence();
-        DocumentReference reference = firestore.collection("Medicine Reminder").document();
+        firestoreHandler.getFirestoreInstance().clearPersistence();
+        DocumentReference reference = firestoreHandler.getFirestoreInstance().collection("Medicine Reminder").document();
         reference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                Map<Object,String> reminder = new HashMap<>();
-                reminder.put("Medicine Name",medic_name);
-                reminder.put("Medicine Type",medic_type);
-                reminder.put("Medicine Time",medic_time);
+                Map<Object, String> reminder = new HashMap<>();
+                reminder.put("Medicine Name", medic_name);
+                reminder.put("Medicine Type", medic_type);
+                reminder.put("Medicine Time", medic_time);
                 reminder.put("Medicine Duration", medic_duration);
-                reminder.put("Patient ID",ID);
+                reminder.put("Patient ID", firestoreHandler.getCurrentUser());
                 reference.set(reminder);
-                Intent intent = new Intent(medicineReminder.this,ReminderStored.class);
+                Intent intent = new Intent(medicineReminder.this, ReminderStored.class);
                 startActivity(intent);
             }
         });
@@ -194,39 +177,38 @@ public class medicineReminder extends AppCompatActivity {
 
     private void checkDuration() {
 
-        if(day1_Sunday != null){
+        if (day1_Sunday != null) {
             medicinesDuration.add(day1_Sunday);
         }
 
-        if(day2_Monday != null){
+        if (day2_Monday != null) {
             medicinesDuration.add(day2_Monday);
         }
 
-        if(day3_Tuesday != null){
+        if (day3_Tuesday != null) {
             medicinesDuration.add(day3_Tuesday);
         }
 
-        if(day4_Wednesday != null){
+        if (day4_Wednesday != null) {
             medicinesDuration.add(day4_Wednesday);
         }
 
-        if(day5_Thursday != null){
+        if (day5_Thursday != null) {
             medicinesDuration.add(day5_Thursday);
         }
 
-        if(day6_Friday != null){
+        if (day6_Friday != null) {
             medicinesDuration.add(day6_Friday);
         }
 
-        if(day7_Saturday != null){
+        if (day7_Saturday != null) {
             medicinesDuration.add(day7_Saturday);
         }
 
         for (String value : medicinesDuration) {
-            duration += value + " " ;
+            duration += value + " ";
 
         }
-
 
 
     }
@@ -475,7 +457,8 @@ public class medicineReminder extends AppCompatActivity {
         });
 
     }
-    private void cancelAlarm () {
+
+    private void cancelAlarm() {
 
         Intent intent = new Intent(this, Broadcasts.class);
         pendingIntent = PendingIntent.getBroadcast(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -490,7 +473,7 @@ public class medicineReminder extends AppCompatActivity {
 
     }
 
-    private void setAlarm () {
+    private void setAlarm() {
         alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(this, Broadcasts.class);
@@ -502,7 +485,7 @@ public class medicineReminder extends AppCompatActivity {
         Toast.makeText(this, "Alarm time set", Toast.LENGTH_SHORT).show();
     }
 
-    private void showTimePicker () {
+    private void showTimePicker() {
 
         medicine_time.setOnClickListener(new View.OnClickListener() {
             @Override

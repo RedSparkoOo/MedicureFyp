@@ -1,15 +1,14 @@
 package com.example.docportal.Patient;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.util.Log;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -18,8 +17,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.load.Options;
-import com.example.docportal.CheckEvent;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -27,80 +25,54 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.core.FirestoreClient;
 import com.google.gson.Gson;
 import com.stripe.android.PaymentConfiguration;
 import com.stripe.android.paymentsheet.PaymentSheet;
 import com.stripe.android.paymentsheet.PaymentSheetResult;
-import com.stripe.android.paymentsheet.addresselement.AddressDetails;
-import com.stripe.android.paymentsheet.addresselement.AddressLauncher;
-import com.stripe.android.paymentsheet.addresselement.AddressLauncherResult;
 
-
-import okhttp3.*;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
+import okhttp3.Response;
+import okhttp3.ResponseBody;
+
 public class CheckoutActivityJava extends AppCompatActivity {
-    RecyclerView _cartList;
-    AddToCartAdapter addToCartAdapter;
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    Integer count;
-
-    TextView TotalPrice;
-
-    FirebaseAuth firebaseAuth;
-    String currentUserId;
-    double totalPrice, _totalPrice;
-    Object currentUser;
-    CollectionReference noteBookref = firestore.collection("Cart");
-
     private static final String TAG = "CheckoutActivity";
     private static final String BACKEND_URL = "http://10.0.2.2:4242";
-
+    RecyclerView _cartList;
+    AddToCartAdapter addToCartAdapter;
+    Integer count;
+    TextView TotalPrice;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    double totalPrice, _totalPrice;
+    CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("Cart");
     private String paymentIntentClientSecret;
     private PaymentSheet paymentSheet;
 
     private Button payButton, easypaisa, cashOnDelivery;
 
-    private AddressLauncher addressLauncher;
-
-    private AddressDetails shippingDetails;
-
-    private Button addressButton;
-
-    private final AddressLauncher.Configuration configuration =
-            new AddressLauncher.Configuration.Builder()
-                    .additionalFields(
-                            new AddressLauncher.AdditionalFieldsConfiguration(
-                                    AddressLauncher.AdditionalFieldsConfiguration.FieldConfiguration.REQUIRED
-                            )
-                    )
-                    .allowedCountries(new HashSet<>(Arrays.asList("US", "CA", "GB")))
-                    .title("Shipping Address")
-                    .googlePlacesApiKey("(optional) YOUR KEY HERE")
-                    .build();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -111,11 +83,6 @@ public class CheckoutActivityJava extends AppCompatActivity {
         TotalPrice = findViewById(R.id.tprice);
 
 
-        firebaseAuth= FirebaseAuth.getInstance();
-        currentUser = firebaseAuth.getCurrentUser();
-        if(currentUser!= null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
         easypaisa = findViewById(R.id.easy_button);
         cashOnDelivery = findViewById(R.id.delivery_button);
         cashOnDelivery.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +102,6 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 EditText editTextZipCode = dialogView.findViewById(R.id.editText_zip_code);
                 EditText editTextState = dialogView.findViewById(R.id.editText_state);
                 EditText editTextPhoneNumber = dialogView.findViewById(R.id.editText_phone_number);
-
 
 
                 // Set any additional properties or validations for the fields if needed
@@ -159,7 +125,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
                             // Create a Firestore document with the entered data
                             Map<String, Object> data = new HashMap<>();
-                            data.put("id", currentUserId);
+                            data.put("id", firestoreHandler.getCurrentUser());
                             data.put("fullName", fullName);
                             data.put("city", city);
                             data.put("address", address);
@@ -168,7 +134,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                             data.put("phoneNumber", phoneNumber);
 
                             // Get a reference to the Firestore collection "Billing Address"
-                            CollectionReference billingAddressCollection = firestore.collection("Billing Address");
+                            CollectionReference billingAddressCollection = firestoreHandler.getFirestoreInstance().collection("Billing Address");
 
                             // Insert the data into Firestore
                             billingAddressCollection.add(data)
@@ -207,26 +173,26 @@ public class CheckoutActivityJava extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                    // Get the phone number from your data source or any other way
-                    String phoneNumber = "1234567890"; // Replace with your actual phone number
+                // Get the phone number from your data source or any other way
+                String phoneNumber = "1234567890"; // Replace with your actual phone number
 
-                    AlertDialog.Builder builder = new AlertDialog.Builder(CheckoutActivityJava.this);
-                    builder.setTitle("Phone Number");
-                    builder.setMessage("The phone number is: " + phoneNumber);
-                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            payButton.setEnabled(false);
-                            cashOnDelivery.setEnabled(false);
-                            Transaction();
-                            deleteCart();
+                AlertDialog.Builder builder = new AlertDialog.Builder(CheckoutActivityJava.this);
+                builder.setTitle("Phone Number");
+                builder.setMessage("The phone number is: " + phoneNumber);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        payButton.setEnabled(false);
+                        cashOnDelivery.setEnabled(false);
+                        Transaction();
+                        deleteCart();
 
-                            //startActivity(new Intent(CheckoutActivityJava.this, TransactionHistory.class));
-                        }
-                    }); // You can add a listener to perform an action on button click if needed
+                        //startActivity(new Intent(CheckoutActivityJava.this, TransactionHistory.class));
+                    }
+                }); // You can add a listener to perform an action on button click if needed
 
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                AlertDialog dialog = builder.create();
+                dialog.show();
 
 
             }
@@ -249,25 +215,22 @@ public class CheckoutActivityJava extends AppCompatActivity {
         paymentSheet = new PaymentSheet(this, this::onPaymentSheetResult);
 
         // Hook up the address button
-        addressButton = findViewById(R.id.address_button);
-        addressButton.setOnClickListener(this::onAddressClicked);
-        addressLauncher = new AddressLauncher(this, this::onAddressLauncherResult);
 
 
     }
-    private void setUpRecyclerView(){
-        String aquery = currentUserId;
-        Query query = noteBookref.orderBy("id",Query.Direction.DESCENDING).startAt(aquery).endAt(aquery);
+
+    private void setUpRecyclerView() {
+        String aquery = firestoreHandler.getCurrentUser();
+        Query query = noteBookref.orderBy("id", Query.Direction.DESCENDING).startAt(aquery).endAt(aquery);
         System.out.println(query);
         FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                 .setQuery(query, Medicine.class).build();
 
 
-
         addToCartAdapter = new AddToCartAdapter(options);
         count = addToCartAdapter.getItemCount();
         _cartList = findViewById(R.id.addToCartRecycler);
-        _cartList.setLayoutManager(new WrapContentLinearLayoutManager(CheckoutActivityJava.this,LinearLayoutManager.VERTICAL, false ));
+        _cartList.setLayoutManager(new WrapContentLinearLayoutManager(CheckoutActivityJava.this, LinearLayoutManager.VERTICAL, false));
 //
 //        Query filteredQuery = noteBookref.orderBy("id", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
 //        FirestoreRecyclerOptions<Medicine> optionss = new FirestoreRecyclerOptions.Builder<Medicine>()
@@ -285,7 +248,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                     Medicine item = document.toObject(Medicine.class);
                     totalPrice += Double.parseDouble(item.getPrice());
                 }
-                TotalPrice.setText(String.valueOf(totalPrice) );
+                TotalPrice.setText(String.valueOf(totalPrice));
                 _totalPrice = totalPrice;
                 fetchPaymentIntent();
 
@@ -308,12 +271,14 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
 
     }
+
     @Override
     protected void onStart() {
         super.onStart();
         addToCartAdapter.startListening();
 
     }
+
     @Override
     protected void onStop() {
         super.onStop();
@@ -328,8 +293,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                     .setMessage(message)
                     .setPositiveButton("Ok", null)
                     .create();
-            if(!((Activity) CheckoutActivityJava.this).isFinishing())
-            {
+            if (!CheckoutActivityJava.this.isFinishing()) {
                 dialog.show();
             }
 
@@ -343,13 +307,13 @@ public class CheckoutActivityJava extends AppCompatActivity {
 
     private void fetchPaymentIntent() {
         // final String shoppingCartContent = "{\"items\": [ {\"id\":\"xl-tshirt\"}]}";
-        double amount =  _totalPrice*100;
+        double amount = _totalPrice * 100;
         Map<String, Object> payMap = new HashMap<>();
         Map<String, Object> itemMap = new HashMap<>();
-        List<Map<String,Object>> itemList = new ArrayList<>();
-        itemMap.put("currency","usd");
-        itemMap.put("id","xl-tshirt");
-        itemMap.put("amount",amount);
+        List<Map<String, Object>> itemList = new ArrayList<>();
+        itemMap.put("currency", "usd");
+        itemMap.put("id", "xl-tshirt");
+        itemMap.put("amount", amount);
         itemList.add(itemMap);
         payMap.put("items", itemList);
         String shoppingCartContent = new Gson().toJson(payMap);
@@ -369,7 +333,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                 .enqueue(new Callback() {
                     @Override
                     public void onFailure(@NonNull Call call, @NonNull IOException e) {
-                        showAlert("Failed to load data", "Error: " + e.toString());
+                        showAlert("Failed to load data", "Error: " + e);
                     }
 
                     @Override
@@ -380,7 +344,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
                         if (!response.isSuccessful()) {
                             showAlert(
                                     "Failed to load page",
-                                    "Error: " + response.toString()
+                                    "Error: " + response
                             );
                         } else {
                             final JSONObject responseJson = parseResponse(response.body());
@@ -411,11 +375,6 @@ public class CheckoutActivityJava extends AppCompatActivity {
         paymentSheet.presentWithPaymentIntent(paymentIntentClientSecret, configuration);
     }
 
-    private void onAddressClicked(View view) {
-        addressLauncher.present(
-                "pk_test_51MxSIWIwnwbkCpSTcbeqEZPR6i6rbjMHc5RdodkjLFI7mzc7hoO2P1OZtcciSFx9EdCBx2dVZARCpc5MI9BTf1vD0042mbYWDW"
-        );
-    }
 
     private void onPaymentSheetResult(
             final PaymentSheetResult paymentSheetResult
@@ -434,18 +393,11 @@ public class CheckoutActivityJava extends AppCompatActivity {
         }
     }
 
-    private void onAddressLauncherResult(AddressLauncherResult result) {
-        // TODO: Handle result and update your UI
-        if (result instanceof AddressLauncherResult.Succeeded) {
-            shippingDetails = ((AddressLauncherResult.Succeeded) result).getAddress();
-        } else if (result instanceof AddressLauncherResult.Canceled) {
-            // TODO: Handle cancel
-        }
-    }
-    private void deleteCart() {
-        CollectionReference collectionRef = firestore.collection("Cart");
 
-        Query query = collectionRef.whereEqualTo("id", currentUserId);
+    private void deleteCart() {
+        CollectionReference collectionRef = firestoreHandler.getFirestoreInstance().collection("Cart");
+
+        Query query = collectionRef.whereEqualTo("id", firestoreHandler.getCurrentUser());
 
 // Step 4: Fetch the document(s) that match the query criteria
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -484,18 +436,18 @@ public class CheckoutActivityJava extends AppCompatActivity {
         });
     }
 
-    private void Transaction(){
+    private void Transaction() {
         Date currentTime = new Date();
         SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
         String formattedTime = timeFormat.format(currentTime);
-        CollectionReference transactionRef = firestore.collection("Transaction");
+        CollectionReference transactionRef = firestoreHandler.getFirestoreInstance().collection("Transaction");
         showToast("Payment complete!");
         for (int i = 0; i < addToCartAdapter.getItemCount(); i++) {
 
             // Get the data for the current item
             Medicine model = addToCartAdapter.getItem(i);
             Map<String, Object> data = new HashMap<>();
-            data.put("id", currentUserId);
+            data.put("id", firestoreHandler.getCurrentUser());
             data.put("item", model.getTitle());
             data.put("seller", model.getSeller());
             data.put("time", formattedTime);
@@ -519,7 +471,6 @@ public class CheckoutActivityJava extends AppCompatActivity {
                     });
         }
     }
-
 
 
 }

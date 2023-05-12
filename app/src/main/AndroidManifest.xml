@@ -169,13 +169,6 @@
             android:name=".Doctor.OnlineConsultation"
             android:exported="false" />
         <activity
-            android:name=".Patient.paymentConfirmation"
-            android:exported="true">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Doctor.Chat"
             android:exported="true">
             <meta-data
@@ -211,21 +204,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.pharmacyEquipmentOptions"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".Patient.patientPharmacy"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".Patient.viewMedicalRecord"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -278,10 +257,6 @@
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".Patient.patientViewProfile"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
             android:name=".Patient.patientDashboard"
             android:exported="true"
             android:windowSoftInputMode="adjustPan">
@@ -304,10 +279,6 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Doctor.Prescription"
-            android:exported="false"
-            android:windowSoftInputMode="adjustPan" />
-        <activity
-            android:name=".Doctor.VerifyPhoneNo"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity

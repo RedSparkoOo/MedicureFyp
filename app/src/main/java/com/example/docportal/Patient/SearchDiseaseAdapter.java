@@ -1,21 +1,17 @@
 package com.example.docportal.Patient;
 
 
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
-import com.google.firebase.firestore.DocumentSnapshot;
 
 public class SearchDiseaseAdapter extends FirestoreRecyclerAdapter<DiseaseModel, SearchDiseaseAdapter.SearchDiseaseViewHolder> {
 
@@ -35,8 +31,8 @@ public class SearchDiseaseAdapter extends FirestoreRecyclerAdapter<DiseaseModel,
     protected void onBindViewHolder(@NonNull SearchDiseaseViewHolder holder, int position, @NonNull DiseaseModel model) {
 
 
-            holder.name.setText(model.getDisease());
-            holder.description.setText(model.getDescription());
+        holder.name.setText(model.getDisease());
+        holder.description.setText(model.getDescription());
 
 
     }
@@ -52,7 +48,7 @@ public class SearchDiseaseAdapter extends FirestoreRecyclerAdapter<DiseaseModel,
 
     }
 
-    public class  SearchDiseaseViewHolder extends RecyclerView.ViewHolder {
+    public class SearchDiseaseViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, description;
 

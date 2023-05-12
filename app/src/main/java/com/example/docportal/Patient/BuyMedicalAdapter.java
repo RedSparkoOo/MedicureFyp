@@ -11,8 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Pharmacist.MedicalEquipment;
-
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
@@ -21,21 +19,10 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.squareup.picasso.Picasso;
 
-import java.sql.SQLOutput;
-
 public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMedicalAdapter.MedicineListViewHolder> {
     private MedicineListAdapter.onItemLongClickListener listener;
 
     private MedicineListAdapter.onItemClickListener listener1;
-
-    public Integer getI() {
-        return i;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
     private Integer i, price;
     private String Quantity, Price;
 
@@ -50,6 +37,14 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
         super(options);
     }
 
+    public Integer getI() {
+        return i;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull MedicineListViewHolder holder, int position, @NonNull Medicine model) {
 
@@ -58,11 +53,10 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.description.setText(model.getDescription());
             holder.price.setText(model.getPrice());
             holder.milligram.setText(model.getMilligram());
-            if(model.getQuantity().equals("0")) {
+            if (model.getQuantity().equals("0")) {
                 holder.quantity.setText("Out of stock");
                 holder.count.setText("0");
-            }
-            else {
+            } else {
                 holder.quantity.setText(model.getQuantity());
                 holder.quantity.setTextColor(Color.parseColor("#00FF00"));
             }
@@ -74,7 +68,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
             holder.positive.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(model.getQuantity().equals("0"));
+                    if (model.getQuantity().equals("0")) ;
                     else {
                         Quantity = holder.count.getText().toString();
                         Price = holder.price.getText().toString();
@@ -102,8 +96,8 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
                     i = Integer.parseInt(Quantity);
                     if (i == 1)
                         i = 1;
-                    else if( i == 0)
-                        i= 0;
+                    else if (i == 0)
+                        i = 0;
                     else
                         i--;
                     price = Integer.parseInt(model.getPrice()) * i;
@@ -112,8 +106,7 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
 
                 }
             });
-        }
-        catch (Exception ex){
+        } catch (Exception ex) {
             System.out.println(ex.getMessage());
         }
 
@@ -124,94 +117,95 @@ public class BuyMedicalAdapter extends FirestoreRecyclerAdapter<Medicine, BuyMed
     @Override
     public MedicineListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout, parent, false);
-            return new MedicineListViewHolder(view);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.pharmacylayout, parent, false);
+        return new MedicineListViewHolder(view);
 
 
     }
 
-    public class  MedicineListViewHolder extends RecyclerView.ViewHolder {
+    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener) {
+        this.listener = listener;
+    }
 
-            TextView title, description, price, quantity, milligram, count;
-            ImageView imageView;
-            Button negative, positive;
-
-
-        public MedicineListViewHolder(@NonNull View itemView) {
-            super(itemView);
-            try{
-
-            title = itemView.findViewById(R.id.productName);
-
-            price = itemView.findViewById(R.id.productPrice);
-            description = itemView.findViewById(R.id.productDescription);
-            quantity = itemView.findViewById(R.id.productQuantity);
-            imageView = itemView.findViewById(R.id.productImage);
-            milligram = itemView.findViewById(R.id.productGram);
-            negative = itemView.findViewById(R.id.subProduct);
-            positive = itemView.findViewById(R.id.addProduct);
-            count = itemView.findViewById(R.id.productCount);
-            positive.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    int position = getAbsoluteAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener1.onItemClick(getSnapshots().getSnapshot(position), position);
-                    }
-                }
-            });
-            negative.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-                        int position = getAbsoluteAdapterPosition();
-                        if (position != RecyclerView.NO_POSITION && listener != null) {
-                            listener1.onItemClick(getSnapshots().getSnapshot(position), position);
-
-                        }
-                    } catch (Exception ex) {
-                        System.out.println(ex.getMessage());
-                    }
-                }
-            });
-
-            itemView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    int position = getAbsoluteAdapterPosition();
-                    if (position != RecyclerView.NO_POSITION && listener != null) {
-                        listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
-
-                    }
-                    return false;
-                }
-            });
-        }
-            catch (Exception ex){
-                System.out.println(ex.getMessage());
-            }
-        }
+    public void deleteItem(int position) {
+        getSnapshots().getSnapshot(position).getReference().delete();
 
 
+    }
 
-
+    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener) {
+        this.listener1 = listener;
     }
 
     public interface onItemLongClickListener {
         void onitemlongClick(DocumentSnapshot documentSnapshot, int position);
     }
-    public void setOnItemLongClickListener(MedicineListAdapter.onItemLongClickListener listener){
-        this.listener = listener;
-    }
-    public void deleteItem(int position){
-        getSnapshots().getSnapshot(position).getReference().delete();
 
-
-    }
-    public void setOnItemClickListener(MedicineListAdapter.onItemClickListener listener){
-        this.listener1 = listener;
-    }
     public interface onItemClickListener {
         void onItemClick(DocumentSnapshot documentSnapshot, int position);
+    }
+
+    public class MedicineListViewHolder extends RecyclerView.ViewHolder {
+
+        TextView title, description, price, quantity, milligram, count;
+        ImageView imageView;
+        Button negative, positive;
+
+
+        public MedicineListViewHolder(@NonNull View itemView) {
+            super(itemView);
+            try {
+
+                title = itemView.findViewById(R.id.productName);
+
+                price = itemView.findViewById(R.id.productPrice);
+                description = itemView.findViewById(R.id.productDescription);
+                quantity = itemView.findViewById(R.id.productQuantity);
+                imageView = itemView.findViewById(R.id.productImage);
+                milligram = itemView.findViewById(R.id.productGram);
+                negative = itemView.findViewById(R.id.subProduct);
+                positive = itemView.findViewById(R.id.addProduct);
+                count = itemView.findViewById(R.id.productCount);
+                positive.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        int position = getAbsoluteAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION && listener != null) {
+                            listener1.onItemClick(getSnapshots().getSnapshot(position), position);
+                        }
+                    }
+                });
+                negative.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        try {
+                            int position = getAbsoluteAdapterPosition();
+                            if (position != RecyclerView.NO_POSITION && listener != null) {
+                                listener1.onItemClick(getSnapshots().getSnapshot(position), position);
+
+                            }
+                        } catch (Exception ex) {
+                            System.out.println(ex.getMessage());
+                        }
+                    }
+                });
+
+                itemView.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View view) {
+                        int position = getAbsoluteAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION && listener != null) {
+                            listener.onitemlongClick(getSnapshots().getSnapshot(position), position);
+
+                        }
+                        return false;
+                    }
+                });
+            } catch (Exception ex) {
+                System.out.println(ex.getMessage());
+            }
+        }
+
+
     }
 }

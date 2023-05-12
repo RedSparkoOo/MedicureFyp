@@ -1,31 +1,28 @@
 package com.example.docportal.Pharmacist;
 
-import static com.example.docportal.R.layout.spinner_item;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -35,7 +32,7 @@ import java.util.HashMap;
 
 public class
 EditMedicine extends AppCompatActivity {
-    FirebaseFirestore firebaseFirestore;
+
     FirebaseStorage firebaseStorage;
     StorageReference storageReference;
     CheckEvent checkEvent;
@@ -45,9 +42,10 @@ EditMedicine extends AppCompatActivity {
     Button edit;
     String _milligram;
     Uri content_uri;
-    String id ,Title , Image, Price, Quantity, Description;
-    String[] Milligrams = {"","10mg","20mg","25mg","40mg"};
-
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    String id, Title, Image, Price, Quantity, Description;
+    String[] Milligrams = {"", "10mg", "20mg", "25mg", "40mg"};
+    Singleton singleton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,15 +62,13 @@ EditMedicine extends AppCompatActivity {
         edit = findViewById(R.id.Add);
         imageView = findViewById(R.id.equip_picture);
         milligram = findViewById(R.id.medicine_milligram);
-        firebaseFirestore = FirebaseFirestore.getInstance();
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
         TextView[] textViews = {title, description, price, quantity};
         checkEvent = new CheckEvent();
-        ArrayAdapter arrayAdapterMilligrams = new ArrayAdapter(this, spinner_item, Milligrams);
-        arrayAdapterMilligrams.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        milligram.setAdapter(arrayAdapterMilligrams);
-        DocumentReference documentReference = firebaseFirestore.collection("Medicine").document(id);
+        singleton.setAdatper(this, milligram, Milligrams);
+        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document(id);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -97,6 +93,7 @@ EditMedicine extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                singleton = new Singleton();
                 Title = title.getText().toString();
                 Image = String.valueOf(content_uri);
                 Price = price.getText().toString();
@@ -107,14 +104,14 @@ EditMedicine extends AppCompatActivity {
                 map.put("Image", Image);
                 map.put("Price", Price);
                 map.put("Quantity", Quantity);
-                map.put("Description",Description);
+                map.put("Description", Description);
                 map.put("Milligram", milligram.getSelectedItem().toString());
-                DocumentReference documentReference = firebaseFirestore.collection("Medicine").document(id);
+                DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document(id);
                 documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
-                        Toast.makeText(EditMedicine.this, "Data updated successfully", Toast.LENGTH_SHORT).show();
-                        startActivity(new Intent(getApplicationContext(), MedicineList.class));
+                        singleton.showToast(EditMedicine.this, "Data updated successfully");
+                        singleton.openActivity(getApplicationContext(), MedicineList.class);
                     }
                 });
 
@@ -129,20 +126,19 @@ EditMedicine extends AppCompatActivity {
             }
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == 1000){
-            if(resultCode == Activity.RESULT_OK){
+        if (requestCode == 1000) {
+            if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 content_uri = data.getData();
                 imageView.setImageURI(content_uri);
             }
         }
     }
-
-
 
 
 }

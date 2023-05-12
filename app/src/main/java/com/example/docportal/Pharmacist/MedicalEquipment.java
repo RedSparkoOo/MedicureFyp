@@ -3,6 +3,12 @@ package com.example.docportal.Pharmacist;
 public class MedicalEquipment {
 
 
+    private String Image;
+    private String Title;
+    private String Price;
+    private String Quantity;
+    private String Description;
+
     public MedicalEquipment(String image, String title, String price, String quantity, String description) {
         Image = image;
         Title = title;
@@ -10,10 +16,9 @@ public class MedicalEquipment {
         Quantity = quantity;
         Description = description;
     }
+
     public MedicalEquipment() {
     }
-
-    private String Image;
 
     public String getImage() {
         return Image;
@@ -54,10 +59,5 @@ public class MedicalEquipment {
     public void setDescription(String description) {
         Description = description;
     }
-
-    private String Title;
-    private String Price;
-    private String Quantity;
-    private String Description;
 
 }

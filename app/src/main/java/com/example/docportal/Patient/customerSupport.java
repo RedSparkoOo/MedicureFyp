@@ -1,45 +1,35 @@
 package com.example.docportal.Patient;
 
-import static kotlin.reflect.jvm.internal.impl.builtins.StandardNames.FqNames.map;
-
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.CheckEvent;
-import com.example.docportal.Pharmacist.EditMedicine;
-import com.example.docportal.Pharmacist.MedicineList;
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
-import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
 public class customerSupport extends AppCompatActivity {
     EditText name, phone, email, message;
     Button submit;
-    FirebaseFirestore firebaseFirestore;
     FirebaseStorage firebaseStorage;
-    FirebaseAuth firebaseAuth;
+
     StorageReference storageReference;
-    CheckEvent checkEvent;
-    Object currentUserId;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
     String identifier;
 
 
@@ -51,49 +41,46 @@ public class customerSupport extends AppCompatActivity {
         email = findViewById(R.id.email_address_support);
         phone = findViewById(R.id.phone_support);
         message = findViewById(R.id.message_support);
-        TextView[] textViews = {name,email,phone,message};
-        firebaseFirestore = FirebaseFirestore.getInstance();
+        TextView[] textViews = {name, email, phone, message};
+
         firebaseStorage = FirebaseStorage.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
-        firebaseAuth = FirebaseAuth.getInstance();
+
         System.out.println(getIntent().getStringExtra("identify"));
         identifier = getIntent().getStringExtra("identify");
-        Object currentUser = firebaseAuth.getCurrentUser();
-        if (currentUser != null) {
-            currentUserId = firebaseAuth.getCurrentUser().getUid();
-        }
         submit = findViewById(R.id.submit_support);
         CheckEvent checkEvent = new CheckEvent();
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Singleton singleton = new Singleton();
                 System.out.println(checkEvent.isEmpty(textViews));
-                if (((checkEvent.checkEmail(email) || checkEvent.checkName(name)) && (checkEvent.isEmpty(textViews)  ))== false){
+                if (!(checkEvent.checkEmail(email) || checkEvent.checkName(name)) || checkEvent.isEmpty(textViews)) {
                     checkEvent.checkEmail(email);
                     checkEvent.checkItemName(name);
-                }
-                else {
+                    singleton.showToast(customerSupport.this, "please full all form");
+                } else {
 
                     HashMap<String, String> map = new HashMap<>();
-                    map.put("Id", currentUserId.toString());
+                    map.put("Id", firestoreHandler.getCurrentUser());
                     map.put("Name", name.getText().toString());
                     map.put("Email", email.getText().toString());
                     map.put("Phone", phone.getText().toString());
                     map.put("Message", message.getText().toString());
 
-                    DocumentReference documentReference = firebaseFirestore.collection("Customer Support").document(currentUserId.toString());
+                    DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Customer Support").document(firestoreHandler.getCurrentUser());
                     documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            Toast.makeText(customerSupport.this, "Message Sent", Toast.LENGTH_SHORT).show();
+                            singleton.showToast(customerSupport.this, "Message Sent");
                         }
                     });
                 }
             }
         });
-        if(identifier.equals("patient")) {
+        if (identifier.equals("patient")) {
 
-            DocumentReference documentReference = firebaseFirestore.collection("Patient").document(currentUserId.toString());
+            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Patient").document(firestoreHandler.getCurrentUser());
             documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -105,9 +92,8 @@ public class customerSupport extends AppCompatActivity {
 
 
             });
-        }
-        else if (identifier.equals("doctor")){
-            DocumentReference documentReference = firebaseFirestore.collection("Professions").document(currentUserId.toString());
+        } else if (identifier.equals("doctor")) {
+            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Professions").document(firestoreHandler.getCurrentUser());
             documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                 @Override
                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {

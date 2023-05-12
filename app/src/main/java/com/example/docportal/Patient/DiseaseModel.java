@@ -1,7 +1,16 @@
 package com.example.docportal.Patient;
 
 public class DiseaseModel {
+    private String symptom, disease, description, organ;
+
     public DiseaseModel() {
+    }
+
+    public DiseaseModel(String symptom, String disease, String description, String organ) {
+        this.symptom = symptom;
+        this.disease = disease;
+        this.description = description;
+        this.organ = organ;
     }
 
     public String getSymptom() {
@@ -35,14 +44,5 @@ public class DiseaseModel {
     public void setOrgan(String organ) {
         this.organ = organ;
     }
-
-    public DiseaseModel(String symptom, String disease, String description, String organ) {
-        this.symptom = symptom;
-        this.disease = disease;
-        this.description = description;
-        this.organ = organ;
-    }
-
-    private String symptom, disease, description, organ;
 
 }

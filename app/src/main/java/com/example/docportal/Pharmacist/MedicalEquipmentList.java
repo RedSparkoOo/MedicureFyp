@@ -1,11 +1,5 @@
 package com.example.docportal.Pharmacist;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,34 +8,41 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.docportal.Patient.BuyMedicine;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Patient.WrapContentLinearLayoutManager;
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 
 public class MedicalEquipmentList extends AppCompatActivity {
     RecyclerView _equipmentList;
     EquipmentListAdapter equipmentListAdapter;
-    FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-    CollectionReference noteBookref = firestore.collection("Medical_Equipment");
+    Singleton singleton;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("Medical_Equipment");
     TextView title;
     EditText search;
 
-    @Override
-    public boolean onContextItemSelected(@NonNull MenuItem item){
 
-        switch (item.getItemId()) {
-            case 0:
-                startActivity(new Intent(MedicalEquipmentList.this, EditEquipment.class));
-                return true;
-            default:
-                return super.onContextItemSelected(item);
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+
+        if (item.getItemId() == 0) {
+            startActivity(new Intent(MedicalEquipmentList.this, EditEquipment.class));
+            return true;
         }
+        return super.onContextItemSelected(item);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,14 +52,15 @@ public class MedicalEquipmentList extends AppCompatActivity {
         title.setText("Add Medical Equipment");
         setUpRecyclerView();
 
-   }
-    private void setUpRecyclerView(){
-        Query query = noteBookref.orderBy("Title",Query.Direction.DESCENDING);
+    }
+
+    private void setUpRecyclerView() {
+        Query query = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                 .setQuery(query, MedicalEquipment.class).build();
-        equipmentListAdapter = new  EquipmentListAdapter (options);
+        equipmentListAdapter = new EquipmentListAdapter(options);
         _equipmentList = findViewById(R.id.medicine_list);
-        _equipmentList .setLayoutManager(new WrapContentLinearLayoutManager(MedicalEquipmentList.this,LinearLayoutManager.VERTICAL, false ));
+        _equipmentList.setLayoutManager(new WrapContentLinearLayoutManager(MedicalEquipmentList.this, LinearLayoutManager.VERTICAL, false));
 
 
         search.addTextChangedListener(new TextWatcher() {
@@ -82,7 +84,6 @@ public class MedicalEquipmentList extends AppCompatActivity {
             public void afterTextChanged(Editable editable) {
 
 
-
             }
         });
         _equipmentList.setAdapter(equipmentListAdapter);
@@ -100,11 +101,10 @@ public class MedicalEquipmentList extends AppCompatActivity {
         equipmentListAdapter.setOnItemLongClickListener(new MedicineListAdapter.onItemLongClickListener() {
             @Override
             public void onitemlongClick(DocumentSnapshot documentSnapshot, int position) {
+                singleton = new Singleton();
                 MedicalEquipment medicalEquipment = documentSnapshot.toObject(MedicalEquipment.class);
                 String id = documentSnapshot.getId();
-                Intent intent = new Intent(getApplicationContext(), EditEquipment.class);
-                intent.putExtra("Id", id);
-                startActivity(intent);
+                startActivity(singleton.getIntent(getApplicationContext(), EditEquipment.class).putExtra("Id", id));
 
             }
         });
@@ -116,6 +116,7 @@ public class MedicalEquipmentList extends AppCompatActivity {
         equipmentListAdapter.startListening();
 
     }
+
     @Override
     protected void onStop() {
         super.onStop();

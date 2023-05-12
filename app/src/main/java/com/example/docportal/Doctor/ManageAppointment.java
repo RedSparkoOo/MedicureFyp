@@ -2,25 +2,23 @@ package com.example.docportal.Doctor;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
+import com.example.docportal.Singleton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,7 +32,7 @@ public class ManageAppointment extends AppCompatActivity {
 
 
     RecyclerView patient_appointment_recycler_view;
-    String User_id;
+
     ArrayList<String> patient_name;
     ArrayList<String> patient_phone;
     ArrayList<String> appointment_date;
@@ -44,8 +42,9 @@ public class ManageAppointment extends AppCompatActivity {
     ArrayList<String> Doctor_name;
     ArrayList<String> Doctor_phone;
     ArrayList appointment_ids;
-    FirebaseFirestore firestore;
-    FirebaseAuth firebaseAuth;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
+    Singleton singleton = new Singleton();
+
     String appointed_doctor_id;
     ImageView back_to_doctor_dashboard;
 
@@ -61,13 +60,8 @@ public class ManageAppointment extends AppCompatActivity {
         setContentView(R.layout.activity_manage_appointment);
         //------------------Assigning Hooks------------------------------------
 
-        firestore = FirebaseFirestore.getInstance();
-        firebaseAuth = FirebaseAuth.getInstance();
-
-        User_id = firebaseAuth.getCurrentUser().getUid();
         mail_box_show = findViewById(R.id.mail_box_show);
         back_to_doctor_dashboard = findViewById(R.id.back_to_doctor_dashboard);
-
 
 
         patient_name = new ArrayList<>();
@@ -88,7 +82,6 @@ public class ManageAppointment extends AppCompatActivity {
         appointment_ids = new ArrayList();
 
 
-
         patient_appointment_recycler_view = findViewById(R.id.patient_appointment_recycler);
         patient_appointment_recycler_view.setLayoutManager(new LinearLayoutManager(ManageAppointment.this));
         FireStoreAppointments();
@@ -96,8 +89,7 @@ public class ManageAppointment extends AppCompatActivity {
         back_to_doctor_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ManageAppointment.this,DoctorNurseDashboard.class);
-                startActivity(intent);
+                singleton.openActivity(ManageAppointment.this, DoctorNurseDashboard.class);
             }
         });
 
@@ -107,27 +99,26 @@ public class ManageAppointment extends AppCompatActivity {
 
     // Appointment User
     public void FireStoreAppointments() {
-        firestore.clearPersistence();
+        firestoreHandler.getFirestoreInstance().clearPersistence();
 
-        firestore.collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        firestoreHandler.getFirestoreInstance().collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    Toast.makeText(ManageAppointment.this, error.toString(), Toast.LENGTH_SHORT).show();
-                }
+                if (error != null)
+                    singleton.showToast(ManageAppointment.this, error.toString());
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
 
-                    if(dc != null) {
+                    if (dc != null) {
 
                         if (dc.getType() == DocumentChange.Type.ADDED) {
 
                             appointed_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor ID"));
 
 
-                            if (appointed_doctor_id.equals(User_id)) {
+                            if (appointed_doctor_id.equals(firestoreHandler.getCurrentUser())) {
                                 mail_box_show.setVisibility(View.VISIBLE);
                                 patient_appointment_recycler_view.setVisibility(View.VISIBLE);
                                 appointment_ids.add(dc.getDocument().getId());
@@ -140,7 +131,7 @@ public class ManageAppointment extends AppCompatActivity {
                                 appointment_time.add(String.valueOf(dc.getDocument().get("Appointment Time")));
                                 appointment_description.add(String.valueOf(dc.getDocument().get("Appointment Description")));
 
-                                checkAppointmentAdapter = new ManageAppointmentAdapter(appointment_ids,patient_name, patient_phone,Doctor_name, Doctor_phone, appointment_date, appointment_time, appointment_description, User_id, patient_id, new ManageAppointmentAdapter.ItemClickListenerCheck() {
+                                checkAppointmentAdapter = new ManageAppointmentAdapter(appointment_ids, patient_name, patient_phone, Doctor_name, Doctor_phone, appointment_date, appointment_time, appointment_description, firestoreHandler.getCurrentUser(), patient_id, new ManageAppointmentAdapter.ItemClickListenerCheck() {
                                     @Override
                                     public String onItemClick(String details) {
                                         Log.d(TAG, "onItemClick: Works ");
@@ -164,28 +155,23 @@ public class ManageAppointment extends AppCompatActivity {
     }
 
 
-
     public void store_notification_count() {
-        CollectionReference reference = firestore.collection("Appointment");
+        CollectionReference reference = firestoreHandler.getFirestoreInstance().collection("Appointment");
         reference.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null){
-                    Toast.makeText(ManageAppointment.this, "Listen failed", Toast.LENGTH_SHORT).show();
-                }
-
-                for(DocumentChange dc : value.getDocumentChanges()){
-                    switch (dc.getType()){
-                        case ADDED:
-                            Timber.tag(TAG).d("New message: " + dc.getDocument().getData());
-                            String Title = "New";
+                if (error != null)
+                    singleton.showToast(ManageAppointment.this, "Listen failed");
+                for (DocumentChange dc : value.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        Timber.tag(TAG).d("New message: " + dc.getDocument().getData());
+                        String Title = "New";
                     }
                 }
             }
         });
 
     }
-
 
 
 }

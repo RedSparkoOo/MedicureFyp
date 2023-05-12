@@ -23,7 +23,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppointmentAdapter.ViewHolder>{
+public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppointmentAdapter.ViewHolder> {
 
     private final List<String> list_appointment_id;
     private final List<String> list_patient_name;
@@ -33,15 +33,14 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
     private final List<String> list_patient_date;
     private final List<String> list_patient_time;
     private final List<String> list_patient_desc;
-    private String doctor_id;
-    private String doctor_id_stored;
     private final List<String> patient_id;
-
+    private final String doctor_id;
+    private final ItemClickListenerCheck listenerCheck;
     FirebaseFirestore FStore;
     Context context;
     int position_changed;
     ManageAppointmentAdapter appointmentAdapter;
-    private ItemClickListenerCheck listenerCheck;
+    private String doctor_id_stored;
 
     public ManageAppointmentAdapter(List<String> appointment_uid_dataSet, List<String> name_dataSet, List<String> phone_dataSet, List<String> doc_name_dataSet, List<String> doc_phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
 
@@ -57,63 +56,6 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
         patient_id = patient_UID;
         this.listenerCheck = itemClickListenerCheck;
 
-    }
-
-
-    /**
-     * Provide a reference to the type of views that you are using
-     * (custom ViewHolder).
-     */
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        private final TextView text_patient_name;
-        private final TextView text_patient_phone;
-        private final TextView text_patient_date;
-        private final TextView text_patient_time;
-        private final TextView text_patient_description;
-        private final Button approve_appointment;
-        private final Button deny_appointment;
-
-
-        public ViewHolder(View view) {
-            super(view);
-            // Define click listener for the ViewHolder's View
-
-            text_patient_name = view.findViewById(R.id.appointment_patient_name);
-            text_patient_phone = view.findViewById(R.id.appointment_patient_phone);
-            text_patient_date = view.findViewById(R.id.appointment_patient_date);
-            text_patient_time = view.findViewById(R.id.appointment_patient_time);
-            text_patient_description = view.findViewById(R.id.appointment_patient_description);
-            approve_appointment = view.findViewById(R.id.approve_appointment);
-            deny_appointment = view.findViewById(R.id.deny_appointment);
-        }
-
-        public TextView getText_patient_name() {
-            return text_patient_name;
-        }
-
-        public TextView getText_patient_phone() {
-            return text_patient_phone;
-        }
-
-        public TextView getText_patient_date() {
-            return text_patient_date;
-        }
-
-        public TextView getText_patient_time() {
-            return text_patient_time;
-        }
-
-        public TextView getText_patient_description() {
-            return text_patient_description;
-        }
-
-        public Button getApprove_appointment() {
-            return approve_appointment;
-        }
-
-        public Button getDeny_appointment() {
-            return deny_appointment;
-        }
     }
 
     @NonNull
@@ -154,7 +96,7 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
                 String appointment_time = listenerCheck.onItemClick(list_patient_time.get(position));
                 doctor_id_stored = patient_id.get(position);
 
-                approvedAppointments(doctor_id_stored,patient_name,patient_phone,doctor_name,doctor_phone,appointment_date,appointment_time);
+                approvedAppointments(doctor_id_stored, patient_name, patient_phone, doctor_name, doctor_phone, appointment_date, appointment_time);
                 DeleteData(list_appointment_id.get(position));
 
                 list_appointment_id.remove(position);
@@ -214,7 +156,6 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
         });
     }
 
-
     // Return the size of your dataset (invoked by the layout manager)
     @Override
     public int getItemCount() {
@@ -222,8 +163,7 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
         return list_patient_name.size();
     }
 
-
-    public void approvedAppointments(String ID,String patient_name,String patient_phone,String doctor_name,String doctor_phone,String appointment_date,String appointment_time){
+    public void approvedAppointments(String ID, String patient_name, String patient_phone, String doctor_name, String doctor_phone, String appointment_date, String appointment_time) {
 
         FStore = FirebaseFirestore.getInstance();
         FStore.clearPersistence();
@@ -236,14 +176,14 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
 
                 Map<String, Object> approved_appointments = new HashMap<>();
 
-                approved_appointments.put("Approved Patient Name",patient_name);
-                approved_appointments.put("Approved Patient Cell",patient_phone);
-                approved_appointments.put("Approved Doctor Name",doctor_name);
-                approved_appointments.put("Approved Doctor Cell",doctor_phone);
-                approved_appointments.put("Approved Appointment Date",appointment_date);
-                approved_appointments.put("Approved Appointment Time",appointment_time);
-                approved_appointments.put("Appointed Doctor Id",doctor_id);
-                approved_appointments.put("Appointed Patient Id",ID);
+                approved_appointments.put("Approved Patient Name", patient_name);
+                approved_appointments.put("Approved Patient Cell", patient_phone);
+                approved_appointments.put("Approved Doctor Name", doctor_name);
+                approved_appointments.put("Approved Doctor Cell", doctor_phone);
+                approved_appointments.put("Approved Appointment Date", appointment_date);
+                approved_appointments.put("Approved Appointment Time", appointment_time);
+                approved_appointments.put("Appointed Doctor Id", doctor_id);
+                approved_appointments.put("Appointed Patient Id", ID);
                 Doc_Ref.set(approved_appointments);
 
 
@@ -252,19 +192,74 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
 
     }
 
-
-    private void DeleteData(String RID){
+    private void DeleteData(String RID) {
         FStore = FirebaseFirestore.getInstance();
         DocumentReference documentReference = FStore.collection("Appointment").document(RID);
         documentReference.delete();
 
 
-
     }
-    public interface ItemClickListenerCheck{
+
+
+    public interface ItemClickListenerCheck {
         String onItemClick(String details);
     }
 
+    /**
+     * Provide a reference to the type of views that you are using
+     * (custom ViewHolder).
+     */
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        private final TextView text_patient_name;
+        private final TextView text_patient_phone;
+        private final TextView text_patient_date;
+        private final TextView text_patient_time;
+        private final TextView text_patient_description;
+        private final Button approve_appointment;
+        private final Button deny_appointment;
+
+
+        public ViewHolder(View view) {
+            super(view);
+            // Define click listener for the ViewHolder's View
+
+            text_patient_name = view.findViewById(R.id.appointment_patient_name);
+            text_patient_phone = view.findViewById(R.id.appointment_patient_phone);
+            text_patient_date = view.findViewById(R.id.appointment_patient_date);
+            text_patient_time = view.findViewById(R.id.appointment_patient_time);
+            text_patient_description = view.findViewById(R.id.appointment_patient_description);
+            approve_appointment = view.findViewById(R.id.approve_appointment);
+            deny_appointment = view.findViewById(R.id.deny_appointment);
+        }
+
+        public TextView getText_patient_name() {
+            return text_patient_name;
+        }
+
+        public TextView getText_patient_phone() {
+            return text_patient_phone;
+        }
+
+        public TextView getText_patient_date() {
+            return text_patient_date;
+        }
+
+        public TextView getText_patient_time() {
+            return text_patient_time;
+        }
+
+        public TextView getText_patient_description() {
+            return text_patient_description;
+        }
+
+        public Button getApprove_appointment() {
+            return approve_appointment;
+        }
+
+        public Button getDeny_appointment() {
+            return deny_appointment;
+        }
+    }
 
 
 }
