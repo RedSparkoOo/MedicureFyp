@@ -192,5 +192,11 @@ public class DoctorLogin extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        // Call finish to close the activity and prevent Firebase from checking credentials
+        finish();
+        progress_check.setVisibility(View.INVISIBLE);
+    }
 
 }

@@ -17,7 +17,6 @@ import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
-import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -35,7 +34,6 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
     private final List<String> AppointmentPhones;
     private final List<String> AppointmentDate;
     private final List<String> AppointmentTime;
-    private final String Patient_ids;
     private final List<String> AppointmentNamesAll;
     private final List<String> Appointment_IDs;
 
@@ -50,14 +48,13 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
 
 
-    public ViewAppointmentAdapter(String patient_id,List<String> app_patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
+    public ViewAppointmentAdapter(List<String> app_patient_id, List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> Appointment_ID, ItemClickListenerCheck itemClickListenerCheck)  {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
         AppointmentDate = nameDataSet2;
         AppointmentTime = nameDataSet3;
         Appointment_IDs = Appointment_ID;
         ApprovedPatientID = app_patient_id;
-        Patient_ids = patient_id;
         this.listenerCheck = itemClickListenerCheck;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
 
@@ -112,7 +109,6 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView apoint_names;
         private final TextView apoint_ph;
-
         private final TextView appointment_date;
         private final TextView appointment_time;
         private final Button to_appointment_reschedule ;
@@ -200,7 +196,7 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
                 intent.putExtra("mBundle", bundle);
 
 
-                intent.putExtra("ID", Patient_ids);
+                intent.putExtra("ID", ApprovedPatientID.get(position));
                 context.startActivity(intent);
 
 
@@ -226,9 +222,7 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
                     public void onClick(View v) {
 
                         context = v.getContext();
-                        appointment_id = listenerCheck.onItemClick(Appointment_IDs.get(position));
-                        appointment_id = Appointment_IDs.get(position);
-                        deleteAppointment(appointment_id);
+
 
 
                         AppointmentNames.remove(position);
@@ -238,21 +232,20 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
                         AppointmentPhones.remove(position);
                         notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, AppointmentNames.size());
+                        notifyItemRangeChanged(position, AppointmentPhones.size());
 
 
                         AppointmentDate.remove(position);
                         notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, AppointmentNames.size());
+                        notifyItemRangeChanged(position, AppointmentDate.size());
 
 
                         AppointmentTime.remove(position);
                         notifyItemRemoved(position);
-                        notifyItemRangeChanged(position, AppointmentNames.size());
+                        notifyItemRangeChanged(position, AppointmentTime.size());
 
-                        deleteAppointment(appointment_id);
                         dialog.dismiss();
-
+                        deleteApprovedAppointments(Appointment_IDs.get(position));
 
                     }
                 });
@@ -276,7 +269,6 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
                 String ID = ApprovedPatientID.get(position);
 
                 FirebaseFirestore FStore = FirebaseFirestore.getInstance();
-                FirebaseAuth FAuth = FirebaseAuth.getInstance();
 
                 DocumentReference documentReference = FStore.collection("Patient").document(ID);
                 documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
@@ -318,9 +310,9 @@ public class ViewAppointmentAdapter extends RecyclerView.Adapter<ViewAppointment
 
     }
 
-    private void deleteAppointment(String RID){
-        FStore = FirebaseFirestore.getInstance();
-        DocumentReference documentReference = FStore.collection("Approved Appointments").document(RID);
+    private void deleteApprovedAppointments(String RID){
+        FirebaseFirestore fStore = FirebaseFirestore.getInstance();
+        DocumentReference documentReference = fStore.collection("Approved Appointments").document(RID);
         documentReference.delete();
         Toast.makeText(context, "Appointment Deleted", Toast.LENGTH_SHORT).show();
     }

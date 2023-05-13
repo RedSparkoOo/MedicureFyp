@@ -2,7 +2,10 @@ package com.example.docportal.Doctor;
 
 import static android.content.ContentValues.TAG;
 
+import android.Manifest;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,9 +15,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.Patient.HealthTracker;
+import com.example.docportal.Pharmacist.AddMedicalEquipment;
+import com.example.docportal.Pharmacist.PharmacistDashboard;
 import com.example.docportal.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
@@ -98,6 +107,8 @@ public class ManageAppointment extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ManageAppointment.this,DoctorNurseDashboard.class);
                 startActivity(intent);
+
+
             }
         });
 
@@ -108,6 +119,7 @@ public class ManageAppointment extends AppCompatActivity {
     // Appointment User
     public void FireStoreAppointments() {
         firestore.clearPersistence();
+
 
         firestore.collection("Appointment").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
@@ -185,7 +197,43 @@ public class ManageAppointment extends AppCompatActivity {
         });
 
     }
+    private void addNotifications() {
 
+        Intent i = new Intent(this, ManageAppointment.class);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(ManageAppointment.this, 0, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "Medicure")
+                .setSmallIcon(R.drawable.medicure_logo_2)
+                .setContentTitle("Appointment Request")
+                .setContentText("You have an appointment request")
+                .setAutoCancel(true)
+                .setDefaults(NotificationCompat.DEFAULT_ALL)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setContentIntent(pendingIntent)
+                .addAction(0,"ACTION",pendingIntent);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(ManageAppointment.this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
+        managerCompat.notify(123, builder.build());
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        addNotifications();
+    }
+    public void closeApp (View view) {
+        finish() ;
+    }
 
 }

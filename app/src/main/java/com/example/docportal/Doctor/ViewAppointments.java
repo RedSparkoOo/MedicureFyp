@@ -108,7 +108,13 @@ public class ViewAppointments extends AppCompatActivity {
     }
 
     private void FireStoreApprovedAppointments() {
-
+        approved_patient_id.clear();
+        approved_patient_names.clear();
+        approved_appointment_date.clear();
+        approved_appointment_time.clear();
+        approved_appointment_ID.clear();
+        approved_patient_phone_no.clear();
+        FStore.clearPersistence();
         FStore.collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
@@ -121,8 +127,6 @@ public class ViewAppointments extends AppCompatActivity {
                 for (DocumentChange dc : value.getDocumentChanges()) {
 
                     if(dc != null){
-
-
 
                         recieved_doctor_id = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
                     if (dc.getType() == DocumentChange.Type.ADDED) {
@@ -141,13 +145,14 @@ public class ViewAppointments extends AppCompatActivity {
                             approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
                             approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
                             approved_appointment_ID.add(dc.getDocument().getId());
-                            appointmentadapter = new ViewAppointmentAdapter(dc.getDocument().get("Appointed Patient Id").toString(),approved_patient_id, approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new ViewAppointmentAdapter.ItemClickListenerCheck(){
+                            appointmentadapter = new ViewAppointmentAdapter(approved_patient_id, approved_patient_names,approved_patient_phone_no,approved_appointment_date,approved_appointment_time,approved_appointment_ID, new ViewAppointmentAdapter.ItemClickListenerCheck(){
                                 @Override
                                 public String onItemClick(String details) {
                                     return null;
                                 }
                             });
                             appointment_recycler_view.setAdapter(appointmentadapter);
+
                         }
 
                         }
@@ -157,6 +162,7 @@ public class ViewAppointments extends AppCompatActivity {
                         Toast.makeText(ViewAppointments.this, "No Appointments to show", Toast.LENGTH_SHORT).show();
 
                 }
+
             }
         });
     }
