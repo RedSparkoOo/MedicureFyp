@@ -150,8 +150,7 @@ public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docporta
             public void onClick(View v) {
                 Context context = v.getContext();
                 String phone = list_contact_phone.get(position);
-                String phoneNumber = phone;
-                Uri dialUri = Uri.parse("tel:" + phoneNumber);
+                Uri dialUri = Uri.parse("tel:" + phone);
 
                 Intent dialIntent = new Intent(Intent.ACTION_DIAL, dialUri);
                 context.startActivity(dialIntent);
@@ -163,9 +162,8 @@ public class UrgentCareAdapter extends RecyclerView.Adapter<com.example.docporta
             public void onClick(View v) {
                 Context context = v.getContext();
                 String phone = list_contact_phone.get(position);
-                String phoneNumber = phone;
                 String message = "I am sending you a distress signal. Please reach me out";
-                Uri uri = Uri.parse("whatsapp://send?phone=" + phoneNumber);
+                Uri uri = Uri.parse("whatsapp://send?phone=" + phone);
                 Intent sendIntent = new Intent(Intent.ACTION_SEND, uri);
                 sendIntent.putExtra(Intent.EXTRA_TEXT, message);
                 sendIntent.setType("text/plain");

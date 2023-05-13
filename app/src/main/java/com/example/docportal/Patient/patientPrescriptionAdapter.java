@@ -1,6 +1,7 @@
 package com.example.docportal.Patient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -196,6 +197,15 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
                 FStore = FirebaseFirestore.getInstance();
                 deletePrescription(prescription_id.get(position));
 
+            }
+        });
+
+        viewHolder.getBuy_medicine().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context = v.getContext();
+                Intent intent = new Intent(context, PharmacyService.class);
+                context.startActivity(intent);
             }
         });
 

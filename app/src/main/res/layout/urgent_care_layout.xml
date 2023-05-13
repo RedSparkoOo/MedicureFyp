@@ -62,16 +62,17 @@
 
             <ImageView
                 android:id="@+id/call_contact"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:adjustViewBounds="true"
                 android:src="@drawable/call"/>
 
             <ImageView
                 android:id="@+id/message_contact"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
                 android:adjustViewBounds="true"
+                android:layout_marginStart="20dp"
                 android:src="@drawable/message"/>
 
 

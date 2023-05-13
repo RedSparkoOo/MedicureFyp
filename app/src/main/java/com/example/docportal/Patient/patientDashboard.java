@@ -183,7 +183,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientOnlineConsultation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, patient_online_consultation.class);
+                Intent view_appointment = new Intent(patientDashboard.this, OnlineConsultation.class);
                 startActivity(view_appointment);
             }
         });
@@ -223,7 +223,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientHealthTracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent view_appointment = new Intent(patientDashboard.this, healthTracker.class);
+                Intent view_appointment = new Intent(patientDashboard.this, HealthTracker.class);
                 startActivity(view_appointment);
             }
         });

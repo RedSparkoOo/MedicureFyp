@@ -70,8 +70,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
     ImageButton profile_doctor;
     ImageView online_consultation;
 
-    TextView notification_count;
-    CardView notification_back;
 
 
 
@@ -112,8 +110,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
 
         firestore = FirebaseFirestore.getInstance();
         firebaseAuth = FirebaseAuth.getInstance();
-        notification_count = findViewById(R.id.notify);
-        notification_back = findViewById(R.id.notification_icon_count_back);
 
 
         _manageEquipment.setOnClickListener(new View.OnClickListener() {

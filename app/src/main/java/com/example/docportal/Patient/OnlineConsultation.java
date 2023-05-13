@@ -17,14 +17,14 @@ import org.jitsi.meet.sdk.JitsiMeetConferenceOptions;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-public class patient_online_consultation extends AppCompatActivity {
+public class OnlineConsultation extends AppCompatActivity {
 EditText rec_code;
 Button rec_start;
 URL rec_server_url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_patient_online_consultation);
+        setContentView(R.layout.activity_online_consultation);
 
         rec_code = findViewById(R.id.rec_code);
         rec_start = findViewById(R.id.rec_start);
@@ -46,7 +46,7 @@ URL rec_server_url;
             public void onClick(View v) {
 
                 if(rec_code.length() < 16){
-                    Toast.makeText(patient_online_consultation.this, "Incorrect code", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(OnlineConsultation.this, "Incorrect code", Toast.LENGTH_SHORT).show();
                 }
                 else {
 
@@ -55,7 +55,7 @@ URL rec_server_url;
 
                             .build();
 
-                    JitsiMeetActivity.launch(patient_online_consultation.this, options);
+                    JitsiMeetActivity.launch(OnlineConsultation.this, options);
                 }
 
 

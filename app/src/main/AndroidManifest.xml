@@ -190,7 +190,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.healthTracker"
+            android:name=".Patient.HealthTracker"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -272,6 +272,11 @@
             android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".Patient.patientViewProfile"
+            android:exported="false"
+            android:windowSoftInputMode="adjustPan" />
+
+        <activity
+            android:name=".Patient.OnlineConsultation"
             android:exported="false"
             android:windowSoftInputMode="adjustPan" />
         <activity

@@ -56,7 +56,7 @@ public class ReminderStored extends AppCompatActivity {
         back_to_health_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(ReminderStored.this,healthTracker.class);
+                Intent intent = new Intent(ReminderStored.this, HealthTracker.class);
                 startActivity(intent);
             }
         });

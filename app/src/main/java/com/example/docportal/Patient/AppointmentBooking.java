@@ -151,16 +151,17 @@ public class AppointmentBooking extends AppCompatActivity {
                 year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AppointmentBooking.this, new DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
 
                         DATE = DAY+"/"+MONTH+"/"+YEAR;
                         appointment_date.setTextColor(Color.BLACK);
                         appointment_date.setText(DATE);
+                        datePicker.setMinDate(calendar.getMinimum(DAY));
 
                     }
                 },year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -170,7 +171,11 @@ public class AppointmentBooking extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)));
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no))){
+                    appointment_date.setError("String is rmpty");
+                    appointment_time.setError("String is empty");
+                    appointment_description.setError("String is empty");
+                }
                 else {
 
                     Dialog dialog = new Dialog(AppointmentBooking.this);
@@ -182,7 +187,7 @@ public class AppointmentBooking extends AppCompatActivity {
                     Button confirm = dialog.findViewById(R.id.alert_confirm);
                     TextView cancel = dialog.findViewById(R.id.alert_cancel);
                     TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                    alert_msg.setText("Are you sure you want to logout?");
+                    alert_msg.setText("Confirm Booking?");
 
                     confirm.setOnClickListener(new View.OnClickListener() {
                         @Override

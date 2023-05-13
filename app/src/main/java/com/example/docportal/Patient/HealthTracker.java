@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -29,7 +30,7 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import java.util.HashMap;
 import java.util.Map;
 
-public class healthTracker extends AppCompatActivity{
+public class HealthTracker extends AppCompatActivity{
 
 
     TextView tv_steps;
@@ -52,6 +53,7 @@ public class healthTracker extends AppCompatActivity{
 
     long steps_count;
     double Steps;
+    ImageView back_to_patient_dashboard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,13 +68,22 @@ public class healthTracker extends AppCompatActivity{
         steps_status = findViewById(R.id.steps_status);
         med_remind_activity= findViewById(R.id.med_remind_activity);
         med_remind_check = findViewById(R.id.med_remind_check);
+        back_to_patient_dashboard = findViewById(R.id.back_to_patient_dashboard);
+
+        back_to_patient_dashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(HealthTracker.this,patientDashboard.class);
+                startActivity(intent);
+            }
+        });
 
 
 
         med_remind_check.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(healthTracker.this,ReminderStored.class);
+                Intent intent = new Intent(HealthTracker.this,ReminderStored.class);
                 startActivity(intent);
             }
         });
@@ -80,7 +91,7 @@ public class healthTracker extends AppCompatActivity{
         med_remind_activity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(healthTracker.this,medicineReminder.class);
+                Intent intent = new Intent(HealthTracker.this,medicineReminder.class);
                 startActivity(intent);
             }
         });
