@@ -2,6 +2,9 @@ package com.example.docportal.Pharmacist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -19,16 +23,23 @@ import com.example.docportal.CheckEvent;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
+import java.util.Map;
 
 public class
 EditMedicine extends AppCompatActivity {
@@ -40,13 +51,18 @@ EditMedicine extends AppCompatActivity {
     ImageView imageView;
     Spinner milligram;
     Button edit;
-    String _milligram;
+    String _milligram, image_uri;
     Uri content_uri;
     FirestoreHandler firestoreHandler = new FirestoreHandler();
     String id, Title, Image, Price, Quantity, Description;
     String[] Milligrams = {"", "10mg", "20mg", "25mg", "40mg"};
-    Singleton singleton;
-
+    Singleton singleton = new Singleton();
+    private Uri getImageUriFromBitmap(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "Title", null);
+        return Uri.parse(path);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,7 +97,12 @@ EditMedicine extends AppCompatActivity {
                 String Milligram = value.getString("Milligram");
                 title.setText(Title);
                 Image = value.getString("Image");
-                Picasso.get().load(Uri.parse(Image)).into(imageView);
+                image_uri = value.getString("Image");
+                Picasso.get()
+                        .load(Uri.parse(Image))
+                        .resize(400, 300) // Adjust the desired image size
+                        .onlyScaleDown() // Resize only if the image is larger than the target size
+                        .into(imageView);
                 price.setText(Price);
                 quantity.setText(Quantity);
                 description.setText(Description);
@@ -93,30 +114,122 @@ EditMedicine extends AppCompatActivity {
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                singleton = new Singleton();
-                Title = title.getText().toString();
-                Image = String.valueOf(content_uri);
-                Price = price.getText().toString();
-                Quantity = quantity.getText().toString();
-                Description = description.getText().toString();
-                HashMap<String, String> map = new HashMap<>();
-                map.put("Title", Title);
-                map.put("Image", Image);
-                map.put("Price", Price);
-                map.put("Quantity", Quantity);
-                map.put("Description", Description);
-                map.put("Milligram", milligram.getSelectedItem().toString());
-                DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document(id);
-                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        singleton.showToast(EditMedicine.this, "Data updated successfully");
-                        singleton.openActivity(getApplicationContext(), MedicineList.class);
-                    }
-                });
+                try {
+                    if (checkEvent.isEmpty(textViews) || !(checkEvent.checkItemName(title))) {
+                        System.out.println("mango");
+                    } else {
+                        firestoreHandler = new FirestoreHandler();
 
+
+                        Title = title.getText().toString();
+                        Image = String.valueOf(content_uri);
+                        Price = price.getText().toString();
+                        Quantity = quantity.getText().toString();
+                        Description = description.getText().toString();
+
+                        // Check if the title already exists
+                        if (image_uri != null) {
+                            Drawable drawable = imageView.getDrawable();
+                            if (drawable instanceof BitmapDrawable) {
+                                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                                Bitmap bitmap = bitmapDrawable.getBitmap();
+                                content_uri = getImageUriFromBitmap(bitmap);
+
+
+                                if (content_uri != null) {
+                                    // Create a target width and height for the resized bitmap
+                                    int targetWidth = 400;
+                                    int targetHeight = 300;
+
+                                    // Load the bitmap from the content URI
+                                    bitmap = null;
+                                    try {
+                                        bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
+                                    } catch (IOException e) {
+                                        throw new RuntimeException(e);
+                                    }
+
+                                    // Resize the bitmap
+                                    Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
+                                    // Convert the resized bitmap to a byte array
+                                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                    resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                    byte[] imageData = baos.toByteArray();
+
+                                    // Upload the resized image to Firebase Storage
+                                    StorageReference filepath = firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
+                                    UploadTask uploadTask = filepath.putBytes(imageData);
+
+                                    // Add onSuccessListener for the upload task
+                                    uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                        @Override
+                                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                            StorageReference imageRef = firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
+                                            imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                @Override
+                                                public void onSuccess(Uri uri) {
+                                                    Map<String, String> med = new HashMap<>();
+                                                    med.put("Image", uri.toString());
+                                                    med.put("Title", Title);
+                                                    med.put("Image", Image);
+                                                    med.put("Price", Price);
+                                                    med.put("Quantity", Quantity);
+                                                    med.put("Description", Description);
+                                                    med.put("Milligram", milligram.getSelectedItem().toString());
+
+                                                    DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document(id);
+                                                    documentReference.set(med).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                        @Override
+                                                        public void onSuccess(Void unused) {
+                                                            singleton.showToast(EditMedicine.this, "Data updated successfully");
+                                                            singleton.openActivity(EditMedicine.this, MedicineList.class);
+                                                        }
+                                                    });
+                                                }
+                                            });
+                                        }
+                                    });
+                                } else {
+                                    singleton.showToast(EditMedicine.this, "Please select an image");
+                                }
+                            }
+                        }
+                    }
+
+
+                } catch (Exception ex) {
+                    singleton.showToast(EditMedicine.this, ex.getMessage());
+                }
             }
         });
+//        edit.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                singleton = new Singleton();
+//                Title = title.getText().toString();
+//                Image = String.valueOf(content_uri);
+//                Price = price.getText().toString();
+//                Quantity = quantity.getText().toString();
+//                Description = description.getText().toString();
+//                HashMap<String, String> map = new HashMap<>();
+//                map.put("Title", Title);
+//                map.put("Image", Image);
+//                map.put("Price", Price);
+//                map.put("Quantity", Quantity);
+//                map.put("Description", Description);
+//                map.put("Milligram", milligram.getSelectedItem().toString());
+//                DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document(id);
+//                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                    @Override
+//                    public void onSuccess(Void unused) {
+//                        singleton.showToast(EditMedicine.this, "Data updated successfully");
+//                        singleton.openActivity(getApplicationContext(), MedicineList.class);
+//                    }
+//                });
+//
+//            }
+//        });
 
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -135,7 +248,25 @@ EditMedicine extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 content_uri = data.getData();
-                imageView.setImageURI(content_uri);
+                int targetWidth = 400;
+                int targetHeight = 300;
+
+                // Load the bitmap from the content URI
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Resize the bitmap
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
+                // Convert the resized bitmap to a byte array
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageData = baos.toByteArray();
+                imageView.setImageBitmap(resizedBitmap);
             }
         }
     }

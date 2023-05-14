@@ -1,6 +1,5 @@
 package com.example.docportal.Doctor;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,7 +11,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.docportal.Doctor.Appointment;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -21,15 +19,12 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 
-
-import io.reactivex.rxjava3.core.Single;
-
 public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment, ViewAppointmentAdapter.ViewHolder> {
 
-    private ItemClickListenerCheck listenerCheck;
-    private Context context;
     FirestoreHandler firestoreHandler = new FirestoreHandler();
     Singleton singleton = new Singleton();
+    private final ItemClickListenerCheck listenerCheck;
+    private Context context;
 
 
     public ViewAppointmentAdapter(@NonNull FirestoreRecyclerOptions<Appointment> options, ItemClickListenerCheck itemClickListenerCheck) {
@@ -47,6 +42,10 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.view_appointments_recycler, parent, false);
         return new ViewHolder(view);
+    }
+
+    public interface ItemClickListenerCheck {
+        String onItemClick(String details);
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -114,9 +113,5 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
         }
 
 
-    }
-
-    public interface ItemClickListenerCheck {
-        String onItemClick(String details);
     }
 }

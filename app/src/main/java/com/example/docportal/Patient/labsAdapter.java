@@ -1,5 +1,6 @@
 package com.example.docportal.Patient;
 
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -49,6 +50,12 @@ public class labsAdapter extends FirestoreRecyclerAdapter<BloodBankModel, labsAd
         holder.location.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Bundle bundle = new Bundle();
+
+                bundle.putString("latitude", model.getLatitude());
+                bundle.putString("longitude", model.getLongitude());
+                bundle.putString("lab_name", model.getName());
+                view.getContext().startActivity(singleton.getIntent(view.getContext(), allMaps.class).putExtra("myBundle", bundle));
                 singleton.openActivity(view.getContext(), allMaps.class);
             }
         });

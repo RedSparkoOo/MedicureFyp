@@ -124,7 +124,7 @@
                 android:ems="10"
                 android:fontFamily="@font/inter_medium"
                 android:hint="Enter medicine price"
-                android:inputType="textPersonName"
+                android:inputType="numberDecimal"
                 android:paddingEnd="7sp"
                 android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"

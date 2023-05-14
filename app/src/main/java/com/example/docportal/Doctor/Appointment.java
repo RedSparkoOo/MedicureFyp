@@ -3,7 +3,12 @@ package com.example.docportal.Doctor;
 public class Appointment {
     private String AppointedDoctorId;
     private String AppointedPatientId;
-
+    private String ApprovedDoctorCell;
+    private String ApprovedDoctorName;
+    private String ApprovedPatientCell;
+    private String ApprovedPatientName;
+    private String ApprovedAppointmentDate;
+    private String ApprovedAppointmentTime;
     public Appointment(String appointedDoctorId, String appointedPatientId, String approvedDoctorCell, String approvedDoctorName, String approvedPatientCell, String approvedPatientName, String approvedAppointmentDate, String approvedAppointmentTime) {
         AppointedDoctorId = appointedDoctorId;
         AppointedPatientId = appointedPatientId;
@@ -14,13 +19,6 @@ public class Appointment {
         ApprovedAppointmentDate = approvedAppointmentDate;
         ApprovedAppointmentTime = approvedAppointmentTime;
     }
-
-    private String ApprovedDoctorCell;
-    private String ApprovedDoctorName;
-    private String ApprovedPatientCell;
-    private String ApprovedPatientName;
-    private String ApprovedAppointmentDate;
-    private String ApprovedAppointmentTime;
 
     public Appointment() {
     }

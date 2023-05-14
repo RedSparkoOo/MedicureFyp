@@ -149,9 +149,10 @@
                 android:drawableStart="@drawable/full_name_avatar"
                 android:drawablePadding="5sp"
                 android:ems="10"
+                android:inputType="numberDecimal"
                 android:fontFamily="@font/inter_medium"
                 android:hint="Enter medicine price"
-                android:inputType="textPersonName"
+
                 android:paddingEnd="7sp"
                 android:textColor="@color/light_black"
                 android:textColorHint="@color/grey"

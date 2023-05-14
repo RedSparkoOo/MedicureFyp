@@ -73,6 +73,7 @@ public class customerSupport extends AppCompatActivity {
                         @Override
                         public void onSuccess(Void unused) {
                             singleton.showToast(customerSupport.this, "Message Sent");
+                            singleton.showToast(customerSupport.this," Response will be arrived on your email ");
                         }
                     });
                 }

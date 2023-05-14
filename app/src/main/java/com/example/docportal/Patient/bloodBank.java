@@ -43,8 +43,6 @@ public class bloodBank extends AppCompatActivity {
         bloodList.setAdapter(bloodBankAdapter);
 
 
-
-
     }
 
     @Override

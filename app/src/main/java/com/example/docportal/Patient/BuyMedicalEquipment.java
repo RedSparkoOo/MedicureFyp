@@ -8,16 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Pharmacist.MedicalEquipment;
-import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -98,7 +95,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
                 FirestoreRecyclerOptions<MedicalEquipment> newOptions = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                         .setQuery(newQuery, MedicalEquipment.class)
                         .build();
-                medicalEquipmentAdapter .updateOptions(newOptions);
+                medicalEquipmentAdapter.updateOptions(newOptions);
 
             }
 

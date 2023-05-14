@@ -114,10 +114,12 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                if (value.exists()) {
+                if (value.exists() ) {
                     doctor_name.setText(value.getString("Full Name"));
-                    String Image = value.getString("Image");
-                    Picasso.get().load(Uri.parse(Image)).into(doctor_profile);
+                    if(value.getString("Image") != null) {
+                        String Image = value.getString("Image");
+                        Picasso.get().load(Uri.parse(Image)).into(doctor_profile);
+                    }
                 } else
                     singleton.showToast(PharmacistDashboard.this, "No Value");
             }

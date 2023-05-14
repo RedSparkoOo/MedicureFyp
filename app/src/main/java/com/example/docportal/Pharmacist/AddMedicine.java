@@ -3,6 +3,7 @@ package com.example.docportal.Pharmacist;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -26,10 +27,13 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -68,6 +72,25 @@ public class AddMedicine extends AppCompatActivity {
         quantity = findViewById(R.id.quantity);
         price = findViewById(R.id.price);
         add = findViewById(R.id.Add);
+//        int targetWidth = 800; // Set your desired width
+//        int targetHeight = 600; // Set your desired height
+//        Bitmap resizedBitmap = null;
+//        if (content_uri != null) {
+//            try {
+//                // Load the bitmap from the content URI
+//                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
+//                // Resize the bitmap
+//                resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//                // Handle the error loading the bitmap
+//                singleton.showToast(AddMedicine.this, "Error loading image");
+//            }
+//        } else {
+//            // Handle the case when content_uri is null
+//            singleton.showToast(AddMedicine.this, "Image not provided");
+//        }
+
         singleton.setAdatper(AddMedicine.this, medicineMilligrams, Milligrams);
         medicineMilligrams.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -91,56 +114,101 @@ public class AddMedicine extends AppCompatActivity {
         checkEvent = new CheckEvent();
 
         add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try {
-                    if (checkEvent.isEmpty(textViews) == true || (checkEvent.checkItemName(title))==false) {
-                        System.out.println("mango");
-                    }
-                    else {
-                        firestoreHandler = new FirestoreHandler();
+                                   @Override
+                                   public void onClick(View view) {
+                                       try {
+                                           if (checkEvent.isEmpty(textViews) || !(checkEvent.checkItemName(title))) {
+                                               System.out.println("mango");
+                                           } else {
+                                               firestoreHandler = new FirestoreHandler();
+
+                                               _title = title.getText().toString();
+                                               _description = title.getText().toString();
+                                               _price = price.getText().toString();
+                                               _quantity = quantity.getText().toString();
+
+                                               // Check if the title already exists
+                                               firestoreHandler.getFirestoreInstance()
+                                                       .collection("Medicine")
+                                                       .whereEqualTo("Title", _title)
+                                                       .get()
+                                                       .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                                           @Override
+                                                           public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                                               if (task.isSuccessful()) {
+                                                                   if (!task.getResult().isEmpty()) {
+                                                                       // Title already exists
+                                                                       singleton.showToast(AddMedicine.this, "Item already exists");
+                                                                   } else {
+                                                                       if (content_uri != null) {
+                                                                           // Create a target width and height for the resized bitmap
+                                                                           int targetWidth = 400;
+                                                                           int targetHeight = 300;
+
+                                                                           // Load the bitmap from the content URI
+                                                                           Bitmap bitmap = null;
+                                                                           try {
+                                                                               bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
+                                                                               // Resize the bitmap
+                                                                               Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
+                                                                               // Convert the resized bitmap to a byte array
+                                                                               ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                                                                               resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                                                                               byte[] imageData = baos.toByteArray();
+
+                                                                               // Upload the resized image to Firebase Storage
+                                                                               StorageReference filepath = firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
+                                                                               UploadTask uploadTask = filepath.putBytes(imageData);
+
+                                                                               // Add onSuccessListener for the upload task
+                                                                               uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                                                                   @Override
+                                                                                   public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                                                                       StorageReference imageRef = firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
+                                                                                       imageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                                           @Override
+                                                                                           public void onSuccess(Uri uri) {
+                                                                                               Map<String, String> med = new HashMap<>();
+                                                                                               med.put("Image", uri.toString());
+                                                                                               med.put("Title", _title);
+                                                                                               med.put("Description", _description);
+                                                                                               med.put("Quantity", _quantity);
+                                                                                               med.put("Price", _price);
+                                                                                               med.put("Milligram", _milligram);
+
+                                                                                               DocumentReference documentReference = firestoreHandler.getFirestoreInstance()
+                                                                                                       .collection("Medicine")
+                                                                                                       .document();
+                                                                                               documentReference.set(med)
+                                                                                                       .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                                                                           @Override
+                                                                                                           public void onSuccess(Void unused) {
+                                                                                                               singleton.showToast(AddMedicine.this, "Data inserted successfully");
+                                                                                                           }
+                                                                                                       });
+                                                                                           }
+                                                                                       });
+                                                                                   }
+                                                                               });
+                                                                           } catch (IOException e) {
+                                                                               e.printStackTrace();
+                                                                               // Handle the error loading the bitmap
+                                                                               singleton.showToast(AddMedicine.this, "Error loading image");
+                                                                           }
 
 
-                        _title = title.getText().toString();
-                        _description = title.getText().toString();
-                        _price = price.getText().toString();
-                        _quantity = quantity.getText().toString();
-                        StorageReference filepath = firebaseStorage.getReference().child("medicineImage").child(content_uri.getLastPathSegment());
-                        filepath.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                            @Override
-                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                                Task<Uri> downloadUrl = taskSnapshot.getStorage().getDownloadUrl().addOnCompleteListener(new OnCompleteListener<Uri>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Uri> task) {
-                                        Map<String, String> med = new HashMap<>();
-                                        med.put("Image", task.getResult().toString());
-                                        med.put("Title", _title);
-                                        med.put("Description", _description);
-                                        med.put("Quantity", _quantity);
-                                        med.put("Price", _price);
-                                        med.put("Milligram", _milligram);
-                                        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Medicine").document();
-                                        documentReference.set(med).addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void unused) {
-                                                singleton.showToast(AddMedicine.this, "Data inserted successfully");
-
-                                            }
-                                        });
-                                    }
-                                });
-                            }
-                        });
-
-                    }
-                } catch (Exception ex) {
-                    singleton.showToast(AddMedicine.this, ex.getMessage());
-                }
-
-
-            }
-
-        });
+                                                                       }
+                                                                   }
+                                                               }
+                                                           }
+                                                       });
+                                           }
+                                       } catch (Exception ex) {
+                                           singleton.showToast(AddMedicine.this, ex.getMessage());
+                                       }
+                                   }
+                               });
 
         medicinePic.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,7 +227,27 @@ public class AddMedicine extends AppCompatActivity {
             if (resultCode == Activity.RESULT_OK) {
                 assert data != null;
                 content_uri = data.getData();
-                medicinePic.setImageURI(content_uri);
+                int targetWidth = 400;
+                int targetHeight = 300;
+
+                // Load the bitmap from the content URI
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                // Resize the bitmap
+                Bitmap resizedBitmap = Bitmap.createScaledBitmap(bitmap, targetWidth, targetHeight, true);
+
+                // Convert the resized bitmap to a byte array
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                byte[] imageData = baos.toByteArray();
+                medicinePic.setImageBitmap(resizedBitmap);
+
+
             }
         }
     }

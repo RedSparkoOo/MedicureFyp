@@ -86,7 +86,7 @@ public class MedicineList extends AppCompatActivity {
                 FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()
                         .setQuery(newQuery, Medicine.class)
                         .build();
-                medicineListAdapter .updateOptions(newOptions);
+                medicineListAdapter.updateOptions(newOptions);
 
             }
 

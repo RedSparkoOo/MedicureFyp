@@ -122,7 +122,7 @@
                     android:id="@+id/pay_button1"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/cut"
+                    android:background="@drawable/but_disbaled"
                     android:layout_marginRight="20dp"
 
 
@@ -138,7 +138,7 @@
                     android:id="@+id/rec_start"
                     android:layout_width="90dp"
                     android:layout_height="30dp"
-                    android:background="@drawable/cut"
+                    android:background="@drawable/but_disbaled"
                     android:text="Start"
                     android:padding="6dp"
                     android:drawableLeft="@drawable/camera"

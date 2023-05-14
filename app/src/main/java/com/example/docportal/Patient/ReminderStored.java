@@ -51,7 +51,7 @@ public class ReminderStored extends AppCompatActivity {
         back_to_health_tracker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(ReminderStored.this, healthTracker.class);
+                singleton.openActivity(ReminderStored.this, HealthTracker.class);
             }
         });
         RecievedReminders();

@@ -1,9 +1,11 @@
 package com.example.docportal.Doctor;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -12,6 +14,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -20,6 +23,7 @@ import java.util.List;
 public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingNotificationsAdapter.ViewHolder> implements Filterable {
 
     private final List<String> AppointmentNames;
+    private final List<String> AppointmentId;
     private final List<String> AppointmentPhones;
     private final List<String> AppointmentDate;
     private final List<String> AppointmentTime;
@@ -57,11 +61,12 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         }
     };
 
-    public UpcomingNotificationsAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3) {
+    public UpcomingNotificationsAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> nameDataSet4) {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
         AppointmentDate = nameDataSet2;
         AppointmentTime = nameDataSet3;
+        AppointmentId = nameDataSet4;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
     }
 
@@ -89,6 +94,17 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         viewHolder.getApoint_names().setText(AppointmentNames.get(position));
         viewHolder.getAppointment_date().setText(AppointmentDate.get(position));
         viewHolder.getAppointment_time().setText(AppointmentTime.get(position));
+        viewHolder.chat.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Context  context = v.getContext();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("names", AppointmentNames.get(position));
+
+                context.startActivity(new Singleton().getIntent(context, Chat.class).putExtra("mBundle", bundle).putExtra("ID", AppointmentId.get(position)));
+            }
+        });
 
 
     }
@@ -115,7 +131,7 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         private final TextView appointment_date;
         private final TextView appointment_time;
         private final ImageView profile_image;
-
+        private final Button chat;
 
         public ViewHolder(View view) {
             super(view);
@@ -125,6 +141,7 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
             appointment_date = view.findViewById(R.id.appointment_date);
             appointment_time = view.findViewById(R.id.appointment_time);
             profile_image = view.findViewById(R.id.appointment_patient_profile);
+            chat = view.findViewById(R.id.chat_appointment_book);
 
 
         }

@@ -3,14 +3,9 @@ package com.example.docportal.Patient;
 import android.Manifest;
 import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
-import android.app.AlarmManager;
-import android.app.Notification;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -23,7 +18,6 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +26,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.example.docportal.Broadcasts;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -43,7 +36,6 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,27 +46,22 @@ public class HealthTracker extends AppCompatActivity {
     SensorManager sensorManager;
     Sensor sensor;
     SensorEventListener eventListener;
-    private double MagnitudePrevious = 0;
-
     ProgressBar step_progress_bar;
     CountDownTimer countDownTimer;
     TextView steps_status;
     TextView water_glass;
-    private Button med_remind_activity;
-    private Button med_remind_check;
-
     FirebaseFirestore firestore;
     FirebaseAuth FAuth;
     String UID;
-
     long stepsCount;
-
     ImageView back_to_patient_dashboard;
-
     Button add_water;
     Button sub_water;
     Long waterIntake;
     long stepsProgress;
+    private double MagnitudePrevious = 0;
+    private Button med_remind_activity;
+    private Button med_remind_check;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,8 +94,6 @@ public class HealthTracker extends AppCompatActivity {
                 addNotifications();
             }
         });
-
-
 
 
         med_remind_check.setOnClickListener(new View.OnClickListener() {
@@ -173,8 +158,6 @@ public class HealthTracker extends AppCompatActivity {
     }
 
 
-
-
     public void waterIntake() {
 
         add_water.setOnClickListener(new View.OnClickListener() {
@@ -190,13 +173,11 @@ public class HealthTracker extends AppCompatActivity {
         sub_water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(waterIntake == 0){
+                if (waterIntake == 0) {
 
                     sub_water.setBackgroundResource(R.drawable.but_disbaled);
                     sub_water.setEnabled(false);
-                }
-
-                else {
+                } else {
                     sub_water.setEnabled(true);
                     sub_water.setBackgroundResource(R.drawable.but);
                     --waterIntake;
@@ -212,7 +193,7 @@ public class HealthTracker extends AppCompatActivity {
     private void updateWater(long update) {
         DocumentReference documentReference = firestore.collection("Water Intake").document(UID);
 
-        Map<String,Object> water = new HashMap<>();
+        Map<String, Object> water = new HashMap<>();
         water.put("Water Glass", update);
 
         documentReference.set(water)
@@ -227,7 +208,6 @@ public class HealthTracker extends AppCompatActivity {
                     }
                 });
     }
-
 
 
     private void WaterStatus() {
@@ -277,8 +257,8 @@ public class HealthTracker extends AppCompatActivity {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                Map<String,Object> water = new HashMap<>();
-                water.put("Water Glass",create_water);
+                Map<String, Object> water = new HashMap<>();
+                water.put("Water Glass", create_water);
                 documentReference.set(water);
 
 
@@ -291,13 +271,11 @@ public class HealthTracker extends AppCompatActivity {
         progressAnimator.setDuration(100);
 
 
-
-
         eventListener = new SensorEventListener() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onSensorChanged(SensorEvent event) {
-                if(event !=null){
+                if (event != null) {
                     float x_acceleration = event.values[0];
                     float y_acceleration = event.values[1];
                     float z_acceleration = event.values[2];
@@ -308,7 +286,7 @@ public class HealthTracker extends AppCompatActivity {
                     MagnitudePrevious = Magnitude;
 
 
-                    if(MagnitudeDelta > 6){
+                    if (MagnitudeDelta > 6) {
 
 
                         stepsCount++;
@@ -316,22 +294,22 @@ public class HealthTracker extends AppCompatActivity {
                         steps_status.setText(String.valueOf(stepsProgress));
 
 
-                        if(stepsCount >=100 && stepsCount <200 ){
+                        if (stepsCount >= 100 && stepsCount < 200) {
                             countDownTimer.start();
                             steps_status.setText("20");
                         }
-                        if (stepsCount >= 200 && stepsCount <300) {
+                        if (stepsCount >= 200 && stepsCount < 300) {
                             countDownTimer.start();
                             steps_status.setText("40");
                         }
 
-                        if (stepsCount >= 300 && stepsCount <400) {
+                        if (stepsCount >= 300 && stepsCount < 400) {
 
                             countDownTimer.start();
                             steps_status.setText("60");
                         }
 
-                        if (stepsCount >= 400 && stepsCount <500) {
+                        if (stepsCount >= 400 && stepsCount < 500) {
 
                             countDownTimer.start();
                             steps_status.setText("80");
@@ -348,29 +326,22 @@ public class HealthTracker extends AppCompatActivity {
             }
 
 
-
             @Override
             public void onAccuracyChanged(Sensor sensor, int accuracy) {
 
             }
         };
 
-        sensorManager.registerListener(eventListener,sensor,SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(eventListener, sensor, SensorManager.SENSOR_DELAY_UI);
 
 
-
-
-
-        countDownTimer = new CountDownTimer(11*1000,1000) {
+        countDownTimer = new CountDownTimer(11 * 1000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
                 stepsProgress = stepsProgress + 20;
                 step_progress_bar.setProgress(Math.toIntExact(stepsProgress));
                 step_progress_bar.setMax(100);
                 countDownTimer.cancel();
-
-
-
 
 
             }
@@ -383,7 +354,6 @@ public class HealthTracker extends AppCompatActivity {
         };
 
 
-
     }
 
     private void FirestoreStepsStatus() {
@@ -394,14 +364,14 @@ public class HealthTracker extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 if (value == null) {
                     // Document does not exist
-                    FireStoreCreateSteps(0,0);
+                    FireStoreCreateSteps(0, 0);
                     return;
                 }
 
                 String ID = value.getId();
                 if (!ID.equals(UID)) {
                     // Document belongs to a different user
-                    FireStoreCreateSteps(0,0);
+                    FireStoreCreateSteps(0, 0);
                     return;
                 }
 
@@ -409,7 +379,7 @@ public class HealthTracker extends AppCompatActivity {
                 Long progress_count = value.getLong("Progress");
                 if (steps_count == null) {
                     // "Water Glass" field is missing or null
-                    FireStoreCreateSteps(0,0);
+                    FireStoreCreateSteps(0, 0);
                     return;
                 }
                 stepsCount = steps_count;
@@ -424,19 +394,16 @@ public class HealthTracker extends AppCompatActivity {
     }
 
 
-
-
-
-    private void FireStoreCreateSteps(long step_count_stored,long step_count_progress) {
+    private void FireStoreCreateSteps(long step_count_stored, long step_count_progress) {
 
         DocumentReference documentReference = firestore.collection("Steps Status").document(UID);
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
 
-                Map<String,Object> steps = new HashMap<>();
-                steps.put("Steps",step_count_stored);
-                steps.put("Progress",step_count_progress);
+                Map<String, Object> steps = new HashMap<>();
+                steps.put("Steps", step_count_stored);
+                steps.put("Progress", step_count_progress);
                 documentReference.set(steps);
 
 
@@ -448,7 +415,7 @@ public class HealthTracker extends AppCompatActivity {
     private void FireStoreUpdateSteps(long step, long progress) {
 
         DocumentReference documentReference = firestore.collection("Steps Status").document(UID);
-        Map<String,Object> water = new HashMap<>();
+        Map<String, Object> water = new HashMap<>();
         water.put("Steps", step);
         water.put("Progress", progress);
 
@@ -508,7 +475,7 @@ public class HealthTracker extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         updateWater(waterIntake);
-        FireStoreUpdateSteps(stepsCount,stepsProgress);
+        FireStoreUpdateSteps(stepsCount, stepsProgress);
         sensorManager.unregisterListener(eventListener);
     }
 }

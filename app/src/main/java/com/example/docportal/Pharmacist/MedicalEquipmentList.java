@@ -82,11 +82,10 @@ public class MedicalEquipmentList extends AppCompatActivity {
                             .orderBy("Title");
                 }
                 FirestoreRecyclerOptions<MedicalEquipment> newOptions = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
-                        .setQuery(newQuery,MedicalEquipment.class)
+                        .setQuery(newQuery, MedicalEquipment.class)
                         .build();
-                equipmentListAdapter .updateOptions(newOptions);
+                equipmentListAdapter.updateOptions(newOptions);
             }
-
 
 
             @Override

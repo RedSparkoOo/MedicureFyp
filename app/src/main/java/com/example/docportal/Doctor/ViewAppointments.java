@@ -1,30 +1,22 @@
 package com.example.docportal.Doctor;
 
 import android.os.Bundle;
-
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
 
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Patient.WrapContentLinearLayoutManager;
-
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
-
 import com.google.firebase.firestore.Query;
-
-
 
 
 public class ViewAppointments extends AppCompatActivity {
@@ -50,9 +42,6 @@ public class ViewAppointments extends AppCompatActivity {
         appointments_viewed = findViewById(R.id.letter_box);
         search_patient = findViewById(R.id.search_patient);
         back_to_doctor_dashboard = findViewById(R.id.back_to_doctor_dashboard);
-
-
-
 
 
 //        search_patient = findViewById(R.id.search_patient);
@@ -96,7 +85,7 @@ public class ViewAppointments extends AppCompatActivity {
         Query query = noteBookref.orderBy("ApprovedPatientName", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Appointment> options = new FirestoreRecyclerOptions.Builder<Appointment>()
                 .setQuery(query, Appointment.class).build();
-        appointmentadapter = new ViewAppointmentAdapter (options, new ViewAppointmentAdapter.ItemClickListenerCheck() {
+        appointmentadapter = new ViewAppointmentAdapter(options, new ViewAppointmentAdapter.ItemClickListenerCheck() {
             @Override
             public String onItemClick(String details) {
                 return null;
@@ -106,7 +95,7 @@ public class ViewAppointments extends AppCompatActivity {
         appointment_recycler_view.setLayoutManager(new WrapContentLinearLayoutManager(ViewAppointments.this, LinearLayoutManager.VERTICAL, false));
 
 
-        appointment_recycler_view .setAdapter(appointmentadapter);
+        appointment_recycler_view.setAdapter(appointmentadapter);
 
     }
 

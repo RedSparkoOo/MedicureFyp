@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
-import com.example.docportal.Pharmacist.MedicalEquipment;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -41,7 +40,7 @@ public class bloodBankOptions extends AppCompatActivity {
     Singleton singleton = new Singleton();
     EditText search;
     Query newQuery;
-    ImageView A, B ,AB, O;
+    ImageView A, B, AB, O;
 
     private String id;
     private String name;
@@ -57,7 +56,7 @@ public class bloodBankOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "A")
-                        .whereLessThanOrEqualTo("bloodBankId", "A"+ "\uf8ff")
+                        .whereLessThanOrEqualTo("bloodBankId", "A" + "\uf8ff")
                         .orderBy("bloodBankId");
                 setQuery();
             }
@@ -66,7 +65,7 @@ public class bloodBankOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "B")
-                        .whereLessThanOrEqualTo("bloodBankId", "B"+ "\uf8ff")
+                        .whereLessThanOrEqualTo("bloodBankId", "B" + "\uf8ff")
                         .orderBy("bloodBankId");
                 setQuery();
             }
@@ -75,7 +74,7 @@ public class bloodBankOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "AB")
-                        .whereLessThanOrEqualTo("bloodBankId", "AB"+ "\uf8ff")
+                        .whereLessThanOrEqualTo("bloodBankId", "AB" + "\uf8ff")
                         .orderBy("bloodBankId");
                 setQuery();
             }
@@ -84,7 +83,7 @@ public class bloodBankOptions extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "O")
-                        .whereLessThanOrEqualTo("bloodBankId", "O"+ "\uf8ff")
+                        .whereLessThanOrEqualTo("bloodBankId", "O" + "\uf8ff")
                         .orderBy("bloodBankId");
                 setQuery();
             }
@@ -109,9 +108,9 @@ public class bloodBankOptions extends AppCompatActivity {
                             .orderBy("bloodBankId");
                 }
                 FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
-                        .setQuery(newQuery,BloodBankModel.class)
+                        .setQuery(newQuery, BloodBankModel.class)
                         .build();
-                bloodBankAdapter .updateOptions(newOptions);
+                bloodBankAdapter.updateOptions(newOptions);
             }
 
             @Override
@@ -134,12 +133,13 @@ public class bloodBankOptions extends AppCompatActivity {
         });
     }
 
-    private void setQuery(){
+    private void setQuery() {
         FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
-                .setQuery(newQuery,BloodBankModel.class)
+                .setQuery(newQuery, BloodBankModel.class)
                 .build();
-        bloodBankAdapter .updateOptions(newOptions);
+        bloodBankAdapter.updateOptions(newOptions);
     }
+
     private void setUpRecycler() {
 
         Query query = noteBookref.orderBy("bloodBankId", Query.Direction.DESCENDING).startAt(id).endAt(id);

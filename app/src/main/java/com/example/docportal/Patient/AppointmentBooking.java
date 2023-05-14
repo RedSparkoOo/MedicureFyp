@@ -41,7 +41,6 @@ public class AppointmentBooking extends AppCompatActivity {
     Button book_appointment;
 
 
-
     ImageView back_to_doc_nur_Selection;
 
     DatePickerDialog.OnDateSetListener setListener;

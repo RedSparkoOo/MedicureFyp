@@ -51,8 +51,8 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
             Bundle bundle = intent.getBundleExtra("myBundle");
 
 
-            double rec_latitude = 41.890251;
-            double rec_longitude = 12.492373;
+            double rec_latitude = Double.parseDouble(bundle.getString("latitude"));
+            double rec_longitude =  Double.parseDouble(bundle.getString("longitude"));
             String rec_lab_name = bundle.getString("lab_name");
 
 

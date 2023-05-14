@@ -58,7 +58,9 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
         holder.positive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (model.getQuantity().equals("0")) ;
+                if (model.getQuantity().equals("0")) {
+                    holder.count.setText("0");
+                }
                 else {
                     Quantity = holder.count.getText().toString();
                     Price = holder.price.getText().toString();

@@ -19,7 +19,7 @@ public class CheckEvent {
     private final String phoneRegex = "^[0-9]{10}$";
     private final String passwordRegex = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#&()–[{}]:;',?/*~$^+=<>]).{8,20}$";
     private final String CNICRegex = "^[1-9][0-9]{4}[0-9]{7}[1-9]$";
-    private final String itemName = "^[aA-zZ ]{1,30}$";
+    private final String itemName = "^[A-Z][aA-zZ ]{1,30}$";
 
 
     public Boolean checkName(TextView textView) {

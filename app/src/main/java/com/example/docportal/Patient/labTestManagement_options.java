@@ -41,48 +41,48 @@ public class labTestManagement_options extends AppCompatActivity {
         Liver = findViewById(R.id.liver_category);
         Kidney = findViewById(R.id.kidney_category);
         Lungs = findViewById(R.id.lungs_category);
-    All.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING);
-            setQuery();
-        }
-    });
-    Blood.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.whereEqualTo("category","Blood");
-            setQuery();
-        }
-    });
-    Cardio.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.whereEqualTo("category","Cardio");
-            setQuery();
-        }
-    });
-    Liver.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.whereEqualTo("category","Liver");
-            setQuery();
-        }
-    });
-    Kidney.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.whereEqualTo("category","Kidney");
-            setQuery();
-        }
-    });
-    Lungs.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            newQuery = noteBookref.whereEqualTo("category","Lungs");
-            setQuery();
-        }
-    });
+        All.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING);
+                setQuery();
+            }
+        });
+        Blood.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereEqualTo("category", "Blood");
+                setQuery();
+            }
+        });
+        Cardio.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereEqualTo("category", "Cardio");
+                setQuery();
+            }
+        });
+        Liver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereEqualTo("category", "Liver");
+                setQuery();
+            }
+        });
+        Kidney.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereEqualTo("category", "Kidney");
+                setQuery();
+            }
+        });
+        Lungs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereEqualTo("category", "Lungs");
+                setQuery();
+            }
+        });
 
         editText.addTextChangedListener(new TextWatcher() {
             @Override
@@ -111,11 +111,12 @@ public class labTestManagement_options extends AppCompatActivity {
             }
         });
     }
-    private void setQuery(){
+
+    private void setQuery() {
         FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
-                .setQuery(newQuery,BloodBankModel.class)
+                .setQuery(newQuery, BloodBankModel.class)
                 .build();
-        bloodBankAdapter .updateOptions(newOptions);
+        bloodBankAdapter.updateOptions(newOptions);
     }
 
 

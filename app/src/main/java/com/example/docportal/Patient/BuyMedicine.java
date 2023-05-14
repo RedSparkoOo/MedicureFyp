@@ -92,7 +92,7 @@ public class BuyMedicine extends AppCompatActivity {
                     FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()
                             .setQuery(newQuery, Medicine.class)
                             .build();
-                    buyMedicalAdapter .updateOptions(newOptions);
+                    buyMedicalAdapter.updateOptions(newOptions);
 
                 }
 

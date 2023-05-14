@@ -451,7 +451,7 @@ public class CheckoutActivityJava extends AppCompatActivity {
             data.put("item", model.getTitle());
             data.put("seller", model.getSeller());
             data.put("time", formattedTime);
-            data.put("price", model.getPrice());
+            data.put("price", model.getPrice() +"$");
 
             // Create a new document in the Firestore collection
             transactionRef.add(data)

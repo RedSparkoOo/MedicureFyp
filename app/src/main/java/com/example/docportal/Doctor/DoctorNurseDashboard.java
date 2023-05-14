@@ -286,7 +286,7 @@ public class DoctorNurseDashboard extends AppCompatActivity implements Navigatio
         approved_appointment_date.clear();
         approved_appointment_time.clear();
 
-        FStore.collection("Approved Appointments").orderBy("Approved Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+        FStore.collection("Approved Appointments").orderBy("ApprovedPatientName", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
 
 
             @Override
@@ -299,8 +299,8 @@ public class DoctorNurseDashboard extends AppCompatActivity implements Navigatio
                     if (dc.equals(null))
                         singleton.showToast(DoctorNurseDashboard.this, "Nothing to show");
                     else {
-                        String patientId = String.valueOf(dc.getDocument().get("Appointed Patient ID"));
-                        ID = String.valueOf(dc.getDocument().get("Appointed Doctor Id"));
+                        String patientId = String.valueOf(dc.getDocument().get("AppointedPatientID"));
+                        ID = String.valueOf(dc.getDocument().get("AppointedDoctorId"));
                         if (firestoreHandler.getCurrentUser().equals(ID)) {
 
                             if (dc != null) {
@@ -308,11 +308,12 @@ public class DoctorNurseDashboard extends AppCompatActivity implements Navigatio
                                 upcoming_appointments.setVisibility(View.VISIBLE);
                                 if (dc.getType() == DocumentChange.Type.ADDED) {
 
-                                    approved_patient_names.add(String.valueOf(dc.getDocument().get("Approved Patient Name")));
-                                    approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("Approved Patient Cell")));
-                                    approved_appointment_date.add(String.valueOf(dc.getDocument().get("Approved Appointment Date")));
-                                    approved_appointment_time.add(String.valueOf(dc.getDocument().get("Approved Appointment Time")));
-                                    notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names, approved_patient_phone_no, approved_appointment_date, approved_appointment_time);
+                                    approved_patient_names.add(String.valueOf(dc.getDocument().get("ApprovedPatientName")));
+                                    approved_patient_phone_no.add(String.valueOf(dc.getDocument().get("ApprovedPatientCell")));
+                                    approved_appointment_date.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentDate")));
+                                    approved_appointment_time.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
+                                    approved_patient_id.add(String.valueOf(dc.getDocument().get("AppointedPatientId")));
+                                    notificationsAdapter = new UpcomingNotificationsAdapter(approved_patient_names, approved_patient_phone_no, approved_appointment_date, approved_appointment_time,approved_patient_id);
                                     upcoming_appointments.setAdapter(notificationsAdapter);
                                     upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount() - 1);
                                 }
