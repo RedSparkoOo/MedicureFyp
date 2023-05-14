@@ -55,7 +55,7 @@ public class MedicalEquipmentList extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        Query query = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+        Query query = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                 .setQuery(query, MedicalEquipment.class).build();
         equipmentListAdapter = new EquipmentListAdapter(options);
@@ -74,10 +74,10 @@ public class MedicalEquipmentList extends AppCompatActivity {
                 String query = charSequence.toString();
                 Query newQuery;
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
                 } else {
                     // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).whereGreaterThanOrEqualTo("Title", query)
                             .whereLessThanOrEqualTo("Title", query + "\uf8ff")
                             .orderBy("Title");
                 }

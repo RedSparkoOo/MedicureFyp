@@ -112,27 +112,28 @@ public class EditEquipment extends AppCompatActivity {
                     } else {
                         firestoreHandler = new FirestoreHandler();
 
-
-                        Title = title.getText().toString();
-                        Image = String.valueOf(content_uri);
-                        Price = price.getText().toString();
-                        Quantity = quantity.getText().toString();
-                        Description = description.getText().toString();
-
                         if (image_uri != null) {
                             Drawable drawable = imageView.getDrawable();
                             if (drawable instanceof BitmapDrawable) {
                                 BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
                                 Bitmap bitmap = bitmapDrawable.getBitmap();
                                 content_uri = getImageUriFromBitmap(bitmap);
+                        Title = title.getText().toString();
+                        Image = String.valueOf(content_uri);
+                        Price = price.getText().toString();
+                        Quantity = quantity.getText().toString();
+                        Description = description.getText().toString();
+
+
 
                                 if (content_uri != null) {
                                     // Create a target width and height for the resized bitmap
-                                    int targetWidth = 400;
-                                    int targetHeight = 300;
+                                    int targetWidth = 800;
+                                    int targetHeight = 800;
+
 
                                     // Load the bitmap from the content URI
-                                    bitmap = null;
+
                                     try {
                                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
                                     } catch (IOException e) {
@@ -160,8 +161,9 @@ public class EditEquipment extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     HashMap<String, String> map = new HashMap<>();
+                                                    map.put("Id", firestoreHandler.getCurrentUser());
                                                     map.put("Title", Title);
-                                                    map.put("Image", Image);
+                                                    map.put("Image", uri.toString());
                                                     map.put("Price", Price);
                                                     map.put("Quantity", Quantity);
                                                     map.put("Description", Description);

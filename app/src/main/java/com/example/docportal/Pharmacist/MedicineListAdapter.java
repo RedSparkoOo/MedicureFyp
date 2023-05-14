@@ -52,7 +52,7 @@ public class MedicineListAdapter extends FirestoreRecyclerAdapter<Medicine, Medi
         holder.milligram.setText(model.getMilligram());
         Picasso.get()
                 .load(model.getImage())
-                .resize(400, 300)
+                .resize(800, 1200)
                 .onlyScaleDown()
                 .into(holder.image, new Callback() {
                     @Override

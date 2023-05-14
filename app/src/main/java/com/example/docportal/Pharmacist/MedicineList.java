@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Patient.WrapContentLinearLayoutManager;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -30,6 +31,7 @@ public class MedicineList extends AppCompatActivity {
 
     EditText search;
     Singleton singleton;
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     CollectionReference noteBookref = firestore.collection("Medicine");
@@ -56,7 +58,8 @@ public class MedicineList extends AppCompatActivity {
     }
 
     private void setUpRecyclerView() {
-        Query query = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+        Query query = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser())
+                .orderBy("Title", Query.Direction.DESCENDING);
         FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
                 .setQuery(query, Medicine.class).build();
         medicineListAdapter = new MedicineListAdapter(options);
@@ -76,10 +79,10 @@ public class MedicineList extends AppCompatActivity {
                 String query = charSequence.toString();
                 Query newQuery;
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
                 } else {
                     // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).whereGreaterThanOrEqualTo("Title", query)
                             .whereLessThanOrEqualTo("Title", query + "\uf8ff")
                             .orderBy("Title");
                 }

@@ -58,7 +58,7 @@ public class EquipmentListAdapter extends FirestoreRecyclerAdapter<MedicalEquipm
         imageUri = model.getImage();
         Picasso.get()
                 .load(model.getImage())
-                .resize(400, 300)
+                .resize(800, 800)
                 .onlyScaleDown()
                 .into(holder.imageView, new Callback() {
                     @Override

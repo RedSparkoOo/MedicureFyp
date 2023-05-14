@@ -52,7 +52,7 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
         if (model.getQuantity().equals("0"))
             holder.quantity.setText("Out of stock");
         else
-            holder.quantity.setText(model.getQuantity());
+            holder.quantity.setText("In stock");
 
 
         holder.positive.setOnClickListener(new View.OnClickListener() {

@@ -13,7 +13,7 @@ public class CheckEvent {
     private final String iPhone = "invalid phone number";
     private final String iPassword = "The password must contain at least one lowercase character, one uppercase character, one digit, one special character, and a length between 8 to 20.";
     private final String iCNIC = "invalid CNIC";
-    private final String iItem = "invalid Title";
+    private final String iItem = "First letter should be capital";
 
     private final String nameRegex = "^[aA-zZ]{1,25} [aA-zZ]{1,25}([aA-zZ]{1,25})$";
     private final String phoneRegex = "^[0-9]{10}$";

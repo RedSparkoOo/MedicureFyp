@@ -130,12 +130,13 @@ public class AddMedicalEquipment extends AppCompatActivity {
                                                                 @Override
                                                                 public void onSuccess(Uri uri) {
                                                                     Map<String, String> med = new HashMap<>();
+
                                                                     med.put("Image", task.getResult().toString());
                                                                     med.put("Title", _title);
                                                                     med.put("Description", _description);
                                                                     med.put("Quantity", _quantity);
                                                                     med.put("Price", _price);
-
+                                                                    med.put("Id", firestoreHandler.getCurrentUser());
                                                                     DocumentReference documentReference = firestoreHandler.getFirestoreInstance()
                                                                             .collection("Medical_Equipment")
                                                                             .document();
@@ -226,6 +227,7 @@ public class AddMedicalEquipment extends AppCompatActivity {
                                                                 @Override
                                                                 public void onSuccess(Uri uri) {
                                                                     Map<String, String> med = new HashMap<>();
+                                                                    med.put("Id", firestoreHandler.getCurrentUser());
                                                                     med.put("Image", uri.toString());
                                                                     med.put("Title", _title);
                                                                     med.put("Description", _description);

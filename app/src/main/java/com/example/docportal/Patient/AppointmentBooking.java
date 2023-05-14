@@ -196,22 +196,22 @@ public class AppointmentBooking extends AppCompatActivity {
                             booker_description = appointment_description.getText().toString();
 
 
-                            DocumentReference D_Ref = firestoreHandler.getFirestoreInstance().collection("Appointment").document();
+                            DocumentReference D_Ref = firestoreHandler.getFirestoreInstance().collection("Appointment").document(firestoreHandler.getCurrentUser());
 
 
                             D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                     Map<String, Object> appointment = new HashMap<>();
-                                    appointment.put("Patient ID", firestoreHandler.getCurrentUser());
-                                    appointment.put("Patient Name", booker_name);
-                                    appointment.put("Patient Phone No", booker_phone);
-                                    appointment.put("Appointed Doctor ID", doctor_id);
-                                    appointment.put("Doctor Name", doctor_name);
-                                    appointment.put("Doctor Phone No", doctor_phone);
-                                    appointment.put("Appointment Date", DATE);
-                                    appointment.put("Appointment Time", TIME);
-                                    appointment.put("Appointment Description", booker_description);
+                                    appointment.put("PatientID", firestoreHandler.getCurrentUser());
+                                    appointment.put("PatientName", booker_name);
+                                    appointment.put("PatientPhoneNo", booker_phone);
+                                    appointment.put("AppointedDoctorID", doctor_id);
+                                    appointment.put("DoctorName", doctor_name);
+                                    appointment.put("DoctorPhoneNo", doctor_phone);
+                                    appointment.put("AppointmentDate", DATE);
+                                    appointment.put("AppointmentTime", TIME);
+                                    appointment.put("AppointmentDescription", booker_description);
 
 
                                     D_Ref.set(appointment);

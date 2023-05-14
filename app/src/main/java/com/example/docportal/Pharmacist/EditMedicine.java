@@ -55,7 +55,7 @@ EditMedicine extends AppCompatActivity {
     Uri content_uri;
     FirestoreHandler firestoreHandler = new FirestoreHandler();
     String id, Title, Image, Price, Quantity, Description;
-    String[] Milligrams = {"", "10mg", "20mg", "25mg", "40mg"};
+    String[] Milligrams = {"10mg", "20mg", "25mg", "40mg"};
     Singleton singleton = new Singleton();
     private Uri getImageUriFromBitmap(Bitmap bitmap) {
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
@@ -96,6 +96,17 @@ EditMedicine extends AppCompatActivity {
                 Description = value.getString("Description");
                 String Milligram = value.getString("Milligram");
                 title.setText(Title);
+                int i =0;
+                for (String mg :Milligrams ) {
+
+                    if (value.getString("Milligram").equals(mg)) {
+                        milligram.setSelection(i);
+                        break;
+                    }
+
+                    i++;
+                }
+
                 Image = value.getString("Image");
                 image_uri = value.getString("Image");
                 Picasso.get()
@@ -119,7 +130,13 @@ EditMedicine extends AppCompatActivity {
                         System.out.println("mango");
                     } else {
                         firestoreHandler = new FirestoreHandler();
-
+                        if (image_uri != null) {
+                            Drawable drawable = imageView.getDrawable();
+                            if (drawable instanceof BitmapDrawable) {
+                                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+                                Bitmap bitmap = bitmapDrawable.getBitmap();
+                                content_uri = getImageUriFromBitmap(bitmap);
+                                singleton.showToast(EditMedicine.this,content_uri.toString());
 
                         Title = title.getText().toString();
                         Image = String.valueOf(content_uri);
@@ -128,21 +145,15 @@ EditMedicine extends AppCompatActivity {
                         Description = description.getText().toString();
 
                         // Check if the title already exists
-                        if (image_uri != null) {
-                            Drawable drawable = imageView.getDrawable();
-                            if (drawable instanceof BitmapDrawable) {
-                                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-                                Bitmap bitmap = bitmapDrawable.getBitmap();
-                                content_uri = getImageUriFromBitmap(bitmap);
 
 
                                 if (content_uri != null) {
                                     // Create a target width and height for the resized bitmap
-                                    int targetWidth = 400;
-                                    int targetHeight = 300;
+                                    int targetWidth = 800;
+                                    int targetHeight =800;
 
                                     // Load the bitmap from the content URI
-                                    bitmap = null;
+
                                     try {
                                         bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), content_uri);
                                     } catch (IOException e) {
@@ -170,6 +181,7 @@ EditMedicine extends AppCompatActivity {
                                                 @Override
                                                 public void onSuccess(Uri uri) {
                                                     Map<String, String> med = new HashMap<>();
+                                                    med.put("Id", firestoreHandler.getCurrentUser());
                                                     med.put("Image", uri.toString());
                                                     med.put("Title", Title);
                                                     med.put("Image", Image);

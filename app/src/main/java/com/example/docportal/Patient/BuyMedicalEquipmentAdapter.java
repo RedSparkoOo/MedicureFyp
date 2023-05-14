@@ -54,7 +54,7 @@ public class BuyMedicalEquipmentAdapter extends FirestoreRecyclerAdapter<Medical
             holder.quantity.setText("Out of stock");
             holder.count.setText("0");
         } else {
-            holder.quantity.setText(model.getQuantity());
+            holder.quantity.setText("In stock");
             holder.quantity.setTextColor(Color.parseColor("#00FF00"));
         }
         holder.gg.setText("");

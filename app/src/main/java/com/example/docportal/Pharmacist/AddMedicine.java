@@ -170,6 +170,7 @@ public class AddMedicine extends AppCompatActivity {
                                                                                            @Override
                                                                                            public void onSuccess(Uri uri) {
                                                                                                Map<String, String> med = new HashMap<>();
+                                                                                               med.put("Id", firestoreHandler.getCurrentUser());
                                                                                                med.put("Image", uri.toString());
                                                                                                med.put("Title", _title);
                                                                                                med.put("Description", _description);
