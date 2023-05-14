@@ -43,7 +43,7 @@ public class AddMedicine extends AppCompatActivity {
     Button add;
     ImageView medicinePic;
     Spinner medicineMilligrams;
-    Singleton singleton;
+    Singleton singleton = new Singleton();
     FirebaseStorage firebaseStorage;
     FirestoreHandler firestoreHandler;
     StorageReference storageReference;
@@ -68,7 +68,7 @@ public class AddMedicine extends AppCompatActivity {
         quantity = findViewById(R.id.quantity);
         price = findViewById(R.id.price);
         add = findViewById(R.id.Add);
-        singleton.setAdatper(getApplicationContext(), medicineMilligrams, Milligrams);
+        singleton.setAdatper(AddMedicine.this, medicineMilligrams, Milligrams);
         medicineMilligrams.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
@@ -94,10 +94,12 @@ public class AddMedicine extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    if (checkEvent.isEmpty(textViews) || !(checkEvent.checkItemName(title))) ;
+                    if (checkEvent.isEmpty(textViews) == true || (checkEvent.checkItemName(title))==false) {
+                        System.out.println("mango");
+                    }
                     else {
                         firestoreHandler = new FirestoreHandler();
-                        singleton = new Singleton();
+
 
                         _title = title.getText().toString();
                         _description = title.getText().toString();

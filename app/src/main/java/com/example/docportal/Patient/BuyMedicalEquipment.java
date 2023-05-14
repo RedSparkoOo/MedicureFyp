@@ -8,15 +8,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
+
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.ItemTouchHelper;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Pharmacist.MedicalEquipment;
+import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -84,11 +85,20 @@ public class BuyMedicalEquipment extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                String aquery = charSequence.toString().toLowerCase();
-                Query filteredQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-                FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
-                        .setQuery(filteredQuery, MedicalEquipment.class).build();
-                medicalEquipmentAdapter.updateOptions(options);
+                String query = charSequence.toString();
+                Query newQuery;
+                if (query.trim().isEmpty()) {
+                    newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                } else {
+                    // Create a new query for case-insensitive search
+                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                            .whereLessThanOrEqualTo("Title", query + "\uf8ff")
+                            .orderBy("Title");
+                }
+                FirestoreRecyclerOptions<MedicalEquipment> newOptions = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
+                        .setQuery(newQuery, MedicalEquipment.class)
+                        .build();
+                medicalEquipmentAdapter .updateOptions(newOptions);
 
             }
 
@@ -100,23 +110,6 @@ public class BuyMedicalEquipment extends AppCompatActivity {
         });
         _equipmentList.setAdapter(medicalEquipmentAdapter);
 
-        new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                medicalEquipmentAdapter.deleteItem(viewHolder.getAbsoluteAdapterPosition());
-            }
-        }).attachToRecyclerView(_equipmentList);
-        medicalEquipmentAdapter.setOnItemClickListener(new MedicineListAdapter.onItemClickListener() {
-            @Override
-            public void onItemClick(DocumentSnapshot snapshot, int position) {
-
-            }
-        });
         medicalEquipmentAdapter.setOnItemLongClickListener(new MedicineListAdapter.onItemLongClickListener() {
             @Override
             public void onitemlongClick(DocumentSnapshot documentSnapshot, int position) {

@@ -63,7 +63,7 @@ public class MedicineList extends AppCompatActivity {
         medicineList = findViewById(R.id.medicine_list);
         medicineList.setLayoutManager(new WrapContentLinearLayoutManager(MedicineList.this, LinearLayoutManager.VERTICAL, false));
 
-
+        medicineList.setAdapter(medicineListAdapter);
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -73,11 +73,20 @@ public class MedicineList extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
-                String aquery = charSequence.toString().toLowerCase();
-                Query filteredQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-                FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
-                        .setQuery(filteredQuery, Medicine.class).build();
-                medicineListAdapter.updateOptions(options);
+                String query = charSequence.toString();
+                Query newQuery;
+                if (query.trim().isEmpty()) {
+                    newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                } else {
+                    // Create a new query for case-insensitive search
+                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                            .whereLessThanOrEqualTo("Title", query + "\uf8ff")
+                            .orderBy("Title");
+                }
+                FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()
+                        .setQuery(newQuery, Medicine.class)
+                        .build();
+                medicineListAdapter .updateOptions(newOptions);
 
             }
 
@@ -87,7 +96,7 @@ public class MedicineList extends AppCompatActivity {
 
             }
         });
-        medicineList.setAdapter(medicineListAdapter);
+
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {

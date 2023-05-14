@@ -40,7 +40,7 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
     Context context;
     int position_changed;
     ManageAppointmentAdapter appointmentAdapter;
-    private String doctor_id_stored;
+
 
     public ManageAppointmentAdapter(List<String> appointment_uid_dataSet, List<String> name_dataSet, List<String> phone_dataSet, List<String> doc_name_dataSet, List<String> doc_phone_dataSet, List<String> date_dataSet, List<String> time_dataSet, List<String> description_dataSet, String doc_UID, List<String> patient_UID, ItemClickListenerCheck itemClickListenerCheck) {
 
@@ -86,7 +86,7 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
             public void onClick(View v) {
 
                 context = v.getContext();
-                doctor_id_stored = listenerCheck.onItemClick(patient_id.get(position));
+
                 String appointment_id = list_appointment_id.get(position);
                 String patient_name = listenerCheck.onItemClick(list_patient_name.get(position));
                 String patient_phone = listenerCheck.onItemClick(list_patient_phone.get(position));
@@ -94,9 +94,9 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
                 String doctor_phone = listenerCheck.onItemClick(list_doctor_phone.get(position));
                 String appointment_date = listenerCheck.onItemClick(list_patient_date.get(position));
                 String appointment_time = listenerCheck.onItemClick(list_patient_time.get(position));
-                doctor_id_stored = patient_id.get(position);
 
-                approvedAppointments(doctor_id_stored, patient_name, patient_phone, doctor_name, doctor_phone, appointment_date, appointment_time);
+
+                approvedAppointments(doctor_id, patient_name, patient_phone, doctor_name, doctor_phone, appointment_date, appointment_time);
                 DeleteData(list_appointment_id.get(position));
 
                 list_appointment_id.remove(position);
@@ -176,14 +176,14 @@ public class ManageAppointmentAdapter extends RecyclerView.Adapter<ManageAppoint
 
                 Map<String, Object> approved_appointments = new HashMap<>();
 
-                approved_appointments.put("Approved Patient Name", patient_name);
-                approved_appointments.put("Approved Patient Cell", patient_phone);
-                approved_appointments.put("Approved Doctor Name", doctor_name);
-                approved_appointments.put("Approved Doctor Cell", doctor_phone);
-                approved_appointments.put("Approved Appointment Date", appointment_date);
-                approved_appointments.put("Approved Appointment Time", appointment_time);
-                approved_appointments.put("Appointed Doctor Id", doctor_id);
-                approved_appointments.put("Appointed Patient Id", ID);
+                approved_appointments.put("ApprovedPatientName", patient_name);
+                approved_appointments.put("ApprovedPatientCell", patient_phone);
+                approved_appointments.put("ApprovedDoctorName", doctor_name);
+                approved_appointments.put("ApprovedDoctorCell", doctor_phone);
+                approved_appointments.put("ApprovedAppointmentDate", appointment_date);
+                approved_appointments.put("ApprovedAppointmentTime", appointment_time);
+                approved_appointments.put("AppointedDoctorId", doctor_id);
+                approved_appointments.put("AppointedPatientId", ID);
                 Doc_Ref.set(approved_appointments);
 
 

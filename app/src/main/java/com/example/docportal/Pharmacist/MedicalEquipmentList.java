@@ -71,14 +71,23 @@ public class MedicalEquipmentList extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                String aquery = charSequence.toString().toLowerCase();
-                Query filteredQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-                FirestoreRecyclerOptions<MedicalEquipment> options = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
-                        .setQuery(filteredQuery, MedicalEquipment.class).build();
-                equipmentListAdapter.updateOptions(options);
-
+                String query = charSequence.toString();
+                Query newQuery;
+                if (query.trim().isEmpty()) {
+                    newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                } else {
+                    // Create a new query for case-insensitive search
+                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                            .whereLessThanOrEqualTo("Title", query + "\uf8ff")
+                            .orderBy("Title");
+                }
+                FirestoreRecyclerOptions<MedicalEquipment> newOptions = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
+                        .setQuery(newQuery,MedicalEquipment.class)
+                        .build();
+                equipmentListAdapter .updateOptions(newOptions);
             }
+
+
 
             @Override
             public void afterTextChanged(Editable editable) {

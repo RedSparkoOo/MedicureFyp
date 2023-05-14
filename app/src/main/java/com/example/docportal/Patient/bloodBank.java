@@ -42,30 +42,7 @@ public class bloodBank extends AppCompatActivity {
         bloodList.setLayoutManager(new WrapContentLinearLayoutManager(bloodBank.this, LinearLayoutManager.VERTICAL, false));
         bloodList.setAdapter(bloodBankAdapter);
 
-//            editText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    String aquery = charSequence.toString().toLowerCase();
-//                    Query filteredQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-//                    FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
-//                            .setQuery(filteredQuery, BloodBankModel.class).build();
-//                    bloodBankAdapter.updateOptions(options);
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable editable) {
-//
-//
-//
-//                }
-//            });
+
 
 
     }

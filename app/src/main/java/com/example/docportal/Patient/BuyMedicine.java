@@ -79,12 +79,20 @@ public class BuyMedicine extends AppCompatActivity {
 
                 @Override
                 public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-                    String aquery = charSequence.toString().toLowerCase();
-                    Query filteredQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-                    FirestoreRecyclerOptions<Medicine> options = new FirestoreRecyclerOptions.Builder<Medicine>()
-                            .setQuery(filteredQuery, Medicine.class).build();
-                    buyMedicalAdapter.updateOptions(options);
+                    String query = charSequence.toString();
+                    Query newQuery;
+                    if (query.trim().isEmpty()) {
+                        newQuery = noteBookref.orderBy("Title", Query.Direction.DESCENDING);
+                    } else {
+                        // Create a new query for case-insensitive search
+                        newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                                .whereLessThanOrEqualTo("Title", query + "\uf8ff")
+                                .orderBy("Title");
+                    }
+                    FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()
+                            .setQuery(newQuery, Medicine.class)
+                            .build();
+                    buyMedicalAdapter .updateOptions(newOptions);
 
                 }
 

@@ -1,8 +1,12 @@
 package com.example.docportal.Patient;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -11,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
+import com.example.docportal.Pharmacist.MedicalEquipment;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -34,6 +39,9 @@ public class bloodBankOptions extends AppCompatActivity {
     CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("bloodata");
     Button _pharmacyAddToCart;
     Singleton singleton = new Singleton();
+    EditText search;
+    Query newQuery;
+    ImageView A, B ,AB, O;
 
     private String id;
     private String name;
@@ -44,6 +52,74 @@ public class bloodBankOptions extends AppCompatActivity {
         setContentView(R.layout.activity_blood_bank_options);
         id = getIntent().getStringExtra("bloodId");
         name = getIntent().getStringExtra("name");
+        search = findViewById(R.id.search_blood_group);
+        A.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "A")
+                        .whereLessThanOrEqualTo("bloodBankId", "A"+ "\uf8ff")
+                        .orderBy("bloodBankId");
+                setQuery();
+            }
+        });
+        B.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "B")
+                        .whereLessThanOrEqualTo("bloodBankId", "B"+ "\uf8ff")
+                        .orderBy("bloodBankId");
+                setQuery();
+            }
+        });
+        AB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "AB")
+                        .whereLessThanOrEqualTo("bloodBankId", "AB"+ "\uf8ff")
+                        .orderBy("bloodBankId");
+                setQuery();
+            }
+        });
+        O.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "O")
+                        .whereLessThanOrEqualTo("bloodBankId", "O"+ "\uf8ff")
+                        .orderBy("bloodBankId");
+                setQuery();
+            }
+        });
+
+        search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString();
+
+                if (query.trim().isEmpty()) {
+                    newQuery = noteBookref.orderBy("bloodBankId", Query.Direction.DESCENDING);
+                } else {
+                    // Create a new query for case-insensitive search
+                    newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", query)
+                            .whereLessThanOrEqualTo("bloodBankId", query + "\uf8ff")
+                            .orderBy("bloodBankId");
+                }
+                FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+                        .setQuery(newQuery,BloodBankModel.class)
+                        .build();
+                bloodBankAdapter .updateOptions(newOptions);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
 
         _pharmacyAddToCart = findViewById(R.id.bloodToCart);
 
@@ -58,7 +134,12 @@ public class bloodBankOptions extends AppCompatActivity {
         });
     }
 
-
+    private void setQuery(){
+        FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+                .setQuery(newQuery,BloodBankModel.class)
+                .build();
+        bloodBankAdapter .updateOptions(newOptions);
+    }
     private void setUpRecycler() {
 
         Query query = noteBookref.orderBy("bloodBankId", Query.Direction.DESCENDING).startAt(id).endAt(id);
@@ -70,30 +151,6 @@ public class bloodBankOptions extends AppCompatActivity {
         bloodList.setLayoutManager(new WrapContentLinearLayoutManager(bloodBankOptions.this, LinearLayoutManager.VERTICAL, false));
         bloodList.setAdapter(bloodBankAdapter);
 
-//            editText.addTextChangedListener(new TextWatcher() {
-//                @Override
-//                public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                }
-//
-//                @Override
-//                public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-//
-//                    String aquery = charSequence.toString().toLowerCase();
-//                    Query filteredQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING).startAt(aquery).endAt(query + "\uf8ff"); // Replace "name" with the field you want to filter on
-//                    FirestoreRecyclerOptions<BloodBankModel> options = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
-//                            .setQuery(filteredQuery, BloodBankModel.class).build();
-//                    bloodBankAdapter.updateOptions(options);
-//
-//                }
-//
-//                @Override
-//                public void afterTextChanged(Editable editable) {
-//
-//
-//
-//                }
-//            });
         bloodBankAdapter.setOnItemLongClickListener(new MedicineListAdapter.onItemLongClickListener() {
             @Override
             public void onitemlongClick(DocumentSnapshot documentSnapshot, int position) {

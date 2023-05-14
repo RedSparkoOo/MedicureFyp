@@ -41,7 +41,7 @@ public class AppointmentBooking extends AppCompatActivity {
     Button book_appointment;
 
 
-    String patient_UID;
+
     ImageView back_to_doc_nur_Selection;
 
     DatePickerDialog.OnDateSetListener setListener;
@@ -204,7 +204,7 @@ public class AppointmentBooking extends AppCompatActivity {
                                 @Override
                                 public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                                     Map<String, Object> appointment = new HashMap<>();
-                                    appointment.put("Patient ID", patient_UID);
+                                    appointment.put("Patient ID", firestoreHandler.getCurrentUser());
                                     appointment.put("Patient Name", booker_name);
                                     appointment.put("Patient Phone No", booker_phone);
                                     appointment.put("Appointed Doctor ID", doctor_id);

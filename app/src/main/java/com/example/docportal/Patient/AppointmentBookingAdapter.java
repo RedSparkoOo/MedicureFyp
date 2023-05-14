@@ -30,11 +30,12 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     private final List<String> appointed_doctor_phone;
     private final List<String> appointed_doctor_name_all;
     private final ItemClickListener clickListener;
+    Singleton singleton = new Singleton();
     String phone;
     String doctor_name;
     String UID, RID;
     Context context;
-    Singleton singleton = new Singleton();
+
     Filter filter = new Filter() {
         @Override
         protected FilterResults performFiltering(CharSequence charSequence) {
@@ -127,6 +128,7 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         viewHolder.getto_appointment_reschedule().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                context = v.getContext();
                 clickListener.onItemClick(appointed_doctor_name.get(position));
                 clickListener.onItemClick(appointed_doctor_phone.get(position));
                 clickListener.onItemClick(appointed_doctor_ID.get(position));
@@ -139,6 +141,7 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
                 bundle.putString("Doctor_phone", phone);
                 bundle.putString("Doctor_name", doctor_name);
                 bundle.putString("Doctor_Id", UID);
+
 
                 context.startActivity(singleton.getIntent(context, AppointmentBooking.class).putExtras(bundle));
 
