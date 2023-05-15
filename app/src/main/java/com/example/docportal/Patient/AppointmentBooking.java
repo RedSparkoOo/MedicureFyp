@@ -236,16 +236,16 @@ public class AppointmentBooking extends AppCompatActivity {
                             appointment.put("AppointmentTime", TIME);
                             appointment.put("AppointmentDescription", booker_description);
 
-                            CollectionReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment");
-                            documentReference.add(appointment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+
+                            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment").document(firestoreHandler.getCurrentUser());
+                            documentReference.set (appointment).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    dialog.dismiss();
+                                public void onSuccess(Void unused) {
                                     helperFunctions.snackBarShow(snack_bar_layout, "Appointment Booked");
                                 }
                             });
                             dialog.dismiss();
-                            helperFunctions.snackBarShow(snack_bar_layout,"Appointment Booked");
+
 
                         }
                     });
