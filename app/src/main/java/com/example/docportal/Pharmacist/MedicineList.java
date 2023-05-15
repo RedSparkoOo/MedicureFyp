@@ -70,33 +70,37 @@ public class MedicineList extends AppCompatActivity {
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                // No action needed before text changed
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
                 String query = charSequence.toString();
                 Query newQuery;
+                if (!query.isEmpty()) {
+                    query = query.substring(0, 1).toUpperCase() + query.substring(1);
+                }
+
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
+                    newQuery = noteBookref
+                            .whereEqualTo("Id", firestoreHandler.getCurrentUser())
+                            .orderBy("Title", Query.Direction.DESCENDING);
                 } else {
-                    // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
-                            .whereLessThanOrEqualTo("Title", query + "\uf8ff").whereLessThanOrEqualTo("Id", firestoreHandler.getCurrentUser())
-                            .orderBy("Title");
+                    newQuery = noteBookref
+                            .whereEqualTo("Id", firestoreHandler.getCurrentUser())
+                            .orderBy("Title")
+                            .startAt(query)
+                            .endAt(query + "\uf8ff");
                 }
                 FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()
                         .setQuery(newQuery, Medicine.class)
                         .build();
                 medicineListAdapter.updateOptions(newOptions);
-
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
-
+                // No action needed after text changed
             }
         });
 

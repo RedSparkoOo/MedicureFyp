@@ -66,20 +66,27 @@ public class MedicalEquipmentList extends AppCompatActivity {
         search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                // No action needed before text changed
             }
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 String query = charSequence.toString();
                 Query newQuery;
+                if (!query.isEmpty()) {
+                    query = query.substring(0, 1).toUpperCase() + query.substring(1);
+                }
+
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
+                    newQuery = noteBookref
+                            .whereEqualTo("Id", firestoreHandler.getCurrentUser())
+                            .orderBy("Title", Query.Direction.DESCENDING);
                 } else {
-                    // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).whereGreaterThanOrEqualTo("Title", query)
-                            .whereLessThanOrEqualTo("Title", query + "\uf8ff")
-                            .orderBy("Title");
+                    newQuery = noteBookref
+                            .whereEqualTo("Id", firestoreHandler.getCurrentUser())
+                            .orderBy("Title")
+                            .startAt(query)
+                            .endAt(query + "\uf8ff");
                 }
                 FirestoreRecyclerOptions<MedicalEquipment> newOptions = new FirestoreRecyclerOptions.Builder<MedicalEquipment>()
                         .setQuery(newQuery, MedicalEquipment.class)
@@ -87,13 +94,12 @@ public class MedicalEquipmentList extends AppCompatActivity {
                 equipmentListAdapter.updateOptions(newOptions);
             }
 
-
             @Override
             public void afterTextChanged(Editable editable) {
-
-
+                // No action needed after text changed
             }
         });
+
         _equipmentList.setAdapter(equipmentListAdapter);
         new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
             @Override
