@@ -82,8 +82,8 @@ public class MedicineList extends AppCompatActivity {
                     newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).orderBy("Title", Query.Direction.DESCENDING);
                 } else {
                     // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereEqualTo("Id", firestoreHandler.getCurrentUser()).whereGreaterThanOrEqualTo("Title", query)
-                            .whereLessThanOrEqualTo("Title", query + "\uf8ff")
+                    newQuery = noteBookref.whereGreaterThanOrEqualTo("Title", query)
+                            .whereLessThanOrEqualTo("Title", query + "\uf8ff").whereLessThanOrEqualTo("Id", firestoreHandler.getCurrentUser())
                             .orderBy("Title");
                 }
                 FirestoreRecyclerOptions<Medicine> newOptions = new FirestoreRecyclerOptions.Builder<Medicine>()

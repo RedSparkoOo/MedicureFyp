@@ -22,6 +22,8 @@ import com.example.docportal.FirestoreHandler;
 import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
@@ -164,6 +166,7 @@ public class AppointmentBooking extends AppCompatActivity {
         book_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                System.out.println("mango");
 
                 if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)))
                     ;
@@ -184,7 +187,7 @@ public class AppointmentBooking extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
 
-
+                            System.out.println("mango2");
                             if (booker_name != null && booker_phone != null && booker_description != null) {
                                 booker_name = null;
                                 booker_phone = null;
@@ -195,30 +198,28 @@ public class AppointmentBooking extends AppCompatActivity {
                             booker_phone = patient_phone_no.getText().toString();
                             booker_description = appointment_description.getText().toString();
 
+                            Map<String, Object> appointment = new HashMap<>();
+                            appointment.put("PatientID", firestoreHandler.getCurrentUser());
+                            appointment.put("PatientName", booker_name);
+                            appointment.put("PatientPhoneNo", booker_phone);
+                            appointment.put("AppointedDoctorID", doctor_id);
+                            appointment.put("DoctorName", doctor_name);
+                            appointment.put("DoctorPhoneNo", doctor_phone);
+                            appointment.put("AppointmentDate", DATE);
+                            appointment.put("AppointmentTime", TIME);
+                            appointment.put("AppointmentDescription", booker_description);
 
-                            DocumentReference D_Ref = firestoreHandler.getFirestoreInstance().collection("Appointment").document(firestoreHandler.getCurrentUser());
-
-
-                            D_Ref.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                            CollectionReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment");
+                            documentReference.add(appointment).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                 @Override
-                                public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                                    Map<String, Object> appointment = new HashMap<>();
-                                    appointment.put("PatientID", firestoreHandler.getCurrentUser());
-                                    appointment.put("PatientName", booker_name);
-                                    appointment.put("PatientPhoneNo", booker_phone);
-                                    appointment.put("AppointedDoctorID", doctor_id);
-                                    appointment.put("DoctorName", doctor_name);
-                                    appointment.put("DoctorPhoneNo", doctor_phone);
-                                    appointment.put("AppointmentDate", DATE);
-                                    appointment.put("AppointmentTime", TIME);
-                                    appointment.put("AppointmentDescription", booker_description);
-
-
-                                    D_Ref.set(appointment);
+                                public void onSuccess(DocumentReference documentReference) {
+                                    dialog.dismiss();
+                                    helperFunctions.snackBarShow(snack_bar_layout, "Appointment Booked");
                                 }
                             });
-                            dialog.dismiss();
-                            helperFunctions.snackBarShow(snack_bar_layout, "Appointment Booked");
+
+
+
 
                         }
                     });

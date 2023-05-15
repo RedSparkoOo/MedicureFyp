@@ -110,9 +110,8 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
         update_gender = findViewById(R.id.update_doctor_gender);
         doctor_profile = findViewById(R.id.doctor_profile);
         update_doctor_bio = findViewById(R.id.update_doctor_bio);
-        update_start_time = findViewById(R.id.update_start_time);
-        update_close_time = findViewById(R.id.update_close_time);
-        update_profession_category = findViewById(R.id.update_profession_category);
+
+
 
 
         Map<String, Object> doctor = new HashMap<>();

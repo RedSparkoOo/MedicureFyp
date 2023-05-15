@@ -14,11 +14,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.docportal.CheckEvent;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -68,11 +70,11 @@ public class UpdatePharmacist extends AppCompatActivity {
 
     String present_specialization;
     String Selected_gender;
-    String[] Specializations = {"", "Community pharmacist", "Specialty drug pharmacist", "Informatic pharmacist", "Hospital pharmacist", "Home care pharmacist"};
+    String[] Specializations = {"Community pharmacist", "Specialty drug pharmacist", "Informatic pharmacist", "Hospital pharmacist", "Home care pharmacist"};
     String[] Genders = {"Male", "Female"};
 
     StorageReference storageReference;
-    FirebaseUser doctor_user;
+
     String old_email;
     String old_pass;
     Singleton singleton = new Singleton();
@@ -95,6 +97,7 @@ public class UpdatePharmacist extends AppCompatActivity {
         update_gender = findViewById(R.id.update_doctor_gender);
         doctor_profile = findViewById(R.id.doctor_profile);
         update_doctor_bio = findViewById(R.id.update_doctor_bio);
+        TextView[] textViews = {update_full_name,update_email_address,  update_Password ,update_Phone_No,update_License , update_doctor_bio };
 
 
         user_id = firestoreHandler.getCurrentUser();
@@ -122,7 +125,7 @@ public class UpdatePharmacist extends AppCompatActivity {
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot documentSnapshot, @Nullable FirebaseFirestoreException error) {
-
+                Image= documentSnapshot.getString("Image");
 
                 Picasso.get().load(documentSnapshot.getString("Image")).into(doctor_profile);
 
@@ -192,78 +195,82 @@ public class UpdatePharmacist extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                CheckEvent checkEvent = new CheckEvent();
+                if (checkEvent.isEmpty(textViews)) ;
+                else {
+
+                    update_fName = update_full_name.getText().toString();
+                    update_emailAddress = update_email_address.getText().toString();
+                    update_Passcode = update_Password.getText().toString();
+                    update_phoneNo = update_Phone_No.getText().toString();
+                    update_license = update_License.getText().toString();
+                    update_specializations = update_Specializations.getSelectedItem().toString();
+
+                    update_bio = update_doctor_bio.getText().toString();
+
+                    Image = String.valueOf(content_uri);
+
+                    doctor.put("Image", Image);
+                    doctor.put("Full Name", update_fName);
+                    doctor.put("Email Address", update_emailAddress);
+                    doctor.put("Password", update_Passcode);
+                    doctor.put("Phone #", update_phoneNo);
+                    doctor.put("Gender", update_gends);
+                    doctor.put("License #", update_license);
+                    doctor.put("Doctor_profession", update_specializations);
+                    doctor.put("Bio Details", update_bio);
+                    doctor.put("Token", token);
 
 
-                update_fName = update_full_name.getText().toString();
-                update_emailAddress = update_email_address.getText().toString();
-                update_Passcode = update_Password.getText().toString();
-                update_phoneNo = update_Phone_No.getText().toString();
-                update_license = update_License.getText().toString();
-                update_specializations = update_Specializations.getSelectedItem().toString();
-
-                update_bio = update_doctor_bio.getText().toString();
-                Image = String.valueOf(content_uri);
-
-                doctor.put("Image", Image);
-                doctor.put("Full Name", update_fName);
-                doctor.put("Email Address", update_emailAddress);
-                doctor.put("Password", update_Passcode);
-                doctor.put("Phone #", update_phoneNo);
-                doctor.put("Gender", update_gends);
-                doctor.put("License #", update_license);
-                doctor.put("Doctor_profession", update_specializations);
-                doctor.put("Bio Details", update_bio);
-                doctor.put("Token", token);
+                    AuthCredential credential = EmailAuthProvider
+                            .getCredential(old_email, old_pass);
+                    firestoreHandler.getFirebaseUser().reauthenticate(credential)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    Log.d(TAG, "User re-authenticated.");
 
 
-                AuthCredential credential = EmailAuthProvider
-                        .getCredential(old_email, old_pass);
-                doctor_user.reauthenticate(credential)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                Log.d(TAG, "User re-authenticated.");
-
-
-                                doctor_user.updateEmail(update_emailAddress)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.d(TAG, "User email address updated.");
+                                    firestoreHandler.getFirebaseUser().updateEmail(update_emailAddress)
+                                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    if (task.isSuccessful()) {
+                                                        Log.d(TAG, "User email address updated.");
+                                                    }
                                                 }
+                                            });
+                                    firestoreHandler.getFirebaseUser().updatePassword(update_Passcode).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Log.d(TAG, "User Password updated.");
                                             }
-                                        });
-                                doctor_user.updatePassword(update_Passcode).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                    @Override
-                                    public void onComplete(@NonNull Task<Void> task) {
-                                        if (task.isSuccessful()) {
-                                            Log.d(TAG, "User Password updated.");
                                         }
-                                    }
-                                });
+                                    });
+                                }
+                            });
+                    if (!old_email.equals(update_emailAddress)) {
+                        firestoreHandler.getFirebaseUser().sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                singleton.showToast(UpdatePharmacist.this, "Email sent to: " + update_emailAddress);
+
                             }
                         });
-                if (!old_email.equals(update_emailAddress)) {
-                    doctor_user.sendEmailVerification().addOnSuccessListener(new OnSuccessListener<Void>() {
+                    }
+
+
+                    documentReference.set(doctor).addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void unused) {
-                            singleton.showToast(UpdatePharmacist.this, "Email sent to: " + update_emailAddress);
+                            singleton.showToast(UpdatePharmacist.this, "Profile Updated");
 
                         }
                     });
+
+
                 }
-
-
-                documentReference.set(doctor).addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void unused) {
-                        singleton.showToast(UpdatePharmacist.this, "Profile Updated");
-
-                    }
-                });
-
-
             }
         });
 
