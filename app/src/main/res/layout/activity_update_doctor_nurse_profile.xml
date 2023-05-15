@@ -227,7 +227,25 @@
                 tools:ignore="TextFields" />
 
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Profession"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
 
+            <Spinner
+                android:id="@+id/update_profession_category"
+                android:layout_width="370dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                android:textAllCaps="false"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <TextView
                 android:layout_width="match_parent"
@@ -248,6 +266,61 @@
                 android:paddingEnd="7sp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="Timings"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/update_start_time"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/input_field"
+                    android:drawableEnd="@drawable/clock"
+                    android:drawablePadding="5sp"
+                    android:ems="10"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:hint="Enter starting time"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="7sp"
+                    android:textColor="@color/light_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/update_close_time"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/input_field"
+                    android:drawableEnd="@drawable/clock"
+                    android:drawablePadding="5sp"
+                    android:ems="10"
+                    android:layout_marginStart="22dp"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:focusableInTouchMode="false"
+                    android:hint="Enter starting time"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="7sp"
+                    android:textColor="@color/light_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp"
+                    tools:ignore="TextFields" />
+
+
+
+            </LinearLayout>
 
 
 

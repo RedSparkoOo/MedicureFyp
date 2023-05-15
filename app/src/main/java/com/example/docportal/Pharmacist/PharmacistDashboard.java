@@ -79,8 +79,6 @@ public class PharmacistDashboard extends AppCompatActivity implements Navigation
         doctor_profile = findViewById(R.id.patient_profile);
 
 
-        notification_count = findViewById(R.id.notify);
-        notification_back = findViewById(R.id.notification_icon_count_back);
 
 
         _manageEquipment.setOnClickListener(new View.OnClickListener() {

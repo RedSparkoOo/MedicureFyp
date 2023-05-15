@@ -131,7 +131,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.patient_online_consultation"
+            android:name=".Patient.PatientOnlineConsultation"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -145,7 +145,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.Appointment_Doctor_Check"
+            android:name=".Patient.AppointmentDoctorNurseSelection"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -190,7 +190,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.healthTracker"
+            android:name=".Patient.HealthTracker"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -204,7 +204,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.patientPharmacy"
+            android:name=".Patient.PharmacyService"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -232,7 +232,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.patientPrescription"
+            android:name=".Patient.PatientPrescription"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"

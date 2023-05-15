@@ -13,6 +13,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
+            android:id="@+id/back_to_pharmacy_options"
             android:layout_marginTop="20dp"
             android:layout_width="30dp"
             android:layout_height="30dp"
@@ -35,7 +36,17 @@
             android:layout_marginTop="10dp"
             android:text="Select Medicines"
             android:textColor="@color/light_black"
-            android:textSize="20sp" />
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/light_black"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textSize="18sp"
+            android:layout_margin="15dp"
+            android:text="Select and purchase medicines according to your choice"
+            android:gravity="center"/>
 
 
         <EditText
@@ -43,20 +54,26 @@
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="15dp"
-            android:paddingLeft="1dp"
             android:background="@drawable/searchview_field"
-            android:drawableStart="@drawable/search_icon"
-            android:hint="Search"
             android:closeIcon="@drawable/search_view_end"
+            android:drawableStart="@drawable/search_icon"
+            android:drawablePadding="10dp"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
             android:iconifiedByDefault="false"
-            />
-
+            android:paddingLeft="5dp"
+            android:queryHint="Search medicine"
+            android:hint="Search medicine"
+            android:textColor="@color/light_black"
+            android:textColorHint="@color/grey"
+            android:textSize="16sp" />
     </LinearLayout>
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="20dp"
         android:orientation="vertical"
         >
 
@@ -66,7 +83,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/light_black"
             android:textSize="18sp"
-            android:layout_marginStart="15dp"
             android:text="List of Medicines"
             android:fontFamily="@font/pt_sans_bold"
             />
@@ -75,17 +91,25 @@
             android:id="@+id/medicalProductRecycler"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
             android:layout_marginBottom="50dp"
 
             />
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="bottom"
+        >
+
         <Button
             android:id="@+id/pharmacyToCart"
-            android:layout_width="370dp"
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="100dp"
             android:background="@drawable/but"
             android:elevation="4dp"
             android:fontFamily="@font/pt_sans_regular"
@@ -93,8 +117,8 @@
             android:textAllCaps="false"
             android:textColor="@color/extra_white"
             android:textSize="16sp" />
+
+
     </LinearLayout>
-
-
 
 </androidx.appcompat.widget.LinearLayoutCompat>

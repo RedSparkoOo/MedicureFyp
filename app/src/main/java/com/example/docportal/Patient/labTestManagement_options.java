@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
+import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.firebase.firestore.CollectionReference;
@@ -44,70 +45,79 @@ public class labTestManagement_options extends AppCompatActivity {
         All.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING);
+                newQuery = noteBookref.orderBy("testName", Query.Direction.DESCENDING);
                 setQuery();
             }
         });
         Blood.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereEqualTo("category", "Blood");
+                newQuery = noteBookref.whereEqualTo("category", "blood");
                 setQuery();
             }
         });
         Cardio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereEqualTo("category", "Cardio");
+                newQuery = noteBookref.whereEqualTo("category", "heart");
                 setQuery();
             }
         });
         Liver.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereEqualTo("category", "Liver");
+                newQuery = noteBookref.whereEqualTo("category", "liver");
                 setQuery();
             }
         });
         Kidney.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereEqualTo("category", "Kidney");
+                newQuery = noteBookref.whereEqualTo("category", "kidney");
                 setQuery();
             }
         });
         Lungs.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereEqualTo("category", "Lungs");
+                newQuery = noteBookref.whereEqualTo("category", "lungs");
                 setQuery();
             }
         });
 
-        editText.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        editText.addTextChangedListener(new TextWatcher() {   @Override
 
-            }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // No action needed before text changed
+        }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String query = s.toString();
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String query = charSequence.toString();
+                Query newQuery;
+                if (!query.isEmpty()) {
+                    query = query.substring(0, 1).toUpperCase() + query.substring(1);
+                }
 
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.orderBy("category", Query.Direction.DESCENDING);
+                    newQuery = noteBookref
+                            .orderBy("testName", Query.Direction.DESCENDING);
                 } else {
-                    // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereGreaterThanOrEqualTo("category", query)
-                            .whereLessThanOrEqualTo("category", query + "\uf8ff")
-                            .orderBy("category");
+                    newQuery = noteBookref
+                            .orderBy("testName")
+                            .startAt(query)
+                            .endAt(query + "\uf8ff");
                 }
-                setQuery();
+                FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
+                        .setQuery(newQuery, BloodBankModel.class)
+                        .build();
+                bloodBankAdapter.updateOptions(newOptions);
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void afterTextChanged(Editable editable) {
+                // No action needed after text changed
             }
         });
     }

@@ -9,7 +9,7 @@
     android:contentDescription="@string/app_name"
     android:fillViewport="true"
     tools:ignore="HardcodedText"
-    tools:context=".Doctor.Registeration">
+    tools:context=".Doctor.DoctorNurseRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -240,7 +240,6 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pt_sans_regular"
                     android:text="Sign In"
-
                     android:textStyle="bold"
                     android:textColor="@color/blue_2"
                     android:textSize="16sp" />

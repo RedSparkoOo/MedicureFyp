@@ -4,80 +4,137 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/background_white"
     android:orientation="vertical"
     tools:context=".Patient.searchDisease">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_to_patient_dashboard"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/registerHeader2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fontFamily="@font/inter_bold"
+        android:fontFamily="@font/pt_sans_bold"
         android:textAlignment="center"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="10dp"
         android:text="Search Disease"
-        android:textColor="@color/blue_2"
-        android:textSize="24sp" />
-    <TextView
-        android:id="@+id/disease"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/pt_sans_bold"
-
-        android:layout_marginTop="10dp"
-        android:text="Select Organ"
         android:textColor="@color/light_black"
-        android:textSize="20sp" />
+        android:textSize="25sp" />
 
-
-    <Spinner
-        android:id="@+id/spinner_disease"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <TextView
-        android:id="@+id/symptom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
-        android:fontFamily="@font/pt_sans_bold"
-        android:text="Select Symptom"
+        android:layout_margin="22dp"
+        android:fontFamily="@font/pt_sans_regular"
+        android:textAlignment="center"
+        android:text="Checkout for disease based on the symptoms"
         android:textColor="@color/light_black"
-        android:textSize="20sp" />
+        android:textSize="18sp" />
 
-    <Spinner
-        android:id="@+id/spinner_symptom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-    <TextView
 
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
+        android:layout_margin="20dp"
+        >
 
-        android:fontFamily="@font/pt_sans_bold"
-        android:text="Causes"
-        android:textColor="@color/light_black"
-        android:textSize="20sp" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/spinner_recycler"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+            <TextView
+                android:id="@+id/disease"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
 
-    <TextView
+                android:layout_marginTop="10dp"
+                android:text="Select Organ"
+                android:textColor="@color/light_black"
+                android:textSize="20sp" />
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
 
-        android:fontFamily="@font/pt_sans_bold"
-        android:text="Recommended Doctors"
-        android:textColor="@color/light_black"
-        android:textSize="20sp" />
+            <Spinner
+                android:id="@+id/spinner_disease"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/spinner_doctor"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/symptom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Select Symptom"
+                android:textColor="@color/light_black"
+                android:textSize="20sp" />
+
+            <Spinner
+                android:id="@+id/spinner_symptom"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:layout_marginTop="5dp"
+                android:paddingEnd="7sp" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Causes"
+                android:textColor="@color/light_black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/spinner_recycler"
+                android:layout_width="match_parent"
+                android:layout_marginTop="5dp"
+                android:layout_height="200dp" />
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Recommended Doctors"
+                android:textColor="@color/light_black"
+                android:textSize="20sp" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/spinner_doctor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                />
+
+
+        </LinearLayout>
+
+
+    </ScrollView>
 </LinearLayout>

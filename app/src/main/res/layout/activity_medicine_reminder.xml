@@ -323,47 +323,6 @@
                     android:textSize="16sp" />
 
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-                    <TextView
-                        android:id="@+id/medicine_added_heading"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textSize="16sp"
-                        android:text="Medicines Added"
-                        android:layout_marginTop="20dp"
-                        android:fontFamily="@font/pt_sans_bold"
-                        android:textColor="@color/light_black"/>
-
-                    <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/medicine_added"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:elevation="5dp"
-                        android:background="@drawable/custom_border_white"
-                        android:layout_marginTop="5dp">
-
-                    </androidx.recyclerview.widget.RecyclerView>
-
-                    <Button
-                        android:id="@+id/medicine_confirmation"
-                        android:layout_width="370dp"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="70dp"
-                        android:layout_marginBottom="10dp"
-                        android:background="@drawable/but"
-                        android:fontFamily="@font/pt_sans_regular"
-                        android:text="Confirm"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="16sp" />
-
-
-
-                </LinearLayout>
-
 
             </LinearLayout>
 

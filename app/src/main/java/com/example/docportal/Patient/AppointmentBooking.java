@@ -3,6 +3,7 @@ package com.example.docportal.Patient;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,26 +14,32 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.docportal.AppointmentCheckEvent;
+import com.example.docportal.Doctor.DoctorNurseRegistration;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.HelperFunctions;
 import com.example.docportal.R;
-import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
-
 
 public class AppointmentBooking extends AppCompatActivity {
     EditText patient_full_name;
@@ -42,7 +49,9 @@ public class AppointmentBooking extends AppCompatActivity {
     EditText appointment_description;
     Button book_appointment;
 
-
+    FirebaseFirestore FStore;
+    FirebaseAuth FAuth;
+    String patient_UID;
     ImageView back_to_doc_nur_Selection;
 
     DatePickerDialog.OnDateSetListener setListener;
@@ -64,37 +73,39 @@ public class AppointmentBooking extends AppCompatActivity {
     String TimeZone;
     String TIME;
     String DATE;
+    FirebaseFirestore firebaseFirestore;
     FirestoreHandler firestoreHandler = new FirestoreHandler();
-    Singleton singleton = new Singleton();
-
 
     View snack_bar_layout;
-
+    FirebaseAuth firebaseAuth;
+    Object currentUserId;
     HelperFunctions helperFunctions;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_appointment_booking);
-        patient_full_name = findViewById(R.id.patient_first_name);
-        patient_phone_no = findViewById(R.id.patient_phone);
-        appointment_date = findViewById(R.id.appointment_date);
-        appointment_time = findViewById(R.id.appointment_time);
-        appointment_description = findViewById(R.id.appointment_description);
-        book_appointment = findViewById(R.id.book);
-
+        patient_full_name = (EditText) findViewById(R.id.patient_first_name);
+        patient_phone_no = (EditText) findViewById(R.id.patient_phone);
+        appointment_date = (EditText) findViewById(R.id.appointment_date);
+        appointment_time = (EditText) findViewById(R.id.appointment_time);
+        appointment_description = (EditText) findViewById(R.id.appointment_description);
+        book_appointment = (Button) findViewById(R.id.book);
+        firebaseAuth = FirebaseAuth.getInstance();
         Bundle bundle = getIntent().getExtras();
-
+        firebaseFirestore = FirebaseFirestore.getInstance();
         back_to_doc_nur_Selection = findViewById(R.id.back_to_doc_nur_Selection);
         doctor_phone = bundle.getString("Doctor_phone");
         doctor_name = bundle.getString("Doctor_name");
         doctor_id = bundle.getString("Doctor_Id");
 
-
-        TextView[] textViews = {patient_full_name, patient_phone_no, appointment_date, appointment_time, appointment_description};
+        Object currentUser = firebaseAuth.getCurrentUser();
+        if (currentUser != null) {
+            currentUserId = firebaseAuth.getCurrentUser().getUid();
+        }
+        TextView[] textViews = {patient_full_name, patient_phone_no, appointment_date, appointment_time,appointment_description};
         AppointmentCheckEvent checkEvent = new AppointmentCheckEvent();
-        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Patient").document(firestoreHandler.getCurrentUser());
+        DocumentReference documentReference = firebaseFirestore.collection("Patient").document(currentUserId.toString());
         documentReference.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -110,32 +121,40 @@ public class AppointmentBooking extends AppCompatActivity {
         back_to_doc_nur_Selection.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(AppointmentBooking.this, Appointment_Doctor_Check.class);
+                Intent intent = new Intent(AppointmentBooking.this, AppointmentBooking.class);
+                startActivity(intent);
             }
         });
 
         appointment_time.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 Calendar calendar = Calendar.getInstance();
-                hour = calendar.get(Calendar.HOUR);
-                minute = calendar.get((Calendar.MINUTE));
+                int start_hour = calendar.get(Calendar.HOUR_OF_DAY);
+                int start_minute = calendar.get((Calendar.MINUTE));
+
                 //  boolean Is24hourFormat = DateFormat.is24HourFormat(AppointmentBooking.this);
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AppointmentBooking.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-                        if (calendar.get(Calendar.AM_PM) == Calendar.AM) {
-                            TimeZone = "AM";
-                        } else if (calendar.get(Calendar.AM_PM) == Calendar.PM) {
-                            TimeZone = "PM";
-                        }
-                        TIME = String.format(Hour + ":" + Minute + " " + TimeZone);
-                        appointment_time.setTextColor(Color.BLACK);
-                        appointment_time.setText(TIME);
+
+                        SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
+                        int hourOfDay = timePicker.getHour();
+                        int minute = timePicker.getMinute();
+                        Calendar calendar = Calendar.getInstance();
+                        calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                        calendar.set(Calendar.MINUTE, minute);
+                        TIME = timeFormat.format(calendar.getTime());
+                        checkTime(TIME);
                     }
-                }, hour, minute, false);
+                }, start_hour, start_minute, false);
                 timePickerDialog.show();
+
+
             }
+
+
         });
 
 
@@ -148,16 +167,17 @@ public class AppointmentBooking extends AppCompatActivity {
                 year = calendar.get(Calendar.YEAR);
 
                 DatePickerDialog datePickerDialog = new DatePickerDialog(AppointmentBooking.this, new DatePickerDialog.OnDateSetListener() {
-
                     @Override
                     public void onDateSet(DatePicker datePicker, int YEAR, int MONTH, int DAY) {
 
-                        DATE = DAY + "/" + MONTH + "/" + YEAR;
+                        DATE = DAY+"/"+MONTH+"/"+YEAR;
                         appointment_date.setTextColor(Color.BLACK);
                         appointment_date.setText(DATE);
+                        datePicker.setMinDate(calendar.getMinimum(DAY));
 
                     }
-                }, year, month, day);
+                },year,month,day);
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -166,10 +186,12 @@ public class AppointmentBooking extends AppCompatActivity {
         book_appointment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("mango");
 
-                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no)))
-                    ;
+                if (checkEvent.isEmpty(textViews) || !(checkEvent.checkName(patient_full_name) || checkEvent.checkPhone(patient_phone_no))){
+                    appointment_date.setError("String is rmpty");
+                    appointment_time.setError("String is empty");
+                    appointment_description.setError("String is empty");
+                }
                 else {
 
                     Dialog dialog = new Dialog(AppointmentBooking.this);
@@ -181,14 +203,18 @@ public class AppointmentBooking extends AppCompatActivity {
                     Button confirm = dialog.findViewById(R.id.alert_confirm);
                     TextView cancel = dialog.findViewById(R.id.alert_cancel);
                     TextView alert_msg = dialog.findViewById(R.id.alert_msg);
-                    alert_msg.setText("Are you sure you want to logout?");
+                    alert_msg.setText("Confirm Booking?");
 
                     confirm.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
 
-                            System.out.println("mango2");
-                            if (booker_name != null && booker_phone != null && booker_description != null) {
+
+                            FirebaseFirestore.getInstance().clearPersistence();
+                            FStore = FirebaseFirestore.getInstance();
+                            FAuth = FirebaseAuth.getInstance();
+
+                            if(booker_name!= null && booker_phone!= null && booker_description!= null){
                                 booker_name = null;
                                 booker_phone = null;
                                 booker_description = null;
@@ -197,6 +223,7 @@ public class AppointmentBooking extends AppCompatActivity {
                             booker_name = patient_full_name.getText().toString();
                             booker_phone = patient_phone_no.getText().toString();
                             booker_description = appointment_description.getText().toString();
+                            patient_UID = FAuth.getCurrentUser().getUid();
 
                             Map<String, Object> appointment = new HashMap<>();
                             appointment.put("PatientID", firestoreHandler.getCurrentUser());
@@ -217,9 +244,8 @@ public class AppointmentBooking extends AppCompatActivity {
                                     helperFunctions.snackBarShow(snack_bar_layout, "Appointment Booked");
                                 }
                             });
-
-
-
+                            dialog.dismiss();
+                            helperFunctions.snackBarShow(snack_bar_layout,"Appointment Booked");
 
                         }
                     });
@@ -241,6 +267,47 @@ public class AppointmentBooking extends AppCompatActivity {
             }
         });
 
+
+    }
+
+    private void checkTime(String time) {
+
+// Convert user input string to LocalTime
+        String userInput = appointment_time.getText().toString(); // Replace with user input
+
+// Validate user input
+        if (userInput.isEmpty()) {
+            // User did not provide any input
+            // Perform necessary actions (e.g., display an error message)
+            System.out.println("Please enter a valid time.");
+        } else {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+            try {
+                LocalTime userSelectedTime = LocalTime.parse(userInput, formatter);
+
+                // Define the restricted time range
+                LocalTime minTime = LocalTime.parse("10:00 AM", formatter);
+                LocalTime maxTime = LocalTime.parse("6:00 PM", formatter);
+
+                // Compare the user-selected time with the restricted range
+                if (userSelectedTime.isBefore(minTime) || userSelectedTime.isAfter(maxTime)) {
+                    // User selected a time outside the allowed range
+                    // Perform necessary actions (e.g., display an error message)
+                    System.out.println("Selected time is not within the allowed range (10:00 AM - 6:00 PM).");
+                    Toast.makeText(this, "Selected time is not within the allowed range (10:00 AM - 6:00 PM).", Toast.LENGTH_SHORT).show();
+                } else {
+                    // User selected a valid time
+                    // Continue with further actions
+                    Toast.makeText(this, "Selected time is valid.", Toast.LENGTH_SHORT).show();
+                    appointment_time.setText(TIME);
+                }
+            } catch (DateTimeParseException e) {
+                // User input could not be parsed
+                // Perform necessary actions (e.g., display an error message)
+                System.out.println("Please enter a valid time in the format 'hh:mm a'.");
+                Toast.makeText(this, "Please enter a valid time in the format 'hh:mm a'.\"", Toast.LENGTH_SHORT).show();
+            }
+        }
 
     }
 }

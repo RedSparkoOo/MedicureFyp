@@ -52,11 +52,13 @@ public class labsAdapter extends FirestoreRecyclerAdapter<BloodBankModel, labsAd
             public void onClick(View view) {
                 Bundle bundle = new Bundle();
 
+
                 bundle.putString("latitude", model.getLatitude());
+
                 bundle.putString("longitude", model.getLongitude());
-                bundle.putString("lab_name", model.getName());
-                view.getContext().startActivity(singleton.getIntent(view.getContext(), allMaps.class).putExtra("myBundle", bundle));
-                singleton.openActivity(view.getContext(), allMaps.class);
+                bundle.putString("lab_name", model.getLabName());
+                view.getContext().startActivity(singleton.getIntent(view.getContext(), allMaps.class).putExtras(bundle));
+
             }
         });
         holder.service.setOnClickListener(new View.OnClickListener() {

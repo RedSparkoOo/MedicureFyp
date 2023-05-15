@@ -24,10 +24,8 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
     private final List<String> list_medicine_duration;
     private final List<String> list_medicine_time;
     private final List<String> list_reminder_id;
-
-
     Context context;
-    int position_changed;
+
 
 
     public ReminderStoredAdapter(List<String> medic_names, List<String> medic_type, List<String> medic_duration, List<String> medic_time, List<String> remind_id) {
@@ -57,7 +55,6 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
         // Get element from your dataset at this position and replace the
         // contents of the view with that element
 
-        position_changed = position;
         viewHolder.getText_medicine_name().setText(list_medicine_name.get(position));
         viewHolder.getText_medicine_type().setText(list_medicine_type.get(position));
         viewHolder.getText_medicine_time().setText(list_medicine_time.get(position));
@@ -71,9 +68,13 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
                 context = v.getContext();
                 DeleteData(list_reminder_id.get(position));
                 list_medicine_name.remove(position);
+                list_medicine_type.remove(position);
+                list_medicine_time.remove(position);
+                list_medicine_duration.remove(position);
+                list_reminder_id.remove(position);
                 notifyItemRemoved(position);
-                notifyItemRangeChanged(position, list_medicine_name.size());
-                Toast.makeText(context, "Item Removed", Toast.LENGTH_SHORT).show();
+                notifyItemRangeChanged(position, getItemCount());
+
 
 
             }

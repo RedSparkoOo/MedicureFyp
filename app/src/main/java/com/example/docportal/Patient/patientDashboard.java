@@ -148,7 +148,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                 try {
                     int enterAnim = R.anim.slide_in_right;
                     int exitAnim = R.anim.slide_out_left;
-                    singleton.openActivity(patientDashboard.this, Appointment_Doctor_Check.class);
+                    singleton.openActivity(patientDashboard.this, AppointmentDoctorNurseSelection.class);
 
 
                     overridePendingTransition(enterAnim, exitAnim);
@@ -161,21 +161,21 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientPharmacyService.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(patientDashboard.this, patientPharmacy.class);
+                singleton.openActivity(patientDashboard.this, PharmacyService.class);
             }
         });
 
         patientOnlineConsultation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(patientDashboard.this, patient_online_consultation.class);
+                singleton.openActivity(patientDashboard.this, PatientOnlineConsultation.class);
             }
         });
 
         patientPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(patientDashboard.this, patientPrescription.class);
+                singleton.openActivity(patientDashboard.this, PatientPrescription.class);
             }
         });
 

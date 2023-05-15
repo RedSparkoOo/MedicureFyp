@@ -89,23 +89,29 @@ public class bloodBankOptions extends AppCompatActivity {
             }
         });
 
-        search.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        search.addTextChangedListener(new TextWatcher() { @Override
 
-            }
+
+        public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+            // No action needed before text changed
+        }
 
             @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                String query = s.toString();
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                String query = charSequence.toString();
+                Query newQuery;
+                if (!query.isEmpty()) {
+                    query = query.substring(0, 1).toUpperCase() + query.substring(1);
+                }
 
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref.orderBy("bloodBankId", Query.Direction.DESCENDING);
+                    newQuery = noteBookref
+                            .orderBy("bloodBankId", Query.Direction.DESCENDING);
                 } else {
-                    // Create a new query for case-insensitive search
-                    newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", query)
-                            .whereLessThanOrEqualTo("bloodBankId", query + "\uf8ff")
-                            .orderBy("bloodBankId");
+                    newQuery = noteBookref
+                            .orderBy("bloodBankId")
+                            .startAt(query)
+                            .endAt(query + "\uf8ff");
                 }
                 FirestoreRecyclerOptions<BloodBankModel> newOptions = new FirestoreRecyclerOptions.Builder<BloodBankModel>()
                         .setQuery(newQuery, BloodBankModel.class)
@@ -114,8 +120,8 @@ public class bloodBankOptions extends AppCompatActivity {
             }
 
             @Override
-            public void afterTextChanged(Editable s) {
-
+            public void afterTextChanged(Editable editable) {
+                // No action needed after text changed
             }
         });
 

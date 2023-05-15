@@ -2,6 +2,7 @@ package com.example.docportal.Patient;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,12 +23,15 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    private GoogleMap mMap;    Intent intent = getIntent();
 
-
+    String rec_lab_name;
+    double rec_latitude;
+    double rec_longitude;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
 
 
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -46,24 +50,26 @@ public class allMaps extends AppCompatActivity implements OnMapReadyCallback {
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        try {
-            Intent intent = getIntent();
-            Bundle bundle = intent.getBundleExtra("myBundle");
 
+        Bundle extras = getIntent().getExtras();
 
-            double rec_latitude = Double.parseDouble(bundle.getString("latitude"));
-            double rec_longitude =  Double.parseDouble(bundle.getString("longitude"));
-            String rec_lab_name = bundle.getString("lab_name");
-
-
+        if (extras != null) {
+            rec_latitude = Double.parseDouble(extras.getString("latitude"));
+            rec_longitude = Double.parseDouble(extras.getString("longitude"));
+           rec_lab_name = extras.getString("lab_name");
             LatLng lab_bank = new LatLng(rec_latitude, rec_longitude);
             float zoom = 20;
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(lab_bank, zoom));
             mMap.addMarker(new MarkerOptions().position(lab_bank).title(rec_lab_name));
             mMap.moveCamera(CameraUpdateFactory.newLatLng(lab_bank));
-        } catch (Exception e) {
-            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+            // Rest of your code
+        } else {
+            Log.e("allMaps", "Bundle is null");
         }
+
+
+
+
     }
 
     @Override

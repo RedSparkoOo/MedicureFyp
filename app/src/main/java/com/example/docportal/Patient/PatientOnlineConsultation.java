@@ -49,7 +49,7 @@ import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
 
-public class patient_online_consultation extends AppCompatActivity {
+public class PatientOnlineConsultation extends AppCompatActivity {
     private static final String TAG = "CheckoutActivity";
     private static final String BACKEND_URL = "http://10.0.2.2:4242";
     EditText rec_code;
@@ -61,7 +61,7 @@ public class patient_online_consultation extends AppCompatActivity {
 
     private Button payButton;
 
-
+    // Change Class name
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,7 +103,7 @@ public class patient_online_consultation extends AppCompatActivity {
             public void onClick(View v) {
 
                 if (rec_code.length() < 16) {
-                    Toast.makeText(patient_online_consultation.this, "Incorrect code", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(PatientOnlineConsultation.this, "Incorrect code", Toast.LENGTH_SHORT).show();
                 } else {
 
                     JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions.Builder()
@@ -111,7 +111,7 @@ public class patient_online_consultation extends AppCompatActivity {
 
                             .build();
 
-                    JitsiMeetActivity.launch(patient_online_consultation.this, options);
+                    JitsiMeetActivity.launch(PatientOnlineConsultation.this, options);
                 }
 
 
@@ -129,7 +129,7 @@ public class patient_online_consultation extends AppCompatActivity {
                     .setMessage(message)
                     .setPositiveButton("Ok", null)
                     .create();
-            if (!patient_online_consultation.this.isFinishing()) {
+            if (!PatientOnlineConsultation.this.isFinishing()) {
                 dialog.show();
             }
 

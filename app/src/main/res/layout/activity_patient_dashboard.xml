@@ -101,7 +101,7 @@
                         android:id="@+id/cart_icon"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/shopping_cart"
+                        android:src="@drawable/cart"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         tools:ignore="MissingConstraints">
@@ -370,9 +370,9 @@
                         android:id="@+id/patientEWallet"
                         android:layout_width="140dp"
                         android:layout_height="110dp"
-                        android:adjustViewBounds="true"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/e_wallet" />
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/transaction_history" />
 
                     <ImageView
                         android:id="@+id/patientUrgentCare"
