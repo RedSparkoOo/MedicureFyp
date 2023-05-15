@@ -75,7 +75,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
                 String patient_phone = model.getPatientPhoneNo();
                 String appointment_date = model.getAppointmentDate();
                 String appointment_time = model.getAppointmentTime();
-                String appointmentId = model.getPatientID();
+                String appointmentId = model.getAppointedDoctorID();
 
                 approvedAppointments(patient_name, patient_phone, appointment_date, appointment_time, appointmentId, firestoreHandler.getCurrentUser());
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();
@@ -96,7 +96,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         holder.getDeny_appointment().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String appointmentId = model.getPatientID();
+                String appointmentId = model.getAppointedDoctorID();
 
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = firestore.collection("Appointment").document(appointmentId);

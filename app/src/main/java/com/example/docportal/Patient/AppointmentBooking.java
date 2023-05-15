@@ -237,7 +237,7 @@ public class AppointmentBooking extends AppCompatActivity {
                             appointment.put("AppointmentDescription", booker_description);
 
 
-                            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment").document(firestoreHandler.getCurrentUser());
+                            DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment").document(doctor_id);
                             documentReference.set (appointment).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void unused) {
