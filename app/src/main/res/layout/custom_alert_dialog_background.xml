@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_margin="20dp"
+    android:background="@drawable/dialog_background">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Confirm Selection?"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textSize="18sp"
+            android:gravity="center"
+            android:textColor="@color/light_black"
+            android:layout_margin="10dp"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+
+
+        <Button
+            android:id="@+id/confirm"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:background="@drawable/but"
+            android:text="Confirm"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:fontFamily="@font/pt_sans_regular">
+
+        </Button>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="120dp"
+            android:layout_height="35dp"
+            android:background="@drawable/cancel_button"
+            android:text="Cancel"
+            android:layout_marginStart="10dp"
+            android:textAllCaps="false"
+            android:textSize="14sp"
+            android:fontFamily="@font/pt_sans_regular">
+
+        </Button>
+
+
+
+
+    </LinearLayout>
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

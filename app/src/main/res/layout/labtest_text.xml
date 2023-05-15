@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0.5dp"
+    android:orientation="vertical"
+    android:elevation="4dp"
+    android:background="@drawable/linear_layout_background_2"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/lab_test_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="Complete Blood Count"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView18"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lab_test_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Complete Blood Count"
+            android:layout_marginTop="5dp"
+            android:textColor="@color/light_black"
+            android:textSize="14sp"
+            />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Rs. "
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/lab_test_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="500"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/dark_grey"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/add_to_cart"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="5dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="ADD TO CART"
+                android:textColor="@color/blue_2"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

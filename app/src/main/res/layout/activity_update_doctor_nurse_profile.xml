@@ -1,0 +1,375 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    android:contentDescription="@string/app_name"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText"
+    tools:context=".Doctor.DoctorNurseRegistration">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/Token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans_bold"
+        android:textAlignment="center"
+        android:text="Edit Profile"
+        android:textColor="@color/light_black"
+        android:textSize="25sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/doctor_profile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/user_profile"
+        app:civ_border_width="1dp"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        app:civ_border_color="@color/extra_white"/>
+
+
+    <ScrollView
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:id="@+id/textView7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Full Name"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_full_name"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:drawableEnd="@drawable/update_pen"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your full name"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+
+
+
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/email_address"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_email_address"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter you Email Address"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+
+
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/password"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_password"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:drawableEnd="@drawable/update_pen"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Password"
+                android:inputType="textPassword"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/phone_no"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_phone_no"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Phone Number"
+                android:inputType="textPhonetic"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Gender"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+            <Spinner
+                android:id="@+id/update_doctor_gender"
+                android:layout_width="370dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                android:textAllCaps="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+            <TextView
+                android:id="@+id/textView24"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/license_no"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_license"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your license number"
+                android:drawableEnd="@drawable/update_pen"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Profession"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/update_profession_category"
+                android:layout_width="370dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                android:textAllCaps="false"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/category"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/update_specialist_Category"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="Timings"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/update_start_time"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/input_field"
+                    android:drawableEnd="@drawable/clock"
+                    android:drawablePadding="5sp"
+                    android:ems="10"
+                    android:focusableInTouchMode="false"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:hint="Enter starting time"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="7sp"
+                    android:textColor="@color/light_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp"
+                    tools:ignore="TextFields" />
+
+                <EditText
+                    android:id="@+id/update_close_time"
+                    android:layout_width="170dp"
+                    android:layout_height="50dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/input_field"
+                    android:drawableEnd="@drawable/clock"
+                    android:drawablePadding="5sp"
+                    android:ems="10"
+                    android:layout_marginStart="22dp"
+                    android:fontFamily="@font/pt_sans_regular"
+                    android:focusableInTouchMode="false"
+                    android:hint="Enter starting time"
+                    android:inputType="textPersonName"
+                    android:paddingEnd="7sp"
+                    android:textColor="@color/light_black"
+                    android:textColorHint="@color/grey"
+                    android:textSize="14sp"
+                    tools:ignore="TextFields" />
+
+
+
+            </LinearLayout>
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10dp"
+                android:text="Update Bio"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_doctor_bio"
+                android:layout_width="370dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:gravity="top|left"
+                android:hint="Write few details about yourself"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+
+
+            <Button
+                android:id="@+id/Update"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+

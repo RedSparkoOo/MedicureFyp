@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "999462725047",
+    "firebase_url": "https://medicure-23880-default-rtdb.firebaseio.com",
+    "project_id": "medicure-23880",
+    "storage_bucket": "medicure-23880.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:999462725047:android:20374a2673a4364283f432",
+        "android_client_info": {
+          "package_name": "com.example.docportal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "999462725047-f2afkgkip1hi7j9i1r04f0hlnsk7h57c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDXc_xKf4wBT0F9eYuf895zqQz-UpDvm1o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "999462725047-f2afkgkip1hi7j9i1r04f0hlnsk7h57c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

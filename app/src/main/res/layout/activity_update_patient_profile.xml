@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
+    android:contentDescription="@string/app_name"
+    android:fillViewport="true"
+    tools:ignore="HardcodedText"
+    tools:context=".Patient.PatientRegistration">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_to_patient_dashboard"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans_bold"
+        android:textAlignment="center"
+        android:text="Edit Profile"
+        android:textColor="@color/light_black"
+        android:textSize="25sp" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/patient_profile"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/user_profile"
+        app:civ_border_width="1dp"
+        android:layout_gravity="center"
+        android:elevation="4dp"
+        app:civ_border_color="@color/extra_white"/>
+
+
+    <ScrollView
+        android:layout_margin="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Full Name"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_patient_full_name"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:drawableEnd="@drawable/update_pen"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your full name"
+                android:inputType="textPersonName"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TouchTargetSizeCheck" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/email_address"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_patient_email_address"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter you Email Address"
+                android:inputType="textEmailAddress"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/password"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_patient_password"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:ems="10"
+                android:drawableEnd="@drawable/update_pen"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Password"
+                android:inputType="textPassword"
+                android:paddingEnd="7sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="@string/phone_no"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/update_patient_phone_no"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/input_field"
+                android:drawablePadding="5sp"
+                android:drawableEnd="@drawable/update_pen"
+                android:ems="10"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your Phone Number"
+                android:inputType="textPhonetic"
+                android:paddingEnd="7sp"
+                android:textColor="@color/black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                tools:ignore="TextFields" />
+
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="15dp"
+                android:text="Gender"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/update_patient_gender"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="5dp"
+                android:background="@drawable/spinner_field"
+                android:drawablePadding="5sp"
+                android:paddingEnd="7sp"
+                tools:ignore="SpeakableTextPresentCheck" />
+
+
+
+            <Button
+                android:id="@+id/update_patient_profile"
+                android:layout_width="370dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Save Changes"
+                android:textAllCaps="false"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                />
+
+        </LinearLayout>
+    </ScrollView>
+</androidx.appcompat.widget.LinearLayoutCompat>
+
+
+

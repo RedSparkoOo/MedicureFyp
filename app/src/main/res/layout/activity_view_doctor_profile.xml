@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    tools:context=".Doctor.viewDoctorProfile">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="Profile Details" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:background="@drawable/edges">
+
+        <ImageView
+            android:id="@+id/doc_profile"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:clipToOutline="true"
+            android:background="@drawable/image_round_outline"
+            app:srcCompat="@drawable/user_profile" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/view_doctor_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/blue_2"
+                android:paddingTop="5dp"
+                android:textSize="20sp"
+                android:text="John Smith" />
+
+            <TextView
+                android:id="@+id/view_doctor_specialization"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:text="Cardiologist" />
+
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="5dp"
+            android:fontFamily="@font/pt_sans_bold"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="18sp"
+            android:text="Profile Description" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        android:padding="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/edges">
+
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/blue_2"
+                android:textSize="16sp"
+                android:text="Email Address" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/blue_2"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="Phone #" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:textColor="@color/blue_2"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="License #" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:id="@+id/view_doctor_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="JohnSmtih123@gmail.com"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/view_doctor_phone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:text="+92 345 78906543" />
+
+            <TextView
+                android:id="@+id/view_doctor_license"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textColor="@color/light_black"
+                android:layout_marginTop="10dp"
+                android:textSize="16sp"
+                android:text="PK182 456B CX89 GK15" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

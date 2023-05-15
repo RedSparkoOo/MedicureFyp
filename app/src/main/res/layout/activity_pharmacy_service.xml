@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:orientation="vertical"
+    tools:context=".Patient.PharmacyService">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/back_to_patient_dashboard"
+            android:layout_marginTop="20dp"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginStart="20dp"
+            android:src="@drawable/arrow_backwards"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textAlignment="center"
+            android:layout_marginTop="10dp"
+            android:text="Pharmacy Service"
+            android:textColor="@color/light_black"
+            android:textSize="30sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="22dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textAlignment="center"
+            android:text="Select your choice to either purchase medicine or medical equipments"
+            android:textColor="@color/light_black"
+            android:textSize="18sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"
+            android:gravity="bottom"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/pharmacyMedicines"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Medicine"
+                android:textAllCaps="false"
+                android:textColor="@color/background_white"
+                android:textSize="16sp"
+                />
+
+            <Button
+                android:id="@+id/pharmacyEquipments"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Equipments"
+                android:layout_marginTop="10dp"
+                android:textAllCaps="false"
+                android:textColor="@color/background_white"
+                android:textSize="16sp"
+                />
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>
