@@ -63,6 +63,7 @@ public class PatientPrescription extends AppCompatActivity {
         recievedPrescription();
 
 
+
     }
 
     private void doctorData(String ID) {
