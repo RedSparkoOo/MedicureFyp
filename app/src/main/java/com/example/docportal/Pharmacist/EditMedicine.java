@@ -136,7 +136,7 @@ EditMedicine extends AppCompatActivity {
                                 BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
                                 Bitmap bitmap = bitmapDrawable.getBitmap();
                                 content_uri = getImageUriFromBitmap(bitmap);
-                                singleton.showToast(EditMedicine.this,content_uri.toString());
+
 
                         Title = title.getText().toString();
                         Image = String.valueOf(content_uri);

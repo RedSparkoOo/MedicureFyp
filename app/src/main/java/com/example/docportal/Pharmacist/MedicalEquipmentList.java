@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,9 +55,16 @@ public class MedicalEquipmentList extends AppCompatActivity {
         setUpRecyclerView();
 
         back_to_pharmacist_dashboard = findViewById(R.id.back_to_pharmacist_dashboard);
+        back_to_pharmacist_dashboard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MedicalEquipmentList.this, PharmacistDashboard.class);
+                startActivity(intent);
 
-        Intent intent = new Intent(MedicalEquipmentList.this, PharmacistDashboard.class);
-        startActivity(intent);
+            }
+        });
+
+
 
     }
 

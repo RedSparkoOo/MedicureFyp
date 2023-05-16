@@ -87,7 +87,7 @@ public class searchDisease extends AppCompatActivity {
 
                 if (disease != null) {
                     if (disease.equals("Lungs"))
-                        checkDisease("Hospital pharmacist");
+                        checkDisease("Nephrologist");
                     else if (disease.equals("Brain"))
                         checkDisease("Neurologist");
                     else if (disease.equals("Heart"))
