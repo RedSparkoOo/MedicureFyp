@@ -154,41 +154,50 @@
             android:layout_height="0.2dp"
             android:background="@color/dark_grey"/>
 
+
+
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="right"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="right"
-            android:background="@drawable/add_to_cart_background_button"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
             android:orientation="horizontal">
 
-            <ImageView
+            <Button
                 android:id="@+id/sub_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="20dp"
-                android:src="@drawable/remove_sign"/>
-
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="-"
+                android:textAllCaps="false"
+                android:textColor="@color/extra_white"
+                android:textSize="12sp" />
             <TextView
                 android:id="@+id/blood_unit_quantity"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:fontFamily="@font/inter_font_google"
                 android:text="1"
-                android:textColor="@color/light_black"
-                android:layout_marginEnd="20dp"
-                android:fontFamily="@font/pt_sans_bold"
-                android:textSize="16sp"/>
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                />
 
-
-
-
-            <ImageView
+            <Button
                 android:id="@+id/add_sign"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/plus_sign"/>
-
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="+"
+                android:textAllCaps="false"
+                android:textColor="@color/extra_white"
+                android:textSize="12sp" />
 
 
         </LinearLayout>

@@ -3,6 +3,7 @@ package com.example.docportal.Patient;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -137,7 +138,7 @@ public class BloodBankAdapter extends FirestoreRecyclerAdapter<BloodBankModel, B
     public class BloodBankViewHolder extends RecyclerView.ViewHolder {
 
         TextView name, donor, acceptor, price, count, quantity;
-        ImageView negative, positive;
+        Button negative, positive;
 
 
         public BloodBankViewHolder(@NonNull View itemView) {
