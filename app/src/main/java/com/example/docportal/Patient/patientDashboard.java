@@ -176,7 +176,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
         patientPrescription.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                singleton.openActivity(patientDashboard.this, PatientPrescription.class);
+                singleton.openActivity(patientDashboard.this, patientPrescription.class);
             }
         });
 
@@ -367,11 +367,16 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                             if (dc.getType() == DocumentChange.Type.ADDED) {
 
                                 approved_doctor_names.add(String.valueOf(dc.getDocument().get("ApprovedDoctorName")));
+
                                 approved_doctor_phone_no.add(String.valueOf(dc.getDocument().get("ApprovedDoctorCell")));
                                 approved_appointment_date.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentDate")));
                                 approved_appointment_time.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
-                                approved_doctor_id.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
+                                approved_doctor_id.add(String.valueOf(dc.getDocument().get("AppointedDoctorId")));
                                 approved_doctor_img.add(String.valueOf(dc.getDocument().get("AppointedDoctorImage")));
+                                System.out.println(String.valueOf(dc.getDocument().get("ApprovedDoctorName")));
+                                System.out.println(String.valueOf(dc.getDocument().get("ApprovedDoctorCell")));
+                                System.out.println(String.valueOf(dc.getDocument().get("ApprovedAppointmentDate")));    System.out.println(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
+
                                 notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no, approved_appointment_date, approved_appointment_time, approved_doctor_id, approved_doctor_img);
                                 patient_upcoming_appointments.setAdapter(notificationsAdapter);
                                 patient_upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount() - 1);
