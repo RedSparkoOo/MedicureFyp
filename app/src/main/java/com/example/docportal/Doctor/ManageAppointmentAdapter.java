@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
@@ -18,14 +19,17 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
 
 public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<AppointmentHolder, ManageAppointmentAdapter.ViewHolder> {
-
+    String doctorImage;
 
 
     public ManageAppointmentAdapter(@NonNull FirestoreRecyclerOptions<AppointmentHolder> options) {
@@ -42,7 +46,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         return new ViewHolder(view);
     }
 
-    private void approvedAppointments(String patient_name, String patient_phone, String appointment_date, String appointment_time, String patientId, String doctorId, String image) {
+    private void approvedAppointments(String patient_name, String patient_phone, String appointment_date, String appointment_time, String patientId, String doctorId, String image, String doctorImg) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("Approved Appointments").document();
 
@@ -56,6 +60,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         approved_appointments.put("ApprovedPatientImage", image);
         approved_appointments.put("AppointedPatientId", patientId);
         approved_appointments.put("AppointedDoctorId",doctorId);
+        approved_appointments.put("AppointedDoctorImage",doctorImg);
         docRef.set(approved_appointments);
     }
 
@@ -81,19 +86,27 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
                 String patient_phone = model.getPatientPhoneNo();
                 String appointment_date = model.getAppointmentDate();
                 String appointment_time = model.getAppointmentTime();
-                String appointmentId = model.getAppointedDoctorID();
+                String appointmentId = model.getPatientID();
                 String appointmentImage = model.getPatientImage();
 
-                approvedAppointments(patient_name, patient_phone, appointment_date, appointment_time, appointmentId, firestoreHandler.getCurrentUser(), appointmentImage);
-                FirebaseFirestore firestore = FirebaseFirestore.getInstance();
-                DocumentReference documentReference = firestore.collection("Appointment").document(appointmentId);
-                documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                DocumentReference documentReference1 = firestoreHandler.getFirestoreInstance().collection("Professions").document(firestoreHandler.getCurrentUser());
+                documentReference1.addSnapshotListener(new EventListener<DocumentSnapshot>() {
                     @Override
-                    public void onSuccess(Void unused) {
-                        notifyItemRemoved(position);
-                        Toast.makeText(v.getContext(), "Appointment Approved", Toast.LENGTH_SHORT).show();
+                    public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                        doctorImage = value.getString("Image");
+                        approvedAppointments(patient_name, patient_phone, appointment_date, appointment_time, appointmentId, firestoreHandler.getCurrentUser(), appointmentImage, doctorImage);
+
+                        DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Appointment").document(firestoreHandler.getCurrentUser());
+                        documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
+                                notifyItemRemoved(position);
+                                Toast.makeText(v.getContext(), "Appointment Approved", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     }
                 });
+
 
 
 

@@ -27,6 +27,7 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.messaging.FirebaseMessaging;
 
 public class mainstartScreen extends AppCompatActivity {
+    FirestoreHandler firestoreHandler = new FirestoreHandler();
     private final ActivityResultLauncher<String> requestPermissionLauncher =
             registerForActivityResult(new ActivityResultContracts.RequestPermission(), isGranted -> {
                 if (isGranted) {
@@ -36,7 +37,7 @@ public class mainstartScreen extends AppCompatActivity {
                 }
             });
     Button toEntrance;
-    FirebaseFirestore firestore;
+
     int setting_count;
 
     @Override
@@ -51,11 +52,11 @@ public class mainstartScreen extends AppCompatActivity {
 
                 setting_count = 0;
 
-                firestore = FirebaseFirestore.getInstance();
+
                 FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
                         .setPersistenceEnabled(false)
                         .build();
-                firestore.setFirestoreSettings(settings);
+                firestoreHandler.getFirestoreInstance().setFirestoreSettings(settings);
                 Intent intent = new Intent(mainstartScreen.this, Entrance.class);
                 startActivity(intent);
                 ++setting_count;

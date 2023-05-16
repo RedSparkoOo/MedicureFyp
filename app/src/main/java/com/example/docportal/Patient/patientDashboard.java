@@ -358,7 +358,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                 }
 
                 for (DocumentChange dc : value.getDocumentChanges()) {
-                    ID = String.valueOf(dc.getDocument().get("Appointed Patient Id"));
+                    ID = String.valueOf(dc.getDocument().get("AppointedPatientId"));
                     if (firestoreHandler.getCurrentUser().equals(ID)) {
 
                         if (dc != null) {
@@ -371,7 +371,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                                 approved_appointment_date.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentDate")));
                                 approved_appointment_time.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
                                 approved_doctor_id.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
-                                approved_doctor_img.add(String.valueOf(dc.getDocument().get("Image")));
+                                approved_doctor_img.add(String.valueOf(dc.getDocument().get("AppointedDoctorImage")));
                                 notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no, approved_appointment_date, approved_appointment_time, approved_doctor_id, approved_doctor_img);
                                 patient_upcoming_appointments.setAdapter(notificationsAdapter);
                                 patient_upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount() - 1);

@@ -76,8 +76,8 @@ public class Prescription extends AppCompatActivity {
 
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            prescribed_patient_email.setText(bundle.getString("Email"));
-            prescribed_patient_name.setText(bundle.getString("Name"));
+            prescribed_patient_email.setText(bundle.getString("email"));
+            prescribed_patient_name.setText(bundle.getString("name"));
 
         }
 

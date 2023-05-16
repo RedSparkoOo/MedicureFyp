@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.FirestoreHandler;
@@ -19,6 +21,9 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.squareup.picasso.Picasso;
 
 public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment, ViewAppointmentAdapter.ViewHolder> {
@@ -77,10 +82,28 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
             apoint_ph.setText(appointment.getApprovedPatientCell());
             appointment_date.setText(appointment.getApprovedAppointmentDate());
             appointment_time.setText(appointment.getApprovedAppointmentTime());
-            String imageUri =  appointment.getApprovedPatientImage();
+            String imageUri = appointment.getApprovedPatientImage();
             if (imageUri != null && !imageUri.isEmpty()) {
                 Picasso.get().load(imageUri).into(image);
             }
+            sendPrescription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DocumentReference documentReference1 = firestoreHandler.getFirestoreInstance().collection("Patient").document(appointment.getAppointedPatientId());
+                    documentReference1.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+                        @Override
+                        public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                            String name = value.getString("Patient Name");
+                            String email = value.getString("Patient Email Address");
+                            Bundle bundle = new Bundle();
+                            bundle.putString("name", name);
+                            bundle.putString("email", email);
+                            v.getContext().startActivity(singleton.getIntent(v.getContext(), Prescription.class).putExtras(bundle));
+                        }
+                    });
+                }
+            });
+
             to_appointment_reschedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
