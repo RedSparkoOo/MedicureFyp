@@ -6,7 +6,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
-import android.widget.Toast;
 
 import com.example.docportal.R;
 import com.google.firebase.firestore.DocumentChange;
@@ -16,15 +15,11 @@ import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 
-public class PatientPrescription extends AppCompatActivity {
+public class patientPrescription extends AppCompatActivity {
 
 
     RecyclerView patient_prescription_recycler;
@@ -80,7 +75,7 @@ public class PatientPrescription extends AppCompatActivity {
                         if(doc_id.equals(ID)){
 
                             doctor_category.add(String.valueOf(doc_change.getDocument().get("Doctor_profession")));
-                            patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(PatientPrescription.this));
+                            patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(patientPrescription.this));
                             prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,doctor_category,Prescription_id);
                             patient_prescription_recycler.setAdapter(prescriptionAdapter);
 
