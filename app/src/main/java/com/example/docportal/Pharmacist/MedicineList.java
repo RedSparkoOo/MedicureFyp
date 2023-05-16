@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,6 +36,7 @@ public class MedicineList extends AppCompatActivity {
     FirebaseFirestore firestore = FirebaseFirestore.getInstance();
 
     CollectionReference noteBookref = firestore.collection("Medicine");
+    ImageView back_to_pharmacist_dashboard;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -53,6 +55,12 @@ public class MedicineList extends AppCompatActivity {
         search = findViewById(R.id.medicineSearch);
 
         setUpRecyclerView();
+
+        back_to_pharmacist_dashboard = findViewById(R.id.back_to_pharmacist_dashboard);
+
+        Intent intent = new Intent(MedicineList.this, PharmacistDashboard.class);
+        startActivity(intent);
+
 
 
     }

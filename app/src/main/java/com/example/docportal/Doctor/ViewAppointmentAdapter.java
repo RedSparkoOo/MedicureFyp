@@ -110,6 +110,13 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
                 }
             });
 
+            sendPrescription.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+
         }
 
 

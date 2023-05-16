@@ -46,7 +46,7 @@
         android:id="@+id/equip_picture"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/medic_profile" />
 
     <ScrollView
         android:layout_width="match_parent"

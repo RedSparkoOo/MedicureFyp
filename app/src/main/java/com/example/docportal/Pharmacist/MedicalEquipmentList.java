@@ -6,6 +6,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -31,7 +32,7 @@ public class MedicalEquipmentList extends AppCompatActivity {
     CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("Medical_Equipment");
     TextView title;
     EditText search;
-
+    ImageView back_to_pharmacist_dashboard;
 
     @Override
     public boolean onContextItemSelected(@NonNull MenuItem item) {
@@ -51,6 +52,11 @@ public class MedicalEquipmentList extends AppCompatActivity {
         search = findViewById(R.id.medicineSearch);
         title.setText("Add Medical Equipment");
         setUpRecyclerView();
+
+        back_to_pharmacist_dashboard = findViewById(R.id.back_to_pharmacist_dashboard);
+
+        Intent intent = new Intent(MedicalEquipmentList.this, PharmacistDashboard.class);
+        startActivity(intent);
 
     }
 

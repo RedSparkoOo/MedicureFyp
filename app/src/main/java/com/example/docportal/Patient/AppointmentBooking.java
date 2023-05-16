@@ -146,12 +146,12 @@ public class AppointmentBooking extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
                         TIME = timeFormat.format(calendar.getTime());
-                        appointment_time.setText(TIME);
+
                     }
                 }, start_hour, start_minute, false);
                 timePickerDialog.show();
 
-
+                checkTime();
             }
 
 
@@ -270,20 +270,20 @@ public class AppointmentBooking extends AppCompatActivity {
 
     }
 
-    private void checkTime(String time) {
+    private void checkTime() {
 
 // Convert user input string to LocalTime
         String userInput = appointment_time.getText().toString(); // Replace with user input
-
+        Toast.makeText(this, TIME, Toast.LENGTH_SHORT).show();
 // Validate user input
-        if (userInput.isEmpty()) {
+        if (TIME.isEmpty()) {
             // User did not provide any input
             // Perform necessary actions (e.g., display an error message)
             System.out.println("Please enter a valid time.");
         } else {
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
             try {
-                LocalTime userSelectedTime = LocalTime.parse(userInput, formatter);
+                LocalTime userSelectedTime = LocalTime.parse(TIME, formatter);
 
                 // Define the restricted time range
                 LocalTime minTime = LocalTime.parse("10:00 AM", formatter);

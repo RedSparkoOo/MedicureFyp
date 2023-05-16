@@ -128,6 +128,11 @@ public class Prescription extends AppCompatActivity {
         selected_medicine_usage = medicine_usage.getText().toString();
 
 
+
+
+
+
+
         DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("Patient").document();
 
         firestoreHandler.getFirestoreInstance().collection("Patient").orderBy("Patient Name", Query.Direction.ASCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
