@@ -52,6 +52,10 @@ public class bloodBankOptions extends AppCompatActivity {
         id = getIntent().getStringExtra("bloodId");
         name = getIntent().getStringExtra("name");
         search = findViewById(R.id.search_blood_group);
+        A= findViewById(R.id.blood_group_A);
+        B = findViewById(R.id.blood_group_B);
+        AB = findViewById(R.id.blood_group_AB);
+        O = findViewById(R.id.blood_group_O);
         A.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

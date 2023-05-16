@@ -1,6 +1,42 @@
 package com.example.docportal.Doctor;
 
 public class AppointmentHolder {
+    private String PatientImage;
+    private String PatientName;
+    private String PatientPhoneNo;
+    private String AppointedDoctorID;
+    private String DoctorName;
+    private String DoctorPhoneNo;
+    private String AppointmentDate;
+    private String AppointmentTime;
+    private String AppointmentDescription;
+    private String PatientID;
+
+    public AppointmentHolder() {
+
+    }
+
+    public AppointmentHolder(String patientName, String patientPhoneNo, String appointedDoctorID, String doctorName, String doctorPhoneNo, String appointmentDate, String appointmentTime, String appointmentDescription, String patientID, String patientImage) {
+        PatientName = patientName;
+        PatientPhoneNo = patientPhoneNo;
+        AppointedDoctorID = appointedDoctorID;
+        DoctorName = doctorName;
+        DoctorPhoneNo = doctorPhoneNo;
+        AppointmentDate = appointmentDate;
+        AppointmentTime = appointmentTime;
+        AppointmentDescription = appointmentDescription;
+        PatientID = patientID;
+        PatientImage = patientImage;
+    }
+
+    public String getPatientImage() {
+        return PatientImage;
+    }
+
+    public void setPatientImage(String patientImage) {
+        PatientImage = patientImage;
+    }
+
     public String getPatientName() {
         return PatientName;
     }
@@ -72,31 +108,4 @@ public class AppointmentHolder {
     public void setPatientID(String patientID) {
         PatientID = patientID;
     }
-
-    public AppointmentHolder() {
-
-    }
-
-    private String PatientName;
-
-    public AppointmentHolder(String patientName, String patientPhoneNo, String appointedDoctorID, String doctorName, String doctorPhoneNo, String appointmentDate, String appointmentTime, String appointmentDescription, String patientID) {
-        PatientName = patientName;
-        PatientPhoneNo = patientPhoneNo;
-        AppointedDoctorID = appointedDoctorID;
-        DoctorName = doctorName;
-        DoctorPhoneNo = doctorPhoneNo;
-        AppointmentDate = appointmentDate;
-        AppointmentTime = appointmentTime;
-        AppointmentDescription = appointmentDescription;
-        PatientID = patientID;
-    }
-
-    private String PatientPhoneNo;
-    private String AppointedDoctorID;
-    private String DoctorName;
-    private String DoctorPhoneNo;
-    private String AppointmentDate;
-    private String AppointmentTime;
-    private String AppointmentDescription;
-    private String PatientID;
 }

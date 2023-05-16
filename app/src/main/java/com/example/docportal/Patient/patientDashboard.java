@@ -82,6 +82,7 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
     List<String> approved_appointment_date;
     List<String> approved_appointment_time;
     List<String> approved_doctor_id;
+    List<String> approved_doctor_img = new ArrayList<>();
     LinearLayout patient_empty_show;
 
     UpcomingNotificationsAdapter notificationsAdapter;
@@ -262,27 +263,40 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
             }
         }
     }
-
     private void uploadProfileToFireBase(Uri content_uri) {
 
-        StorageReference doc_file_ref = storageReference.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
-        doc_file_ref.putFile(content_uri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-            @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                    @Override
-                    public void onSuccess(Uri uri) {
-                        Picasso.get().load(uri).into(patient_profile);
-                    }
+        StorageReference  docFileRef= storageReference.child("Patient/" + firestoreHandler.getCurrentUser() + "/patient_profile.jpg");
+
+        docFileRef.putFile(content_uri)
+                .addOnSuccessListener(taskSnapshot -> {
+                    docFileRef.getDownloadUrl().addOnSuccessListener(uri -> {
+                        // Convert the image URL to a string and store it in Firestore
+                        String imageUrl = uri.toString();
+
+                        // Get a reference to the document in the "Professions" collection
+                        DocumentReference documentRef = firestoreHandler.getFirestoreInstance()
+                                .collection("Patient")
+                                .document(firestoreHandler.getCurrentUser());
+
+                        // Update the "Image" field with the image URL
+                        documentRef.update("Image", imageUrl)
+                                .addOnSuccessListener(aVoid -> {
+                                    // Image URL stored successfully
+                                    // Handle any further actions or notifications
+                                })
+                                .addOnFailureListener(e -> {
+                                    // Failed to store the image URL
+                                    // Handle the error appropriately
+                                });
+                    });
+                })
+                .addOnFailureListener(e -> {
+                    // Failed to upload the image
+                    // Handle the error appropriately
                 });
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(patientDashboard.this, "Profile not uploaded", Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
+
 
 
     @Override
@@ -357,7 +371,8 @@ public class patientDashboard extends AppCompatActivity implements NavigationVie
                                 approved_appointment_date.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentDate")));
                                 approved_appointment_time.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
                                 approved_doctor_id.add(String.valueOf(dc.getDocument().get("ApprovedAppointmentTime")));
-                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no, approved_appointment_date, approved_appointment_time, approved_doctor_id);
+                                approved_doctor_img.add(String.valueOf(dc.getDocument().get("Image")));
+                                notificationsAdapter = new UpcomingNotificationsAdapter(approved_doctor_names, approved_doctor_phone_no, approved_appointment_date, approved_appointment_time, approved_doctor_id, approved_doctor_img);
                                 patient_upcoming_appointments.setAdapter(notificationsAdapter);
                                 patient_upcoming_appointments.scrollToPosition(notificationsAdapter.getItemCount() - 1);
                             }

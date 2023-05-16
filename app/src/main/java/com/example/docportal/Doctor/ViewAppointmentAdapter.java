@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.squareup.picasso.Picasso;
 
 public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment, ViewAppointmentAdapter.ViewHolder> {
 
@@ -56,11 +58,13 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
         private final Button to_appointment_reschedule;
         private final Button to_chat_reschedule;
         private final Button sendPrescription;
+        private final ImageView image;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             apoint_names = itemView.findViewById(R.id.appointmentNames);
             apoint_ph = itemView.findViewById(R.id.appointeePhone);
+            image = itemView.findViewById(R.id.appointment_patient_profile);
             appointment_date = itemView.findViewById(R.id.appointment_date);
             appointment_time = itemView.findViewById(R.id.appointment_time);
             to_appointment_reschedule = itemView.findViewById(R.id.deleteAppointment);
@@ -73,6 +77,10 @@ public class ViewAppointmentAdapter extends FirestoreRecyclerAdapter<Appointment
             apoint_ph.setText(appointment.getApprovedPatientCell());
             appointment_date.setText(appointment.getApprovedAppointmentDate());
             appointment_time.setText(appointment.getApprovedAppointmentTime());
+            String imageUri =  appointment.getApprovedPatientImage();
+            if (imageUri != null && !imageUri.isEmpty()) {
+                Picasso.get().load(imageUri).into(image);
+            }
             to_appointment_reschedule.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

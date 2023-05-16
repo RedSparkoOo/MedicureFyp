@@ -36,18 +36,20 @@
             android:textColor="@color/light_black"
             android:textSize="20sp" />
 
-        <SearchView
+        <EditText
             android:id="@+id/search_lab_test"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:layout_margin="15dp"
             android:paddingLeft="1dp"
             android:background="@drawable/searchview_field"
-            android:searchIcon="@drawable/search_icon"
-            android:queryHint="Search Test"
+            android:drawableStart="@drawable/search_icon"
+            android:hint="Search Test"
             android:closeIcon="@drawable/search_view_end"
             android:iconifiedByDefault="false"
             />
+
+
 
     </LinearLayout>
 

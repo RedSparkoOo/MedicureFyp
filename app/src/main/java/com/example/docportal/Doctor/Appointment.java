@@ -4,12 +4,22 @@ public class Appointment {
     private String AppointedDoctorId;
     private String AppointedPatientId;
     private String ApprovedDoctorCell;
+
+    public String getApprovedPatientImage() {
+        return ApprovedPatientImage;
+    }
+
+    public void setApprovedPatientImage(String approvedPatientImage) {
+        ApprovedPatientImage = approvedPatientImage;
+    }
+
+    private String ApprovedPatientImage;
     private String ApprovedDoctorName;
     private String ApprovedPatientCell;
     private String ApprovedPatientName;
     private String ApprovedAppointmentDate;
     private String ApprovedAppointmentTime;
-    public Appointment(String appointedDoctorId, String appointedPatientId, String approvedDoctorCell, String approvedDoctorName, String approvedPatientCell, String approvedPatientName, String approvedAppointmentDate, String approvedAppointmentTime) {
+    public Appointment(String appointedDoctorId, String appointedPatientId, String approvedDoctorCell, String approvedDoctorName, String approvedPatientCell, String approvedPatientName, String approvedAppointmentDate, String approvedAppointmentTime, String approvedPatientImage) {
         AppointedDoctorId = appointedDoctorId;
         AppointedPatientId = appointedPatientId;
         ApprovedDoctorCell = approvedDoctorCell;
@@ -18,6 +28,7 @@ public class Appointment {
         ApprovedPatientName = approvedPatientName;
         ApprovedAppointmentDate = approvedAppointmentDate;
         ApprovedAppointmentTime = approvedAppointmentTime;
+        ApprovedPatientImage = approvedPatientImage;
     }
 
     public Appointment() {

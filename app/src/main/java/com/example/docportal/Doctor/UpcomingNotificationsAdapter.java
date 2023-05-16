@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -28,6 +29,7 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
     private final List<String> AppointmentDate;
     private final List<String> AppointmentTime;
     private final List<String> AppointmentNamesAll;
+    private final List<String> AppointmentImage;
     Context context;
     Filter filter = new Filter() {
         @Override
@@ -61,12 +63,13 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         }
     };
 
-    public UpcomingNotificationsAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> nameDataSet4) {
+    public UpcomingNotificationsAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3, List<String> nameDataSet4, List<String> nameDataset5) {
         AppointmentNames = nameDataSet;
         AppointmentPhones = nameDataSet1;
         AppointmentDate = nameDataSet2;
         AppointmentTime = nameDataSet3;
         AppointmentId = nameDataSet4;
+        AppointmentImage = nameDataset5;
         this.AppointmentNamesAll = new ArrayList<>(AppointmentNames);
     }
 
@@ -94,6 +97,10 @@ public class UpcomingNotificationsAdapter extends RecyclerView.Adapter<UpcomingN
         viewHolder.getApoint_names().setText(AppointmentNames.get(position));
         viewHolder.getAppointment_date().setText(AppointmentDate.get(position));
         viewHolder.getAppointment_time().setText(AppointmentTime.get(position));
+        String imageUri =  AppointmentImage.get(position);
+        if (imageUri != null && !imageUri.isEmpty()) {
+            Picasso.get().load(imageUri).into(viewHolder.profile_image);
+        }
         viewHolder.chat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

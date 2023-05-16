@@ -66,6 +66,7 @@ public class AppointmentBooking extends AppCompatActivity {
 
     String booker_name;
     String booker_phone;
+    String patient_img;
     String booker_description;
     String doctor_phone;
     String doctor_name;
@@ -111,6 +112,7 @@ public class AppointmentBooking extends AppCompatActivity {
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
                 patient_full_name.setText(value.getString("Patient Name"));
                 patient_phone_no.setText(value.getString("Patient phone_no"));
+                patient_img = value.getString("Image");
 
             }
         });
@@ -227,6 +229,7 @@ public class AppointmentBooking extends AppCompatActivity {
 
                             Map<String, Object> appointment = new HashMap<>();
                             appointment.put("PatientID", firestoreHandler.getCurrentUser());
+                            appointment.put("PatientImage", patient_img);
                             appointment.put("PatientName", booker_name);
                             appointment.put("PatientPhoneNo", booker_phone);
                             appointment.put("AppointedDoctorID", doctor_id);

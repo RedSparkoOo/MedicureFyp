@@ -79,7 +79,7 @@ public class AddMedicalEquipment extends AppCompatActivity {
                         firestoreHandler = new FirestoreHandler();
 
                         _title = title.getText().toString();
-                        _description = title.getText().toString();
+                        _description = description.getText().toString();
                         _price = price.getText().toString();
                         _quantity = quantity.getText().toString();
 

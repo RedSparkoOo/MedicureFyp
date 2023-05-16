@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.Doctor.Chat;
 import com.example.docportal.R;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -32,6 +33,7 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
     private final List<String> appointed_doctor_start_time;
     private final List<String> appointed_doctor_close_time;
     private final List<String> appointed_doctor_bio;
+    private final List<String> appointed_doctor_img;
     private final ItemClickListener clickListener;
 
     private final List<String> appointed_doctor_name_all;
@@ -51,13 +53,13 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         appointed_doctor_start_time = null;
         appointed_doctor_close_time = null;
         appointed_doctor_bio = null;
-
+appointed_doctor_img = null;
         this.clickListener = null;
         this.appointed_doctor_name_all =null;
     }
 
 
-    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3,List<String> nameDataSet4,List<String> nameDataSet5,List<String> nameDataSet6, ItemClickListener itemClickListener)  {
+    public AppointmentBookingAdapter(List<String> nameDataSet, List<String> nameDataSet1, List<String> nameDataSet2, List<String> nameDataSet3,List<String> nameDataSet4,List<String> nameDataSet5,List<String> nameDataSet6, List<String> nameDataSet7,ItemClickListener itemClickListener)  {
         appointed_doctor_name = nameDataSet;
         appointed_doctor_specialization = nameDataSet1;
         appointed_doctor_ID = nameDataSet2;
@@ -65,6 +67,7 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         appointed_doctor_start_time = nameDataSet4;
         appointed_doctor_close_time = nameDataSet5;
         appointed_doctor_bio = nameDataSet6;
+        appointed_doctor_img = nameDataSet7;
 
         this.clickListener = itemClickListener;
         this.appointed_doctor_name_all = new ArrayList<>(appointed_doctor_name);
@@ -195,6 +198,10 @@ public class AppointmentBookingAdapter extends RecyclerView.Adapter<AppointmentB
         viewHolder.getDoctor_close_time().setText(appointed_doctor_close_time.get(position));
         viewHolder.getDoctor_bio().setText(appointed_doctor_bio.get(position));
 
+        String imageUri = appointed_doctor_img.get(position);
+        if (imageUri != null && !imageUri.isEmpty()) {
+            Picasso.get().load(imageUri).into(viewHolder.getDoctor_profile());
+        }
         viewHolder.to_chat_reschedule.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

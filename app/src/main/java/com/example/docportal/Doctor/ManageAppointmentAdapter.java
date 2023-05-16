@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +19,7 @@ import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,7 +42,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         return new ViewHolder(view);
     }
 
-    private void approvedAppointments(String patient_name, String patient_phone, String appointment_date, String appointment_time, String patientId, String doctorId) {
+    private void approvedAppointments(String patient_name, String patient_phone, String appointment_date, String appointment_time, String patientId, String doctorId, String image) {
         FirebaseFirestore firestore = FirebaseFirestore.getInstance();
         DocumentReference docRef = firestore.collection("Approved Appointments").document();
 
@@ -51,7 +53,7 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         approved_appointments.put("ApprovedDoctorCell", "Doctor Phone");
         approved_appointments.put("ApprovedAppointmentDate", appointment_date);
         approved_appointments.put("ApprovedAppointmentTime", appointment_time);
-
+        approved_appointments.put("ApprovedPatientImage", image);
         approved_appointments.put("AppointedPatientId", patientId);
         approved_appointments.put("AppointedDoctorId",doctorId);
         docRef.set(approved_appointments);
@@ -66,6 +68,10 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         holder.getText_patient_date().setText(model.getAppointmentDate());
         holder.getText_patient_time().setText(model.getAppointmentTime());
         holder.getText_patient_description().setText(model.getAppointmentDescription());
+        String imageUri =  model.getPatientImage();
+        if (imageUri != null && !imageUri.isEmpty()) {
+            Picasso.get().load(imageUri).into(holder.image);
+        }
 
         holder.getApprove_appointment().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,8 +82,9 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
                 String appointment_date = model.getAppointmentDate();
                 String appointment_time = model.getAppointmentTime();
                 String appointmentId = model.getAppointedDoctorID();
+                String appointmentImage = model.getPatientImage();
 
-                approvedAppointments(patient_name, patient_phone, appointment_date, appointment_time, appointmentId, firestoreHandler.getCurrentUser());
+                approvedAppointments(patient_name, patient_phone, appointment_date, appointment_time, appointmentId, firestoreHandler.getCurrentUser(), appointmentImage);
                 FirebaseFirestore firestore = FirebaseFirestore.getInstance();
                 DocumentReference documentReference = firestore.collection("Appointment").document(appointmentId);
                 documentReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -127,10 +134,11 @@ public class ManageAppointmentAdapter extends FirestoreRecyclerAdapter<Appointme
         private final TextView text_patient_description;
         private final Button approve_appointment;
         private final Button deny_appointment;
+        private final ImageView image;
 
         public ViewHolder(View view) {
             super(view);
-
+            image = view.findViewById(R.id.appointment_patient_profile);
             text_patient_name = view.findViewById(R.id.appointment_patient_name);
             text_patient_phone = view.findViewById(R.id.appointment_patient_phone);
             text_patient_date = view.findViewById(R.id.appointment_patient_date);
