@@ -59,7 +59,7 @@ public class bloodBankOptions extends AppCompatActivity {
         A.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "A")
+                newQuery = noteBookref.whereEqualTo("name", name). whereGreaterThanOrEqualTo("donor", "A")
                         .whereLessThanOrEqualTo("donor", "A" + "\uf8ff")
                         .orderBy("donor");
                 setQuery();
@@ -77,7 +77,7 @@ public class bloodBankOptions extends AppCompatActivity {
         AB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "AB")
+                newQuery = noteBookref.whereEqualTo("name", name).whereGreaterThanOrEqualTo("donor", "AB")
                         .whereLessThanOrEqualTo("donor", "AB" + "\uf8ff")
                         .orderBy("donor");
                 setQuery();
@@ -86,7 +86,7 @@ public class bloodBankOptions extends AppCompatActivity {
         O.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "O")
+                newQuery = noteBookref.whereEqualTo("name", name).whereGreaterThanOrEqualTo("donor", "O")
                         .whereLessThanOrEqualTo("donor", "O" + "\uf8ff")
                         .orderBy("donor");
                 setQuery();
@@ -109,10 +109,10 @@ public class bloodBankOptions extends AppCompatActivity {
                 }
 
                 if (query.trim().isEmpty()) {
-                    newQuery = noteBookref
+                    newQuery = noteBookref.whereEqualTo("name", name)
                             .orderBy("donor", Query.Direction.DESCENDING);
                 } else {
-                    newQuery = noteBookref
+                    newQuery = noteBookref.whereEqualTo("name", name)
                             .orderBy("donor")
                             .startAt(query)
                             .endAt(query + "\uf8ff");

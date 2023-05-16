@@ -140,7 +140,7 @@ public class HealthTracker extends AppCompatActivity {
         FirestoreStepsStatus();
         waterIntake();
         stepsCounter();
-        addNotifications();
+
 
     }
 

@@ -55,8 +55,8 @@ public class ReminderStored extends AppCompatActivity {
         public void run() {
             // Do your task here
             MedicineNotify();
-            Toast.makeText(ReminderStored.this, "works after 30", Toast.LENGTH_SHORT).show();
-            mHandler.postDelayed(mRunnable, 10000);
+
+            mHandler.postDelayed(mRunnable, 30000);
         }
     };
     String med_duration;
@@ -80,7 +80,7 @@ public class ReminderStored extends AppCompatActivity {
         });
         RecievedReminders();
         empty_reminder_show.setVisibility(View.VISIBLE);
-        mHandler.postDelayed(mRunnable, 10000);
+        mHandler.postDelayed(mRunnable, 30000);
 
 
     }

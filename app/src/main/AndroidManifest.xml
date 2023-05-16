@@ -232,7 +232,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".Patient.patientPrescription"
+            android:name=".Patient.PatientPrescription"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
