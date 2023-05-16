@@ -44,6 +44,9 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
         holder.name.setText(model.getName());
         holder.city.setText("Islamabad");
         holder.time.setText(model.getTiming());
+        if(holder.time2.getText().equals("Islamabad")){
+            holder.time2.setText("18:00");
+        }
         String imageUri;
         imageUri = model.getLogo();
         Picasso.get().load(imageUri).into(holder.image);
@@ -110,7 +113,7 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
 
     public class BloodBankViewHolder extends RecyclerView.ViewHolder {
 
-        TextView name, city, time;
+        TextView name, city, time, time2;
         Button location, service;
         ImageView image;
 
@@ -123,6 +126,7 @@ public class BanksAdapter extends FirestoreRecyclerAdapter<BloodBankModel, Banks
                 name = itemView.findViewById(R.id.lab_name);
                 city = itemView.findViewById(R.id.lab_region);
                 time = itemView.findViewById(R.id.lab_time);
+                time2 = itemView.findViewById(R.id.lab_time2);
 
 
                 location = itemView.findViewById(R.id.directions);

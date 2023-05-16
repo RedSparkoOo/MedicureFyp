@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="@font/pt_sans_bold"
         android:textAlignment="center"
-        android:text="Medicine"
+        android:text="Add Medicine"
         android:textColor="@color/light_black"
         android:textSize="25sp" />
     <TextView
@@ -46,7 +46,7 @@
         android:id="@+id/equip_picture"
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@drawable/medic_profile" />
 
     <ScrollView
         android:layout_width="match_parent"

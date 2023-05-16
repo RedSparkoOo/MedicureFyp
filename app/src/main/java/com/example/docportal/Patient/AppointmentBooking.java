@@ -148,7 +148,8 @@ public class AppointmentBooking extends AppCompatActivity {
                         calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         calendar.set(Calendar.MINUTE, minute);
                         TIME = timeFormat.format(calendar.getTime());
-                        checkTime(TIME);
+                        appointment_time.setText(TIME);
+
                     }
                 }, start_hour, start_minute, false);
                 timePickerDialog.show();

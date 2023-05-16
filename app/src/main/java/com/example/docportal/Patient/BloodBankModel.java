@@ -5,6 +5,16 @@ public class BloodBankModel {
     private String name;
     private String quantity;
     private String logo;
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
+
+    private String endtime;
     private String acceptor;
     private String category;
     private String description;
@@ -21,7 +31,7 @@ public class BloodBankModel {
 
     }
 
-    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName, String logo, String quantity) {
+    public BloodBankModel(String acceptor, String category, String description, String donor, String labName, String latitude, String logoUrl, String longitude, String price, String testName, String timing, String bloodBankName, String logo, String quantity, String endtime) {
         this.acceptor = acceptor;
         this.category = category;
         this.description = description;
@@ -36,6 +46,7 @@ public class BloodBankModel {
         this.name = bloodBankName;
         this.logo = logo;
         this.quantity = quantity;
+        this.endtime = endtime;
     }
 
     public String getName() {

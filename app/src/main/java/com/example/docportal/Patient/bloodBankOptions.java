@@ -59,36 +59,36 @@ public class bloodBankOptions extends AppCompatActivity {
         A.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "A")
-                        .whereLessThanOrEqualTo("bloodBankId", "A" + "\uf8ff")
-                        .orderBy("bloodBankId");
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "A")
+                        .whereLessThanOrEqualTo("donor", "A" + "\uf8ff")
+                        .orderBy("donor");
                 setQuery();
             }
         });
         B.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "B")
-                        .whereLessThanOrEqualTo("bloodBankId", "B" + "\uf8ff")
-                        .orderBy("bloodBankId");
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "B")
+                        .whereLessThanOrEqualTo("donor", "B" + "\uf8ff")
+                        .orderBy("donor");
                 setQuery();
             }
         });
         AB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "AB")
-                        .whereLessThanOrEqualTo("bloodBankId", "AB" + "\uf8ff")
-                        .orderBy("bloodBankId");
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "AB")
+                        .whereLessThanOrEqualTo("donor", "AB" + "\uf8ff")
+                        .orderBy("donor");
                 setQuery();
             }
         });
         O.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                newQuery = noteBookref.whereGreaterThanOrEqualTo("bloodBankId", "O")
-                        .whereLessThanOrEqualTo("bloodBankId", "O" + "\uf8ff")
-                        .orderBy("bloodBankId");
+                newQuery = noteBookref.whereGreaterThanOrEqualTo("donor", "O")
+                        .whereLessThanOrEqualTo("donor", "O" + "\uf8ff")
+                        .orderBy("donor");
                 setQuery();
             }
         });
@@ -110,10 +110,10 @@ public class bloodBankOptions extends AppCompatActivity {
 
                 if (query.trim().isEmpty()) {
                     newQuery = noteBookref
-                            .orderBy("bloodBankId", Query.Direction.DESCENDING);
+                            .orderBy("donor", Query.Direction.DESCENDING);
                 } else {
                     newQuery = noteBookref
-                            .orderBy("bloodBankId")
+                            .orderBy("donor")
                             .startAt(query)
                             .endAt(query + "\uf8ff");
                 }

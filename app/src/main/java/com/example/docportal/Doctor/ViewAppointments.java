@@ -1,12 +1,16 @@
 package com.example.docportal.Doctor;
 
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.SearchView;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.res.ResourcesCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -44,31 +48,32 @@ public class ViewAppointments extends AppCompatActivity {
         back_to_doctor_dashboard = findViewById(R.id.back_to_doctor_dashboard);
 
 
-//        search_patient = findViewById(R.id.search_patient);
-//        int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
-//        TextView textView = search_patient.findViewById(id);
-//        textView.setTextColor(Color.parseColor(search_color));
-//        textView.setTextSize(14);
-//        textView.setHintTextColor(Color.parseColor(search_HINT_color));
-//        Typeface tf = ResourcesCompat.getFont(this, R.font.pt_sans_regular);
-//        textView.setTypeface(tf);
+        search_patient = findViewById(R.id.search_patient);
+        int id = search_patient.getContext().getResources().getIdentifier("android:id/search_src_text", null, null);
+        TextView textView = search_patient.findViewById(id);
+        textView.setTextColor(Color.parseColor(search_color));
+        textView.setTextSize(14);
+        textView.setHintTextColor(Color.parseColor(search_HINT_color));
+        Typeface tf = ResourcesCompat.getFont(this, R.font.pt_sans_regular);
+        textView.setTypeface(tf);
 
         FireStoreApprovedAppointments();
 
 
-        search_patient.setVisibility(View.INVISIBLE);
-//        search_patient.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//            @Override
-//            public boolean onQueryTextSubmit(String query) {
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onQueryTextChange(String newText) {
-//                //  appointmentadapter.getFilter().filter(newText);
-//                return false;
-//            }
-//        });
+        search_patient.setVisibility(View.VISIBLE);
+        appointments_viewed.setVisibility(View.INVISIBLE); // to remove
+        search_patient.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                return false;
+            }
+        });
 
         back_to_doctor_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override

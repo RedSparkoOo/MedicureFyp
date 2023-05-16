@@ -149,6 +149,19 @@
       >
 
         <Button
+            android:id="@+id/chat_doctor_book"
+            android:layout_width="70dp"
+            android:layout_height="25dp"
+            android:background="@drawable/but"
+            android:elevation="4dp"
+            android:fontFamily="@font/pt_sans_regular"
+            android:text="Chat"
+            android:visibility="invisible"
+            android:textAllCaps="false"
+            android:textColor="@color/extra_white"
+            android:textSize="12sp" />
+
+        <Button
             android:id="@+id/appointment_doctor_book"
             android:layout_width="70dp"
             android:layout_height="25dp"
@@ -161,20 +174,6 @@
             android:fontFamily="@font/pt_sans_regular"
             android:text="Book"
             />
-        <Button
-            android:id="@+id/chat_doctor_book"
-            android:layout_width="70dp"
-            android:layout_height="25dp"
-            android:background="@drawable/but"
-            android:textColor="@color/extra_white"
-            android:textSize="12sp"
-            android:elevation="4dp"
-            android:textAllCaps="false"
-            android:fontFamily="@font/pt_sans_regular"
-            android:text="Chat"
-            />
-
-
 
 
 

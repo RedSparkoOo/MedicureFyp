@@ -73,7 +73,7 @@ public class ManageAppointment extends AppCompatActivity {
         patient_appointment_recycler_view.setLayoutManager(new WrapContentLinearLayoutManager(ManageAppointment.this, LinearLayoutManager.VERTICAL, false));
         patient_appointment_recycler_view.setAdapter(adapter);
 
-
+        mail_box_show.setVisibility(View.INVISIBLE);
 
 
 

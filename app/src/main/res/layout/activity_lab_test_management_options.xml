@@ -49,8 +49,6 @@
             android:iconifiedByDefault="false"
             />
 
-
-
     </LinearLayout>
 
     <LinearLayout

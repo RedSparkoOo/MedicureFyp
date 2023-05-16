@@ -45,7 +45,7 @@
         android:id="@+id/search_patient"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
+        android:layout_margin="20dp"
         android:elevation="4dp"
         android:background="@drawable/searchview_field"
         android:searchIcon="@drawable/search_icon"
