@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -39,6 +40,7 @@ public class BuyMedicalEquipment extends AppCompatActivity {
 
     EditText editText;
     TextView select, list;
+    ImageView back_to_pharmacy_options;
 
 
     @Override
@@ -49,14 +51,19 @@ public class BuyMedicalEquipment extends AppCompatActivity {
         list = findViewById(R.id.list_med);
         select.setText("Select Medical Equipment");
         list.setText("List of Medical Equipment");
-
+        back_to_pharmacy_options = findViewById(R.id.back_to_pharmacy_options);
 
         _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
         editText = findViewById(R.id.medicineSearch);
 
         setUpRecyclerView();
 
-
+        back_to_pharmacy_options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleton.openActivity(BuyMedicalEquipment.this, PharmacyService.class);
+            }
+        });
         _pharmacyAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

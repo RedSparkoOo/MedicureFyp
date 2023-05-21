@@ -17,11 +17,13 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.docportal.CheckEvent;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
@@ -52,7 +54,6 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
     public static final int REQUEST_CODE = 100;
     public static final int GALLERY_CODE = 1000;
     Button Update;
-    String token;
     EditText update_full_name;
     EditText update_email_address;
     EditText update_Password;
@@ -89,8 +90,6 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
 
     String old_email;
     String old_pass;
-    String update_starting_time;
-    String update_closing_time;
     Spinner update_profession_category;
     Spinner update_specialist_Category;
     DocumentReference documentReference;
@@ -107,6 +106,7 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
         update_Phone_No = findViewById(R.id.update_phone_no);
         update_License = findViewById(R.id.update_license);
         update_specialist_Category = findViewById(R.id.update_specialist_Category);
+        update_profession_category = findViewById(R.id.update_profession_category);
         update_gender = findViewById(R.id.update_doctor_gender);
         doctor_profile = findViewById(R.id.doctor_profile);
         update_doctor_bio = findViewById(R.id.update_doctor_bio);
@@ -116,20 +116,6 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
 
         Map<String, Object> doctor = new HashMap<>();
         documentReference = firestoreHandler.getFirestoreInstance().collection("Professions").document(firestoreHandler.getCurrentUser());
-
-        update_start_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateStartTime();
-            }
-        });
-
-        update_close_time.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                updateCloseTime();
-            }
-        });
 
         doctor_profile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -156,17 +142,11 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                TextView[] textViews = {update_full_name, update_email_address, update_Password, update_Phone_No, update_License};
+                CheckEvent checkEvent = new CheckEvent();
 
-
-                if (update_full_name.getText().toString().isEmpty() && update_email_address.getText().toString().isEmpty() && update_Password.getText().toString().isEmpty() && update_Phone_No.getText().toString().isEmpty() && update_License.getText().toString().isEmpty() && update_specialist_Category.getSelectedItem().toString().isEmpty() && update_gender.getSelectedItem().toString().isEmpty()) {
-
-                    update_full_name.setError("Full Name can't be empty");
-                    update_email_address.setError("Email Address can't be empty");
-                    update_Password.setError("Password can't be empty");
-                    update_Phone_No.setError("Phone no can't be empty");
-                    update_License.setError("license No can't be empty");
-                    ((TextView) update_specialist_Category.getSelectedView()).setError("Select at least one!");
-                    ((TextView) update_gender.getSelectedView()).setError("Select at least one!");
+                if (checkEvent.isEmpty(textViews) || !checkEvent.checkName(update_full_name) || !checkEvent.checkEmail(update_email_address) || !checkEvent.checkPhone(update_Phone_No) || !checkEvent.checkLicense(update_License)) {
+                    Toast.makeText(UpdateDoctorNurseProfile.this, "Please fill out the data correctly", Toast.LENGTH_SHORT).show();
                 } else {
 
                     update_fName = update_full_name.getText().toString();
@@ -176,8 +156,6 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
                     update_license = update_License.getText().toString();
                     update_specializations = update_specialist_Category.getSelectedItem().toString();
                     update_profession = update_profession_category.getSelectedItem().toString();
-                    update_starting_time = update_start_time.getText().toString();
-                    update_closing_time = update_close_time.getText().toString();
                     update_gend = update_gender.getSelectedItem().toString();
                     update_bio = update_doctor_bio.getText().toString();
 
@@ -188,10 +166,8 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
                     doctor.put("Phone #", update_phoneNo);
                     doctor.put("Gender", update_gend);
                     doctor.put("License #", update_license);
-                    doctor.put("Doctor_profession", update_specializations);
+                    doctor.put("Specialization", update_specializations);
                     doctor.put("Profession", update_profession);
-                    doctor.put("Start Time", update_starting_time);
-                    doctor.put("End Time", update_closing_time);
                     doctor.put("Bio Details", update_bio);
 
 
@@ -247,7 +223,8 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
                         singleton.showToast(UpdateDoctorNurseProfile.this, e.toString());
                     }
 
-
+                    Intent intent = new Intent(UpdateDoctorNurseProfile.this,DoctorNurseDashboard.class);
+                    startActivity(intent);
                 }
             }
         });
@@ -297,12 +274,10 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
                 update_Password.setText(documentSnapshot.getString("Password"));
                 update_Phone_No.setText(documentSnapshot.getString("Phone #"));
                 update_License.setText(documentSnapshot.getString("License #"));
-                present_specialization = documentSnapshot.getString("Doctor_profession");
+                present_specialization = documentSnapshot.getString("Specialization");
                 Selected_gender = documentSnapshot.getString("Gender");
                 selected_profession = documentSnapshot.getString("Profession");
                 update_doctor_bio.setText(documentSnapshot.getString("Bio Details"));
-                update_start_time.setText(documentSnapshot.getString("Start Time"));
-                update_close_time.setText(documentSnapshot.getString("End Time"));
                 old_email = documentSnapshot.getString("Email Address");
                 old_pass = documentSnapshot.getString("Password");
 
@@ -386,7 +361,7 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
         storageReference = FirebaseStorage.getInstance().getReference();
 
 
-        StorageReference doc_file_ref = storageReference.child("Doctor/" + firestoreHandler.getCurrentUser() + "/doctor_profile.jpg");
+        StorageReference doc_file_ref = storageReference.child("Professions/" + firestoreHandler.getCurrentUser() + "/doctor_profile.jpg");
         doc_file_ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
             @Override
             public void onSuccess(Uri uri) {
@@ -431,53 +406,6 @@ public class UpdateDoctorNurseProfile extends AppCompatActivity {
         });
     }
 
-    private void updateCloseTime() {
-        Calendar calendar = Calendar.getInstance();
-        int start_hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int start_minute = calendar.get((Calendar.MINUTE));
-
-        //  boolean Is24hourFormat = DateFormat.is24HourFormat(AppointmentBooking.this);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdateDoctorNurseProfile.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-
-                SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-                int hourOfDay = timePicker.getHour();
-                int minute = timePicker.getMinute();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                update_closing_time = timeFormat.format(calendar.getTime());
-                update_close_time.setText(update_closing_time);
-            }
-        }, start_hour, start_minute, false);
-        timePickerDialog.show();
-
-    }
-
-    private void updateStartTime() {
-
-        Calendar calendar = Calendar.getInstance();
-        int start_hour = calendar.get(Calendar.HOUR_OF_DAY);
-        int start_minute = calendar.get((Calendar.MINUTE));
-
-        //  boolean Is24hourFormat = DateFormat.is24HourFormat(AppointmentBooking.this);
-        TimePickerDialog timePickerDialog = new TimePickerDialog(UpdateDoctorNurseProfile.this, new TimePickerDialog.OnTimeSetListener() {
-            @Override
-            public void onTimeSet(TimePicker timePicker, int Hour, int Minute) {
-
-                SimpleDateFormat timeFormat = new SimpleDateFormat("hh:mm a");
-                int hourOfDay = timePicker.getHour();
-                int minute = timePicker.getMinute();
-                Calendar calendar = Calendar.getInstance();
-                calendar.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                calendar.set(Calendar.MINUTE, minute);
-                update_starting_time = timeFormat.format(calendar.getTime());
-                update_start_time.setText(update_starting_time);
-            }
-        }, start_hour, start_minute, false);
-        timePickerDialog.show();
-    }
 
 }
 

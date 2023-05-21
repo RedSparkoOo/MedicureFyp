@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/background_white"
-    tools:context=".Patient.PatientPrescription">
+    tools:context=".Patient.PatientRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
             <EditText
                 android:id="@+id/prescribed_patient_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
                 android:drawableEnd="@drawable/full_name_avatar"
@@ -86,7 +86,7 @@
             <EditText
                 android:id="@+id/prescribed_patient_email_address"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
                 android:drawableEnd="@drawable/person_email"
@@ -113,7 +113,7 @@
             <EditText
                 android:id="@+id/prescribing_doctor_name"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
                 android:drawableEnd="@drawable/full_name_avatar"
@@ -131,7 +131,7 @@
             <EditText
                 android:id="@+id/prescribing_doctor_email_address"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
                 android:background="@drawable/input_field"
                 android:drawableEnd="@drawable/person_email"
@@ -176,7 +176,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pt_sans_bold"
                     android:layout_marginTop="20dp"
-                    android:text="Medicine Description"
+                    android:text="Medicine Details"
                     android:textColor="@color/light_black"
                     android:textSize="14sp" />
 
@@ -187,22 +187,51 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
+                    android:orientation="vertical">
 
 
-                    <Spinner
+                    <EditText
                         android:id="@+id/first_medicine_name"
-                        style="@style/Widget.AppCompat.Spinner.DropDown.ActionBar"
-                        android:background="@drawable/spinner_field"
-                        android:layout_width="225dp"
-                        android:layout_height="40dp"/>
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/input_field"
+                        android:drawableEnd="@drawable/pill"
+                        android:drawablePadding="5sp"
+                        android:ems="10"
+                        android:fontFamily="@font/pt_sans_regular"
+                        android:hint="Enter Medicine Name"
+                        android:inputType="textEmailAddress"
+                        android:paddingEnd="7sp"
+                        android:textColor="@color/light_black"
+                        android:textColorHint="@color/grey"
+                        android:textSize="14sp"
+                        tools:ignore="TextFields" />
 
-                    <Spinner
-                        android:id="@+id/first_medicine_weight"
-                        android:background="@drawable/spinner_field"
-                        android:layout_marginStart="10dp"
-                        android:layout_width="130dp"
-                        android:layout_height="40dp"/>
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="15dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/first_medicine_weight"
+                            android:drawablePadding="5sp"
+                            android:paddingEnd="7sp"
+                            android:background="@drawable/spinner_field"
+                            android:layout_width="200dp"
+                            android:layout_height="40dp"/>
+
+                        <Spinner
+                            android:id="@+id/first_medicine_type"
+                            android:layout_marginStart="30dp"
+                            android:drawablePadding="5sp"
+                            android:paddingEnd="7sp"
+                            android:background="@drawable/spinner_field"
+                            android:layout_width="140dp"
+                            android:layout_height="40dp"/>
+
+                    </LinearLayout>
+
 
                 </LinearLayout>
 
@@ -220,7 +249,7 @@
                 <EditText
                     android:id="@+id/medicine_purpose"
                     android:layout_width="match_parent"
-                    android:layout_height="50dp"
+                    android:layout_height="45dp"
                     android:layout_marginTop="10dp"
                     android:background="@drawable/input_field"
                     android:ems="10"
@@ -234,6 +263,27 @@
                     android:textColor="@color/black"
                     android:textColorHint="@color/grey"
                     android:textSize="14sp" />
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:layout_marginTop="10dp"
+                    android:text="Number of Days"
+                    android:textColor="@color/light_black"
+                    android:textSize="14sp" />
+
+
+                <Spinner
+                    android:id="@+id/first_medicine_days"
+                    android:layout_marginTop="10dp"
+                    android:drawablePadding="5sp"
+                    android:paddingEnd="7sp"
+                    android:background="@drawable/spinner_field"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"/>
+
 
                 <TextView
                     android:layout_width="match_parent"

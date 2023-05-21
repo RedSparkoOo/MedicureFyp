@@ -84,7 +84,7 @@ public class UpdatePharmacist extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update_doctor_nurse_profile);
+        setContentView(R.layout.activity_update_pharmacist);
 
 
         Update = findViewById(R.id.Update);

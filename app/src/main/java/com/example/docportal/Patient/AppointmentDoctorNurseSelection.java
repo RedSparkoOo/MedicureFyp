@@ -8,8 +8,10 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +23,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.docportal.R;
+import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.snackbar.Snackbar;
@@ -56,50 +59,29 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
     ArrayList<String> doctor_bio;
     ArrayList<String> doctor_img;
     FirebaseFirestore firestore;
-    ImageView all_category;
-    ImageView cardio_category;
-    ImageView neuro_category;
-    ImageView nephro_category;
-    ImageView oncol_category;
-    ImageView pedri_category;
-    ImageView physio_category;
-    ImageView physco_category;
     ImageView no_doctor_image;
-
-    ImageView all_category_nurse;
-    ImageView mhn_nurse;
-    ImageView ldn_nurse;
-    ImageView cn_nurse;
-    ImageView an_nurse;
-    ImageView ccn_nurse;
     ImageView back_to_patient_dashboard;
     AppointmentBookingAdapter book_appointment_helper_class;
     String UID;
     FirebaseAuth firebaseAuth;
     View snack_bar_layout;
     TextView no_doctors_available;
+    Spinner doctor_nurse_selection;
+    Spinner doctor_nurse_profession;
+    String[] category = {"Doctor","Nurse"};
+    String[] doctors = {"All","Cardiologist","Nephrologist","Neurologist","Physiologist", "Psychologist"};
+    String[] nurses = {"All","Mental Health Nurse (MHN)", "Learning Disability Nurse (LDN)", "Adult Nurse (AN)", "Children Nurse (CN)", "Critical Care Nurse (CCN)"};
+    Singleton singleton = new Singleton();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_doctor_nurse_selection);
 
-        all_category = findViewById(R.id.all_category);
-        cardio_category = findViewById(R.id.cardio_category);
-        nephro_category = findViewById(R.id.nephro_category);
-        neuro_category = findViewById(R.id.neuro_category);
-        oncol_category = findViewById(R.id.oncol_category);
-        pedri_category = findViewById(R.id.pedri_category);
-        physio_category = findViewById(R.id.physio_category);
-        physco_category = findViewById(R.id.physco_category);
+        back_to_patient_dashboard = findViewById(R.id.back_to_patient_dashboard);
+        doctor_nurse_selection = findViewById(R.id.doctor_nurse_selection);
+        doctor_nurse_profession = findViewById(R.id.doctor_nurse_profession);
         no_doctor_image = findViewById(R.id.no_doctor_image);
         no_doctors_available = findViewById(R.id.no_doctors_available);
-        all_category_nurse = findViewById(R.id.all_category_nurse);
-        mhn_nurse = findViewById(R.id.mhn_nurse);
-        ldn_nurse = findViewById(R.id.ldn_nurse);
-        cn_nurse = findViewById(R.id.cn_nurse);
-        an_nurse = findViewById(R.id.an_nurse);
-        ccn_nurse = findViewById(R.id.ccn_nurse);
-        back_to_patient_dashboard = findViewById(R.id.back_to_patient_dashboard);
 
         back_to_patient_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,162 +129,159 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
         });
         doctor_profile_recycler.setAdapter(book_appointment_helper_class);
 
-        /*Categories*/
-
-        all_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                no_doctor_image.setVisibility(View.INVISIBLE);
-                no_doctors_available.setVisibility(View.INVISIBLE);
-                doctor_profile_recycler.setVisibility(View.VISIBLE);
-
-
-                doctor_names.clear();
-                doctor_specializations.clear();
-                doctor_UID.clear();
-                doctor_phone_no.clear();
-                doctor_start_time.clear();
-                doctor_close_time.clear();
-                doctor_bio.clear();
-                doctor_img.clear();
-                FireStoreUsers();
-                snackBarShow(snack_bar_layout,"All Doctors Selected");
-
-
-            }
-        });
-
-        cardio_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                handleDoctor("Cardiologist","Cardiologist Selected");
-
-            }
-        });
-
-        neuro_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                handleDoctor("Neurologist","Neurologist");
-
-            }
-        });
-
-        nephro_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDoctor("Nephrologist","Nephrologist Selected");
-
-            }
-        });
-
-        oncol_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDoctor("Oncologist","Oncologist");
-
-            }
-        });
-
-        pedri_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDoctor("Pedriatican","Pedriatican Selected");
-
-            }
-        });
-
-        physio_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDoctor("Physiologist","Physiologist Selected");
-
-
-            }
-        });
-
-        physco_category.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleDoctor("Psychologist","Psychologist Selected");
-
-
-            }
-        });
-
         //-------------------------------------NURSE----------------------------------
 
-        all_category_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                no_doctor_image.setVisibility(View.INVISIBLE);
-                no_doctors_available.setVisibility(View.INVISIBLE);
-                doctor_profile_recycler.setVisibility(View.VISIBLE);
-
-
-                doctor_names.clear();
-                doctor_specializations.clear();
-                doctor_UID.clear();
-                doctor_phone_no.clear();
-                doctor_start_time.clear();
-                doctor_close_time.clear();
-                doctor_bio.clear();
-                doctor_img.clear();
-                NurseFireStoreUsers();
-                snackBarShow(snack_bar_layout,"All Nurses Selected");
-
-
-            }
-        });
-
-        mhn_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleNurse("Mental Health Nurse (MHN)","Mental Health Nurse Selected");
-
-            }
-        });
-
-        ldn_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                handleNurse("Learning Disability Nurse (LDN)","Learning Disability Nurse Selected");
-
-            }
-        });
-
-        cn_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleNurse("Adult Nurse (AN)","Adult Nurse Selected");
-
-            }
-        });
-
-        an_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleNurse("Children Nurse (CN)","Children Nurse Selected");
-
-            }
-        });
-
-        ccn_nurse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleNurse("Critical Care Nurse (CCN)","Critical Care Nurse Selected");
-
-            }
-        });
 
 
         FireStoreUsers();
+        Selection();
 
 
         /*Getting Data from Fire store*/
+
+
+        search_doctor.setOnSearchClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                search_doctor.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                    @Override
+                    public boolean onQueryTextSubmit(String query) {
+
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onQueryTextChange(String newText) {
+                        String query = String.valueOf(search_doctor.getQuery());
+                        newText = query;
+                        book_appointment_helper_class.getFilter().filter(newText);
+                        return false;
+
+                    }
+                });
+            }
+        });
+
+    }
+
+    private void Selection() {
+
+        singleton.setAdatper(this,doctor_nurse_selection,category);
+
+        doctor_nurse_selection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(doctor_nurse_selection.getSelectedItem().equals("Doctor")){
+                    singleton.setAdatper(AppointmentDoctorNurseSelection.this,doctor_nurse_profession,doctors);
+                }
+                if(doctor_nurse_selection.getSelectedItem().equals("Nurse")){
+                    singleton.setAdatper(AppointmentDoctorNurseSelection.this,doctor_nurse_profession,nurses);
+                }
+
+
+                if(doctor_nurse_selection.getSelectedItem().equals("Doctor")){
+
+                    doctor_nurse_profession.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if(doctor_nurse_profession.getSelectedItem().equals("All")){
+                                doctor_names.clear();
+                                doctor_specializations.clear();
+                                doctor_UID.clear();
+                                doctor_phone_no.clear();
+                                doctor_start_time.clear();
+                                doctor_close_time.clear();
+                                doctor_bio.clear();
+                                doctor_img.clear();
+                                FireStoreUsers();
+
+                            }
+                            if(doctor_nurse_profession.getSelectedItem().equals("Cardiologist")){
+                                handleDoctor("Cardiologist","Cardiologist Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Nephrologist")){
+                                handleDoctor("Nephrologist","Nephrologist Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Neurologist")){
+                                handleDoctor("Neurologist","Neurologist Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Physiologist")){
+                                handleDoctor("Physiologist","Physiologist Selected");
+                            }
+                            if(doctor_nurse_profession.getSelectedItem().equals("Psychologist")){
+                                handleDoctor("Psychologist","Psychologist Selected");
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+
+                }
+
+                if(doctor_nurse_selection.getSelectedItem().equals("Nurse")){
+
+
+                    doctor_nurse_profession.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            if(doctor_nurse_profession.getSelectedItem().equals("All")){
+                                doctor_names.clear();
+                                doctor_specializations.clear();
+                                doctor_UID.clear();
+                                doctor_phone_no.clear();
+                                doctor_start_time.clear();
+                                doctor_close_time.clear();
+                                doctor_bio.clear();
+                                doctor_img.clear();
+                                NurseFireStoreUsers();
+                                snackBarShow(snack_bar_layout,"All Nurses Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Mental Health Nurse (MHN)")){
+                                handleNurse("Mental Health Nurse (MHN)","Mental Health Nurse (MHN) Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Learning Disability Nurse (LDN)")){
+                                handleNurse("Learning Disability Nurse (LDN)","Learning Disability Nurse (LDN) Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Adult Nurse (AN)")){
+                                handleNurse("Adult Nurse (AN)","Adult Nurse (AN) Selected");
+                            }
+
+                            if(doctor_nurse_profession.getSelectedItem().equals("Children Nurse (CN)")){
+                                handleNurse("Children Nurse (CN)","Children Nurse (CN) Selected");
+                            }
+                            if(doctor_nurse_profession.getSelectedItem().equals("Critical Care Nurse (CCN)")){
+                                handleNurse("Critical Care Nurse (CCN)","Critical Care Nurse (CCN) Selected");
+                            }
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                }
+
+
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
 
 
     }
@@ -328,7 +307,7 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
                                 doctor_UID.add(documentChange.getDocument().getId());
                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
                                 doctor_start_time.add(String.valueOf(documentChange.getDocument().get("Start Time")));
-                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("End Time")));
+                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("Close Time")));
                                 doctor_bio.add(String.valueOf(documentChange.getDocument().get("Bio Details")));
                                 doctor_img.add(String.valueOf(documentChange.getDocument().get("Image")));
 
@@ -405,7 +384,7 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
                             doctor_UID.add(dc.getDocument().getId());
                             doctor_phone_no.add(String.valueOf(dc.getDocument().get("Phone #")));
                             doctor_start_time.add(String.valueOf(dc.getDocument().get("Start Time")));
-                            doctor_close_time.add(String.valueOf(dc.getDocument().get("End Time")));
+                            doctor_close_time.add(String.valueOf(dc.getDocument().get("Close Time")));
                             doctor_bio.add(String.valueOf(dc.getDocument().get("Bio Details")));
                             doctor_img.add(String.valueOf(dc.getDocument().get("Image")));
 
@@ -488,7 +467,7 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
                             doctor_UID.add(dc.getDocument().getId());
                             doctor_phone_no.add(String.valueOf(dc.getDocument().get("Phone #")));
                             doctor_start_time.add(String.valueOf(dc.getDocument().get("Start Time")));
-                            doctor_close_time.add(String.valueOf(dc.getDocument().get("End Time")));
+                            doctor_close_time.add(String.valueOf(dc.getDocument().get("Close Time")));
                             doctor_bio.add(String.valueOf(dc.getDocument().get("Bio Details")));
                             if (dc.getDocument() != null && dc.getDocument().get("Image") != null) {
                                 doctor_img.add(String.valueOf(dc.getDocument().get("Image")));
@@ -530,7 +509,7 @@ public class AppointmentDoctorNurseSelection extends AppCompatActivity {
                                 doctor_UID.add(documentChange.getDocument().getId());
                                 doctor_phone_no.add(String.valueOf(documentChange.getDocument().get("Phone #")));
                                 doctor_start_time.add(String.valueOf(documentChange.getDocument().get("Start Time")));
-                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("End Time")));
+                                doctor_close_time.add(String.valueOf(documentChange.getDocument().get("Close Time")));
                                 doctor_bio.add(String.valueOf(documentChange.getDocument().get("Bio Details")));
                                 doctor_img.add(String.valueOf(documentChange.getDocument().get("Image")));
 

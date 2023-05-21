@@ -29,7 +29,10 @@ public class patientPrescription extends AppCompatActivity {
     List<String> doctor_name;
     List<String> medicine_name;
     List<String> medicine_weight;
+    List<String> medicine_days;
+    List<String> medicine_type;
     List<String> medicine_usage;
+    List<String> medicine_purpose;
     List<String> prescription_date;
     List<String> final_medicines_stored;
     List<String> doctor_category;
@@ -49,10 +52,13 @@ public class patientPrescription extends AppCompatActivity {
         medicine_name = new ArrayList<>();
         medicine_weight = new ArrayList<>();
         medicine_usage = new ArrayList<>();
+        medicine_purpose = new ArrayList<>();
         prescription_date = new ArrayList<>();
         final_medicines_stored = new ArrayList<>();
         doctor_category = new ArrayList<>();
         Prescription_id = new ArrayList<>();
+        medicine_days = new ArrayList<>();
+        medicine_type = new ArrayList<>();
 
 
         recievedPrescription();
@@ -74,9 +80,9 @@ public class patientPrescription extends AppCompatActivity {
 
                         if(doc_id.equals(ID)){
 
-                            doctor_category.add(String.valueOf(doc_change.getDocument().get("Doctor_profession")));
+                            doctor_category.add(String.valueOf(doc_change.getDocument().get("Specialization")));
                             patient_prescription_recycler.setLayoutManager(new LinearLayoutManager(patientPrescription.this));
-                            prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,doctor_category,Prescription_id);
+                            prescriptionAdapter = new patientPrescriptionAdapter(doctor_name,medicine_name,medicine_weight,medicine_usage,prescription_date,doctor_category,Prescription_id,medicine_purpose,medicine_days,medicine_type);
                             patient_prescription_recycler.setAdapter(prescriptionAdapter);
 
                         }
@@ -104,7 +110,10 @@ public class patientPrescription extends AppCompatActivity {
                         doctor_name.add(String.valueOf(doc_change.getDocument().getData().get("Doctor Name")));
                         medicine_name.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Prescribed")));
                         medicine_weight.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Weight")));
+                        medicine_purpose.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Purpose")));
                         medicine_usage.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Usage")));
+                        medicine_type.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Type")));
+                        medicine_days.add(String.valueOf(doc_change.getDocument().getData().get("Medicine Days")));
                         prescription_date.add(String.valueOf(doc_change.getDocument().getData().get("Prescription Date")));
                         doctor_id = String.valueOf(doc_change.getDocument().getData().get("Doctor Id"));
                         Prescription_id.add(doc_change.getDocument().getId());

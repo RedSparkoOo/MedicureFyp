@@ -28,7 +28,7 @@ public class PharmacyService extends AppCompatActivity {
         back_to_patient_dashboard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(PharmacyService.this, BuyMedicine.class);
+                Intent intent = new Intent(PharmacyService.this, patientDashboard.class);
                 startActivity(intent);
             }
         });

@@ -55,10 +55,11 @@ public class customerSupport extends AppCompatActivity {
             public void onClick(View v) {
                 Singleton singleton = new Singleton();
                 System.out.println(checkEvent.isEmpty(textViews));
-                if (!(checkEvent.checkEmail(email) || checkEvent.checkName(name)) || checkEvent.isEmpty(textViews)) {
+                if (!checkEvent.checkEmail(email) || !checkEvent.checkName(name) || !checkEvent.checkPhone(phone) || checkEvent.isEmpty(textViews)) {
                     checkEvent.checkEmail(email);
                     checkEvent.checkItemName(name);
-                    singleton.showToast(customerSupport.this, "please full all form");
+                    checkEvent.checkPhone(phone);
+                    singleton.showToast(customerSupport.this, "Please fill the form correctly");
                 } else {
 
                     HashMap<String, String> map = new HashMap<>();

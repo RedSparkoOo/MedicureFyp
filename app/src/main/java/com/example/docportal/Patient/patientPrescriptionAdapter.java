@@ -27,11 +27,14 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
 
     private final List<String> doctor_name;
     private final List<String> medicine_prescribed;
+    private final List<String> medicine_purpose;
     private final List<String> medicines_usage;
     private final List<String> medicine_weight;
+    private final List<String> medicine_days;
     private final List<String> prescription_date;
     private final List<String> doctor_category;
     private final List<String> prescription_id;
+    private final List<String> medicine_type;
     FirebaseFirestore FStore;
 
     private final List<String> medicine_names_all;
@@ -40,7 +43,7 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
     Button Totaled;
 
 
-    public patientPrescriptionAdapter(List<String> doc_name, List<String> medicine_name,List<String> medi_weight, List<String> usage, List<String> pres_date,List<String> specialization,List<String> pres_id)  {
+    public patientPrescriptionAdapter(List<String> doc_name, List<String> medicine_name,List<String> medi_weight, List<String> usage, List<String> pres_date,List<String> specialization,List<String> pres_id,List<String> med_purpose,List<String> med_days,List<String> med_type)  {
         doctor_name = doc_name;
         medicine_prescribed = medicine_name;
         medicine_weight = medi_weight;
@@ -48,6 +51,9 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
         doctor_category = specialization;
         prescription_date = pres_date;
         prescription_id = pres_id;
+        medicine_purpose = med_purpose;
+        medicine_days = med_days;
+        medicine_type = med_type;
         this.medicine_names_all = new ArrayList<>(doctor_name);
 
     }
@@ -98,12 +104,15 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private final TextView doc_name;
         private final TextView med_name;
+        private final TextView med_purpose;
         private final TextView med_usage;
         private final TextView presc_date;
         private final TextView med_weight;
         private final ImageView cutout_prescription;
         private final Button buy_medicine;
         private final TextView doctor_category;
+        private final TextView medicine_day;
+        private final TextView medicine_type;
 
         public ViewHolder(View view) {
             super(view);
@@ -117,8 +126,23 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
             cutout_prescription = (ImageView) view.findViewById(R.id.cutout_prescription);
             buy_medicine = (Button) view.findViewById(R.id.buy_medicine);
             doctor_category = (TextView) view.findViewById(R.id.doctor_category);
+            med_purpose = (TextView) view.findViewById(R.id.disease_type);
+            medicine_day = (TextView) view.findViewById(R.id.medicine_days);
+            medicine_type = (TextView) view.findViewById(R.id.medicine_type);
 
 
+        }
+
+        public TextView getMedicine_type() {
+            return medicine_type;
+        }
+
+        public TextView getMedicine_day() {
+            return medicine_day;
+        }
+
+        public TextView getMed_purpose() {
+            return med_purpose;
         }
 
         public TextView getDoctor_category() {
@@ -178,6 +202,9 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
         viewHolder.getPresc_date().setText(prescription_date.get(position));
         viewHolder.getMed_weight().setText(medicine_weight.get(position));
         viewHolder.getDoctor_category().setText(doctor_category.get(position));
+        viewHolder.getMed_purpose().setText(medicine_purpose.get(position));
+        viewHolder.getMedicine_day().setText(medicine_days.get(position));
+        viewHolder.getMedicine_type().setText(medicine_type.get(position));
 
         viewHolder.getCutout_prescription().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,7 +217,9 @@ public class patientPrescriptionAdapter extends RecyclerView.Adapter<patientPres
                 medicine_prescribed.remove(position);
                 medicine_weight.remove(position);
                 medicines_usage.remove(position);
-
+                medicine_purpose.remove(position);
+                medicine_days.remove(position);
+                medicine_type.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, doctor_name.size());
 

@@ -27,132 +27,44 @@
 
     </LinearLayout>
 
-
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans_bold"
+        android:textAlignment="center"
+        android:text="Appointment Booking"
+        android:textColor="@color/light_black"
+        android:textSize="25sp" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_margin="10dp"
         android:orientation="vertical"
         >
 
-        <SearchView
-            android:id="@+id/search_doctor"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_margin="15dp"
-            android:paddingLeft="1dp"
-            android:background="@drawable/searchview_field"
-            android:searchIcon="@drawable/search_icon"
-            android:queryHint="Search a Doctor"
-            android:closeIcon="@drawable/search_view_end"
-            android:iconifiedByDefault="false"
-            />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="@color/light_black"
-            android:textSize="22sp"
-            android:layout_marginTop="15dp"
-            android:layout_marginStart="15dp"
-            android:text="Categories"
-            android:fontFamily="@font/pt_sans_bold"
-            />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textColor="@color/light_black"
             android:textSize="18sp"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:layout_marginStart="15dp"
-            android:text="Doctors"
+            android:text="Category"
             android:fontFamily="@font/pt_sans_bold"
             />
 
-
-
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            >
-
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:id="@+id/all_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/all_categories"
-                    />
-
-                <ImageView
-                    android:id="@+id/cardio_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/cardio_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/neuro_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/neuro_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/nephro_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/nephro_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/oncol_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/oncol_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/pedri_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/pedri_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/physio_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/physio_logo"
-                    />
-
-                <ImageView
-                    android:id="@+id/physco_category"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/physco_logo"
-                    />
-
-            </LinearLayout>
-
-
-        </HorizontalScrollView>
+        <Spinner
+            android:id="@+id/doctor_nurse_selection"
+            android:layout_width="370dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:layout_gravity="center"
+            android:background="@drawable/spinner_field"
+            android:drawablePadding="5sp"
+            android:paddingEnd="7sp"
+            android:textAllCaps="false"
+            tools:ignore="SpeakableTextPresentCheck" />
 
         <TextView
             android:layout_width="match_parent"
@@ -161,82 +73,28 @@
             android:textSize="18sp"
             android:layout_marginTop="5dp"
             android:layout_marginStart="15dp"
-            android:text="Nurses"
+            android:text="Specialist"
             android:fontFamily="@font/pt_sans_bold"
             />
 
-        <HorizontalScrollView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            >
+        <Spinner
+            android:id="@+id/doctor_nurse_profession"
+            android:layout_width="370dp"
+            android:layout_height="45dp"
+            android:layout_margin="10dp"
+            android:background="@drawable/spinner_field"
+            android:layout_gravity="center"
+            android:drawablePadding="5sp"
+            android:paddingEnd="7sp"
+            android:textAllCaps="false"
+            tools:ignore="SpeakableTextPresentCheck" />
 
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-
-                <ImageView
-                    android:id="@+id/all_category_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/all_categories"
-                    />
-
-                <ImageView
-                    android:id="@+id/mhn_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/mhn_nurse"
-                    />
-
-                <ImageView
-                    android:id="@+id/ldn_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ldn_nurse"
-                    />
-
-                <ImageView
-                    android:id="@+id/cn_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/cn_nurse"
-                    />
-
-                <ImageView
-                    android:id="@+id/an_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/an_nurse"
-                    />
-
-
-
-                <ImageView
-                    android:id="@+id/ccn_nurse"
-                    android:layout_width="80dp"
-                    android:layout_height="80dp"
-                    android:layout_marginEnd="10dp"
-                    android:src="@drawable/ccn_nurse"
-                    />
-
-
-
-            </LinearLayout>
-
-
-        </HorizontalScrollView>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
 
             <TextView
                 android:layout_width="match_parent"
@@ -244,9 +102,23 @@
                 android:textColor="@color/light_black"
                 android:textSize="18sp"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="5dp"
-                android:text="List of Doctors"
+                android:layout_marginTop="10dp"
+                android:text="List"
                 android:fontFamily="@font/pt_sans_bold"
+                />
+
+            <SearchView
+                android:id="@+id/search_doctor"
+                android:layout_width="370dp"
+                android:layout_height="45dp"
+                android:layout_margin="10dp"
+                android:paddingLeft="1dp"
+                android:background="@drawable/searchview_field"
+                android:layout_gravity="center"
+                android:searchIcon="@drawable/search_icon"
+                android:queryHint="Search a Doctor"
+                android:closeIcon="@drawable/search_view_end"
+                android:iconifiedByDefault="false"
                 />
 
 
@@ -262,9 +134,6 @@
                 android:id="@+id/doctor_list_recycler"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-
-                android:padding="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.0"
@@ -292,7 +161,7 @@
             android:layout_marginBottom="8dp"
             android:fontFamily="@font/pt_sans_bold"
             android:gravity="center"
-            android:text="Oops! Looks like no doctor is available"
+            android:text="Oops! Looks like no one is available"
             android:textColor="@color/light_black"
             android:textSize="16sp" />
     </LinearLayout>

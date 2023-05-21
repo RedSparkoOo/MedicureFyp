@@ -45,7 +45,7 @@
             android:textAlignment="center"
             android:text="Select your choice to either purchase medicine or medical equipments"
             android:textColor="@color/light_black"
-            android:textSize="18sp" />
+            android:textSize="14sp" />
 
         <LinearLayout
             android:layout_width="match_parent"

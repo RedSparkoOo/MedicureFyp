@@ -14,20 +14,22 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/doctor_profile"
             android:layout_width="80dp"
             android:layout_height="80dp"
-            android:layout_margin="10dp"
-            android:background="@drawable/image_round_outline"
-            android:clipToOutline="true"
-            android:adjustViewBounds="true"
+            android:layout_marginStart="5dp"
             android:src="@drawable/user_profile"
-            />
+            app:civ_border_width="1dp"
+            android:layout_gravity="center"
+            android:elevation="4dp"
+            app:civ_border_color="@color/extra_white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:orientation="vertical">
 
             <LinearLayout
@@ -60,7 +62,7 @@
                 android:id="@+id/appointment_doctor_specialization"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="2dp"
                 android:fontFamily="@font/pt_sans_regular"
                 android:text="Cardiologist"
                 android:textColor="@color/light_black"
@@ -78,7 +80,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pt_sans_regular"
                     android:text="10:00 am"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:textSize="10sp"
                     android:textColor="@color/light_black" />
 
@@ -88,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pt_sans_regular"
                     android:text="-"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="3dp"
                     android:textSize="12sp"
                     android:layout_marginStart="5dp"
                     android:textColor="@color/light_black" />
@@ -146,7 +148,7 @@
         android:gravity="right"
         android:orientation="horizontal"
         android:layout_margin="5dp"
-      >
+        >
 
         <Button
             android:id="@+id/chat_doctor_book"

@@ -184,7 +184,8 @@ public class HealthTracker extends AppCompatActivity {
             public void onClick(View v) {
                 ++waterIntake;
                 water_glass.setText(String.valueOf(waterIntake));
-
+                sub_water.setEnabled(true);
+                sub_water.setBackgroundResource(R.drawable.but);
 
             }
         });
@@ -192,10 +193,11 @@ public class HealthTracker extends AppCompatActivity {
         sub_water.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(waterIntake == 0){
-
+                if(waterIntake == 1){
                     sub_water.setBackgroundResource(R.drawable.but_disbaled);
                     sub_water.setEnabled(false);
+                    --waterIntake;
+                    water_glass.setText(String.valueOf(waterIntake));
                 }
 
                 else {
@@ -324,28 +326,28 @@ public class HealthTracker extends AppCompatActivity {
                         steps_status.setText(String.valueOf(stepsProgress));
 
 
-                        if(stepsCount == 100){
+                        if(stepsCount == 1000){
                             countDownTimer.start();
                             steps_status.setText("20");
                         }
-                        if (stepsCount == 200) {
+                        if (stepsCount == 2000) {
                             countDownTimer.start();
                             steps_status.setText("40");
                         }
 
-                        if (stepsCount == 300) {
+                        if (stepsCount == 3000) {
 
                             countDownTimer.start();
                             steps_status.setText("60");
                         }
 
-                        if (stepsCount == 400) {
+                        if (stepsCount == 4000) {
 
                             countDownTimer.start();
                             steps_status.setText("80");
                         }
 
-                        if (stepsCount == 500) {
+                        if (stepsCount == 5000) {
 
                             countDownTimer.start();
                             steps_status.setText("100");

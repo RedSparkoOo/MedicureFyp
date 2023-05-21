@@ -8,7 +8,7 @@
     android:background="@color/extra_white"
     android:contentDescription="@string/app_name"
     android:fillViewport="true"
-    tools:context=".Doctor.Registeration">
+    tools:context=".Doctor.DoctorNurseRegistration">
 
     <LinearLayout
         android:layout_width="match_parent"

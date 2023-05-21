@@ -42,6 +42,7 @@ public class ReminderStored extends AppCompatActivity {
     ArrayList<String> medicine_name;
     ArrayList<String> medicine_type;
     ArrayList<String> medicine_duration;
+    ArrayList<String> medicine_weight;
     ArrayList<String> medicine_time;
     ArrayList<String> reminder_id;
     ReminderStoredAdapter storedAdapter;
@@ -90,6 +91,7 @@ public class ReminderStored extends AppCompatActivity {
         medicine_name = new ArrayList<>();
         medicine_type = new ArrayList<>();
         medicine_duration = new ArrayList<>();
+        medicine_weight = new ArrayList<>();
         medicine_time = new ArrayList<>();
         reminder_id = new ArrayList<>();
 
@@ -114,6 +116,7 @@ public class ReminderStored extends AppCompatActivity {
                                 medicine_name.add(String.valueOf(dc.getDocument().get("Medicine Name")));
                                 medicine_type.add(String.valueOf(dc.getDocument().get("Medicine Type")));
                                 medicine_duration.add(String.valueOf(dc.getDocument().get("Medicine Duration")));
+                                medicine_weight.add(String.valueOf(dc.getDocument().get("Medicine Weight")));
                                 medicine_time.add(String.valueOf(dc.getDocument().get("Medicine Time")));
                                 reminder_id.add(dc.getDocument().getId());
                                 med_duration = String.valueOf(dc.getDocument().get("Medicine Duration"));
@@ -122,12 +125,12 @@ public class ReminderStored extends AppCompatActivity {
                         }
 
                         reminder_recycler.setLayoutManager(new LinearLayoutManager(ReminderStored.this));
-                        storedAdapter = new ReminderStoredAdapter(medicine_name, medicine_type, medicine_duration, medicine_time, reminder_id);
+                        storedAdapter = new ReminderStoredAdapter(medicine_name, medicine_type, medicine_duration, medicine_time, reminder_id,medicine_weight);
                         reminder_recycler.setAdapter(storedAdapter);
                         storedAdapter.notifyDataSetChanged();
 
                     }
-                    MedicineNotify();
+
                 }
                 else {
                     empty_reminder_show.setVisibility(View.VISIBLE);
@@ -210,4 +213,6 @@ public class ReminderStored extends AppCompatActivity {
         super.onDestroy();
         mHandler.removeCallbacks(mRunnable);
     }
+
+
 }

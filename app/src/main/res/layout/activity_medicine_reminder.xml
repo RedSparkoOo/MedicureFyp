@@ -48,7 +48,7 @@
                 android:layout_margin="22dp"
                 android:fontFamily="@font/pt_sans_regular"
                 android:textAlignment="center"
-                android:text="Fill out the relevant data below to create a reminder fro your medicine"
+                android:text="Fill out the relevant data below to create a reminder for your medicine"
                 android:textColor="@color/light_black"
                 android:textSize="18sp" />
 
@@ -68,7 +68,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textSize="16sp"
-                        android:text="Medicine Name"
+                        android:text="Medicine Details"
                         android:fontFamily="@font/pt_sans_bold"
                         android:textColor="@color/light_black"/>
 
@@ -76,7 +76,7 @@
                         android:id="@+id/medicine_name"
                         android:layout_width="360dp"
                         android:layout_height="50dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/input_field"
                         android:drawableEnd="@drawable/medic_input"
                         android:drawablePadding="5sp"
@@ -89,6 +89,58 @@
                         android:textColorHint="@color/grey"
                         android:textSize="14sp"
                         tools:ignore="TouchTargetSizeCheck" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:text="Type"
+                            android:fontFamily="@font/pt_sans_bold"
+                            android:textColor="@color/light_black"/>
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textSize="16sp"
+                            android:text="Weight"
+                            android:paddingLeft="90dp"
+                            android:gravity="center"
+                            android:fontFamily="@font/pt_sans_bold"
+                            android:textColor="@color/light_black"/>
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <Spinner
+                            android:id="@+id/medicine_type"
+                            android:drawablePadding="5sp"
+                            android:paddingEnd="7sp"
+                            android:background="@drawable/spinner_field"
+                            android:layout_width="200dp"
+                            android:layout_height="50dp"/>
+
+                        <Spinner
+                            android:id="@+id/medicine_weight"
+                            android:drawablePadding="5sp"
+                            android:paddingEnd="7sp"
+                            android:layout_marginStart="20dp"
+                            android:background="@drawable/spinner_field"
+                            android:layout_width="140dp"
+                            android:layout_height="50dp"/>
+
+
+                    </LinearLayout>
                 </LinearLayout>
 
                 <LinearLayout
@@ -228,7 +280,7 @@
                 </HorizontalScrollView>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:orientation="horizontal">
@@ -251,7 +303,7 @@
 
                         <EditText
                             android:id="@+id/medicine_time"
-                            android:layout_width="230dp"
+                            android:layout_width="match_parent"
                             android:layout_height="50dp"
                             android:layout_marginTop="5dp"
                             android:background="@drawable/input_field"
@@ -278,27 +330,6 @@
                         android:layout_marginStart="20dp"
                         android:orientation="vertical"
                         >
-
-
-
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:textSize="16sp"
-                            android:text="Select Weight"
-                            android:fontFamily="@font/pt_sans_bold"
-                            android:textColor="@color/light_black"/>
-
-                        <Spinner
-                            android:id="@+id/medicine_type"
-                            android:layout_width="100dp"
-                            android:layout_height="48dp"
-                            android:layout_marginTop="5dp"
-                            android:background="@drawable/spinner_field"
-                            android:drawablePadding="5sp"
-                            android:paddingEnd="7sp"
-                            android:textAllCaps="false"
-                            tools:ignore="SpeakableTextPresentCheck" />
 
                     </LinearLayout>
 

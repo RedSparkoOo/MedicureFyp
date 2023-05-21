@@ -14,30 +14,28 @@
         android:layout_margin="10dp"
         android:orientation="horizontal">
 
-        <ImageView
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/equip_picture"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:layout_margin="5dp"
-            android:elevation="2dp"
-            android:backgroundTint="@color/input_grey"
-            android:background="@drawable/image_round_outline"
-            android:clipToOutline="true"
-            android:adjustViewBounds="true"
-
-            />
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="5dp"
+            android:src="@drawable/user_profile"
+            app:civ_border_width="1dp"
+            android:layout_gravity="center"
+            android:elevation="4dp"
+            app:civ_border_color="@color/extra_white"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/etitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
-                android:layout_marginTop="10dp"
                 android:fontFamily="@font/pt_sans_bold"
                 android:text="Chugtai labs"
                 android:textColor="@color/light_black"
@@ -47,7 +45,6 @@
                 android:id="@+id/edescription"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="3dp"
                 android:layout_marginTop="2dp"
                 android:fontFamily="@font/pt_sans_regular"
                 android:text="Islamabad"
@@ -62,7 +59,6 @@
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="Price: "
@@ -76,7 +72,7 @@
                     android:layout_marginStart="3dp"
                     android:layout_marginTop="2dp"
                     android:fontFamily="@font/pt_sans_regular"
-                    android:text="Islamabad"
+                    android:text="$100"
                     android:textColor="@color/light_black"
                     android:textSize="12sp" />
 
@@ -84,14 +80,11 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginTop="10dp"
                 android:orientation="horizontal">
                 <TextView
 
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="3dp"
-
                     android:fontFamily="@font/pt_sans_bold"
                     android:text="Quantity: "
                     android:textColor="@color/light_black"

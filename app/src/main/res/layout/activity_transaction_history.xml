@@ -78,6 +78,7 @@
                     android:layout_width="300dp"
                     android:layout_height="300dp"
                     android:layout_gravity="center"
+                    android:visibility="invisible"
                     android:src="@drawable/empty_box" />
 
                 <TextView
@@ -85,6 +86,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/pt_sans_bold"
                     android:gravity="center"
+                    android:visibility="invisible"
                     android:text="No History available!"
                     android:textColor="@color/light_black"
                     android:textSize="16sp">

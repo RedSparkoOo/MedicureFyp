@@ -6,6 +6,7 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.Pharmacist.Medicine;
 import com.example.docportal.Pharmacist.MedicineListAdapter;
+import com.example.docportal.Pharmacist.PharmacistLogin;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -38,6 +40,7 @@ public class BuyMedicine extends AppCompatActivity {
 
     CollectionReference noteBookref = firestoreHandler.getFirestoreInstance().collection("Medicine");
     Button _pharmacyAddToCart;
+    ImageView back_to_pharmacy_options;
 
 
     @Override
@@ -46,10 +49,17 @@ public class BuyMedicine extends AppCompatActivity {
         setContentView(R.layout.activity_pharmacy_equipment_options);
 
         editText = findViewById(R.id.medicineSearch);
+        back_to_pharmacy_options = findViewById(R.id.back_to_pharmacy_options);
         _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
         _pharmacyAddToCart = findViewById(R.id.pharmacyToCart);
         setUpRecycler();
 
+        back_to_pharmacy_options.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                singleton.openActivity(BuyMedicine.this, PharmacyService.class);
+            }
+        });
 
         _pharmacyAddToCart.setOnClickListener(new View.OnClickListener() {
             @Override

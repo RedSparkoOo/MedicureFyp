@@ -22,19 +22,21 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
     private final List<String> list_medicine_name;
     private final List<String> list_medicine_type;
     private final List<String> list_medicine_duration;
+    private final List<String> list_medicine_weight;
     private final List<String> list_medicine_time;
     private final List<String> list_reminder_id;
     Context context;
 
 
 
-    public ReminderStoredAdapter(List<String> medic_names, List<String> medic_type, List<String> medic_duration, List<String> medic_time, List<String> remind_id) {
+    public ReminderStoredAdapter(List<String> medic_names, List<String> medic_type, List<String> medic_duration, List<String> medic_time, List<String> remind_id, List<String> medic_weight) {
 
         list_medicine_name = medic_names;
         list_medicine_type = medic_type;
         list_medicine_duration = medic_duration;
         list_medicine_time = medic_time;
         list_reminder_id = remind_id;
+        list_medicine_weight = medic_weight;
 
 
     }
@@ -59,6 +61,8 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
         viewHolder.getText_medicine_type().setText(list_medicine_type.get(position));
         viewHolder.getText_medicine_time().setText(list_medicine_time.get(position));
         viewHolder.getText_medicine_duration().setText(list_medicine_duration.get(position));
+        viewHolder.getMedicine_weight().setText(list_medicine_weight.get(position));
+
 
 
         viewHolder.getRemove_reminder().setOnClickListener(new View.OnClickListener() {
@@ -71,6 +75,7 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
                 list_medicine_type.remove(position);
                 list_medicine_time.remove(position);
                 list_medicine_duration.remove(position);
+                list_medicine_weight.remove(position);
                 list_reminder_id.remove(position);
                 notifyItemRemoved(position);
                 notifyItemRangeChanged(position, getItemCount());
@@ -109,6 +114,7 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
         private final TextView text_medicine_duration;
         private final TextView text_medicine_time;
         private final ImageView remove_reminder;
+        private final TextView medicine_weight;
 
 
         public ViewHolder(View view) {
@@ -120,7 +126,12 @@ public class ReminderStoredAdapter extends RecyclerView.Adapter<com.example.docp
             text_medicine_duration = view.findViewById(R.id.medicine_duration);
             text_medicine_time = view.findViewById(R.id.medicine_time);
             remove_reminder = view.findViewById(R.id.remove_reminder);
+            medicine_weight = view.findViewById(R.id.medicine_weight);
 
+        }
+
+        public TextView getMedicine_weight() {
+            return medicine_weight;
         }
 
         public TextView getText_medicine_name() {

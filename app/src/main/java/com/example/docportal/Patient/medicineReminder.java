@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
+import com.example.docportal.CheckEvent;
 import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -41,6 +42,7 @@ import java.util.Map;
 public class medicineReminder extends AppCompatActivity {
     ImageView back_to_health_tracker;
     Spinner medicine_type;
+    Spinner medicine_weight;
     EditText medicine_name;
     EditText medicine_time;
     TextView Sunday;
@@ -56,7 +58,8 @@ public class medicineReminder extends AppCompatActivity {
     String TIME;
     int hour;
     int minute;
-    String[] medicine_types = {"", "Capsule", "Adhesive", "Syrup", "Tablet"};
+    String[] medicine_types = {"Syrup","Capsule", "Tablet", "Sachet", "Drops", "Cream"};
+    String[] medicines_weight = {"No mg","10 mg","20 mg","100 mg","250 mg","375 mg","500 mg","1000 mg"};
     ArrayList<String> medicinesNames;
     ArrayList<String> medicinesDuration;
     ArrayList<String> medicinesTime;
@@ -71,6 +74,7 @@ public class medicineReminder extends AppCompatActivity {
     String med_types;
     String medicine_name_entered;
     String duration = "";
+    String med_weight;
     FirestoreHandler firestoreHandler = new FirestoreHandler();
     ArrayList<String> specificDuration;
     boolean all_duration_check= false;
@@ -94,7 +98,7 @@ public class medicineReminder extends AppCompatActivity {
         every_day = findViewById(R.id.every_day);
         medicine_time = findViewById(R.id.medicine_time);
         medicine_type = findViewById(R.id.medicine_type);
-
+        medicine_weight = findViewById(R.id.medicine_weight);
 
         medicinesNames = new ArrayList<>();
         medicineType = new ArrayList<>();
@@ -106,21 +110,44 @@ public class medicineReminder extends AppCompatActivity {
         arrayAdapterTypes.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         medicine_type.setAdapter(arrayAdapterTypes);
 
+        ArrayAdapter arrayAdapterWeight = new ArrayAdapter(this, spinner_item, medicines_weight);
+        arrayAdapterWeight.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        medicine_weight.setAdapter(arrayAdapterWeight);
+
 
         medicine_to_recycler.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                TextView[] textViews = {medicine_name, medicine_time};
+                CheckEvent checkEvent = new CheckEvent();
+
                 if(all_duration_check){
                     medicine_name_entered = medicine_name.getText().toString();
                     med_types = medicine_type.getSelectedItem().toString();
-                    RemindertoFirebase(medicine_name_entered,med_types,TIME,duration);
+                    med_weight = medicine_weight.getSelectedItem().toString();
+                    checkDuration();
+                    if(checkEvent.isEmpty(textViews) || !checkEvent.checkMedicine(medicine_name) || duration.isEmpty()){
+
+                        Toast.makeText(medicineReminder.this, "Please fill out all details", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        RemindertoFirebase(medicine_name_entered,med_types,TIME,duration,med_weight);
+                    }
+
                 }
                 else {
                     medicine_name_entered = medicine_name.getText().toString();
                     med_types = medicine_type.getSelectedItem().toString();
+                    med_weight = medicine_weight.getSelectedItem().toString();
                     checkSpecificDuration();
-                    RemindertoFirebase(medicine_name_entered,med_types,TIME,duration);
+                    if(checkEvent.isEmpty(textViews) || !checkEvent.checkMedicine(medicine_name) ||  duration.isEmpty()){
+                        Toast.makeText(medicineReminder.this, "Please fill out all details", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        RemindertoFirebase(medicine_name_entered,med_types,TIME,duration,med_weight);
+                    }
+
                 }
 
 
@@ -159,7 +186,7 @@ public class medicineReminder extends AppCompatActivity {
     }
 
 
-    private void RemindertoFirebase(String medic_name, String medic_type, String medic_time, String medic_duration) {
+    private void RemindertoFirebase(String medic_name, String medic_type, String medic_time, String medic_duration, String medic_weight) {
 
         firestoreHandler.getFirestoreInstance().clearPersistence();
         Map<String, Object> reminder = new HashMap<>();
@@ -170,6 +197,7 @@ public class medicineReminder extends AppCompatActivity {
             public void onSuccess(DocumentReference documentReference) {
                 reminder.put("Medicine Name", medic_name);
                 reminder.put("Medicine Type", medic_type);
+                reminder.put("Medicine Weight", medic_weight);
                 reminder.put("Medicine Time", medic_time);
                 reminder.put("Medicine Duration", medic_duration);
                 reminder.put("Patient ID", firestoreHandler.getCurrentUser());
