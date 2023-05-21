@@ -15,6 +15,7 @@ import com.example.docportal.FirestoreHandler;
 import com.example.docportal.R;
 import com.example.docportal.Singleton;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 
 import java.util.HashMap;
@@ -23,7 +24,7 @@ public class
 AddDiseaseData extends AppCompatActivity {
     Spinner organ;
     String organs;
-    String[] Organs = {"Heart", "Brain", "Lungs"};
+    String[] Organs = {"Heart", "Brain", "Lungs", "General"};
     Button submit;
 
 
@@ -70,13 +71,14 @@ AddDiseaseData extends AppCompatActivity {
                 map.put("disease", disease.getText().toString());
                 map.put("description", description.getText().toString());
 
-                DocumentReference documentReference = firestoreHandler.getFirestoreInstance().collection("SearchDisease").document(firestoreHandler.getCurrentUser());
-                documentReference.set(map).addOnSuccessListener(new OnSuccessListener<Void>() {
+                CollectionReference documentReference = firestoreHandler.getFirestoreInstance().collection("SearchDisease");
+                documentReference.add(map).addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
-                    public void onSuccess(Void unused) {
+                    public void onSuccess(DocumentReference documentReference) {
                         singleton.showToast(AddDiseaseData.this, "Data inserted");
                     }
                 });
+
             }
         });
 

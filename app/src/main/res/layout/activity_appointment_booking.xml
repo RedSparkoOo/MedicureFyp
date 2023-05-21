@@ -182,6 +182,70 @@
                     android:textSize="14sp"
                     />
 
+
+                <TextView
+                    android:id="@+id/b_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Select Disease"
+                    android:textColor="@color/light_black"
+                    android:textSize="20sp" />
+
+                <Spinner
+                    android:id="@+id/s_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="48dp"
+                    android:background="@drawable/spinner_field"
+                    android:drawablePadding="5sp"
+                    android:layout_marginTop="5dp"
+                    android:paddingEnd="7sp" />
+
+                <TextView
+                    android:id="@+id/b_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Select Symptoms"
+                    android:textColor="@color/light_black"
+                    android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/check_symptom"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Severity"
+                    android:textColor="@color/light_black"
+                    android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/check_disease"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+                <TextView
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+
+                    android:fontFamily="@font/pt_sans_bold"
+                    android:text="Add more details(Optional)"
+                    android:textColor="@color/light_black"
+                    android:textSize="20sp" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/check_details"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
                 <TextView
 
                     android:layout_width="wrap_content"
@@ -210,7 +274,6 @@
                     android:hint="@string/user_concerns"
                     android:textColorHint="@color/grey"
                     android:textSize="14sp" />
-
                 <Button
                     android:id="@+id/book"
                     android:layout_width="370dp"
