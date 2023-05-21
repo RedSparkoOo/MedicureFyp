@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".Doctor.Chatting">
+    <TextView
+        android:id="@+id/registerHeader2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/inter_bold"
+        android:textAlignment="center"
+        android:layout_marginTop="35dp"
+        android:text="Chat with Patient of MediCure"
+        android:textColor="@color/light_black"
+        android:textSize="24sp" />
+    <SearchView
+        android:id="@+id/search_patient2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:elevation="4dp"
+        android:background="@drawable/searchview_field"
+        android:searchIcon="@drawable/search_icon"
+        android:queryHint="Search Patient"
+        android:closeIcon="@drawable/search_view_end"
+        android:iconifiedByDefault="false"
+        />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/manage_appointment_recycler2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

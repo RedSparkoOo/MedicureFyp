@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    android:gravity="center"
+    android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_margin="10dp"
+            android:id="@+id/alert_msg"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_regular"
+            android:textColor="@color/light_black"
+            android:text="Are you sure you want to logout?"
+            android:textSize="16sp"
+            android:textAlignment="center"/>
+
+            <Button
+                android:id="@+id/alert_confirm"
+                android:layout_width="190dp"
+                android:layout_height="50dp"
+                android:background="@drawable/but"
+                android:text="Confirm"
+                android:layout_marginTop="20dp"
+                android:textAllCaps="false"
+                android:textColor="@color/extra_white"
+                android:textSize="20sp"
+                android:fontFamily="@font/pt_sans_bold"/>
+
+        <TextView
+            android:id="@+id/alert_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:textColor="@color/light_black"
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="20dp"
+            android:text="Cancel"
+            android:textSize="18sp"
+            android:textAlignment="center"/>
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

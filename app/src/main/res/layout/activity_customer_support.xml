@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/extra_white"
+    android:orientation="vertical"
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pt_sans_bold"
+        android:textAlignment="center"
+        android:layout_marginTop="20dp"
+        android:text="Customer Support"
+        android:textColor="@color/light_black"
+        android:textSize="25sp" />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:fontFamily="@font/pt_sans_regular"
+        android:textAlignment="center"
+        android:text="Send your queries to the support team by filling out the form below"
+        android:textColor="@color/light_black"
+        android:textSize="18sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Full Name"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+            <EditText
+                android:id="@+id/name_support"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_field"
+                android:drawableEnd="@drawable/full_name_avatar"
+                android:drawablePadding="5sp"
+                android:layout_marginTop="5dp"
+                android:paddingEnd="7sp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your full name"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Email Address"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/email_address_support"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_field"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your email address"
+                android:drawableEnd="@drawable/person_email"
+                android:paddingEnd="7sp"
+                android:drawablePadding="5sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Phone #"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/phone_support"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/input_field"
+                android:layout_marginTop="5dp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:hint="Enter your phone number"
+                android:drawableEnd="@drawable/person_phone"
+                android:paddingEnd="7sp"
+                android:drawablePadding="5sp"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                android:inputType="textPersonName" />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:paddingTop="10sp"
+                android:text="Message"
+                android:textColor="@color/light_black"
+                android:textSize="16sp" />
+
+            <EditText
+                android:id="@+id/message_support"
+                android:layout_width="fill_parent"
+                android:layout_height="150dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@drawable/input_field"
+                android:breakStrategy="balanced"
+                android:fitsSystemWindows="true"
+                android:textColor="@color/light_black"
+                android:textColorHint="@color/grey"
+                android:textSize="14sp"
+                android:gravity="top|left"
+                android:hint="Your Message"
+                android:inputType="textMultiLine"
+                android:padding="10dp"
+                android:singleLine="false" />
+
+            <Button
+                android:id="@+id/submit_support"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/but"
+                android:elevation="4dp"
+                android:layout_marginTop="70dp"
+                android:fontFamily="@font/pt_sans_regular"
+                android:textAllCaps="false"
+                android:paddingLeft="70dp"
+                android:paddingRight="70dp"
+                android:textSize="16sp"
+                android:text="Submit"
+                android:textColor="#fff" />
+
+
+
+        </LinearLayout>
+
+    </ScrollView>
+</LinearLayout>
