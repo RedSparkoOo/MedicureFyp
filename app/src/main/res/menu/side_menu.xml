@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group android:checkableBehavior="single">
+        <item android:title="Profile"
+            android:enabled="true"
+            >
+
+            <menu>
+
+                <item
+                    android:id="@+id/removeProfile"
+                    android:icon="@drawable/remove"
+                    android:enabled="true"
+                    android:title="Delete Profile"
+
+                    />
+                <item
+                    android:id="@+id/updateProfile"
+                    android:icon="@drawable/update_profile"
+                    android:enabled="true"
+                    android:title="Update Profile"/>
+
+            </menu>
+        </item>
+    </group>
+    <group android:checkableBehavior="single">
+        <item android:title="Support">
+
+            <menu>
+
+                <item
+                    android:id="@+id/customer_support"
+                    android:icon="@drawable/support"
+                    android:title="Customer Support" />
+
+
+
+            </menu>
+        </item>
+    </group>
+
+
+    <group android:checkableBehavior="single">
+        <item android:title="Exit">
+
+            <menu>
+
+                <item
+                    android:id="@+id/logoutNavigation"
+                    android:icon="@drawable/ic_baseline_login_24"
+                    android:title="Logout" />
+
+
+
+            </menu>
+        </item>
+    </group>
+
+</menu>

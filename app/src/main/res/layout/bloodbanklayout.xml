@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginBottom="0.5dp"
+    android:orientation="vertical"
+    android:elevation="4dp"
+    android:background="@drawable/linear_layout_background_2"
+    android:layout_margin="10dp">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/blood_group_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pt_sans_bold"
+            android:text="Blood Group Name"
+            android:textColor="@color/light_black"
+            android:textSize="18sp"
+            app:layout_constraintStart_toEndOf="@+id/imageView18"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Donors: "
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/blood_donor_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Donor"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Acceptors: "
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/lab_acceptor_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="Acceptors"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Quantity: "
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+            <TextView
+                android:id="@+id/lab_quantity_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="0"
+                android:layout_marginTop="5dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="Rs. "
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+                android:id="@+id/blood_unit_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text="500"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="16sp"
+                />
+
+            <TextView
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pt_sans_bold"
+                android:text=" (per unit)"
+                android:layout_marginTop="20dp"
+                android:textColor="@color/light_black"
+                android:textSize="14sp"
+                />
+
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.2dp"
+            android:background="@color/dark_grey"/>
+
+
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right"
+            android:padding="5dp"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/sub_sign"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="-"
+                android:textAllCaps="false"
+                android:textColor="@color/extra_white"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/blood_unit_quantity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="11dp"
+                android:fontFamily="@font/inter_font_google"
+                android:text="1"
+                android:textColor="@color/black"
+                android:textSize="12sp"
+                />
+
+            <Button
+                android:id="@+id/add_sign"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/but"
+                android:fontFamily="@font/pt_sans_regular"
+                android:text="+"
+                android:textAllCaps="false"
+                android:textColor="@color/extra_white"
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+
+
+</androidx.appcompat.widget.LinearLayoutCompat>

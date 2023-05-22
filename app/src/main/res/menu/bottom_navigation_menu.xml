@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/page_1"
+        android:enabled="true"
+        android:icon="@drawable/home_nav"
+        android:iconTint="@color/light_black"
+        android:title="home"/>
+    <item
+        android:id="@+id/page_2"
+        android:enabled="true"
+        android:iconTint="@color/light_black"
+        android:icon="@drawable/email_view_profile"
+        android:title="inbox"/>
+
+</menu>
